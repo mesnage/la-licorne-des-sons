@@ -1,0 +1,6 @@
+node_modules/
+.DS_Store
+# modèles de voix et de reconnaissance vocale (téléchargés par tools/voice/download_models.sh)
+tools/voice/models/
+__pycache__/
+*.wav

@@ -1,0 +1,12 @@
+{
+  "name": "la-licorne-des-sons",
+  "version": "1.0.0",
+  "description": "Jeu de lecture en français pour enfants : reconnaître les lettres et les sons avec Paillette la licorne.",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "npx --yes serve@14.2.4 -l 8080 .",
+    "check": "node tools/check.mjs",
+    "lint": "npx --yes eslint@9.13.0 js tools"
+  }
+}

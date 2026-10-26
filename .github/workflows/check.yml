@@ -1,0 +1,14 @@
+name: Vérification
+on: [push, pull_request]
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Données, voix et règles des cartes
+        run: node tools/check.mjs
+      - name: Erreurs JavaScript
+        run: npx --yes eslint@9.13.0 js tools

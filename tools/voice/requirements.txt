@@ -1,0 +1,6 @@
+# outils de fabrication de la voix (pas nécessaires pour jouer) — et installer aussi ffmpeg
+piper-tts==1.8.0
+sherpa-onnx==2.0.0
+numpy
+scipy
+soundfile

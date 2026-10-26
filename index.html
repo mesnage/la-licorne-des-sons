@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#8fb6ff">
+<meta name="description" content="Jeu de lecture pour enfants : Paillette la licorne traverse 7 mondes en reconnaissant les lettres et les sons du français.">
+<title>La Licorne des Sons</title>
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+
+<!-- ============ ACCUEIL ============ -->
+<section class="screen on" id="home">
+  <div><span class="pill">⭐ <span id="homeStars">0</span></span></div>
+  <h1 class="title"><span class="ln a">La Licorne</span><span class="ln b">des Sons</span></h1>
+  <div class="subtitle">La grande aventure de Paillette :<br>20 cristaux magiques jusqu'au château !</div>
+  <div class="worlds"><span>🌼</span><span>🍄</span><span>🌈</span><span>🍭</span><span>🐚</span><span>❄️</span><span>☁️</span><span>🏰</span></div>
+  <div class="hero" id="homeUni"></div>
+  <div class="cloud-plat"></div>
+  <div class="levels">
+    <button class="lvl candy c-pink x3d"  data-level="voyelles"><span class="ic">🌸</span>Les voyelles<small>Aa · Ee · Ii · Oo · Uu · Éé · Èè</small></button>
+    <button class="lvl candy c-lilac x3d" data-level="consonnes"><span class="ic">🦋</span>Les consonnes<small>Mm · Ll · Ss · Rr · Chch…</small></button>
+    <button class="lvl candy c-aqua x3d"  data-level="sons"><span class="ic">🌈</span>Les sons<small>ou · on · an · in · oi…</small></button>
+    <button class="lvl candy c-coral x3d" data-level="experts"><span class="ic">🔮</span>Sons experts<small>eau · ain · ph · gn · ill…</small></button>
+    <button class="lvl wide candy c-sun x3d" data-level="tout"><span class="ic">✨</span><span>Tout mélangé<small>tous les sons</small></span></button>
+  </div>
+  <p class="hint">🔊 Montez le son (et désactivez le mode silencieux de l'iPhone).</p>
+</section>
+
+<!-- ============ JEU ============ -->
+<section class="screen" id="game">
+  <div class="topbar">
+    <button class="icon-btn candy c-white" id="homeBtn" aria-label="Accueil">🏠</button>
+    <div class="track" id="track"></div>
+  </div>
+  <div class="scene" id="scene">
+    <div class="sky sky-day" id="skyDay"><div class="sun"></div></div>
+    <div class="sky sky-dusk" id="skyDusk"><div class="dsun"></div></div>
+    <div class="sky sky-night" id="skyNight"><div class="moon"></div></div>
+    <div class="layer far" id="far"></div>
+    <div class="layer world" id="world">
+      <div class="uni-wrap" id="uniWrap">
+        <div class="bubble" id="bubble"></div>
+        <div class="cshadow"></div>
+        <div id="gameUni"></div>
+      </div>
+    </div>
+    <div class="layer front" id="front"></div>
+    <div class="zone" id="zone"></div>
+  </div>
+  <div class="prompt-row">
+    <button class="emoji-tile candy c-white" id="emojiTile" aria-label="Réécouter"><span id="emoji"></span></button>
+    <button class="listen candy c-pink x3d" id="listenBtn"><span class="spk">🔊</span>Écoute&nbsp;!</button>
+  </div>
+  <div class="word" id="word"></div>
+  <div class="cards" id="cards"></div>
+</section>
+
+<!-- ============ VICTOIRE ============ -->
+<section class="screen" id="win">
+  <div class="win-stage" id="winUni"></div>
+  <h2 class="title"><span class="ln a">Bravo !</span></h2>
+  <p>Paillette a trouvé les 20 cristaux<br>et rejoint son château de cristal ! 🏰</p>
+  <div class="gems-row" id="gemsRow"></div>
+  <div class="stars-row" id="starsRow"></div>
+  <div>
+    <button class="big-btn candy c-pink x3d" id="againBtn">Rejouer 🔁</button>
+    <button class="big-btn candy c-lilac x3d" id="menuBtn">Autre aventure 🦄</button>
+  </div>
+</section>
+
+<div id="err" hidden></div>
+<script>
+  /* Affiche un message si le jeu ne démarre pas (au lieu de boutons qui ne répondent pas) */
+  function showErr(msg){ var e = document.getElementById('err'); e.hidden = false; e.textContent = msg; }
+  window.addEventListener('error', function(ev){ showErr('Erreur : ' + ev.message); });
+  setTimeout(function(){
+    if(!window.__licorneOK) showErr(location.protocol === 'file:'
+      ? "Ouvrez le jeu par un serveur web (GitHub Pages, Cloudflare Pages ou « npm run dev ») : un double-clic sur index.html ne suffit pas."
+      : "Le jeu n'a pas pu démarrer. Rechargez la page.");
+  }, 4000);
+</script>
+<script type="module" src="js/main.js"></script>
+</body>
+</html>
