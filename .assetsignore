@@ -1,0 +1,16 @@
+# Fichiers du dépôt à NE PAS mettre en ligne (seul le jeu est publié)
+.git
+.github
+node_modules
+.wrangler
+tools
+package.json
+package-lock.json
+bun.lock
+bun.lockb
+eslint.config.js
+wrangler.jsonc
+README.md
+CLAUDE.md
+.gitignore
+.nojekyll
