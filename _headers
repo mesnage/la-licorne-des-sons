@@ -1,5 +1,5 @@
-# Cloudflare Pages : mise en cache
-/audio/*
+# Cloudflare : mise en cache
+/audio/*.mp3
   Cache-Control: public, max-age=86400
 /audio/manifest.json
   Cache-Control: public, max-age=300
@@ -7,5 +7,3 @@
   Cache-Control: public, max-age=300
 /css/*
   Cache-Control: public, max-age=300
-/index.html
-  Cache-Control: public, max-age=0, must-revalidate
