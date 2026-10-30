@@ -2,6 +2,7 @@
   // Cloudflare : site statique (aucune compilation). Les fichiers listés dans .assetsignore ne sont pas publiés.
   "name": "la-licorne-des-sons",
   "compatibility_date": "2026-10-23",
+  "previews": {},
   "assets": {
     "directory": "."
   }
