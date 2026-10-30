@@ -4,6 +4,7 @@ import { createWordProgress } from './progress.js';
 import { createWordVoice } from './voice.js';
 import { unicornSVG } from '../unicorn.js';
 import { hush, sfx, unlock } from '../audio.js';
+import { earnReward, showReward } from '../rewards.js';
 
 export function initWordGame(){
   const $ = id => document.getElementById(id);
@@ -71,11 +72,12 @@ export function initWordGame(){
     replay();
   }
   function finish(){
-    stop();
+    stop(); earnReward();
     $('wordScore').textContent = `Bravo ! Tu as trouvé ${session.score} mot${session.score === 1 ? '' : 's'} sur ${SESSION_LENGTH} du premier coup !`;
     $('wordFinishNote').textContent = 'Et tu as réussi les 10 mots ! Paillette a traversé le jardin grâce à toi.';
     storageNote(); show('wordFinish'); sfx.fanfare();
     $('wordFinishTitle').focus({ preventScroll: true });
+    showReward();
   }
   function continueSession(delay = 1600){
     clearTimeout(nextTimer);

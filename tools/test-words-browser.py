@@ -84,6 +84,18 @@ with sync_playwright() as p:
             else:
                 page.clock.run_for(1700)
         assert page.locator('#wordFinish').is_visible()
+        assert page.locator('#rewardsDialog').evaluate('(d) => d.open')
+        assert page.evaluate('JSON.parse(localStorage.getItem("licorne.rewards.v1")).pending') == 1
+        # Closing/reopening offers the same earned spin, never a second spin.
+        page.locator('#rewardsClose').click()
+        page.locator('#wordReward').click()
+        assert page.evaluate('JSON.parse(localStorage.getItem("licorne.rewards.v1")).pending') == 1
+        page.locator('#spinReward').click()
+        page.clock.run_for(200)
+        assert page.locator('#spinReward').is_disabled()
+        assert page.locator('#dailyTotal').inner_text() == str(level)
+        page.locator('#rewardsClose').click()
+        assert page.locator('#savingsOpen, #savingsDialog, #withdrawForm').count() == 0
         assert '8 mots sur 10 du premier coup' in page.locator('#wordScore').inner_text()
         assert page.evaluate('window.__words.state().phase') == 'finished'
         shot(page, 'word-finish')
@@ -94,7 +106,7 @@ with sync_playwright() as p:
         page.locator('#wordPlayBack').click()
         page.clock.run_for(3000)
         assert page.locator('#wordLevels').is_visible()
-        print(f'Level {level}: 10 questions, retries, 8/10 first-try score, replay and cancellation passed')
+        print(f'Level {level}: 10 questions, retries, 8/10 first-try score, one reward spin, replay and cancellation passed')
     saved = page.evaluate('localStorage.getItem("licorne.words.v1")')
     assert saved
     page.reload(wait_until='domcontentloaded')

@@ -159,54 +159,34 @@ git push -u origin main
 
 Licence du code : à choisir (par exemple MIT) en ajoutant un fichier `LICENSE`.
 
-## La roue des cadeaux et la tirelire
+## La roue des cadeaux
 
-Après les **20 étapes** d’une aventure, Paillette offre un tour de roue. Les cinq modes de jeu gardent leurs règles.
-La roue comporte sept cases égales : bonbons, chocolat, histoire supplémentaire le soir, 5 centimes dans la tirelire,
-et **trois cases de prout magique de licorne**. L’animation a donc 3 chances sur 7, chaque autre cadeau 1 sur 7.
-Un tour ne peut être utilisé qu’une fois ; les tours non utilisés restent accessibles depuis « Mes cadeaux du jour ».
-Les cadeaux matériels et l’histoire sont à offrir en famille ; la tirelire est un compteur, pas un compte bancaire.
+Chaque partie terminée offre **un tour de roue** : les 20 étapes de l’une des cinq aventures de lettres et sons,
+ou les 10 questions d’une partie de « Trouve le mot ! », quel que soit le niveau ou le nombre d’essais.
+La roue s’ouvre à la fin de la partie et reste accessible depuis « Ma récompense » ou « Mes cadeaux du jour ».
+Un tour ne peut être utilisé qu’une fois ; les tours non utilisés restent disponibles.
+
+La roue comporte **six cases égales** : bonbons, chocolat, histoire supplémentaire le soir et **trois cases de prout
+magique de licorne**. L’animation a donc 3 chances sur 6, chaque autre cadeau 1 sur 6 : elle reste trois fois plus probable.
+Les cadeaux matériels et l’histoire sont à offrir en famille. La tirelire, le solde et le cadeau en centimes ont été retirés.
 
 Le compteur indique les cadeaux gagnés **aujourd’hui**, selon la date locale du navigateur. Il repart à zéro le jour
-suivant. La tirelire 🐷, accessible dans une fenêtre depuis l’accueil, conserve son solde d’un jour à l’autre.
-Pour retirer de l’argent, saisir un montant en euros (par exemple `0,03`) puis « Retirer ».
-Les retraits ne changent pas le nombre de cadeaux gagnés aujourd’hui.
+suivant. Les cadeaux et les tours disponibles sont enregistrés dans `licorne.rewards.v1`, sans serveur ni synchronisation
+entre appareils. Les anciens enregistrements conservent les tours disponibles et les comptes des cadeaux restants ;
+le solde et les anciens cadeaux en argent sont ignorés. Les nouvelles sauvegardes ne contiennent plus de solde.
+Effacer les données du site efface ces informations. Si la sauvegarde est bloquée, un message le signale : les cadeaux
+restent utilisables pendant la visite. La roue et le gag respectent la préférence « Réduire les animations ».
 
-Les cadeaux, tours disponibles et centimes sont enregistrés dans le navigateur (`licorne.rewards.v1`), sans serveur
-ni synchronisation entre appareils. Effacer les données du site efface ces informations. Si la sauvegarde est bloquée,
-un message le signale : les récompenses restent utilisables pour la session. La roue et le gag respectent la préférence
-« Réduire les animations ».
-
-### Prévisualiser et tester cette fonctionnalité
-
-```bash
-git switch feature/reward-system
-npm run dev
-# ouvrir http://localhost:8080/?debug dans votre navigateur
-npm run check
-npm run lint
-npm test
-```
-
-Terminer une aventure pour voir la roue, puis cliquer sur « Tourner la roue ! ». Depuis l’accueil, ouvrir « Mes cadeaux
-du jour » ou « 🐷 Ma tirelire ». Pour parcourir rapidement une aventure dans une prévisualisation, ouvrir la console
-sur `?debug` et exécuter cette commande, qui répond aux 20 questions avec les règles normales du jeu :
-
-```js
-for (let i = 0; i < 20; i++) {
-  document.querySelector(`#cards button[data-g="${window.__game.right()}"]`).click();
-  await new Promise(resolve => setTimeout(resolve, 4300));
-}
-```
-
-Le test navigateur optionnel complète les cinq aventures et vérifie la roue, la sauvegarde et les retraits à 390 × 844 :
-avec le serveur en marche, Python Playwright et Chromium installés, lancer `python3 tools/test-rewards-browser.py`.
-Le script utilise `/usr/bin/chromium` et écrit deux captures dans `/workspace/scratch/` dans l’environnement cloud.
+Vérifier avec `npm test`, `npm run check` et `npm run lint`. Le test navigateur optionnel `python3 tools/test-rewards-browser.py`
+complète les cinq aventures et vérifie leurs récompenses, le compteur et la sauvegarde. Le test des mots, décrit ci-dessous,
+vérifie aussi les récompenses après chacun des trois niveaux. Le serveur local doit être en marche ; Python Playwright
+et Chromium sont nécessaires pour ces tests navigateur.
 
 ## 📖 Trouve le mot ! — Le jardin des mots
 
 Une activité indépendante pour reconnaître des **mots entiers**, accessible par « Trouve le mot ! » sur l’accueil.
-Les cinq aventures de lettres et sons restent inchangées, ainsi que leurs voix enregistrées et leurs récompenses.
+Les cinq aventures de lettres et sons conservent leurs règles et leurs voix enregistrées. Toutes les activités partagent
+la roue des cadeaux, sans tirelire ni argent.
 
 - Trois niveaux, avec 44 mots et expressions au départ. Chaque partie propose **10 questions** et quatre cartes.
 - Toucher « Réécouter » pour réentendre « Trouve le mot… maison ! ». Regarder les lettres, puis choisir le mot.
@@ -272,6 +252,7 @@ Dans Terminal, **depuis le dossier du projet**, lancer :
 cd ~/la-licorne-des-sons
 git fetch origin
 git switch feature/trouve-le-mot
+git pull --ff-only
 npm run dev
 ```
 

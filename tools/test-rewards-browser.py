@@ -10,7 +10,7 @@ with sync_playwright() as p:
     page.wait_for_function('window.__licorneOK')
     page.clock.install()
     # Finish real 20-question adventures, without adding a production completion shortcut.
-    for mode, roll in zip(['voyelles', 'consonnes', 'sons', 'experts', 'tout'], [.01, .30, .60, .90, .20]):
+    for mode, roll in zip(['voyelles', 'consonnes', 'sons', 'experts', 'tout'], [.01, .40, .70, .90, .20]):
         page.locator('[data-level="' + mode + '"]').click()
         for step in range(20):
             assert page.evaluate('window.__game.step()') == step
@@ -34,29 +34,19 @@ with sync_playwright() as p:
         page.locator('#rewardsClose').click()
         page.locator('#menuBtn').click()
         print(mode + ': 20 steps, victory, one spin, correct daily count')
-    assert page.evaluate('JSON.parse(localStorage.getItem("licorne.rewards.v1")).counts') == [1, 1, 1, 1, 1]
+    assert page.evaluate('JSON.parse(localStorage.getItem("licorne.rewards.v1")).counts') == [1, 1, 1, 2]
     page.reload(wait_until='domcontentloaded')
     page.wait_for_function('window.__licorneOK')
     page.locator('#rewardPending').click()
     assert page.locator('#dailyTotal').inner_text() == '5'
     assert page.locator('#spinReward').is_disabled()
     page.locator('#rewardsClose').click()
-    page.locator('#savingsOpen').click()
-    assert '0,05' in page.locator('#savingsBalance').inner_text()
-    page.locator('#withdrawAmount').fill('0.06')
-    page.locator('#withdrawForm button').click()
-    assert '0,05' in page.locator('#savingsBalance').inner_text()
-    page.locator('#withdrawAmount').fill('0.03')
-    page.locator('#withdrawForm button').click()
-    assert '0,02' in page.locator('#savingsBalance').inner_text()
-    page.screenshot(path='/workspace/scratch/reward-savings.png')
-    page.reload(wait_until='domcontentloaded')
-    page.wait_for_function('window.__licorneOK')
-    page.locator('#savingsOpen').click()
-    assert '0,02' in page.locator('#savingsBalance').inner_text()
+    assert page.locator('#savingsOpen, #savingsDialog, #withdrawForm').count() == 0
+    assert page.locator('#dailyPrizes li').count() == 4
+    assert page.locator('#rewardWheel span').count() == 6
     assert page.evaluate('document.documentElement.scrollWidth <= window.innerWidth')
     assert not errors, errors
-    print('Reload persistence, withdrawal, overdraft prevention, mobile layout, no JavaScript errors: passed')
+    print('Reload persistence, six wheel segments, no savings controls, mobile layout: passed')
     # Exercise the normal-motion transition as well as the reduced-motion mobile path.
     desktop = browser.new_page(viewport={'width': 1280, 'height': 900})
     desktop.on('pageerror', lambda error: errors.append(str(error)))

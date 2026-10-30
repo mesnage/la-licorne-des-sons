@@ -50,3 +50,7 @@ The module has ten questions, retry without punishment, first-try scoring and a 
 Progress is local (`licorne.words.v1`); missed words are weighted more heavily in later sessions.
 Scoped styles: `css/words.css`. Do not use the original `.lvl` class for new level buttons: the phonics initializer binds it.
 Automated browser speech is mocked; listen on a real French-voice device before release.
+
+Every completed game earns one spin: the five 20-step phonics modes and all three 10-question word levels.
+The wheel has six equal segments (candies, chocolate, story, three unicorn animations). No savings or money prize.
+Legacy five-prize records preserve pending spins and non-money counts; future saves omit the balance.

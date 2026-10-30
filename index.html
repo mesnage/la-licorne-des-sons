@@ -42,7 +42,6 @@
   </button>
   <nav class="reward-menu" aria-label="Mes récompenses">
     <button id="rewardPending" class="candy c-white">🎁 Mes cadeaux du jour</button>
-    <button id="savingsOpen" class="candy c-pink" aria-label="Ouvrir ma tirelire">🐷 Ma tirelire</button>
   </nav>
   <p class="hint">🔊 Montez le son (et désactivez le mode silencieux de l'iPhone).</p>
 </section>
@@ -124,6 +123,7 @@
   <h1 id="wordFinishTitle" tabindex="-1">Bravo !</h1>
   <p id="wordScore" class="word-score"></p>
   <p id="wordFinishNote"></p>
+  <button id="wordReward" class="big-btn candy c-sun">🎡 Ma récompense</button>
   <button id="wordReplaySession" class="big-btn candy c-pink">Rejouer</button>
   <button id="wordChooseLevel" class="big-btn candy c-aqua">Choisir un niveau</button>
   <p class="word-storage-note"></p>
@@ -136,7 +136,7 @@
   <p>Une aventure terminée, un tour de roue !</p>
   <div class="wheel-stage">
     <div class="wheel-pointer" aria-hidden="true">▼</div>
-    <div id="rewardWheel" class="reward-wheel" role="img" aria-label="Roue à sept cases : bonbons, chocolat, histoire, cinq centimes et trois cases prout de licorne"></div>
+    <div id="rewardWheel" class="reward-wheel" role="img" aria-label="Roue à six cases : bonbons, chocolat, histoire et trois cases prout de licorne"></div>
     <span class="wheel-hub" aria-hidden="true">⭐</span>
   </div>
   <button id="spinReward" class="big-btn candy c-sun">Tourner la roue !</button>
@@ -145,27 +145,12 @@
     <div id="fartUnicorn"></div><span class="fart-cloud" aria-hidden="true">💨✨</span>
     <strong>Prout ! Hi hi hi !</strong>
   </div>
-  <p class="wheel-odds">Le prout magique a 3 chances sur 7. Chaque autre cadeau a 1 chance sur 7.</p>
+  <p class="wheel-odds">Le prout magique a 3 chances sur 6. Chaque autre cadeau a 1 chance sur 6.</p>
   <h3>Aujourd’hui : <span id="dailyTotal">0</span> cadeau(x)</h3>
   <ul id="dailyPrizes" class="daily-prizes"></ul>
   <p class="reward-storage-note"></p>
 </dialog>
-<dialog id="savingsDialog" class="reward-dialog savings-dialog" aria-labelledby="savingsTitle">
-  <button class="dialog-close" data-close-dialog aria-label="Fermer la tirelire">✕</button>
-  <div class="piglet" aria-hidden="true">🐷</div>
-  <h2 id="savingsTitle">Ma petite tirelire</h2>
-  <p>Mes pièces s’accumulent, jour après jour.</p>
-  <output id="savingsBalance" class="savings-balance">0,00 €</output>
-  <form id="withdrawForm">
-    <label for="withdrawAmount">Retirer de l’argent (en euros)</label>
-    <div class="withdraw-row">
-      <input id="withdrawAmount" name="amount" type="number" inputmode="decimal" min="0.01" step="0.01" required placeholder="0,05">
-      <button class="candy c-lilac" type="submit">Retirer</button>
-    </div>
-  </form>
-  <p id="withdrawMessage" role="status" aria-live="polite"></p>
-  <p class="reward-storage-note"></p>
-</dialog>
+
 
 <div id="err" hidden></div>
 <script>
