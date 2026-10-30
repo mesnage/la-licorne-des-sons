@@ -32,9 +32,9 @@
   <p class="adventure-label">Choisis ta petite aventure</p>
   <div class="levels">
     <button class="lvl candy c-pink x3d"  data-level="voyelles"><span class="ic">🌸</span>Les voyelles<small>Aa · Ee · Ii · Oo · Uu · Éé · Èè</small></button>
-    <button class="lvl candy c-lilac x3d" data-level="consonnes"><span class="ic">🦋</span>Les consonnes<small>Mm · Ll · Ss · Rr · Chch…</small></button>
-    <button class="lvl candy c-aqua x3d"  data-level="sons"><span class="ic">🌈</span>Les sons<small>ou · on · an · in · oi…</small></button>
-    <button class="lvl candy c-coral x3d" data-level="experts"><span class="ic">🔮</span>Sons experts<small>eau · ain · ph · gn · ill…</small></button>
+    <button class="lvl candy c-lilac x3d" data-level="consonnes"><span class="ic">🦋</span>Les consonnes<small>Toutes les consonnes · Ch · Ç</small></button>
+    <button class="lvl candy c-aqua x3d"  data-level="sons"><span class="ic">🌈</span>Les sons<small>ou · on · an · in · oi · ui · oin…</small></button>
+    <button class="lvl candy c-coral x3d" data-level="experts"><span class="ic">🔮</span>Sons experts<small>eau · ain · ph · gn · ill · eil · tion…</small></button>
     <button class="lvl wide candy c-sun x3d" data-level="tout"><span class="ic">✨</span><span>Tout mélangé<small>tous les sons</small></span></button>
   </div>
   <button id="wordActivityOpen" class="word-activity-entry candy c-aqua">
@@ -91,10 +91,10 @@
 
 <!-- Independent word-reading activity: no changes to the five phonics modes. -->
 <section class="screen word-screen" id="wordLevels" aria-labelledby="wordLevelsTitle">
-  <div class="word-topbar"><button id="wordLevelsHome" class="icon-btn candy c-white" aria-label="Retour à l’accueil">🏠</button><span>Le jardin des mots</span></div>
+  <div class="word-topbar"><button id="wordLevelsHome" class="icon-btn candy c-white" aria-label="Retour à l’accueil">🏠</button><span>Le château des mots</span></div>
   <div class="word-intro-icon" aria-hidden="true">📖</div>
   <h1 id="wordLevelsTitle">Trouve le mot !</h1>
-  <p class="word-intro">Écoute, regarde les lettres<br>et fais avancer Paillette.</p>
+  <p class="word-intro">Écoute, regarde les lettres<br>et aide Paillette à rejoindre le château.</p>
   <div id="wordLevelButtons" class="word-level-buttons"></div>
   <p class="word-gentle-note">10 mots, à ton rythme. Tu peux toujours réessayer.</p>
   <details class="word-practice"><summary>Pour les grands : les progrès</summary><div id="wordPractice"></div><p>Trois réussites de suite du premier coup : un mot bien reconnu. Les mots difficiles reviennent plus souvent.</p></details>
@@ -105,9 +105,8 @@
     <button id="wordPlayBack" class="icon-btn candy c-white" aria-label="Choisir un niveau">←</button>
     <div><span id="wordLevelName"></span><strong id="wordQuestionNumber">Mot 1 sur 10</strong></div>
   </div>
-  <div id="wordProgress" role="progressbar" aria-label="Les pas de Paillette" aria-valuemin="0" aria-valuemax="10" aria-valuenow="0">
-    <div id="wordGarden" class="word-garden" aria-hidden="true"><span class="word-garden-flower">🌷</span><div id="wordGardenUnicorn"></div><span class="word-garden-tree">🌳</span><div id="wordStones"></div></div>
-  </div>
+  <div id="wordProgress" class="track word-track" role="progressbar" aria-label="Les cristaux de Paillette" aria-valuemin="0" aria-valuemax="10" aria-valuenow="0"></div>
+  <div id="wordSceneSlot" aria-label="Paillette traverse les mondes jusqu’au château de cristal"></div>
   <div class="word-instructions">
     <h1 id="wordPlayTitle">Trouve le mot !</h1>
     <button id="wordSpeaker" class="word-speaker candy c-pink"><span aria-hidden="true">🔊</span> Réécouter</button>
@@ -118,8 +117,9 @@
   <p class="word-storage-note"></p>
 </section>
 <section class="screen word-screen" id="wordFinish" aria-labelledby="wordFinishTitle">
-  <p class="word-finish-garden">🌷 Le jardin des mots 🌷</p>
-  <div id="wordFinishUnicorn" aria-hidden="true"></div>
+  <p class="word-finish-castle">🏰 Le château des mots 💎</p>
+  <div id="wordFinishUnicorn" class="win-stage" aria-hidden="true"></div>
+  <div id="wordFinishGems" class="gems-row" aria-hidden="true"></div>
   <h1 id="wordFinishTitle" tabindex="-1">Bravo !</h1>
   <p id="wordScore" class="word-score"></p>
   <p id="wordFinishNote"></p>

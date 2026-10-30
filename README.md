@@ -4,7 +4,7 @@ Jeu de lecture en français pour les enfants de 4 à 7 ans. Paillette la licorne
 à chaque étape, l'enfant entend une lettre ou un son (« Trouve la lettre, M ! … Comme dans, moto ! ») et choisit
 la bonne carte parmi trois. Une erreur fait glisser Paillette sur une peau de banane jusqu'au début du monde.
 
-- 38 lettres et sons (voyelles, consonnes, ou / on / an…, sons experts eau / ain / ph / gn / ill), 200 mots illustrés ;
+- 58 lettres et graphèmes, toutes les consonnes de l’alphabet, Y et Ç, 495 mots illustrés ;
 - cartes en majuscules **et** minuscules ;
 - jamais deux « e » (e, é, è, eu, en, eau) sur les cartes : un « e » est toujours présenté avec deux autres voyelles ;
 - voix française enregistrée (aucune voix de synthèse de l'appareil, donc jamais d'anglais).
@@ -182,7 +182,7 @@ complète les cinq aventures et vérifie leurs récompenses, le compteur et la s
 vérifie aussi les récompenses après chacun des trois niveaux. Le serveur local doit être en marche ; Python Playwright
 et Chromium sont nécessaires pour ces tests navigateur.
 
-## 📖 Trouve le mot ! — Le jardin des mots
+## 📖 Trouve le mot ! — Le château des mots
 
 Une activité indépendante pour reconnaître des **mots entiers**, accessible par « Trouve le mot ! » sur l’accueil.
 Les cinq aventures de lettres et sons conservent leurs règles et leurs voix enregistrées. Toutes les activités partagent
@@ -191,7 +191,8 @@ la roue des cadeaux, sans tirelire ni argent.
 - Trois niveaux, avec 44 mots et expressions au départ. Chaque partie propose **10 questions** et quatre cartes.
 - Toucher « Réécouter » pour réentendre « Trouve le mot… maison ! ». Regarder les lettres, puis choisir le mot.
 - Une erreur permet simplement de réessayer. La bonne carte devient verte, affiche ✓ et fait apparaître Paillette.
-- Paillette traverse un nouveau petit jardin, un pas par mot trouvé. Pas de chronomètre ni de retour en arrière.
+- Paillette traverse les mêmes sept mondes que dans les autres activités : elle saute, collecte dix cristaux et rejoint
+  le château de cristal. Le décor, la caméra et les animations sont partagés. Pas de chronomètre ni de retour en arrière.
 - Le résultat compte les mots trouvés **du premier coup** : après deux questions avec une erreur, le résultat est
   « 8 mots sur 10 du premier coup ». Les dix mots sont finalement réussis, ce que le message final rappelle.
 - « Rejouer » lance une nouvelle partie ; « Choisir un niveau » revient aux trois niveaux.
@@ -219,7 +220,7 @@ Tester l’écoute sur l’appareil de l’enfant avant utilisation. Les tests a
 annulation avec une voix simulée ; ils ne valident pas la qualité audible des voix Safari/iPad.
 
 Le vocabulaire est dans **`js/data/words.js`**, les règles dans `js/words/model.js`, le suivi dans `progress.js`, les voix
-dans `voice.js`, l’interface dans `game.js` et les styles dans `css/words.css`. Aucun outil de compilation n’est nécessaire.
+dans `voice.js`, l’interface dans `game.js`, le parcours partagé dans `journey.js` et les styles dans `css/words.css`. Aucun outil de compilation n’est nécessaire.
 Pour ajouter un mot, ajouter par exemple à `WORDS` :
 
 ```js
@@ -271,3 +272,22 @@ python3 tools/test-words-browser.py --screenshots /tmp/licorne-mots
 Le script accepte `--url` pour une autre adresse du serveur et `--chromium` pour un autre chemin de Chromium.
 Il vérifie les trois niveaux, les essais, le score, le suivi après rechargement, les cinq anciens modes, les tailles
 phone/tablette et les chemins audio indisponibles. L’écoute reste à vérifier manuellement sur les appareils réels.
+
+### Vocabulaire des lettres et des sons
+
+Les cinq activités de phonologie partagent maintenant **495 mots illustrés** et **58 entrées** : 7 voyelles,
+23 entrées dans « Les consonnes », 13 dans « Les sons » et 15 dans « Sons experts ».
+Toutes les consonnes de l’alphabet sont présentes, avec H, Q, W, X et Z ; Y, CH et Ç sont également proposés.
+Le H est présenté par son nom de lettre, même lorsqu’il est muet. Le W se rencontre dans des mots français
+empruntés à d’autres langues et peut se prononcer différemment selon le mot : l’activité demande la lettre écrite.
+
+Parmi les nouveaux groupes : ui, oin, ei, er, ez, un, ein, ien, eil, ail, ouil, euil et tion.
+Les groupes complexes sont épelés comme CH et PH lorsque la voix rend mal leur son isolé, puis illustrés par
+un mot prononcé en entier. Les graphèmes de son identique gardent la même clé phonétique pour éviter les
+fausses réponses ambiguës (par exemple C/K/Q/QU, É/ER/EZ et IN/AIN/EIN/UN).
+
+Les **335 nouveaux fichiers MP3** sont inclus dans le dépôt : aucune génération de voix n’est nécessaire sur
+l’appareil de l’enfant. Ils ont été générés avec la voix française du projet puis vérifiés avec Whisper.
+Les modèles et l’environnement Python de génération ne sont pas des dépendances du jeu statique.
+`npm run check` vérifie les 641 audios nécessaires et 18 870 tirages des cartes ; `npm test` couvre aussi la
+présence de toutes les consonnes, le surlignage des nouveaux mots et les dix étapes vers le château.

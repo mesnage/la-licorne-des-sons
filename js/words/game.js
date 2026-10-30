@@ -5,12 +5,15 @@ import { createWordVoice } from './voice.js';
 import { unicornSVG } from '../unicorn.js';
 import { hush, sfx, unlock } from '../audio.js';
 import { earnReward, showReward } from '../rewards.js';
+import { gemSVG } from '../utils.js';
+import { createWordJourney } from './journey.js';
 
-export function initWordGame(){
+export function initWordGame(gems){
   const $ = id => document.getElementById(id);
   let storage;
   try { storage = window.localStorage; } catch(e){}
   const progress = createWordProgress(storage);
+  const journey = createWordJourney(gems, SESSION_LENGTH);
   const voice = createWordVoice(window, message => { $('wordAudioStatus').textContent = message; });
   let session = null, level = 1, nextTimer = null, previousId;
   const active = () => $('wordPlay').classList.contains('on');
@@ -39,13 +42,12 @@ export function initWordGame(){
     }
     storageNote();
   }
-  function levels(){ stop(); session = null; refreshPractice(); show('wordLevels'); }
+  function levels(){ stop(); journey.release(); session = null; refreshPractice(); show('wordLevels'); }
   function renderProgress(completed){
     $('wordQuestionNumber').textContent = `Mot ${Math.min(session.index + 1, SESSION_LENGTH)} sur ${SESSION_LENGTH}`;
     $('wordProgress').setAttribute('aria-valuenow', completed);
     $('wordProgress').setAttribute('aria-valuetext', `${completed} mots trouvés sur ${SESSION_LENGTH}`);
-    $('wordGarden').style.setProperty('--word-step', completed / SESSION_LENGTH);
-    [...$('wordStones').children].forEach((stone,i) => stone.classList.toggle('visited', i < completed));
+    [...$('wordProgress').children].forEach((slot,i) => slot.classList.toggle('got', i < completed));
   }
   function replay(){
     if(!active() || !session?.current) return;
@@ -74,7 +76,9 @@ export function initWordGame(){
   function finish(){
     stop(); earnReward();
     $('wordScore').textContent = `Bravo ! Tu as trouvé ${session.score} mot${session.score === 1 ? '' : 's'} sur ${SESSION_LENGTH} du premier coup !`;
-    $('wordFinishNote').textContent = 'Et tu as réussi les 10 mots ! Paillette a traversé le jardin grâce à toi.';
+    $('wordFinishNote').textContent = 'Et tu as réussi les 10 mots ! Paillette a rejoint le château avec ses 10 cristaux grâce à toi.';
+    $('wordFinishGems').innerHTML = Array.from({length:SESSION_LENGTH},(_,i) => gemSVG(i+1)).join('');
+    journey.release();
     storageNote(); show('wordFinish'); sfx.fanfare();
     $('wordFinishTitle').focus({ preventScroll: true });
     showReward();
@@ -112,13 +116,14 @@ export function initWordGame(){
     $('wordChoices').querySelectorAll('button').forEach(b => { b.disabled = true; });
     $('wordFeedback').textContent = 'Bien joué ! Un nouveau pas pour Paillette !';
     renderProgress(session.index + 1);
+    journey.advance(session.index + 1);
     continueSession();
   }
   function start(id){
     stop(); hush(); unlock(); level = id;
     session = new WordSession(WORDS, level, progress.snapshot(), Math.random, previousId);
     $('wordLevelName').textContent = WORD_LEVELS.find(l => l.id === level).title;
-    show('wordPlay'); renderQuestion();
+    show('wordPlay'); journey.start($('wordSceneSlot')); renderQuestion();
   }
   for(const data of WORD_LEVELS){
     const button = document.createElement('button');
@@ -129,15 +134,12 @@ export function initWordGame(){
     button.append(icon, text); button.addEventListener('click', () => start(data.id));
     $('wordLevelButtons').appendChild(button);
   }
-  $('wordGardenUnicorn').innerHTML = unicornSVG();
   $('wordFinishUnicorn').innerHTML = unicornSVG();
   $('wordFinishUnicorn').querySelector('.uni').classList.add('happy');
-  for(let i = 0; i < SESSION_LENGTH; i++){
-    const stone = document.createElement('span'); stone.setAttribute('aria-hidden', 'true');
-    $('wordStones').appendChild(stone);
-  }
+  $('wordProgress').innerHTML = Array.from({length:SESSION_LENGTH},(_,i) => `<div class="slot">${gemSVG(i+1)}</div>`).join('');
+  window.addEventListener('resize', () => journey.resize());
   $('wordActivityOpen').addEventListener('click', () => { hush(); levels(); });
-  $('wordLevelsHome').addEventListener('click', () => { stop(); session = null; show('home'); });
+  $('wordLevelsHome').addEventListener('click', () => { stop(); journey.release(); session = null; show('home'); });
   $('wordPlayBack').addEventListener('click', levels);
   $('wordChooseLevel').addEventListener('click', levels);
   $('wordReplaySession').addEventListener('click', () => start(level));

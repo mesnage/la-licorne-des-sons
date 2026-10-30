@@ -121,8 +121,8 @@ button{font-family:inherit;color:inherit;cursor:pointer;touch-action:manipulatio
 .cards{display:flex;gap:14px;justify-content:center;margin-top:6px}
 .card{flex:1;max-width:150px;height:150px;border-radius:34px;font-weight:700;line-height:.95;padding:0 0 8px;
   display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px}
-.card .up{font-size:clamp(40px,11.5vw,60px)}
-.card .lo{font-size:clamp(36px,10.5vw,54px)}
+.card .up{font-size:calc(clamp(40px,11.5vw,60px) * var(--glyph-scale,1))}
+.card .lo{font-size:calc(clamp(36px,10.5vw,54px) * var(--glyph-scale,1))}
 .card.good{--t:#fffbd6;--b:#ffc533;--e:#c97900;transform:scale(1.08);box-shadow:0 9px 0 var(--e),0 0 0 6px #fff,0 0 30px 10px rgba(255,214,80,.9)}
 .card.reveal{--t:#d6ffe9;--b:#3fd68f;--e:#178a55;transform:scale(1.08);box-shadow:0 9px 0 var(--e),0 0 0 6px #fff,0 0 30px 10px rgba(120,255,180,.9)}
 .card.bad{animation:shake .45s;opacity:.4}

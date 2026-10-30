@@ -15,6 +15,9 @@ with sync_playwright() as p:
         for step in range(20):
             assert page.evaluate('window.__game.step()') == step
             assert page.locator('#cards button:not(:disabled)').count() == 3
+            assert page.locator('#cards button').evaluate_all('(buttons) => buttons.every(b => b.scrollWidth <= b.clientWidth)')
+            if mode == 'experts' and len(page.evaluate('window.__game.right()')) == 4:
+                page.screenshot(path='/workspace/scratch/phonics-experts.png')
             page.locator('#cards button').evaluate_all('(buttons) => buttons.find(b => b.dataset.g === window.__game.right()).click()')
             page.clock.run_for(4200)
         page.clock.run_for(2700)

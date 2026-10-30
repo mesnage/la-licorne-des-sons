@@ -47,6 +47,9 @@ with sync_playwright() as p:
     page.clock.install()
     for level in range(1,4):
         page.locator(f'[data-word-level="{level}"]').click()
+        assert page.locator('#wordSceneSlot #scene').count() == 1
+        assert page.locator('#wordProgress .slot').count() == 10
+        assert page.locator('#world .gem:not([hidden])').count() == 10
         previous = None
         for index in range(10):
             state = page.evaluate('window.__words.state()')
@@ -69,6 +72,7 @@ with sync_playwright() as p:
                 wrong.click(); wrong.click()
                 assert page.evaluate('window.__words.state().index') == index
                 assert 'Essaie encore' in page.locator('#wordFeedback').inner_text()
+                assert page.locator('#wordProgress .slot.got').count() == index
             page.locator(f'.word-choice[data-word-id="{state["targetId"]}"]').click()
             assert page.locator('.word-correct .word-check').count() == 1
             assert page.locator('.word-card-cheer').is_visible()
@@ -76,13 +80,20 @@ with sync_playwright() as p:
             assert page.locator('#wordProgress').get_attribute('aria-valuenow') == str(index+1)
             if index == 0:
                 shot(page, f'word-level-{level}-correct')
+            page.clock.run_for(1100)
+            assert page.locator('#wordProgress .slot.got').count() == index+1
+            assert page.locator('#wordSceneSlot .gem.got').count() == index+1
+            if index == 9:
+                assert 'Château de Cristal' in page.locator('#zone').inner_text()
+                assert page.locator('#uniWrap').evaluate('(u) => parseInt(u.style.left)') == 3630
+                shot(page, 'word-castle')
             if index == 3:
                 page.locator('#wordSpeaker').click()
                 page.clock.run_for(1700)
                 assert page.evaluate('window.__words.state().phase') == 'feedback'
                 page.clock.run_for(3400)
             else:
-                page.clock.run_for(1700)
+                page.clock.run_for(600)
         assert page.locator('#wordFinish').is_visible()
         assert page.locator('#rewardsDialog').evaluate('(d) => d.open')
         assert page.evaluate('JSON.parse(localStorage.getItem("licorne.rewards.v1")).pending') == 1
@@ -96,6 +107,9 @@ with sync_playwright() as p:
         assert page.locator('#dailyTotal').inner_text() == str(level)
         page.locator('#rewardsClose').click()
         assert page.locator('#savingsOpen, #savingsDialog, #withdrawForm').count() == 0
+        assert page.locator('#wordFinishGems svg').count() == 10
+        assert page.locator('#game > #scene').count() == 1
+        assert page.locator('#world .gem[hidden]').count() == 0
         assert '8 mots sur 10 du premier coup' in page.locator('#wordScore').inner_text()
         assert page.evaluate('window.__words.state().phase') == 'finished'
         shot(page, 'word-finish')
@@ -106,6 +120,7 @@ with sync_playwright() as p:
         page.locator('#wordPlayBack').click()
         page.clock.run_for(3000)
         assert page.locator('#wordLevels').is_visible()
+        assert page.locator('#game > #scene').count() == 1
         print(f'Level {level}: 10 questions, retries, 8/10 first-try score, one reward spin, replay and cancellation passed')
     saved = page.evaluate('localStorage.getItem("licorne.words.v1")')
     assert saved

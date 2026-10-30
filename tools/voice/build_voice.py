@@ -36,9 +36,18 @@ LETTER = {
  'ou':'ˈu','on':'ˈɔ̃','an':'ˈɑ̃','in':'ˈɛ̃','oi':'wˈa','eu':'ˈø','au':'ˈo','en':'ˈɑ̃','ain':'ˈɛ̃','eau':'ˈo','ai':'ˈɛ',
  'm':'ˈɛm','l':'ˈɛl','s':'ˈɛs','r':'ˈɛʁ','f':'ˈɛf','p':'pˈe','t':'tˈe','b':'bˈe','n':'ˈɛn','v':'vˈe','d':'dˈe','g':'ʒˈe',
  'c':'sˈe','k':'kˈa','j':'ʒˈi',
+ 'h':'ˈaʃ','q':'kˈy','w':'dˈublə vˈe','x':'ˈiks','y':'iɡʁˈɛk','z':'zˈɛd','ç':'sˈe sedˈij',
+ 'ui':'ɥˈi','oin':'wˈɛ̃','ei':'ˈɛ','er':'ˈe','ez':'ˈe','un':'ˈœ̃',
+ 'ein':'ˈɛ̃','ien':'jˈɛ̃','eil':'ˈɛj','ail':'ˈaj','ouil':'ˈuj','euil':'ˈœj','tion':'sjˈɔ̃',
  'ch':'sˈe, ˈaʃ','ph':'pˈe, ˈaʃ','qu':'kˈy, ˈy','gn':'ʒˈe, ˈɛn','ill':'ˈi, ˈɛl, ˈɛl',
 }
-SPELLED = {'ch', 'ph', 'qu', 'gn', 'ill'}
+# Spell complex groups as in the existing CH/PH prompts: isolated glides are unreliable in TTS.
+LETTER.update({
+ 'ail':'ˈa, ˈi, ˈɛl', 'eil':'ˈə, ˈi, ˈɛl', 'euil':'ˈə, ˈy, ˈi, ˈɛl',
+ 'ouil':'ˈo, ˈy, ˈi, ˈɛl', 'oin':'ˈo, ˈi, ˈɛn', 'ien':'ˈi, ˈə, ˈɛn',
+ 'ui':'ˈy, ˈi', 'tion':'tˈe, ˈi, ˈo, ˈɛn',
+})
+SPELLED = {'ch', 'ph', 'qu', 'gn', 'ill', 'ail', 'eil', 'euil', 'ouil', 'oin', 'ien', 'ui', 'tion'}
 # « Trouve le son, an » est mal rendu par la voix ; « Cherche bien le son, an » est compris.
 INTRO_OVERRIDE = {('an', False): 'Cherche bien le son', ('en', False): 'Cherche bien le son'}
 
