@@ -106,7 +106,7 @@ function unicornSVG(){
   </g>
 
   </g>
-  <g class="u-open">
+  <g class="u-open u-blink">
     ${eye(124)}${eye(156)}
     <path d="M112.2 72 A12 14 0 0 1 135.8 72 M144.2 72 A12 14 0 0 1 167.8 72" stroke="#3a1050" stroke-width="2.8" fill="none" stroke-linecap="round"/>
     <path d="M113.5 66.5 L107.5 63 M116.5 62.5 L112.5 57 M166.5 66.5 L172.5 63 M163.5 62.5 L167.5 57" stroke="#3a1050" stroke-width="2.3" stroke-linecap="round"/>
