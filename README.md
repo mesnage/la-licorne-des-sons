@@ -158,3 +158,47 @@ git push -u origin main
 - Paillette, le décor et les illustrations sont dessinés en SVG dans le code.
 
 Licence du code : à choisir (par exemple MIT) en ajoutant un fichier `LICENSE`.
+
+## La roue des cadeaux et la tirelire
+
+Après les **20 étapes** d’une aventure, Paillette offre un tour de roue. Les cinq modes de jeu gardent leurs règles.
+La roue comporte sept cases égales : bonbons, chocolat, histoire supplémentaire le soir, 5 centimes dans la tirelire,
+et **trois cases de prout magique de licorne**. L’animation a donc 3 chances sur 7, chaque autre cadeau 1 sur 7.
+Un tour ne peut être utilisé qu’une fois ; les tours non utilisés restent accessibles depuis « Mes cadeaux du jour ».
+Les cadeaux matériels et l’histoire sont à offrir en famille ; la tirelire est un compteur, pas un compte bancaire.
+
+Le compteur indique les cadeaux gagnés **aujourd’hui**, selon la date locale du navigateur. Il repart à zéro le jour
+suivant. La tirelire 🐷, accessible dans une fenêtre depuis l’accueil, conserve son solde d’un jour à l’autre.
+Pour retirer de l’argent, saisir un montant en euros (par exemple `0,03`) puis « Retirer ».
+Les retraits ne changent pas le nombre de cadeaux gagnés aujourd’hui.
+
+Les cadeaux, tours disponibles et centimes sont enregistrés dans le navigateur (`licorne.rewards.v1`), sans serveur
+ni synchronisation entre appareils. Effacer les données du site efface ces informations. Si la sauvegarde est bloquée,
+un message le signale : les récompenses restent utilisables pour la session. La roue et le gag respectent la préférence
+« Réduire les animations ».
+
+### Prévisualiser et tester cette fonctionnalité
+
+```bash
+git switch feature/reward-system
+npm run dev
+# ouvrir http://localhost:8080/?debug dans votre navigateur
+npm run check
+npm run lint
+npm test
+```
+
+Terminer une aventure pour voir la roue, puis cliquer sur « Tourner la roue ! ». Depuis l’accueil, ouvrir « Mes cadeaux
+du jour » ou « 🐷 Ma tirelire ». Pour parcourir rapidement une aventure dans une prévisualisation, ouvrir la console
+sur `?debug` et exécuter cette commande, qui répond aux 20 questions avec les règles normales du jeu :
+
+```js
+for (let i = 0; i < 20; i++) {
+  document.querySelector(`#cards button[data-g="${window.__game.right()}"]`).click();
+  await new Promise(resolve => setTimeout(resolve, 4300));
+}
+```
+
+Le test navigateur optionnel complète les cinq aventures et vérifie la roue, la sauvegarde et les retraits à 390 × 844 :
+avec le serveur en marche, Python Playwright et Chromium installés, lancer `python3 tools/test-rewards-browser.py`.
+Le script utilise `/usr/bin/chromium` et écrit deux captures dans `/workspace/scratch/` dans l’environnement cloud.

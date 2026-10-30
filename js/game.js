@@ -7,6 +7,7 @@ import { unlock, hush, say, sfx, preload } from './audio.js';
 import { uniEl, camTo, skyTo, placeUni, anim, mood, bubble, zone, burst, gag } from './scene.js';
 import { makeTargets, distractors } from './questions.js';
 import { getStars, addStar } from './storage.js';
+import { earnReward, showReward } from './rewards.js';
 
 let gems = [];
 let pool = [], targets = [], step = 0, cur = null, busy = true, level = 'voyelles', round = 0;
@@ -117,11 +118,13 @@ function finish(){
   mood('happy'); zone(BIOMES[20].name); sfx.fanfare(); confetti(); anim('f-dance', 1200);
   burst(['🎆','✨','💖','⭐'], 12);
   const stars = addStar(); refreshStars();
+  earnReward();
   $('#gemsRow').innerHTML = Array.from({length:STEPS}, (_,k) => gemSVG(k+1)).join('');
   $('#starsRow').textContent = stars <= 20 ? '⭐'.repeat(stars) : '⭐'.repeat(20) + ' ×' + stars;
   setTimeout(() => {
     if(my !== round) return;
     show('win');
+    showReward();
     say([N("Bravo, ma championne !"), 250, N("Tu as trouvé les vingt cristaux magiques !")]);
   }, 2600);
 }
