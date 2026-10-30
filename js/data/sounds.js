@@ -62,7 +62,7 @@ const EXPERTS = [
   S('ai','EH','ait', 'l[ai]t 🥛|r[ai]sin 🍇|m[ai]son 🏠|fr[ai]se 🍓|[ai]gle 🦅|ch[ai]se 🪑|bal[ai] 🧹'),
   S('ph','F',null,   '[ph]oque 🦭|[ph]oto 📷|dau[ph]in 🐬|élé[ph]ant 🐘|télé[ph]one 📱'),
   S('qu','K',null,   '[qu]ille 🎳|re[qu]in 🦈|co[qu]illage 🐚|[qu]atre 4️⃣|mas[qu]e 🎭'),
-  S('gn','GN',null,  'monta[gn]e ⛰️|cy[gn]e 🦢|a[gn]eau 🐑|arai[gn]ée 🕷️|pei[gn]e 🪮|li[gn]e 📏|ba[gn]oire 🛁|vi[gn]e 🍇|poi[gn]et ✋|tro[gn]on 🍎'),
+  S('gn','GN',null,  'monta[gn]e ⛰️|cy[gn]e 🦢|a[gn]eau 🐑|arai[gn]ée 🕷️|pei[gn]e 🪮|li[gn]e 📏|bai[gn]oire 🛁|vi[gn]e 🍇|poi[gn]et ✋|tro[gn]on 🍎'),
   S('ill','ILL',null,'chen[ill]e 🐛|gor[ill]e 🦍|pap[ill]on 🦋|f[ill]e 👧|qu[ill]e 🎳|coqu[ill]age 🐚|citrou[ill]e 🎃|b[ill]e 🔮|van[ill]e 🍦|jonqu[ill]e 🌼|fam[ill]e 👨‍👩‍👧|br[ill]er ✨'),
   S('ein','IN','hein','c[ein]ture 🥋|p[ein]ture 🎨|fr[ein] 🚲|pl[ein] 🪣|t[ein]ture 🎨|p[ein]tre 🧑‍🎨'),
   S('ien','YIN','ien','ch[ien] 🐕|b[ien] 👍|r[ien] 🚫|music[ien] 🎵|magic[ien] 🧙|coméd[ien] 🎭|pharmac[ien] 💊'),
