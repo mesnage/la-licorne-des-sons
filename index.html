@@ -11,6 +11,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/words.css">
 </head>
 <body>
 
@@ -36,6 +37,9 @@
     <button class="lvl candy c-coral x3d" data-level="experts"><span class="ic">🔮</span>Sons experts<small>eau · ain · ph · gn · ill…</small></button>
     <button class="lvl wide candy c-sun x3d" data-level="tout"><span class="ic">✨</span><span>Tout mélangé<small>tous les sons</small></span></button>
   </div>
+  <button id="wordActivityOpen" class="word-activity-entry candy c-aqua">
+    <span aria-hidden="true">📖</span><span>Trouve le mot !<small>Une nouvelle aventure avec des mots entiers</small></span>
+  </button>
   <nav class="reward-menu" aria-label="Mes récompenses">
     <button id="rewardPending" class="candy c-white">🎁 Mes cadeaux du jour</button>
     <button id="savingsOpen" class="candy c-pink" aria-label="Ouvrir ma tirelire">🐷 Ma tirelire</button>
@@ -84,6 +88,45 @@
     <button class="big-btn candy c-pink x3d" id="againBtn">Rejouer 🔁</button>
     <button class="big-btn candy c-lilac x3d" id="menuBtn">Autre aventure 🦄</button>
   </div>
+</section>
+
+<!-- Independent word-reading activity: no changes to the five phonics modes. -->
+<section class="screen word-screen" id="wordLevels" aria-labelledby="wordLevelsTitle">
+  <div class="word-topbar"><button id="wordLevelsHome" class="icon-btn candy c-white" aria-label="Retour à l’accueil">🏠</button><span>Le jardin des mots</span></div>
+  <div class="word-intro-icon" aria-hidden="true">📖</div>
+  <h1 id="wordLevelsTitle">Trouve le mot !</h1>
+  <p class="word-intro">Écoute, regarde les lettres<br>et fais avancer Paillette.</p>
+  <div id="wordLevelButtons" class="word-level-buttons"></div>
+  <p class="word-gentle-note">10 mots, à ton rythme. Tu peux toujours réessayer.</p>
+  <details class="word-practice"><summary>Pour les grands : les progrès</summary><div id="wordPractice"></div><p>Trois réussites de suite du premier coup : un mot bien reconnu. Les mots difficiles reviennent plus souvent.</p></details>
+  <p class="word-storage-note"></p>
+</section>
+<section class="screen word-screen" id="wordPlay" aria-labelledby="wordPlayTitle">
+  <div class="word-topbar">
+    <button id="wordPlayBack" class="icon-btn candy c-white" aria-label="Choisir un niveau">←</button>
+    <div><span id="wordLevelName"></span><strong id="wordQuestionNumber">Mot 1 sur 10</strong></div>
+  </div>
+  <div id="wordProgress" role="progressbar" aria-label="Les pas de Paillette" aria-valuemin="0" aria-valuemax="10" aria-valuenow="0">
+    <div id="wordGarden" class="word-garden" aria-hidden="true"><span class="word-garden-flower">🌷</span><div id="wordGardenUnicorn"></div><span class="word-garden-tree">🌳</span><div id="wordStones"></div></div>
+  </div>
+  <div class="word-instructions">
+    <h1 id="wordPlayTitle">Trouve le mot !</h1>
+    <button id="wordSpeaker" class="word-speaker candy c-pink"><span aria-hidden="true">🔊</span> Réécouter</button>
+  </div>
+  <p id="wordAudioStatus" role="status" aria-live="polite"></p>
+  <div id="wordChoices" class="word-choices" role="group" aria-label="Choisis le mot que tu entends"></div>
+  <p id="wordFeedback" class="word-feedback" role="status" aria-live="polite"></p>
+  <p class="word-storage-note"></p>
+</section>
+<section class="screen word-screen" id="wordFinish" aria-labelledby="wordFinishTitle">
+  <p class="word-finish-garden">🌷 Le jardin des mots 🌷</p>
+  <div id="wordFinishUnicorn" aria-hidden="true"></div>
+  <h1 id="wordFinishTitle" tabindex="-1">Bravo !</h1>
+  <p id="wordScore" class="word-score"></p>
+  <p id="wordFinishNote"></p>
+  <button id="wordReplaySession" class="big-btn candy c-pink">Rejouer</button>
+  <button id="wordChooseLevel" class="big-btn candy c-aqua">Choisir un niveau</button>
+  <p class="word-storage-note"></p>
 </section>
 
 <dialog id="rewardsDialog" class="reward-dialog" aria-labelledby="rewardTitle">

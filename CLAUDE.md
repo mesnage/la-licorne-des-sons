@@ -8,12 +8,14 @@ Cloudflare Pages. The owner speaks French; all game text and voice are in French
 - `npm run dev` — local server on :8080 (modules don't work from file://)
 - `npm run check` — data, audio coverage and card rules (must pass before every commit)
 - `npm run lint` — ESLint no-undef etc.
+- `npm test` — reward accounting and word-game selection/scoring/progression/voice tests.
+- `python3 tools/test-words-browser.py` — optional word-game integration tests with a local server and Python Playwright.
 - `python3 tools/voice/build_voice.py [--list|--redo KEYS|--prune|--no-verify]` — generate missing voice clips
 - Open the game with `?debug` → `window.__game.right()` / `window.__game.step()` for automated tests.
 - On the owner's Mac, Anaconda's git segfaults on push: run `conda deactivate` or use `/usr/bin/git`.
 
 ## Hard-won rules (do not regress)
-1. **Never use the device's speech synthesis (Web Speech API).** It read French text with English voices and was unreliable
+1. **For the five original phonics modes, never use the device's speech synthesis (Web Speech API).** It read French text with English voices and was unreliable
    on iOS. Every spoken line is a pre-recorded MP3 in `audio/`, referenced by key in `audio/manifest.json`.
    Phrases are written in code as `N("…")` (narrator) / `U("…")` (Paillette, pitched up); `tools/voice/build_voice.py`
    and `tools/check.mjs` find them by regex, so keep them as literal strings with double or single quotes,
@@ -38,3 +40,13 @@ Cloudflare Pages. The owner speaks French; all game text and voice are in French
 ## Owner's wishes so far
 Cute, funny, "Pixar-like" look (within the performance limits above), unicorn theme, French voice from France,
 20 steps, many words so it doesn't repeat, simple and reliable above all.
+
+## Trouve le mot ! (separate whole-word activity)
+The user explicitly requested French synthetic speech with future MP3 replacement for this new module only.
+`js/words/voice.js` uses a French-only voice at rate 0.8, cancels previous playback, prefers optional full-prompt MP3s,
+and never reveals the target in a failure message. Keep the original phonics audio rules above intact.
+Vocabulary and levels: `js/data/words.js`. Homophones added later must share `soundGroup`.
+The module has ten questions, retry without punishment, first-try scoring and a separate garden for Paillette.
+Progress is local (`licorne.words.v1`); missed words are weighted more heavily in later sessions.
+Scoped styles: `css/words.css`. Do not use the original `.lvl` class for new level buttons: the phonics initializer binds it.
+Automated browser speech is mocked; listen on a real French-voice device before release.

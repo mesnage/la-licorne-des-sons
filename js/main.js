@@ -6,6 +6,7 @@ import { initScene } from './scene.js';
 import { initGame } from './game.js';
 import './audio.js';
 import { initRewards } from './rewards.js';
+import { initWordGame } from './words/game.js';
 
 $('#homeUni').innerHTML = unicornSVG();
 $('#gameUni').innerHTML = unicornSVG();
@@ -14,4 +15,5 @@ $('#winUni .uni').classList.add('happy');
 initScene();
 initGame(mountWorld());
 initRewards();
+initWordGame();
 window.__licorneOK = true;

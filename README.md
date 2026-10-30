@@ -202,3 +202,91 @@ for (let i = 0; i < 20; i++) {
 Le test navigateur optionnel complète les cinq aventures et vérifie la roue, la sauvegarde et les retraits à 390 × 844 :
 avec le serveur en marche, Python Playwright et Chromium installés, lancer `python3 tools/test-rewards-browser.py`.
 Le script utilise `/usr/bin/chromium` et écrit deux captures dans `/workspace/scratch/` dans l’environnement cloud.
+
+## 📖 Trouve le mot ! — Le jardin des mots
+
+Une activité indépendante pour reconnaître des **mots entiers**, accessible par « Trouve le mot ! » sur l’accueil.
+Les cinq aventures de lettres et sons restent inchangées, ainsi que leurs voix enregistrées et leurs récompenses.
+
+- Trois niveaux, avec 44 mots et expressions au départ. Chaque partie propose **10 questions** et quatre cartes.
+- Toucher « Réécouter » pour réentendre « Trouve le mot… maison ! ». Regarder les lettres, puis choisir le mot.
+- Une erreur permet simplement de réessayer. La bonne carte devient verte, affiche ✓ et fait apparaître Paillette.
+- Paillette traverse un nouveau petit jardin, un pas par mot trouvé. Pas de chronomètre ni de retour en arrière.
+- Le résultat compte les mots trouvés **du premier coup** : après deux questions avec une erreur, le résultat est
+  « 8 mots sur 10 du premier coup ». Les dix mots sont finalement réussis, ce que le message final rappelle.
+- « Rejouer » lance une nouvelle partie ; « Choisir un niveau » revient aux trois niveaux.
+
+Les mots sont introduits dans l’ordre du fichier : jusqu’à six mots encore inconnus entrent dans les cibles à chaque
+nouvelle partie, en plus des mots déjà rencontrés. Les mots manqués reviennent plus souvent dans les parties suivantes.
+Trois réussites consécutives du premier coup indiquent une reconnaissance régulière ; ces mots restent révisés, moins
+souvent. Un même mot n’est jamais la cible de deux questions consécutives, y compris en rejouant dans la même visite.
+La progression complète par mot reste dans `licorne.words.v1`, sur cet appareil et dans ce navigateur, sans compte ni
+backend. Une erreur est mémorisée même si l’enfant quitte la partie avant de réussir le mot. Le volet « Pour les grands »
+montre les mots reconnus et ceux à revoir. Effacer les données du site efface ce suivi. Un message signale une sauvegarde
+bloquée ; le jeu continue alors à suivre les progrès pendant la visite.
+
+### Écouter et remplacer les voix
+
+**Pour cette nouvelle activité seulement**, une voix de synthèse française du navigateur est utilisée, à vitesse 0,8.
+Une voix locale de France est privilégiée, puis une autre voix française. Aucune voix anglaise n’est utilisée en secours.
+Sur un iPad/iPhone/Mac, vérifier qu’une voix française est disponible et que le volume est activé. Si la voix n’est pas
+encore chargée, toucher de nouveau « Réécouter ». Si aucun son français ne fonctionne, un message invite à faire activer
+une voix française par un adulte, sans jamais afficher la réponse dans le message.
+
+La qualité et la disponibilité de la voix dépendent du système et du navigateur. La voix locale est privilégiée ;
+une voix fournie à distance par le navigateur peut nécessiter Internet. Le jeu n’envoie aucune donnée de progression.
+Tester l’écoute sur l’appareil de l’enfant avant utilisation. Les tests automatisés vérifient les appels vocaux et leur
+annulation avec une voix simulée ; ils ne valident pas la qualité audible des voix Safari/iPad.
+
+Le vocabulaire est dans **`js/data/words.js`**, les règles dans `js/words/model.js`, le suivi dans `progress.js`, les voix
+dans `voice.js`, l’interface dans `game.js` et les styles dans `css/words.css`. Aucun outil de compilation n’est nécessaire.
+Pour ajouter un mot, ajouter par exemple à `WORDS` :
+
+```js
+word('fleur', 'fleur', 2, { audio: 'audio/mots/fleur.mp3' }),
+```
+
+`audio` est facultatif. Le MP3 doit contenir **la consigne entière**, par exemple « Trouve le mot… fleur ! »,
+avec une voix française claire. Les enregistrements sont lus à vitesse 0,9 et sont prioritaires sur la synthèse.
+Si un fichier ne peut pas être lu, le jeu essaie la voix française. Chaque nouvel appui annule la lecture précédente.
+`speech` peut préciser une prononciation, comme « Léna » pour la carte « lena ». Les prénoms s’affichent en minuscules,
+comme les autres cartes, pour cet exercice. Ajouter des niveaux dans `WORD_LEVELS` et les mots correspondants dans `WORDS`.
+Prévoir au moins quatre mots de prononciations différentes par niveau.
+
+Donner **le même `soundGroup` aux homophones** lors de l’ajout de vocabulaire. Par exemple :
+
+```js
+word('et', 'et', 1, { soundGroup: 'eh' }),
+word('est', 'est', 1, { soundGroup: 'eh' }),
+```
+
+Le générateur évite alors de les proposer dans la même question, y compris comme deux fausses réponses. Les doublons
+écrits sont également exclus. La liste initiale ne contient aucune paire homophone. Ce module complète le décodage :
+il invite à observer chaque lettre et ne remplace pas les activités de lettres et sons.
+
+### Tester cette branche sur votre Mac, sans changer le site principal
+
+Dans Terminal, **depuis le dossier du projet**, lancer :
+
+```bash
+cd ~/la-licorne-des-sons
+git fetch origin
+git switch feature/trouve-le-mot
+npm run dev
+```
+
+Ouvrir `http://localhost:8080/`, puis « 📖 Trouve le mot ! ». Si le projet est rangé ailleurs, adapter la commande `cd`.
+Cette prévisualisation est locale et ne modifie pas la branche `main`. Pour arrêter le serveur : Ctrl+C.
+
+Vérifications : `npm run check`, `npm run lint`, `npm test`. Le test navigateur facultatif nécessite Python Playwright,
+Chromium et le serveur local en marche :
+
+```bash
+python3 tools/test-words-browser.py
+# ou pour enregistrer les captures d’écran :
+python3 tools/test-words-browser.py --screenshots /tmp/licorne-mots
+```
+
+Le script accepte `--url` pour une autre adresse du serveur et `--chromium` pour un autre chemin de Chromium.
+Il vérifie les trois niveaux, les essais, le score, le suivi après rechargement, les cinq anciens modes, les tailles
+phone/tablette et les chemins audio indisponibles. L’écoute reste à vérifier manuellement sur les appareils réels.
