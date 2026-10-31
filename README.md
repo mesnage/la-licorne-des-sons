@@ -1,15 +1,16 @@
 # 🦄 La Licorne des Sons
 
-Jeu de lecture en français pour les enfants de 4 à 7 ans. Paillette la licorne traverse 7 mondes en 20 étapes :
-à chaque étape, l'enfant entend une lettre ou un son (« Trouve la lettre, M ! … Comme dans, moto ! ») et choisit
-la bonne carte parmi trois. Une erreur fait glisser Paillette sur une peau de banane jusqu'au début du monde.
+Jeu de lecture en français pour les enfants de 4 à 7 ans. Toutes les activités utilisent maintenant l’aventure
+Phaser : Paillette marche vers le château et libère un cristal à chaque bonne réponse. Un monde contient dix
+cristaux et un refuge à cinq. Une erreur ramène au refuge s’il est atteint, sinon au début du monde en cours.
+Les parties de lettres et sons comportent vingt cristaux, les trois niveaux de mots dix.
 
 - 58 lettres et graphèmes, toutes les consonnes de l’alphabet, Y et Ç, 495 mots illustrés ;
 - cartes en majuscules **et** minuscules ;
 - jamais deux « e » (e, é, è, eu, en, eau) sur les cartes : un « e » est toujours présenté avec deux autres voyelles ;
-- voix française enregistrée (aucune voix de synthèse de l'appareil, donc jamais d'anglais).
+- voix française enregistrée pour les lettres et sons ; voix française uniquement pour les mots (voir ci-dessous).
 
-Site 100 % statique, **sans étape de compilation** : du HTML, du CSS et des modules JavaScript natifs.
+Site 100 % statique, **sans étape de compilation** : HTML, CSS, modules JavaScript et Phaser 4.2.1 fourni avec le jeu.
 
 ---
 
@@ -185,25 +186,24 @@ et Chromium sont nécessaires pour ces tests navigateur.
 ## 📖 Trouve le mot ! — Le château des mots
 
 Une activité indépendante pour reconnaître des **mots entiers**, accessible par « Trouve le mot ! » sur l’accueil.
-Les cinq aventures de lettres et sons conservent leurs règles et leurs voix enregistrées. Toutes les activités partagent
+Les cinq aventures de lettres et sons conservent leur contenu et leurs voix enregistrées. Toutes les activités partagent
 la roue des cadeaux, sans tirelire ni argent.
 
 - Trois niveaux, avec 44 mots et expressions au départ. Chaque partie propose **10 questions** et quatre cartes.
 - Toucher « Réécouter » pour réentendre « Trouve le mot… maison ! ». Regarder les lettres, puis choisir le mot.
-- Une erreur permet simplement de réessayer. La bonne carte devient verte, affiche ✓ et fait apparaître Paillette.
-- Paillette traverse les mêmes sept mondes que dans les autres activités : elle saute, collecte dix cristaux et rejoint
-  le château de cristal. Le décor, la caméra et les animations sont partagés. Pas de chronomètre ni de retour en arrière.
-- Le résultat compte les mots trouvés **du premier coup** : après deux questions avec une erreur, le résultat est
-  « 8 mots sur 10 du premier coup ». Les dix mots sont finalement réussis, ce que le message final rappelle.
+- Une erreur ramène au dernier refuge ou au début du monde. La bonne carte devient verte et affiche ✓ avant le trajet.
+- Paillette collecte dix cristaux dans le monde en cours et rejoint le château. Les mondes changent tous les dix
+  cristaux et les voyages suivants découvrent les décors suivants. Le refuge protège les cinq premiers cristaux.
+- Le résultat célèbre les cristaux réunis. Les réponses répétées après un retour au refuge ne gonflent ni le score
+  interne ni le nombre de réussites utilisé pour le suivi des mots.
 - « Rejouer » lance une nouvelle partie ; « Choisir un niveau » revient aux trois niveaux.
 
 Les mots sont introduits dans l’ordre du fichier : jusqu’à six mots encore inconnus entrent dans les cibles à chaque
 nouvelle partie, en plus des mots déjà rencontrés. Les mots manqués reviennent plus souvent dans les parties suivantes.
 Trois réussites consécutives du premier coup indiquent une reconnaissance régulière ; ces mots restent révisés, moins
-souvent. Un même mot n’est jamais la cible de deux questions consécutives, y compris en rejouant dans la même visite.
+souvent. La génération évite deux cibles consécutives identiques ; un retour au refuge fait revisiter les questions perdues.
 La progression complète par mot reste dans `licorne.words.v1`, sur cet appareil et dans ce navigateur, sans compte ni
-backend. Une erreur est mémorisée même si l’enfant quitte la partie avant de réussir le mot. Le volet « Pour les grands »
-montre les mots reconnus et ceux à revoir. Effacer les données du site efface ce suivi. Un message signale une sauvegarde
+backend. Une erreur est mémorisée même si l’enfant quitte la partie avant de réussir le mot. Le suivi de reconnaissance régulière et des mots à revoir reste enregistré localement. Effacer les données du site efface ce suivi. Un message signale une sauvegarde
 bloquée ; le jeu continue alors à suivre les progrès pendant la visite.
 
 ### Écouter et remplacer les voix
@@ -291,3 +291,64 @@ l’appareil de l’enfant. Ils ont été générés avec la voix française du 
 Les modèles et l’environnement Python de génération ne sont pas des dépendances du jeu statique.
 `npm run check` vérifie les 641 audios nécessaires et 18 870 tirages des cartes ; `npm test` couvre aussi la
 présence de toutes les consonnes, le surlignage des nouveaux mots et les dix étapes vers le château.
+
+## L’aventure principale — mondes, refuges et gags
+
+Sur la branche **`prototype/immersive-worlds`**, **`index.html` est l’entrée principale** pour tous les modules.
+L’ancienne adresse `prototype.html` redirige vers cette entrée. `classic.html` garde les activités précédentes comme
+solution de secours, accessible si le moteur ne peut pas démarrer.
+
+Les sept thèmes sont la prairie, la forêt des lucioles, les bonbons, le lagon, les glaces, les nuages et le passage des
+étoiles. **Chaque monde compte dix cristaux**, avec un drapeau-refuge au cinquième. Les vingt cristaux d’une partie
+phonologique traversent deux mondes ; une partie de dix mots traverse un monde. Le nombre de mondes terminés est gardé
+localement dans `licorne.adventure.v1`, pour varier le prochain décor même en changeant de module. Ce compteur ne
+contient aucune information sur l’enfant.
+
+**Une erreur protège le chemin déjà validé :** avant le cinquième cristal, Paillette revient au départ de ce monde ;
+à partir de cinq, elle revient au refuge. Les cristaux gagnés depuis ce point réapparaissent et doivent être retrouvés.
+Exemples : 4 → 0, 8 → 5, 14 → 10 et 19 → 15. Le monde précédent n’est jamais perdu. Une glissade arc-en-ciel accompagne
+le retour. La progression des mots distingue les questions déjà réussies pour ne pas compter deux fois les réponses
+rejouées. Chaque voyage terminé offre toujours un seul tour de roue.
+
+Pendant le trajet, Paillette fait des prouts colorés, glisse sur un arc-en-ciel, rebondit et fait apparaître un chapeau
+magique. Les réponses sont plus grandes : lettres en deux lignes majuscule/minuscule et grands mots, avec une disposition
+sur une colonne sur les petits téléphones si nécessaire. Les effets restent calmes pendant la lecture des questions,
+et la préférence système « Réduire les animations » est respectée.
+
+Le moteur Phaser 4.2.1 est fourni dans `vendor/phaser/` avec sa licence MIT et sa provenance vérifiée. Les sept panoramas
+sont chargés à demi-résolution pour limiter la mémoire graphique. WebGL est utilisé quand il est disponible, avec un
+rendu Canvas de secours (`?debug&renderer=canvas`). Les réponses restent des boutons HTML accessibles au toucher et au
+clavier. Les voix de lettres/sons restent les MP3 français du projet ; le système de voix des mots est réutilisé.
+
+Pour tester sur votre Mac, arrêter l’ancien serveur avec Ctrl+C, puis dans Terminal :
+
+```bash
+cd ~/la-licorne-des-sons
+git fetch origin
+git switch prototype/immersive-worlds
+git pull --ff-only
+npm run dev
+```
+
+Ouvrir **`http://localhost:8080/`**. Choisir n’importe quelle activité. Vérifier les retours avant/après le refuge,
+le changement de monde au dixième cristal et les gags du trajet. Les refuges valent pour le voyage en cours ; choisir
+une autre activité ou recharger la page recommence une partie. Les progrès des mots, cadeaux et décors terminés restent
+sauvegardés. Ce test local ne modifie pas la branche `main`.
+
+Code : `js/prototype/model.js` définit les mondes et les refuges ; `world.js` anime le trajet Phaser ; `art.js` crée les
+textures SVG ; `app.js` relie les modules et les panneaux. `AdventureSession` ajoute le retour au refuge au modèle de
+questions partagé. Les interfaces de secours conservent leur logique indépendante.
+
+Vérifications : `npm test`, `npm run check`, `npm run lint`. Avec le serveur, Python Playwright et Chromium dans
+l’environnement cloud :
+
+```bash
+python3 tools/test-prototype-browser.py
+python3 tools/test-checkpoints-browser.py --screenshots /tmp/paillette-refuges
+```
+
+Ces tests couvrent les huit choix de niveau, les refuges dans deux mondes, la remise en jeu des cristaux perdus,
+les crédits uniques et récompenses, les quatre gags avec leurs vraies animations, les gros mots/graphèmes sur
+phone/tablette et les retours au menu pendant une glissade. Les scripts `test-words-browser.py` et
+`test-rewards-browser.py` vérifient les activités de secours sur `classic.html`.
+L’écoute et la fluidité sur de vrais appareils Safari/iPad restent à vérifier sur ces appareils.

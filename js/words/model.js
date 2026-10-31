@@ -41,16 +41,10 @@ export function makeQuestion(target, pool, random = Math.random){
   if(choices.length !== 4) throw new Error('A level needs at least four distinguishable words');
   return { target, choices: shuffle(choices, random) };
 }
-export class WordSession {
-  constructor(words, level, stats = {}, random = Math.random, previousId){
-    const pool = introducedPool(words, level, stats);
-    this.questions = [];
-    let previous = previousId;
-    for(let i = 0; i < SESSION_LENGTH; i++){
-      const target = chooseTarget(pool, stats, previous, random);
-      this.questions.push(makeQuestion(target, pool, random));
-      previous = target.id;
-    }
+export class QuestionSession {
+  constructor(questions){
+    if(!questions.length) throw new Error('A session needs questions');
+    this.questions = questions;
     this.index = 0; this.score = 0; this.missed = false; this.phase = 'question';
   }
   get current(){ return this.questions[this.index]; }
@@ -69,7 +63,21 @@ export class WordSession {
   next(){
     if(this.phase !== 'feedback') return false;
     this.index++; this.missed = false;
-    this.phase = this.index === SESSION_LENGTH ? 'finished' : 'question';
+    this.phase = this.index === this.questions.length ? 'finished' : 'question';
     return true;
+  }
+}
+
+export class WordSession extends QuestionSession {
+  constructor(words, level, stats = {}, random = Math.random, previousId){
+    const pool = introducedPool(words, level, stats);
+    const questions = [];
+    let previous = previousId;
+    for(let i = 0; i < SESSION_LENGTH; i++){
+      const target = chooseTarget(pool, stats, previous, random);
+      questions.push(makeQuestion(target, pool, random));
+      previous = target.id;
+    }
+    super(questions);
   }
 }

@@ -34,7 +34,8 @@ Cloudflare Pages. The owner speaks French; all game text and voice are in French
 6. **Card rules** (enforced by `npm run check`): never two "e"-family cards (e, é, è, eu, en, eau); an "e" card is always
    shown with two non-e vowels; never two cards with the same pronounced sound (`p` field, e.g. an/en, o/au/eau, c/k/qu);
    a wrong option is never a grapheme or sound contained in the target word.
-7. A mistake sends Paillette back to the start of the current world (`WORLD_STARTS`), with a banana-slip animation.
+7. Main adventure: each world has ten crystals and a refuge at five. Mistakes return to that refuge or the current
+   world start. Classic fallback retains its previous WORLD_STARTS/banana behavior.
 8. Cards show both cases ("M m"). Each sound has ≥4 words; the game rotates words using `licorne.seen.v1` in localStorage.
 
 ## Owner's wishes so far
@@ -46,7 +47,7 @@ The user explicitly requested French synthetic speech with future MP3 replacemen
 `js/words/voice.js` uses a French-only voice at rate 0.8, cancels previous playback, prefers optional full-prompt MP3s,
 and never reveals the target in a failure message. Keep the original phonics audio rules above intact.
 Vocabulary and levels: `js/data/words.js`. Homophones added later must share `soundGroup`.
-The module has ten questions, retry without punishment, first-try scoring and the shared castle/crystal journey for Paillette.
+The word module has ten questions and now uses the same adventure checkpoint rules as the phonics modules.
 Progress is local (`licorne.words.v1`); missed words are weighted more heavily in later sessions.
 Scoped styles: `css/words.css`. Do not use the original `.lvl` class for new level buttons: the phonics initializer binds it.
 Automated browser speech is mocked; listen on a real French-voice device before release.
@@ -59,3 +60,15 @@ Phonics vocabulary: 58 graphemes and 495 unique illustrated words; 641 recorded 
 consonants plus Y, CH and Ç. The word module reuses the SAME #scene through js/words/journey.js, mapping ten
 questions onto every second original stop. Restore the stage and show all twenty gems when leaving the module;
 do not mount a second world with duplicate SVG gradient IDs. Words retain retry without losing crystals.
+
+## Main Phaser adventure
+`index.html` now serves the Phaser 4.2.1 adventure for all modules on prototype/immersive-worlds. `prototype.html`
+is a compatibility redirect; `classic.html` holds the old interface for engine-failure recovery only.
+The seven themes change every ten crystals, with a protected refuge at five. Mistakes roll back only to that refuge
+or the current world's start. Completed-world variety is persisted in licorne.adventure.v1 across modules.
+AdventureSession tracks unique question credit, so replaying lost crystals cannot inflate mastery or reward spins.
+Twenty-crystal phonics sessions cover two worlds; ten-word sessions cover one. Gags rotate through colored prouts,
+rainbow slides, trampoline bounces and a magic hat. Answers use enlarged responsive typography.
+Engine license/checksum provenance remains under vendor/phaser; no runtime CDN/build dependency.
+Run tools/test-prototype-browser.py and tools/test-checkpoints-browser.py with the local server for the main game.
+The existing words/rewards browser scripts target classic.html. Real Safari/iPad listening/performance need device review.
