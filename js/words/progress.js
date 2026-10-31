@@ -26,6 +26,7 @@ export function createWordProgress(storage){
   return {
     snapshot(){ load(); return JSON.parse(JSON.stringify(stats)); },
     get persistent(){ return persistent; },
+    reset(){stats={};save();},
     miss(id){ update(id, s => { s.misses++; s.streak = 0; }); },
     complete(id, firstTry){ update(id, s => {
       s.completed++;

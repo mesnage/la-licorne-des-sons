@@ -1,7 +1,7 @@
 /* The Phaser prototype is a separate entry point. The classic activities keep their own layout. */
 body.prototype{background:#cee2df;color:#394850;font-family:'Fredoka',ui-rounded,'Trebuchet MS',system-ui,sans-serif;min-height:100dvh;overflow:hidden;user-select:none}
 .prototype [hidden]{display:none!important}
-#adventureWorld{position:fixed;inset:0;width:100%;height:100%;z-index:0}
+#adventureWorld{overflow:hidden;position:fixed;inset:0;width:100%;height:100%;z-index:0}
 #adventureWorld canvas{display:block}
 .prototype main{position:relative;z-index:2;pointer-events:none}
 .prototype button,.prototype a,.prototype dialog{pointer-events:auto}
@@ -11,7 +11,7 @@ body.prototype{background:#cee2df;color:#394850;font-family:'Fredoka',ui-rounded
 .adventure-brand>span{font-size:26px;color:#bf8a5d;vertical-align:middle;margin-right:8px}
 .world-name{border:1px solid #fff9;border-radius:30px;background:#fff8edc9;box-shadow:0 4px 20px #324a5310;backdrop-filter:blur(10px);padding:10px 18px;font-size:14px}
 .adventure-icon{width:48px;height:48px;flex:none;border:1px solid #fff;border-radius:50%;background:#fff7e6;font-size:28px;box-shadow:0 3px 0 #c6c4b9}
-.adventure-menu{pointer-events:auto;width:min(800px,calc(100% - 40px));margin:100px auto 30px;padding:32px 40px 22px;text-align:center;background:linear-gradient(140deg,#fff9edeb,#f7f0f4e6);border:1px solid #ffffffdb;border-radius:36px;box-shadow:0 20px 75px #314d4c30;backdrop-filter:blur(12px)}
+.adventure-menu{pointer-events:auto;width:min(800px,calc(100% - 40px));margin:100px auto 30px;padding:32px 40px 22px;max-height:calc(100dvh - 120px);overflow-y:auto;text-align:center;background:linear-gradient(140deg,#fff9edeb,#f7f0f4e6);border:1px solid #ffffffdb;border-radius:36px;box-shadow:0 20px 75px #314d4c30;backdrop-filter:blur(12px)}
 .adventure-eyebrow{display:block;font-size:10px;font-weight:700;letter-spacing:2px;color:#8b716b;margin:0 0 12px}
 .adventure-menu h1{font-family:Georgia,serif;font-size:clamp(42px,5vw,68px);font-weight:500;line-height:.98;color:#53675c;letter-spacing:-2px;margin:10px 0 18px}
 .adventure-intro{font-size:16px;line-height:1.6;color:#66716e;margin:0 0 25px}
@@ -60,9 +60,6 @@ body.prototype{background:#cee2df;color:#394850;font-family:'Fredoka',ui-rounded
 .adventure-level-dialog{width:min(500px,calc(100% - 24px));max-height:calc(100dvh - 24px);overflow:auto;border:1px solid #fff;border-radius:30px;background:#fff8ef;color:#4e6259;padding:48px 26px 24px;text-align:center}
 .adventure-level-dialog::backdrop{background:#28454177;backdrop-filter:blur(6px)}
 .adventure-level-dialog h2{font-family:Georgia,serif;font-weight:500;font-size:30px}
-#adventureWordLevels{display:grid;gap:15px}
-#adventureWordLevels button{min-height:76px;border:1px solid #fff;border-radius:20px;background:#e6e4ef;padding:16px;font-size:18px;text-align:left;box-shadow:0 3px 0 #c7c4d9}
-#adventureWordLevels small{display:block;font-size:12px;margin-top:6px}
 .adventure-storage{position:fixed;bottom:2px;left:16px;right:16px;text-align:center;font-size:11px;color:#654f3e;background:#fff8dcdf;border-radius:10px;line-height:1.4;pointer-events:none}
 .adventure-storage:empty{display:none}
 @keyframes gentle-retry{25%{transform:translateX(-4px)}50%{transform:translateX(4px)}75%{transform:translateX(-2px)}}
@@ -113,3 +110,28 @@ body.prototype{background:#cee2df;color:#394850;font-family:'Fredoka',ui-rounded
  .adventure-choices.words .adventure-answer{font-size:29px;min-height:72px}
  .adventure-choices.words .adventure-answer.long{font-size:25px}
 }
+.adventure-help{text-align:left;margin-top:12px;font-size:12px;line-height:1.65;color:#596d64}
+.adventure-help summary{cursor:pointer;min-height:44px;display:flex;align-items:center;justify-content:center;text-decoration:underline;text-underline-offset:4px}
+.adventure-help p{margin:8px 0}
+.adventure-pause p{font-size:17px;line-height:1.6}
+.adventure-pause small{display:block;font-size:12px;line-height:1.6;margin-top:16px}
+@media(orientation:landscape) and (max-height:600px){
+ .adventure-walking{left:auto;right:18px;bottom:18px;transform:none;width:min(390px,calc(100% - 260px));font-size:13px;padding:12px 16px}
+}
+/* A consistent illustrated alphabet of objects, independent of platform emoji. */
+.illustration{display:inline-block;width:1.6em;height:1.6em;vertical-align:middle;flex:none}
+.world-name{display:flex;align-items:center;gap:6px}
+.world-name>.illustration{width:21px;height:21px}
+.module-icon .illustration{width:40px;height:40px}
+.adventure-menu{background:linear-gradient(140deg,#faf6e9f2,#f0ede4eb)}
+.adventure-menu-footer{flex-wrap:wrap;justify-content:center;gap:4px 20px}
+.adventure-menu-footer>span{flex-basis:100%}
+@media(max-width:600px){
+ .adventure-menu-footer .adventure-text-button{min-height:44px;font-size:12px}
+ .module-icon .illustration{width:34px;height:34px}
+ .world-name{gap:3px}
+ .world-name>.illustration{width:16px;height:16px}
+}
+/* Every activity and word level is a direct choice in the same menu grid. */
+.adventure-module[data-word-level] small{font-size:12px}
+@media(max-width:600px){.adventure-module[data-word-level] small{font-size:11px}}

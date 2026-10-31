@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { WORDS, WORD_LEVELS } from '../js/data/words.js';
 import { WordSession, makeQuestion, chooseTarget, introducedPool, practiceWeight, mastered } from '../js/words/model.js';
 import { createWordProgress, WORD_PROGRESS_KEY } from '../js/words/progress.js';
-import { createWordVoice, frenchVoice } from '../js/words/voice.js';
+import { createWordVoice } from '../js/words/voice.js';
 
 function seeded(seed = 12345){
   return () => { seed = (1664525 * seed + 1013904223) >>> 0; return seed / 4294967296; };
@@ -17,7 +17,7 @@ test('all requested words are editable, uniquely identified and lowercase across
   assert.ok(WORDS.length >= 44);
   assert.equal(new Set(WORDS.map(w => w.id)).size, WORDS.length);
   assert.ok(WORD_LEVELS.every(l => WORDS.filter(w => w.level === l.id).length >= 4));
-  for(const w of WORDS){ assert.equal(w.text, w.text.toLocaleLowerCase('fr')); assert.ok(w.id); }
+  for(const w of WORDS){ assert.equal(w.text, w.text.toLocaleLowerCase('fr')); assert.ok(w.id); assert.equal(w.audioKey,'W:'+w.id); }
   for(const text of ['lena','léon','aujourd’hui','parce que','prout']) assert.ok(WORDS.some(w => w.text === text));
 });
 test('question generation: four unique same-level choices, one target, shuffled positions', () => {
@@ -114,63 +114,31 @@ test('malformed, unavailable and full storage do not prevent learning during the
     assert.equal(p.persistent,false);
   }
 });
-function voiceHost(voices){
-  let timer = 0;
-  const spoken = [], audios = [], events = new Map(), timers = new Map();
-  const host = {
-    setTimeout(fn){timers.set(++timer,fn);return timer;}, clearTimeout(id){timers.delete(id);},
-    SpeechSynthesisUtterance: class { constructor(text){this.text=text;} },
-    Audio: class {
-      constructor(url){this.url=url;this.paused=true;audios.push(this);}
-      play(){this.paused=false;return Promise.resolve();}
-      pause(){this.paused=true;}
-    },
-    speechSynthesis: {
-      getVoices:()=>voices,
-      speak(u){spoken.push(u);}, cancel(){},
-      addEventListener:(name,fn)=>events.set(name,fn), removeEventListener:name=>events.delete(name)
-    }
-  };
-  return {host,spoken,audios,events,timers};
+function playback(){
+  const spoken=[],hushed=[],loaded=[],unlocked=[];
+  const audio={ready:Promise.resolve(),loadClip:async key=>{loaded.push(key);return {duration:2};},say:async parts=>{spoken.push(parts);},hush:()=>hushed.push(true),unlock:()=>unlocked.push(true)};
+  return {audio,spoken,hushed,loaded,unlocked};
 }
-const fr = {lang:'fr-FR',localService:true}, en = {lang:'en-US',localService:true};
-test('French voice only, complete slow prompt, replace previous speech on every replay', () => {
-  assert.equal(frenchVoice([en]),null);
-  assert.equal(frenchVoice([en,{lang:'fr-CA'},fr]),fr);
-  const {host,spoken,timers} = voiceHost([en,fr]), messages = [];
-  let cancels = 0; host.speechSynthesis.cancel = () => {cancels++;};
-  const voice = createWordVoice(host,m => messages.push(m));
-  voice.speak({text:'maison'}); voice.speak({text:'chat'}); voice.speak({text:'lena',speech:'Léna'});
-  assert.equal(cancels,3); assert.equal(timers.size,1);
-  assert.equal(spoken[0].text,'Trouve le mot… maison !');
-  assert.equal(spoken[2].text,'Trouve le mot… Léna !');
-  assert.equal(spoken[2].rate,.8); assert.equal(spoken[2].voice,fr);
-  spoken[2].onend(); assert.equal(timers.size,0);
-  voice.destroy();
+test('word prompts use the shared recorded audio engine and stable word IDs',async()=>{
+  const p=playback(),messages=[],voice=createWordVoice(p.audio,m=>messages.push(m));
+  await voice.speak(WORDS.find(w=>w.id==='maison'));await voice.speak(WORDS.find(w=>w.id==='lena'));
+  assert.deepEqual(p.loaded,['W:maison','W:lena']);assert.deepEqual(p.spoken,[['W:maison'],['W:lena']]);
+  assert.equal(p.hushed.length,2);assert.equal(p.unlocked.length,2);assert.ok(messages.every(m=>m===''));
 });
-test('no French voice, playback errors and silent engines give a generic hint, never the target', () => {
-  const {host,spoken,events,timers} = voiceHost([en]), messages = [];
-  const voice = createWordVoice(host,m => messages.push(m));
-  voice.speak({text:'maison'});
-  assert.equal(spoken.length,0); assert.match(messages.at(-1),/voix française/);
-  assert.ok(messages.every(m => !m.includes('maison')));
-  host.speechSynthesis.getVoices = () => [fr]; events.get('voiceschanged')();
-  voice.speak({text:'maison'}); spoken[0].onerror();
-  assert.ok(messages.every(m => !m.includes('maison')));
-  voice.speak({text:'maison'});
-  [...timers.values()].forEach(fn=>fn());
-  assert.match(messages.at(-1),/voix française/);
-  voice.destroy(); assert.equal(events.size,0);
+test('missing or failed recordings show a generic retry hint without revealing the answer',async()=>{
+  const p=playback(),messages=[],voice=createWordVoice(p.audio,m=>messages.push(m));p.audio.loadClip=async()=>null;
+  await voice.speak({id:'maison',text:'maison'});assert.equal(p.spoken.length,0);assert.match(messages.at(-1),/Réécouter/);assert.ok(messages.every(m=>!m.includes('maison')));
+  p.audio.loadClip=async()=>{throw Error('Network');};await voice.speak({id:'chat',text:'chat'});assert.ok(messages.every(m=>!m.includes('chat')));
 });
-test('recorded prompts have priority, stop on replay, and fall back safely on load error', () => {
-  const {host,spoken,audios} = voiceHost([fr]);
-  const voice = createWordVoice(host,()=>{});
-  voice.speak({text:'maison',audio:'audio/word-maison.mp3'});
-  assert.equal(audios[0].url,'audio/word-maison.mp3'); assert.equal(spoken.length,0);
-  voice.speak({text:'chat',audio:'audio/word-chat.mp3'});
-  assert.equal(audios[0].paused,true);
-  audios[1].onerror(); assert.equal(spoken[0].text,'Trouve le mot… chat !');
-  voice.stop();
+test('stopping or leaving during loading cancels the pending word prompt',async()=>{
+  for(const end of ['stop','destroy']){
+    const p=playback();let resolve;p.audio.loadClip=()=>new Promise(done=>{resolve=done;});
+    const voice=createWordVoice(p.audio,()=>{}),pending=voice.speak({id:'chat'});await Promise.resolve();voice[end]();resolve({duration:2});await pending;assert.equal(p.spoken.length,0);
+  }
+});
+test('playback errors use the same generic hint and never substitute a device voice',async()=>{
+  const p=playback(),messages=[];p.audio.say=async()=>{throw Error('Playback');};
+  const voice=createWordVoice(p.audio,m=>messages.push(m));await voice.speak({id:'maison'});assert.match(messages.at(-1),/Réécouter/);assert.ok(!messages.at(-1).includes('maison'));
 });
 test('starting a new session avoids the previous session’s last word', () => {
   const first = new WordSession(WORDS,1,{},seeded());
@@ -180,18 +148,8 @@ test('starting a new session avoids the previous session’s last word', () => {
     assert.notEqual(next.current.target.id,lastId);
   }
 });
-test('late rejection of an old recording cannot restart or overlap the current prompt', async () => {
-  const {host,spoken} = voiceHost([fr]);
-  let reject;
-  host.Audio = class {
-    play(){return new Promise((resolve,failed) => {reject = failed;});}
-    pause(){}
-  };
-  const voice = createWordVoice(host,()=>{});
-  voice.speak({text:'maison',audio:'missing.mp3'});
-  voice.speak({text:'chat'});
-  reject(new Error('Delayed rejection'));
-  await Promise.resolve();
-  assert.equal(spoken.length,1); assert.equal(spoken[0].text,'Trouve le mot… chat !');
-  voice.stop();
+test('a late load from an old prompt cannot restart or overlap the current word',async()=>{
+  const p=playback();let resolve;p.audio.loadClip=key=>key==='W:maison'?new Promise(done=>{resolve=done;}):Promise.resolve({duration:2});
+  const voice=createWordVoice(p.audio,()=>{}),old=voice.speak({id:'maison'});await Promise.resolve();await voice.speak({id:'chat'});resolve({duration:2});await old;
+  assert.deepEqual(p.spoken,[['W:chat']]);
 });

@@ -8,7 +8,7 @@ Les parties de lettres et sons comportent vingt cristaux, les trois niveaux de m
 - 58 lettres et graphèmes, toutes les consonnes de l’alphabet, Y et Ç, 495 mots illustrés ;
 - cartes en majuscules **et** minuscules ;
 - jamais deux « e » (e, é, è, eu, en, eau) sur les cartes : un « e » est toujours présenté avec deux autres voyelles ;
-- voix française enregistrée pour les lettres et sons ; voix française uniquement pour les mots (voir ci-dessous).
+- même voix féminine française enregistrée pour les lettres, les sons et les mots.
 
 Site 100 % statique, **sans étape de compilation** : HTML, CSS, modules JavaScript et Phaser 4.2.1 fourni avec le jeu.
 
@@ -208,30 +208,25 @@ bloquée ; le jeu continue alors à suivre les progrès pendant la visite.
 
 ### Écouter et remplacer les voix
 
-**Pour cette nouvelle activité seulement**, une voix de synthèse française du navigateur est utilisée, à vitesse 0,8.
-Une voix locale de France est privilégiée, puis une autre voix française. Aucune voix anglaise n’est utilisée en secours.
-Sur un iPad/iPhone/Mac, vérifier qu’une voix française est disponible et que le volume est activé. Si la voix n’est pas
-encore chargée, toucher de nouveau « Réécouter ». Si aucun son français ne fonctionne, un message invite à faire activer
-une voix française par un adulte, sans jamais afficher la réponse dans le message.
-
-La qualité et la disponibilité de la voix dépendent du système et du navigateur. La voix locale est privilégiée ;
-une voix fournie à distance par le navigateur peut nécessiter Internet. Le jeu n’envoie aucune donnée de progression.
-Tester l’écoute sur l’appareil de l’enfant avant utilisation. Les tests automatisés vérifient les appels vocaux et leur
-annulation avec une voix simulée ; ils ne valident pas la qualité audible des voix Safari/iPad.
+Tous les mots utilisent désormais **la même voix féminine française enregistrée** que les consonnes et les sons :
+Piper `fr_FR-siwis-medium`, à hauteur normale et au débit adapté aux enfants. Les 44 consignes « Trouve le mot, … ! »
+sont des MP3 livrés avec le jeu. Aucune voix système ou synthèse du navigateur n’est utilisée. Sur iPad/iPhone/Mac,
+il suffit de vérifier le volume. En cas d’échec de chargement, le message propose de réécouter sans révéler la réponse.
+Les tests de navigateur utilisent les vrais fichiers MP3 ; l’écoute et la fluidité restent à vérifier sur les appareils.
 
 Le vocabulaire est dans **`js/data/words.js`**, les règles dans `js/words/model.js`, le suivi dans `progress.js`, les voix
 dans `voice.js`, l’interface dans `game.js`, le parcours partagé dans `journey.js` et les styles dans `css/words.css`. Aucun outil de compilation n’est nécessaire.
 Pour ajouter un mot, ajouter par exemple à `WORDS` :
 
 ```js
-word('fleur', 'fleur', 2, { audio: 'audio/mots/fleur.mp3' }),
+word('fleur', 'fleur', 2),
 ```
 
-`audio` est facultatif. Le MP3 doit contenir **la consigne entière**, par exemple « Trouve le mot… fleur ! »,
-avec une voix française claire. Les enregistrements sont lus à vitesse 0,9 et sont prioritaires sur la synthèse.
-Si un fichier ne peut pas être lu, le jeu essaie la voix française. Chaque nouvel appui annule la lecture précédente.
-`speech` peut préciser une prononciation, comme « Léna » pour la carte « lena ». Les prénoms s’affichent en minuscules,
-comme les autres cartes, pour cet exercice. Ajouter des niveaux dans `WORD_LEVELS` et les mots correspondants dans `WORDS`.
+Chaque mot reçoit automatiquement une référence `audioKey: 'W:<id>'` dans `audio/manifest.json`. Après un ajout,
+lancer `python3 tools/voice/build_voice.py` puis `npm run check`. Pour employer un enregistrement humain, remplacer
+le MP3 référencé par cette clé ; il doit contenir la consigne entière, par exemple « Trouve le mot, fleur ! ».
+Chaque nouvel appui annule la lecture précédente. `speech` peut préciser une prononciation lors de la génération,
+comme « Léna » pour la carte « lena ». Ajouter des niveaux dans `WORD_LEVELS` et les mots correspondants dans `WORDS`.
 Prévoir au moins quatre mots de prononciations différentes par niveau.
 
 Donner **le même `soundGroup` aux homophones** lors de l’ajout de vocabulaire. Par exemple :
@@ -289,7 +284,7 @@ fausses réponses ambiguës (par exemple C/K/Q/QU, É/ER/EZ et IN/AIN/EIN/UN).
 Les **335 nouveaux fichiers MP3** sont inclus dans le dépôt : aucune génération de voix n’est nécessaire sur
 l’appareil de l’enfant. Ils ont été générés avec la voix française du projet puis vérifiés avec Whisper.
 Les modèles et l’environnement Python de génération ne sont pas des dépendances du jeu statique.
-`npm run check` vérifie les 641 audios nécessaires et 18 870 tirages des cartes ; `npm test` couvre aussi la
+`npm run check` vérifie les 685 audios nécessaires et 18 870 tirages des cartes ; `npm test` couvre aussi la
 présence de toutes les consonnes, le surlignage des nouveaux mots et les dix étapes vers le château.
 
 ## L’aventure principale — mondes, refuges et gags
@@ -298,25 +293,32 @@ Sur la branche **`prototype/immersive-worlds`**, **`index.html` est l’entrée 
 L’ancienne adresse `prototype.html` redirige vers cette entrée. `classic.html` garde les activités précédentes comme
 solution de secours, accessible si le moteur ne peut pas démarrer.
 
-Les sept thèmes sont la prairie, la forêt des lucioles, les bonbons, le lagon, les glaces, les nuages et le passage des
-étoiles. **Chaque monde compte dix cristaux**, avec un drapeau-refuge au cinquième. Les vingt cristaux d’une partie
+Les sept thèmes sont la prairie, la forêt des lucioles, la jungle des cascades, la plage des coquillages, les glaces,
+le voyage dans les nuages et la lune des petits lapins. **Chaque monde compte dix cristaux**, avec un drapeau-refuge au cinquième. Les vingt cristaux d’une partie
 phonologique traversent deux mondes ; une partie de dix mots traverse un monde. Le nombre de mondes terminés est gardé
 localement dans `licorne.adventure.v1`, pour varier le prochain décor même en changeant de module. Ce compteur ne
 contient aucune information sur l’enfant.
 
 **Une erreur protège le chemin déjà validé :** avant le cinquième cristal, Paillette revient au départ de ce monde ;
 à partir de cinq, elle revient au refuge. Les cristaux gagnés depuis ce point réapparaissent et doivent être retrouvés.
-Exemples : 4 → 0, 8 → 5, 14 → 10 et 19 → 15. Le monde précédent n’est jamais perdu. Une glissade arc-en-ciel accompagne
+Exemples : 4 → 0, 8 → 5, 14 → 10 et 19 → 15. Le monde précédent n’est jamais perdu. Un petit nuage accompagne
 le retour. La progression des mots distingue les questions déjà réussies pour ne pas compter deux fois les réponses
 rejouées. Chaque voyage terminé offre toujours un seul tour de roue.
 
-Pendant le trajet, Paillette fait des prouts colorés, glisse sur un arc-en-ciel, rebondit et fait apparaître un chapeau
-magique. Les réponses sont plus grandes : lettres en deux lignes majuscule/minuscule et grands mots, avec une disposition
+Un grand pont arc-en-ciel est posé sur le chemin entre les cristaux 2 et 5 : Paillette grimpe dessus, passe le sommet
+puis redescend vers le refuge. Le pont reste dans le décor ; les cristaux suivent sa courbe. La caméra recule doucement
+pour montrer la montée. Des oiseaux animés volent autour du chemin, mais restent immobiles pendant les questions.
+Pendant le trajet, Paillette fait aussi des prouts colorés, rebondit et fait apparaître un chapeau magique. Les réponses sont plus grandes : lettres en deux lignes majuscule/minuscule et grands mots, avec une disposition
 sur une colonne sur les petits téléphones si nécessaire. Les effets restent calmes pendant la lecture des questions,
 et la préférence système « Réduire les animations » est respectée.
 
+Le bouton ⏸ met le voyage en pause : l’animation et les voix s’arrêtent, y compris pendant une montée ou un retour.
+« Reprendre l’aventure » continue au même endroit ; « Choisir une autre activité » recommence une partie. Le changement
+d’onglet met aussi le jeu en pause. Le menu contient une explication dépliable pour les parents.
+
 Le moteur Phaser 4.2.1 est fourni dans `vendor/phaser/` avec sa licence MIT et sa provenance vérifiée. Les sept panoramas
-sont chargés à demi-résolution pour limiter la mémoire graphique. WebGL est utilisé quand il est disponible, avec un
+sont limités à 2400 × 933 pixels pour limiter la mémoire graphique ; les personnages et objets utilisent des textures
+de densité double et les chemins sont dessinés nativement. WebGL est utilisé quand il est disponible, avec un
 rendu Canvas de secours (`?debug&renderer=canvas`). Les réponses restent des boutons HTML accessibles au toucher et au
 clavier. Les voix de lettres/sons restent les MP3 français du projet ; le système de voix des mots est réutilisé.
 
@@ -330,13 +332,14 @@ git pull --ff-only
 npm run dev
 ```
 
+Le fichier `serve.json` désactive les redirections d’URL du serveur local pour conserver les paramètres de test.
 Ouvrir **`http://localhost:8080/`**. Choisir n’importe quelle activité. Vérifier les retours avant/après le refuge,
 le changement de monde au dixième cristal et les gags du trajet. Les refuges valent pour le voyage en cours ; choisir
 une autre activité ou recharger la page recommence une partie. Les progrès des mots, cadeaux et décors terminés restent
 sauvegardés. Ce test local ne modifie pas la branche `main`.
 
 Code : `js/prototype/model.js` définit les mondes et les refuges ; `world.js` anime le trajet Phaser ; `art.js` crée les
-textures SVG ; `app.js` relie les modules et les panneaux. `AdventureSession` ajoute le retour au refuge au modèle de
+textures SVG ; `travel.js` définit le pont et les trajectoires des oiseaux ; `app.js` relie les modules et les panneaux. `AdventureSession` ajoute le retour au refuge au modèle de
 questions partagé. Les interfaces de secours conservent leur logique indépendante.
 
 Vérifications : `npm test`, `npm run check`, `npm run lint`. Avec le serveur, Python Playwright et Chromium dans
@@ -345,10 +348,46 @@ l’environnement cloud :
 ```bash
 python3 tools/test-prototype-browser.py
 python3 tools/test-checkpoints-browser.py --screenshots /tmp/paillette-refuges
+python3 tools/test-rainbow-browser.py --screenshots /tmp/paillette-arc-en-ciel
 ```
 
 Ces tests couvrent les huit choix de niveau, les refuges dans deux mondes, la remise en jeu des cristaux perdus,
 les crédits uniques et récompenses, les quatre gags avec leurs vraies animations, les gros mots/graphèmes sur
-phone/tablette et les retours au menu pendant une glissade. Les scripts `test-words-browser.py` et
+téléphone/tablette et les retours au menu pendant une glissade. Le troisième script vérifie les vraies montées, les
+pauses pendant les différentes phases, les oiseaux calmes pendant la lecture, la rotation de l’écran et douze
+changements d’activité consécutifs sans accumulation de décors. Les scripts `test-words-browser.py` et
 `test-rewards-browser.py` vérifient les activités de secours sur `classic.html`.
 L’écoute et la fluidité sur de vrais appareils Safari/iPad restent à vérifier sur ces appareils.
+
+Les passes de revue et le protocole de test en famille sont décrits dans [docs/PLAYTEST_REVIEW.md](docs/PLAYTEST_REVIEW.md).
+
+
+## Menu direct et voix commune
+
+Le menu principal présente huit choix au même niveau : les cinq activités de lettres/sons et les trois niveaux de
+**Trouve le mot !**. Un toucher lance directement la partie, sans écran intermédiaire de choix de niveau. Les
+activités phonémiques et le carnet des progrès ont été retirés, avec leurs fichiers audio et leurs outils dédiés.
+La roue et ses compteurs quotidiens restent disponibles. Les sept décors illustrés, les refuges, les gags et les
+révisions locales continuent de fonctionner. Les activités de secours utilisent le même menu direct et la même voix.
+
+Voir [docs/FLAT_MENU_AND_VOICE.md](docs/FLAT_MENU_AND_VOICE.md) pour la vérification et la prévisualisation.
+
+## Rendu plus net, animaux et nouveaux voyages
+
+Le canvas utilise désormais les vrais pixels de l’écran, jusqu’à une densité de 2 avec un budget de six millions de
+pixels sur les grandes surfaces. Sur un écran Retina 1024 × 768, son tampon est bien de 2048 × 1536. Les chemins
+sont des rubans vectoriels continus ; les personnages et objets sont rasterisés plus finement. Le redimensionnement
+et le rendu Canvas de secours conservent cette densité.
+
+Chaque monde accueille six compagnons : lapins, renards, hiboux, singes, toucans, petits tigres, tortues, crabes,
+manchots, phoques, colombes ou lapins astronautes. Ils saluent Paillette pendant le trajet et se calment pendant les
+questions. Au sixième cristal, chaque habitat propose une surprise : papillon sur la corne, couronne de fleurs,
+éclaboussures, bulle géante ou bonds lunaires. Les animations respectent les pauses et la réduction des mouvements.
+
+La jungle possède des palmiers et des cascades ; la plage un rivage et du sable ; Paillette marche sur un chemin de
+nuages et traverse une Lune avec des cratères, une vue de la Terre et des lapins casqués. Les mondes changent toujours
+tous les dix cristaux, avec le refuge à cinq. Le menu direct, les activités, la même voix féminine et la roue restent
+identiques.
+
+Vérification ciblée : `python3 tools/test-variety-browser.py --screenshots /tmp/licorne-mondes`. Voir aussi
+[docs/RENDERING_AND_WORLDS.md](docs/RENDERING_AND_WORLDS.md).

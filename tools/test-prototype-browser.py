@@ -1,5 +1,5 @@
 """Phaser 4 integration checks; requires Playwright, Chromium and a server on :8080.
-Word speech is simulated. The actual Phaser engine, textures, camera and movement are exercised.
+The recorded audio, actual Phaser engine, textures, camera and movement are exercised.
 """
 import argparse
 from pathlib import Path
@@ -20,8 +20,7 @@ def open_proto(page,suffix=''):
     page.goto(args.url+'/index.html?debug'+suffix,wait_until='domcontentloaded')
     page.wait_for_function('window.__adventure?.state().ready',timeout=30000)
 def choose(page,module,level=1):
-    page.locator(f'[data-module="{module}"]').click()
-    if module=='words': page.locator(f'[data-word-level="{level}"]').click()
+    page.locator(f'[data-word-level="{level}"]' if module=='words' else f'[data-module="{module}"]').click()
 
 def right(page):
     state=page.evaluate('window.__adventure.state()')
@@ -35,7 +34,7 @@ with sync_playwright() as p:
     page=context.new_page();page.on('pageerror',lambda e:errors.append(str(e)))
     open_proto(page)
     assert page.locator('#adventureWorld canvas').count()==1
-    assert page.locator('[data-module]').count()==6
+    assert page.locator('[data-module]').count()==8
     assert page.evaluate('window.__adventure.state().world.version')=='4.2.1'
     shot(page,'prototype-menu-phone')
     modes=[('voyelles',1),('consonnes',1),('sons',1),('experts',1),('tout',1),('words',1),('words',2),('words',3)]
@@ -83,7 +82,7 @@ with sync_playwright() as p:
     motion.wait_for_function('(x)=>window.__adventure.state().world.position.x>x+20',arg=first)
     assert motion.evaluate('window.__adventure.state().world.frame') is not None
     shot(motion,'prototype-walking')
-    motion.locator('#adventureHome').click()
+    motion.locator('#adventureHome').click();motion.locator('#adventureLeave').click()
     motion.wait_for_timeout(2200)
     assert motion.locator('#adventureMenu').is_visible()
     assert motion.evaluate('window.__adventure.state().world.progress')==0
@@ -111,8 +110,14 @@ with sync_playwright() as p:
     failure.locator('#legacyFallback').click()
     failure.wait_for_function('window.__licorneOK')
     assert failure.locator('[data-level]').count()==5
-    assert failure.locator('#wordActivityOpen').is_visible()
+    assert failure.locator('[data-word-level="1"]').is_visible()
     print('Engine failure fallback and classic modules remain accessible')
+    compat=browser.new_page(reduced_motion='reduce')
+    compat.goto(args.url+'/prototype.html?debug&renderer=canvas',wait_until='domcontentloaded')
+    compat.wait_for_function('window.__adventure?.state().ready')
+    assert compat.evaluate('window.__adventure.state().world.renderer')==1
+    assert '/index.html?debug&renderer=canvas' in compat.url
+    compat.close();print('Legacy prototype URL keeps debug/renderer options')
     assert not errors,errors
     browser.close()
-    print('All prototype checks passed. Actual Safari/iPad voice quality still needs device review.')
+    print('All prototype checks passed. Actual Safari/iPad listening and performance still need device review.')

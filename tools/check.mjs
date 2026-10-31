@@ -5,6 +5,7 @@
 import { readFileSync, readdirSync, existsSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { WORDS } from '../js/data/words.js';
 import { LEVELS, ALL } from '../js/data/sounds.js';
 import { distractors, isE, OTHER_VOWELS } from '../js/questions.js';
 
@@ -25,6 +26,7 @@ for (const s of ALL) {
 // 2. audio
 const manifest = JSON.parse(readFileSync(join(ROOT, 'audio/manifest.json'), 'utf8'));
 const need = new Set();
+for(const word of WORDS)need.add(word.audioKey);
 for (const s of ALL) { need.add('L:' + s.g); need.add('F:' + s.g); for (const w of s.words) need.add('w:' + plain(w.w)); }
 const walk = d => readdirSync(d, { withFileTypes: true }).flatMap(e => e.isDirectory() ? walk(join(d, e.name)) : e.name.endsWith('.js') ? [join(d, e.name)] : []);
 for (const f of walk(join(ROOT, 'js'))) {

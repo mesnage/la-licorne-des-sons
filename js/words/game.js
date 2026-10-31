@@ -1,9 +1,9 @@
 import { WORDS, WORD_LEVELS } from '../data/words.js';
-import { WordSession, SESSION_LENGTH, mastered } from './model.js';
+import { WordSession, SESSION_LENGTH } from './model.js';
 import { createWordProgress } from './progress.js';
 import { createWordVoice } from './voice.js';
 import { unicornSVG } from '../unicorn.js';
-import { hush, sfx, unlock } from '../audio.js';
+import { ready, loadClip, say, hush, sfx, unlock } from '../audio.js';
 import { earnReward, showReward } from '../rewards.js';
 import { gemSVG } from '../utils.js';
 import { createWordJourney } from './journey.js';
@@ -14,7 +14,7 @@ export function initWordGame(gems){
   try { storage = window.localStorage; } catch(e){}
   const progress = createWordProgress(storage);
   const journey = createWordJourney(gems, SESSION_LENGTH);
-  const voice = createWordVoice(window, message => { $('wordAudioStatus').textContent = message; });
+  const voice = createWordVoice({ready,loadClip,say,hush,unlock}, message => { $('wordAudioStatus').textContent = message; });
   let session = null, level = 1, nextTimer = null, previousId;
   const active = () => $('wordPlay').classList.contains('on');
   function stop(){ clearTimeout(nextTimer); nextTimer = null; voice.stop(); }
@@ -27,22 +27,7 @@ export function initWordGame(gems){
       'La sauvegarde est bloquée. Les progrès resteront seulement pendant cette visite.';
     document.querySelectorAll('.word-storage-note').forEach(el => { el.textContent = text; });
   }
-  function refreshPractice(){
-    const stats = progress.snapshot();
-    $('wordPractice').replaceChildren();
-    for(const data of WORD_LEVELS){
-      const items = WORDS.filter(w => w.level === data.id);
-      const solid = items.filter(w => mastered(stats[w.id]));
-      const practice = items.filter(w => stats[w.id]?.misses && !mastered(stats[w.id]));
-      const row = document.createElement('p');
-      row.textContent = `${data.title} : ${solid.length} mot(s) reconnu(s) régulièrement, ${practice.length} à revoir.`;
-      if(solid.length) row.appendChild(document.createTextNode(` Bien reconnus : ${solid.map(w => w.text).join(', ')}.`));
-      if(practice.length) row.appendChild(document.createTextNode(` À revoir : ${practice.map(w => w.text).join(', ')}.`));
-      $('wordPractice').appendChild(row);
-    }
-    storageNote();
-  }
-  function levels(){ stop(); journey.release(); session = null; refreshPractice(); show('wordLevels'); }
+  function home(){stop();journey.release();session=null;show('home');}
   function renderProgress(completed){
     $('wordQuestionNumber').textContent = `Mot ${Math.min(session.index + 1, SESSION_LENGTH)} sur ${SESSION_LENGTH}`;
     $('wordProgress').setAttribute('aria-valuenow', completed);
@@ -129,19 +114,17 @@ export function initWordGame(gems){
     const button = document.createElement('button');
     button.className = 'word-level-button candy c-white'; button.dataset.wordLevel = data.id;
     const icon = document.createElement('span'); icon.className = 'word-level-icon'; icon.textContent = data.icon; icon.setAttribute('aria-hidden', 'true');
-    const text = document.createElement('span'); text.textContent = `${data.id}. ${data.title}`;
-    const detail = document.createElement('small'); detail.textContent = data.detail; text.appendChild(detail);
+    const text = document.createElement('span'); text.textContent = `Trouve le mot ! · ${data.id}`;
+    const detail = document.createElement('small'); detail.textContent = data.title; text.appendChild(detail);
     button.append(icon, text); button.addEventListener('click', () => start(data.id));
-    $('wordLevelButtons').appendChild(button);
+    document.querySelector('#home .levels').appendChild(button);
   }
   $('wordFinishUnicorn').innerHTML = unicornSVG();
   $('wordFinishUnicorn').querySelector('.uni').classList.add('happy');
   $('wordProgress').innerHTML = Array.from({length:SESSION_LENGTH},(_,i) => `<div class="slot">${gemSVG(i+1)}</div>`).join('');
   window.addEventListener('resize', () => journey.resize());
-  $('wordActivityOpen').addEventListener('click', () => { hush(); levels(); });
-  $('wordLevelsHome').addEventListener('click', () => { stop(); journey.release(); session = null; show('home'); });
-  $('wordPlayBack').addEventListener('click', levels);
-  $('wordChooseLevel').addEventListener('click', levels);
+  $('wordPlayBack').addEventListener('click',home);
+  $('wordChooseLevel').addEventListener('click',home);
   $('wordReplaySession').addEventListener('click', () => start(level));
   $('wordSpeaker').addEventListener('click', replay);
   document.addEventListener('visibilitychange', () => {

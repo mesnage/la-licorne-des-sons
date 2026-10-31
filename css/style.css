@@ -285,3 +285,8 @@ body{background:radial-gradient(ellipse at 16% 8%,#fff7e3aa,transparent 48%),lin
 
 .prototype-entry{display:block;margin:25px 0 0;padding:15px;border:1px solid #fff;border-radius:20px;background:#fff6e4b8;color:#635678;text-decoration:none;text-align:center;font-size:16px;box-shadow:0 4px 0 #dbcbb9}
 .prototype-entry span{display:block;font-size:12px;margin-top:5px;color:#86745f}
+/* Shared original illustrations for reward screens, including the classic fallback. */
+.reward-dialog .illustration{display:inline-block;width:32px;height:32px;vertical-align:middle}
+.reward-wheel .illustration{width:42px;height:42px}
+.reward-dialog .fart-cloud .illustration{width:90px;height:90px}
+#rewardPending .illustration{display:inline-block;width:23px;height:23px;vertical-align:middle;margin-right:6px}

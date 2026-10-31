@@ -1,5 +1,5 @@
 /* Editable vocabulary for Trouve le mot !
-   audio: optional URL of a recording saying the FULL prompt, e.g. « Trouve le mot… maison ! ».
+   audioKey: reference in audio/manifest.json to a FULL prompt in the shared female voice.
    speech: optional pronunciation override (never displayed as a hint).
    soundGroup: give homophones the SAME value, e.g. et/est → 'eh', to keep them out of one question.
    Add new words in teaching order; up to six unseen words enter the target pool per session. */
@@ -8,7 +8,7 @@ export const WORD_LEVELS = [
   { id: 2, title: 'Je reconnais les mots', detail: 'Des mots de tous les jours', icon: '🌷' },
   { id: 3, title: 'Je deviens un lecteur', detail: 'Des mots et de petites expressions', icon: '🌳' }
 ];
-const word = (id, text, level, extra = {}) => ({ id, text, level, ...extra });
+const word = (id, text, level, extra = {}) => ({ id, text, level, audioKey: 'W:' + id, ...extra });
 export const WORDS = [
   word('le', 'le', 1), word('la', 'la', 1), word('un', 'un', 1), word('une', 'une', 1),
   word('sur', 'sur', 1), word('dans', 'dans', 1), word('avec', 'avec', 1), word('pour', 'pour', 1),

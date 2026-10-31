@@ -43,14 +43,14 @@ Cute, funny, "Pixar-like" look (within the performance limits above), unicorn th
 20 steps, many words so it doesn't repeat, simple and reliable above all.
 
 ## Trouve le mot ! (separate whole-word activity)
-The user explicitly requested French synthetic speech with future MP3 replacement for this new module only.
-`js/words/voice.js` uses a French-only voice at rate 0.8, cancels previous playback, prefers optional full-prompt MP3s,
-and never reveals the target in a failure message. Keep the original phonics audio rules above intact.
+The word activity uses the SAME recorded female French narrator as letters and sounds. `js/words/voice.js`
+receives the shared audio engine and plays full `W:<word-id>` MP3 prompts; it never uses browser/device speech.
+Generate missing prompts with tools/voice/build_voice.py. Keep prompt cancellation and generic audio-failure hints.
 Vocabulary and levels: `js/data/words.js`. Homophones added later must share `soundGroup`.
 The word module has ten questions and now uses the same adventure checkpoint rules as the phonics modules.
 Progress is local (`licorne.words.v1`); missed words are weighted more heavily in later sessions.
 Scoped styles: `css/words.css`. Do not use the original `.lvl` class for new level buttons: the phonics initializer binds it.
-Automated browser speech is mocked; listen on a real French-voice device before release.
+Browser checks decode the real recordings. Listen on real iPad/Safari before release.
 
 Every completed game earns one spin: the five 20-step phonics modes and all three 10-question word levels.
 The wheel has six equal segments (candies, chocolate, story, three unicorn animations). No savings or money prize.
@@ -68,7 +68,39 @@ The seven themes change every ten crystals, with a protected refuge at five. Mis
 or the current world's start. Completed-world variety is persisted in licorne.adventure.v1 across modules.
 AdventureSession tracks unique question credit, so replaying lost crystals cannot inflate mastery or reward spins.
 Twenty-crystal phonics sessions cover two worlds; ten-word sessions cover one. Gags rotate through colored prouts,
-rainbow slides, trampoline bounces and a magic hat. Answers use enlarged responsive typography.
+fixed rainbow climbs, trampoline bounces and a magic hat. Answers use enlarged responsive typography.
 Engine license/checksum provenance remains under vendor/phaser; no runtime CDN/build dependency.
 Run tools/test-prototype-browser.py and tools/test-checkpoints-browser.py with the local server for the main game.
 The existing words/rewards browser scripts target classic.html. Real Safari/iPad listening/performance need device review.
+
+Rainbow geometry and bird trajectories live in js/prototype/travel.js. The bridge stays in world coordinates;
+hero feet and crystals use walkingPoint so they follow the same surface. Keep camera framing clear of the HUD
+on portrait phones. Birds stop translating/flapping while questions are visible, and reduced motion keeps them still.
+The pause dialog freezes the Phaser scene and gates pending answer delays; leaving cancels the old session token.
+Run tools/test-rainbow-browser.py for real climbing, pause/resume, rotation and repeated scene-reset checks.
+
+## Direct activity menu and shared narrator
+
+The main menu contains eight direct choices: the five letter/sound modes and three word levels. `MENU_ITEMS` in
+js/prototype/model.js defines the main activity cards. Do not add a word-level submenu or a progress notebook.
+Phoneme activities/data/audio and their generators have been removed at the owner's request. Existing local letter
+and word practice stays in the background for revision; gift balances/spins and world history remain intact.
+Both main and classic word activities use `W:` prompts through the shared recorded audio engine. New word prompts
+use Piper fr_FR-siwis-medium, pitch 1.0, rate 0.85, and the existing French ASR verification. No browser TTS fallback.
+Scenery and original UI icons remain in js/prototype/scenery.js and js/illustrations.js; keep SVG rendering light.
+Run tools/test-menu-browser.py for direct selection, real audio decoding, replay cancellation and failure hints.
+
+## Retina rendering, habitats and animal companions
+
+Phaser 4 ignores the old game-config resolution option. js/prototype/rendering.js computes a real backing buffer
+(up to DPR 2, about six million pixels) with CSS scaling. Keep Scale.NONE + explicit resize, the camera's density
+factor, and ResizeObserver/window-resize cleanup together. Do not reintroduce a CSS-sized low-resolution canvas.
+Sprites rasterize at 2× density with explicit display sizes; panoramas stay bounded at 2400×933 to limit memory.
+Native filled pathRibbon geometry avoids translucent wide-stroke seams. Keep foreground foliage clear of Paillette.
+
+Seven stable world IDs now represent meadow, forest, tropical jungle, beach, ice, clouds and moon. Saved numeric world
+progress keeps cycling across those IDs. Six animal companions per scene come from animals.js; new props and habitat
+art live in habitats.js. Animals and particles freeze during questions, pause freezes the entire scene, and reduced
+motion skips travel gags. Gag 6 varies with habitat; the old prout/rainbow/boing/hat schedule stays intact. Clear all
+props and effects on completion, return, reset and exit. Run tools/test-variety-browser.py alongside the existing
+main/checkpoint/menu/rainbow suites. No educational content, audio or reward accounting should change for artwork.
