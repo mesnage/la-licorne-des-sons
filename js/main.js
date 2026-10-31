@@ -6,12 +6,15 @@ import { initScene } from './scene.js';
 import { initGame } from './game.js';
 import './audio.js';
 import { initRewards } from './rewards.js';
+import { initWordGame } from './words/game.js';
 
 $('#homeUni').innerHTML = unicornSVG();
 $('#gameUni').innerHTML = unicornSVG();
 $('#winUni').innerHTML  = unicornSVG();
 $('#winUni .uni').classList.add('happy');
 initScene();
-initGame(mountWorld());
+const gems = mountWorld();
+initGame(gems);
 initRewards();
+initWordGame(gems);
 window.__licorneOK = true;

@@ -12,5 +12,5 @@ jobs:
         run: node tools/check.mjs
       - name: Erreurs JavaScript
         run: npx --yes eslint@9.13.0 js tools
-      - name: Récompenses et tirelire
+      - name: Récompenses, mots et progression
         run: npm test

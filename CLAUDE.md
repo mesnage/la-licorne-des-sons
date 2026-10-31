@@ -8,20 +8,22 @@ Cloudflare Pages. The owner speaks French; all game text and voice are in French
 - `npm run dev` — local server on :8080 (modules don't work from file://)
 - `npm run check` — data, audio coverage and card rules (must pass before every commit)
 - `npm run lint` — ESLint no-undef etc.
+- `npm test` — reward accounting and word-game selection/scoring/progression/voice tests.
+- `python3 tools/test-words-browser.py` — optional word-game integration tests with a local server and Python Playwright.
 - `python3 tools/voice/build_voice.py [--list|--redo KEYS|--prune|--no-verify]` — generate missing voice clips
 - Open the game with `?debug` → `window.__game.right()` / `window.__game.step()` for automated tests.
 - On the owner's Mac, Anaconda's git segfaults on push: run `conda deactivate` or use `/usr/bin/git`.
 
 ## Hard-won rules (do not regress)
-1. **Never use the device's speech synthesis (Web Speech API).** It read French text with English voices and was unreliable
+1. **For the five original phonics modes, never use the device's speech synthesis (Web Speech API).** It read French text with English voices and was unreliable
    on iOS. Every spoken line is a pre-recorded MP3 in `audio/`, referenced by key in `audio/manifest.json`.
    Phrases are written in code as `N("…")` (narrator) / `U("…")` (Paillette, pitched up); `tools/voice/build_voice.py`
    and `tools/check.mjs` find them by regex, so keep them as literal strings with double or single quotes,
    and don't write `N("…")` in comments.
 2. **Letters are always spoken inside a full sentence** ("Trouve la lettre, M !", "Comme dans, moto !"). The TTS mangles
    isolated sounds (it produced "zo" for "o", "rême" for "M"). Keep the comma pause before the letter/word, otherwise
-   "la lettre a" merges into "la lettra". Vowels = the sound; consonants = the letter NAME (èm, pé); consonant digraphs
-   (ch, ph, qu, gn, ill) are spelled. "Trouve le son, an" renders badly → "Cherche bien le son, an".
+   "la lettre a" merges into "la lettra". Vowels = the sound; consonants = the letter NAME (èm, pé); complex graphemes
+   (ch, ph, qu, gn, ill, ail, eil, euil, ouil, oin, ien, ui, tion) are spelled. "Trouve le son, an" renders badly → "Cherche bien le son, an".
 3. **Every new clip must be checked by speech recognition** (build_voice.py does this; lines marked "⚠ à écouter" need a
    human listen or `--redo`). Words that failed repeatedly were removed (jupe, kiwi, cent). The voice is
    piper `fr_FR-siwis-medium` (the *newer* version that supports nasal vowels — the old 2023 "fr-siwis" drops them).
@@ -38,3 +40,22 @@ Cloudflare Pages. The owner speaks French; all game text and voice are in French
 ## Owner's wishes so far
 Cute, funny, "Pixar-like" look (within the performance limits above), unicorn theme, French voice from France,
 20 steps, many words so it doesn't repeat, simple and reliable above all.
+
+## Trouve le mot ! (separate whole-word activity)
+The user explicitly requested French synthetic speech with future MP3 replacement for this new module only.
+`js/words/voice.js` uses a French-only voice at rate 0.8, cancels previous playback, prefers optional full-prompt MP3s,
+and never reveals the target in a failure message. Keep the original phonics audio rules above intact.
+Vocabulary and levels: `js/data/words.js`. Homophones added later must share `soundGroup`.
+The module has ten questions, retry without punishment, first-try scoring and the shared castle/crystal journey for Paillette.
+Progress is local (`licorne.words.v1`); missed words are weighted more heavily in later sessions.
+Scoped styles: `css/words.css`. Do not use the original `.lvl` class for new level buttons: the phonics initializer binds it.
+Automated browser speech is mocked; listen on a real French-voice device before release.
+
+Every completed game earns one spin: the five 20-step phonics modes and all three 10-question word levels.
+The wheel has six equal segments (candies, chocolate, story, three unicorn animations). No savings or money prize.
+Legacy five-prize records preserve pending spins and non-money counts; future saves omit the balance.
+
+Phonics vocabulary: 58 graphemes and 495 unique illustrated words; 641 recorded prompts, including all alphabet
+consonants plus Y, CH and Ç. The word module reuses the SAME #scene through js/words/journey.js, mapping ten
+questions onto every second original stop. Restore the stage and show all twenty gems when leaving the module;
+do not mount a second world with duplicate SVG gradient IDs. Words retain retry without losing crystals.

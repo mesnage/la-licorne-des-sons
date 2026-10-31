@@ -34,4 +34,8 @@ const GEMCOLS = [
   ['#fff7cc','#ffe066','#ffb81f','#c97900'],
 ];
 
-export { W, H, PADS, STOPS, BIOMES, WORLD_STARTS, GEMCOLS };
+/** Map any session length onto the shared twenty-step journey. */
+function stepForProgress(completed, questions){
+  return Math.round(Math.max(0, Math.min(questions, completed)) * (STOPS.length - 1) / questions);
+}
+export { W, H, PADS, STOPS, BIOMES, WORLD_STARTS, GEMCOLS, stepForProgress };

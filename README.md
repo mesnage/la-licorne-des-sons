@@ -4,7 +4,7 @@ Jeu de lecture en français pour les enfants de 4 à 7 ans. Paillette la licorne
 à chaque étape, l'enfant entend une lettre ou un son (« Trouve la lettre, M ! … Comme dans, moto ! ») et choisit
 la bonne carte parmi trois. Une erreur fait glisser Paillette sur une peau de banane jusqu'au début du monde.
 
-- 38 lettres et sons (voyelles, consonnes, ou / on / an…, sons experts eau / ain / ph / gn / ill), 200 mots illustrés ;
+- 58 lettres et graphèmes, toutes les consonnes de l’alphabet, Y et Ç, 495 mots illustrés ;
 - cartes en majuscules **et** minuscules ;
 - jamais deux « e » (e, é, è, eu, en, eau) sur les cartes : un « e » est toujours présenté avec deux autres voyelles ;
 - voix française enregistrée (aucune voix de synthèse de l'appareil, donc jamais d'anglais).
@@ -159,46 +159,135 @@ git push -u origin main
 
 Licence du code : à choisir (par exemple MIT) en ajoutant un fichier `LICENSE`.
 
-## La roue des cadeaux et la tirelire
+## La roue des cadeaux
 
-Après les **20 étapes** d’une aventure, Paillette offre un tour de roue. Les cinq modes de jeu gardent leurs règles.
-La roue comporte sept cases égales : bonbons, chocolat, histoire supplémentaire le soir, 5 centimes dans la tirelire,
-et **trois cases de prout magique de licorne**. L’animation a donc 3 chances sur 7, chaque autre cadeau 1 sur 7.
-Un tour ne peut être utilisé qu’une fois ; les tours non utilisés restent accessibles depuis « Mes cadeaux du jour ».
-Les cadeaux matériels et l’histoire sont à offrir en famille ; la tirelire est un compteur, pas un compte bancaire.
+Chaque partie terminée offre **un tour de roue** : les 20 étapes de l’une des cinq aventures de lettres et sons,
+ou les 10 questions d’une partie de « Trouve le mot ! », quel que soit le niveau ou le nombre d’essais.
+La roue s’ouvre à la fin de la partie et reste accessible depuis « Ma récompense » ou « Mes cadeaux du jour ».
+Un tour ne peut être utilisé qu’une fois ; les tours non utilisés restent disponibles.
+
+La roue comporte **six cases égales** : bonbons, chocolat, histoire supplémentaire le soir et **trois cases de prout
+magique de licorne**. L’animation a donc 3 chances sur 6, chaque autre cadeau 1 sur 6 : elle reste trois fois plus probable.
+Les cadeaux matériels et l’histoire sont à offrir en famille. La tirelire, le solde et le cadeau en centimes ont été retirés.
 
 Le compteur indique les cadeaux gagnés **aujourd’hui**, selon la date locale du navigateur. Il repart à zéro le jour
-suivant. La tirelire 🐷, accessible dans une fenêtre depuis l’accueil, conserve son solde d’un jour à l’autre.
-Pour retirer de l’argent, saisir un montant en euros (par exemple `0,03`) puis « Retirer ».
-Les retraits ne changent pas le nombre de cadeaux gagnés aujourd’hui.
+suivant. Les cadeaux et les tours disponibles sont enregistrés dans `licorne.rewards.v1`, sans serveur ni synchronisation
+entre appareils. Les anciens enregistrements conservent les tours disponibles et les comptes des cadeaux restants ;
+le solde et les anciens cadeaux en argent sont ignorés. Les nouvelles sauvegardes ne contiennent plus de solde.
+Effacer les données du site efface ces informations. Si la sauvegarde est bloquée, un message le signale : les cadeaux
+restent utilisables pendant la visite. La roue et le gag respectent la préférence « Réduire les animations ».
 
-Les cadeaux, tours disponibles et centimes sont enregistrés dans le navigateur (`licorne.rewards.v1`), sans serveur
-ni synchronisation entre appareils. Effacer les données du site efface ces informations. Si la sauvegarde est bloquée,
-un message le signale : les récompenses restent utilisables pour la session. La roue et le gag respectent la préférence
-« Réduire les animations ».
+Vérifier avec `npm test`, `npm run check` et `npm run lint`. Le test navigateur optionnel `python3 tools/test-rewards-browser.py`
+complète les cinq aventures et vérifie leurs récompenses, le compteur et la sauvegarde. Le test des mots, décrit ci-dessous,
+vérifie aussi les récompenses après chacun des trois niveaux. Le serveur local doit être en marche ; Python Playwright
+et Chromium sont nécessaires pour ces tests navigateur.
 
-### Prévisualiser et tester cette fonctionnalité
+## 📖 Trouve le mot ! — Le château des mots
 
-```bash
-git switch feature/reward-system
-npm run dev
-# ouvrir http://localhost:8080/?debug dans votre navigateur
-npm run check
-npm run lint
-npm test
-```
+Une activité indépendante pour reconnaître des **mots entiers**, accessible par « Trouve le mot ! » sur l’accueil.
+Les cinq aventures de lettres et sons conservent leurs règles et leurs voix enregistrées. Toutes les activités partagent
+la roue des cadeaux, sans tirelire ni argent.
 
-Terminer une aventure pour voir la roue, puis cliquer sur « Tourner la roue ! ». Depuis l’accueil, ouvrir « Mes cadeaux
-du jour » ou « 🐷 Ma tirelire ». Pour parcourir rapidement une aventure dans une prévisualisation, ouvrir la console
-sur `?debug` et exécuter cette commande, qui répond aux 20 questions avec les règles normales du jeu :
+- Trois niveaux, avec 44 mots et expressions au départ. Chaque partie propose **10 questions** et quatre cartes.
+- Toucher « Réécouter » pour réentendre « Trouve le mot… maison ! ». Regarder les lettres, puis choisir le mot.
+- Une erreur permet simplement de réessayer. La bonne carte devient verte, affiche ✓ et fait apparaître Paillette.
+- Paillette traverse les mêmes sept mondes que dans les autres activités : elle saute, collecte dix cristaux et rejoint
+  le château de cristal. Le décor, la caméra et les animations sont partagés. Pas de chronomètre ni de retour en arrière.
+- Le résultat compte les mots trouvés **du premier coup** : après deux questions avec une erreur, le résultat est
+  « 8 mots sur 10 du premier coup ». Les dix mots sont finalement réussis, ce que le message final rappelle.
+- « Rejouer » lance une nouvelle partie ; « Choisir un niveau » revient aux trois niveaux.
+
+Les mots sont introduits dans l’ordre du fichier : jusqu’à six mots encore inconnus entrent dans les cibles à chaque
+nouvelle partie, en plus des mots déjà rencontrés. Les mots manqués reviennent plus souvent dans les parties suivantes.
+Trois réussites consécutives du premier coup indiquent une reconnaissance régulière ; ces mots restent révisés, moins
+souvent. Un même mot n’est jamais la cible de deux questions consécutives, y compris en rejouant dans la même visite.
+La progression complète par mot reste dans `licorne.words.v1`, sur cet appareil et dans ce navigateur, sans compte ni
+backend. Une erreur est mémorisée même si l’enfant quitte la partie avant de réussir le mot. Le volet « Pour les grands »
+montre les mots reconnus et ceux à revoir. Effacer les données du site efface ce suivi. Un message signale une sauvegarde
+bloquée ; le jeu continue alors à suivre les progrès pendant la visite.
+
+### Écouter et remplacer les voix
+
+**Pour cette nouvelle activité seulement**, une voix de synthèse française du navigateur est utilisée, à vitesse 0,8.
+Une voix locale de France est privilégiée, puis une autre voix française. Aucune voix anglaise n’est utilisée en secours.
+Sur un iPad/iPhone/Mac, vérifier qu’une voix française est disponible et que le volume est activé. Si la voix n’est pas
+encore chargée, toucher de nouveau « Réécouter ». Si aucun son français ne fonctionne, un message invite à faire activer
+une voix française par un adulte, sans jamais afficher la réponse dans le message.
+
+La qualité et la disponibilité de la voix dépendent du système et du navigateur. La voix locale est privilégiée ;
+une voix fournie à distance par le navigateur peut nécessiter Internet. Le jeu n’envoie aucune donnée de progression.
+Tester l’écoute sur l’appareil de l’enfant avant utilisation. Les tests automatisés vérifient les appels vocaux et leur
+annulation avec une voix simulée ; ils ne valident pas la qualité audible des voix Safari/iPad.
+
+Le vocabulaire est dans **`js/data/words.js`**, les règles dans `js/words/model.js`, le suivi dans `progress.js`, les voix
+dans `voice.js`, l’interface dans `game.js`, le parcours partagé dans `journey.js` et les styles dans `css/words.css`. Aucun outil de compilation n’est nécessaire.
+Pour ajouter un mot, ajouter par exemple à `WORDS` :
 
 ```js
-for (let i = 0; i < 20; i++) {
-  document.querySelector(`#cards button[data-g="${window.__game.right()}"]`).click();
-  await new Promise(resolve => setTimeout(resolve, 4300));
-}
+word('fleur', 'fleur', 2, { audio: 'audio/mots/fleur.mp3' }),
 ```
 
-Le test navigateur optionnel complète les cinq aventures et vérifie la roue, la sauvegarde et les retraits à 390 × 844 :
-avec le serveur en marche, Python Playwright et Chromium installés, lancer `python3 tools/test-rewards-browser.py`.
-Le script utilise `/usr/bin/chromium` et écrit deux captures dans `/workspace/scratch/` dans l’environnement cloud.
+`audio` est facultatif. Le MP3 doit contenir **la consigne entière**, par exemple « Trouve le mot… fleur ! »,
+avec une voix française claire. Les enregistrements sont lus à vitesse 0,9 et sont prioritaires sur la synthèse.
+Si un fichier ne peut pas être lu, le jeu essaie la voix française. Chaque nouvel appui annule la lecture précédente.
+`speech` peut préciser une prononciation, comme « Léna » pour la carte « lena ». Les prénoms s’affichent en minuscules,
+comme les autres cartes, pour cet exercice. Ajouter des niveaux dans `WORD_LEVELS` et les mots correspondants dans `WORDS`.
+Prévoir au moins quatre mots de prononciations différentes par niveau.
+
+Donner **le même `soundGroup` aux homophones** lors de l’ajout de vocabulaire. Par exemple :
+
+```js
+word('et', 'et', 1, { soundGroup: 'eh' }),
+word('est', 'est', 1, { soundGroup: 'eh' }),
+```
+
+Le générateur évite alors de les proposer dans la même question, y compris comme deux fausses réponses. Les doublons
+écrits sont également exclus. La liste initiale ne contient aucune paire homophone. Ce module complète le décodage :
+il invite à observer chaque lettre et ne remplace pas les activités de lettres et sons.
+
+### Tester cette branche sur votre Mac, sans changer le site principal
+
+Dans Terminal, **depuis le dossier du projet**, lancer :
+
+```bash
+cd ~/la-licorne-des-sons
+git fetch origin
+git switch feature/trouve-le-mot
+git pull --ff-only
+npm run dev
+```
+
+Ouvrir `http://localhost:8080/`, puis « 📖 Trouve le mot ! ». Si le projet est rangé ailleurs, adapter la commande `cd`.
+Cette prévisualisation est locale et ne modifie pas la branche `main`. Pour arrêter le serveur : Ctrl+C.
+
+Vérifications : `npm run check`, `npm run lint`, `npm test`. Le test navigateur facultatif nécessite Python Playwright,
+Chromium et le serveur local en marche :
+
+```bash
+python3 tools/test-words-browser.py
+# ou pour enregistrer les captures d’écran :
+python3 tools/test-words-browser.py --screenshots /tmp/licorne-mots
+```
+
+Le script accepte `--url` pour une autre adresse du serveur et `--chromium` pour un autre chemin de Chromium.
+Il vérifie les trois niveaux, les essais, le score, le suivi après rechargement, les cinq anciens modes, les tailles
+phone/tablette et les chemins audio indisponibles. L’écoute reste à vérifier manuellement sur les appareils réels.
+
+### Vocabulaire des lettres et des sons
+
+Les cinq activités de phonologie partagent maintenant **495 mots illustrés** et **58 entrées** : 7 voyelles,
+23 entrées dans « Les consonnes », 13 dans « Les sons » et 15 dans « Sons experts ».
+Toutes les consonnes de l’alphabet sont présentes, avec H, Q, W, X et Z ; Y, CH et Ç sont également proposés.
+Le H est présenté par son nom de lettre, même lorsqu’il est muet. Le W se rencontre dans des mots français
+empruntés à d’autres langues et peut se prononcer différemment selon le mot : l’activité demande la lettre écrite.
+
+Parmi les nouveaux groupes : ui, oin, ei, er, ez, un, ein, ien, eil, ail, ouil, euil et tion.
+Les groupes complexes sont épelés comme CH et PH lorsque la voix rend mal leur son isolé, puis illustrés par
+un mot prononcé en entier. Les graphèmes de son identique gardent la même clé phonétique pour éviter les
+fausses réponses ambiguës (par exemple C/K/Q/QU, É/ER/EZ et IN/AIN/EIN/UN).
+
+Les **335 nouveaux fichiers MP3** sont inclus dans le dépôt : aucune génération de voix n’est nécessaire sur
+l’appareil de l’enfant. Ils ont été générés avec la voix française du projet puis vérifiés avec Whisper.
+Les modèles et l’environnement Python de génération ne sont pas des dépendances du jeu statique.
+`npm run check` vérifie les 641 audios nécessaires et 18 870 tirages des cartes ; `npm test` couvre aussi la
+présence de toutes les consonnes, le surlignage des nouveaux mots et les dix étapes vers le château.

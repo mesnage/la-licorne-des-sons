@@ -7,7 +7,7 @@
   "scripts": {
     "dev": "npx --yes serve@14.2.4 -l 8080 .",
     "check": "node tools/check.mjs",
-    "test": "node tools/rewards.test.mjs",
+    "test": "node tools/rewards.test.mjs && node tools/words.test.mjs && node tools/sounds.test.mjs",
     "lint": "npx --yes eslint@9.13.0 js tools"
   }
 }

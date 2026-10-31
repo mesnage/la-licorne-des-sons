@@ -41,6 +41,7 @@ function newRound(intro=[]){
   opts.forEach((it, k) => {
     const b = document.createElement('button');
     b.className = 'card candy x3d ' + colors[k]; b.innerHTML = cardHTML(it.g); b.dataset.g = it.g;
+    b.style.setProperty('--glyph-scale', Math.min(1, 2 / it.g.length));
     b.addEventListener('click', () => answer(b, it));
     box.appendChild(b);
   });

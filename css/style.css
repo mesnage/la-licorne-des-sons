@@ -121,8 +121,8 @@ button{font-family:inherit;color:inherit;cursor:pointer;touch-action:manipulatio
 .cards{display:flex;gap:14px;justify-content:center;margin-top:6px}
 .card{flex:1;max-width:150px;height:150px;border-radius:34px;font-weight:700;line-height:.95;padding:0 0 8px;
   display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px}
-.card .up{font-size:clamp(40px,11.5vw,60px)}
-.card .lo{font-size:clamp(36px,10.5vw,54px)}
+.card .up{font-size:calc(clamp(40px,11.5vw,60px) * var(--glyph-scale,1))}
+.card .lo{font-size:calc(clamp(36px,10.5vw,54px) * var(--glyph-scale,1))}
 .card.good{--t:#fffbd6;--b:#ffc533;--e:#c97900;transform:scale(1.08);box-shadow:0 9px 0 var(--e),0 0 0 6px #fff,0 0 30px 10px rgba(255,214,80,.9)}
 .card.reveal{--t:#d6ffe9;--b:#3fd68f;--e:#178a55;transform:scale(1.08);box-shadow:0 9px 0 var(--e),0 0 0 6px #fff,0 0 30px 10px rgba(120,255,180,.9)}
 .card.bad{animation:shake .45s;opacity:.4}
@@ -173,7 +173,7 @@ button{font-family:inherit;color:inherit;cursor:pointer;touch-action:manipulatio
 .hint{margin-top:18px;text-align:center;font-size:14px;color:#fff;opacity:.9}
 #err{position:fixed;left:8px;right:8px;bottom:8px;z-index:99;background:#fff;color:#a0103c;border-radius:12px;padding:10px 12px;font:14px system-ui,sans-serif;box-shadow:0 4px 14px rgba(0,0,0,.3)}
 
-/* ---------- cadeaux et tirelire ---------- */
+/* ---------- cadeaux ---------- */
 .reward-menu{display:flex;flex-wrap:wrap;justify-content:center;gap:16px;margin:24px 0 4px}
 .reward-menu button{border-radius:20px;padding:12px 15px;font-size:17px;font-weight:600}
 .reward-dialog{border:3px solid #fff;border-radius:30px;width:min(480px,calc(100% - 24px));max-height:calc(100dvh - 24px);padding:36px 20px 22px;color:var(--ink);background:linear-gradient(#fff8ed,#f5eaff);text-align:center;box-shadow:0 20px 70px #45185a66;overflow-y:auto}
@@ -186,7 +186,7 @@ button{font-family:inherit;color:inherit;cursor:pointer;touch-action:manipulatio
 button:focus-visible,input:focus-visible{outline:3px solid #5b2fc2;outline-offset:4px}
 .reward-dialog button:disabled{cursor:default;opacity:.65}
 .wheel-stage{position:relative;width:min(280px,100%);aspect-ratio:1;margin:24px auto}
-.reward-wheel{position:absolute;inset:0;border:7px solid #fff;border-radius:50%;box-shadow:0 6px 0 #c7a8e7,0 9px 22px #67338733;background:conic-gradient(#ffd36b 0deg 51.42857deg,#c4afff 51.42857deg 102.85714deg,#ffa9c9 102.85714deg 154.28571deg,#b9e9f4 154.28571deg 205.71429deg,#ffe5ad 205.71429deg 257.14286deg,#c2b0f3 257.14286deg 308.57143deg,#a9e8ce 308.57143deg 360deg);transition:transform 4s cubic-bezier(.15,.75,.15,1)}
+.reward-wheel{position:absolute;inset:0;border:7px solid #fff;border-radius:50%;box-shadow:0 6px 0 #c7a8e7,0 9px 22px #67338733;background:conic-gradient(#ffd36b 0deg 60deg,#c4afff 60deg 120deg,#ffa9c9 120deg 180deg,#b9e9f4 180deg 240deg,#ffe5ad 240deg 300deg,#c2b0f3 300deg 360deg);transition:transform 4s cubic-bezier(.15,.75,.15,1)}
 .reward-wheel span{position:absolute;left:50%;top:50%;width:50px;height:44px;margin:-22px -25px;font-size:28px;display:grid;place-items:center;transform:rotate(var(--angle)) translateY(-92px) rotate(calc(-1 * var(--angle)))}
 .wheel-pointer{position:absolute;top:-20px;left:calc(50% - 18px);z-index:2;font-size:40px;color:#a82a6a;text-shadow:0 2px #fff}
 .wheel-hub{position:absolute;left:calc(50% - 25px);top:calc(50% - 25px);width:50px;height:50px;display:grid;place-items:center;border-radius:50%;background:#fff4c4;box-shadow:0 3px 6px #54247333;font-size:28px}
@@ -196,13 +196,6 @@ button:focus-visible,input:focus-visible{outline:3px solid #5b2fc2;outline-offse
 .daily-prizes{list-style:none;text-align:left;padding:0;margin:0}
 .daily-prizes li{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 0;border-bottom:1px solid #decbed;font-size:15px}
 .daily-prizes strong{background:#fff;border-radius:50%;min-width:30px;height:30px;display:grid;place-items:center}
-.piglet{font-size:80px;margin:0 auto 10px}
-.savings-balance{display:block;font-size:48px;font-weight:700;color:#a72d76;margin:24px 0}
-#withdrawForm{margin:24px 0;text-align:left}
-#withdrawForm label{display:block;margin-bottom:10px;font-size:16px}
-.withdraw-row{display:flex;gap:12px}
-.withdraw-row input{min-width:0;width:100%;font:inherit;padding:12px;border:2px solid #d1b2ed;border-radius:14px;color:var(--ink);background:#fff}
-.withdraw-row button{border-radius:14px;padding:10px 16px;font-size:17px}
 .fart-scene{position:relative;max-width:270px;margin:0 auto;padding:0 0 12px 40px}
 .fart-scene[hidden]{display:none}
 #fartUnicorn{width:180px;margin-left:auto;animation:unicorn-toot 1.4s ease-in-out infinite}
