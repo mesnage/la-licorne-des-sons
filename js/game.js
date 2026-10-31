@@ -6,7 +6,7 @@ import { N, U } from './voice-keys.js';
 import { unlock, hush, say, sfx, preload } from './audio.js';
 import { uniEl, camTo, skyTo, placeUni, anim, mood, bubble, zone, burst, gag } from './scene.js';
 import { makeTargets, distractors } from './questions.js';
-import { getStars, addStar } from './storage.js';
+import { getStars, addStar, recordRound } from './storage.js';
 import { earnReward, showReward } from './rewards.js';
 
 let gems = [];
@@ -36,12 +36,12 @@ function newRound(intro=[]){
   round++;
   cur = targets[step];
   const opts = shuffle([cur, ...distractors(cur, pool)]);
+  recordRound(cur, opts);
   const colors = shuffle(['c-pink','c-lilac','c-aqua']);
   const box = $('#cards'); box.innerHTML = '';
   opts.forEach((it, k) => {
     const b = document.createElement('button');
     b.className = 'card candy x3d ' + colors[k]; b.innerHTML = cardHTML(it.g); b.dataset.g = it.g;
-    b.style.setProperty('--glyph-scale', Math.min(1, 2 / it.g.length));
     b.addEventListener('click', () => answer(b, it));
     box.appendChild(b);
   });
