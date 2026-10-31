@@ -25,9 +25,7 @@ export function initRewards(){
   const wheel = $('#rewardWheel');
   wheel.innerHTML = SEGMENTS.map((p,i) => `<span style="--angle:${(i+.5)*360/SEGMENTS.length}deg" aria-hidden="true">${PRIZES[p].icon}</span>`).join('');
   $('#fartUnicorn').innerHTML = unicornSVG();
-  $('#rewardPending').addEventListener('click', openRewards);
-  $('#winReward').addEventListener('click', openRewards);
-  $('#wordReward').addEventListener('click', openRewards);
+  document.querySelectorAll('#rewardPending, #winReward, #wordReward').forEach(button => button.addEventListener('click', openRewards));
   document.querySelectorAll('[data-close-dialog]').forEach(button => button.addEventListener('click', () => {
     if(!turning) button.closest('dialog').close();
   }));

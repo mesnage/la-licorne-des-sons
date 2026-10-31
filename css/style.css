@@ -282,3 +282,6 @@ body{background:radial-gradient(ellipse at 16% 8%,#fff7e3aa,transparent 48%),lin
 @media(min-width:900px){#home{margin-top:25px;margin-bottom:25px;border:1px solid #ffffff85;border-radius:40px;background:#ffffff30;box-shadow:0 24px 80px #80749715;min-height:0;padding:26px 40px 30px}.home-scenery{border-radius:40px 40px 45% 45% / 40px 40px 10% 10%}#game{padding-top:36px}.hero{width:220px}.title{font-size:68px}}
 @media(max-width:420px){.screen{padding:18px 18px 28px}.title{font-size:54px}.hero{width:205px;margin-top:14px}.home-scenery{height:430px}.adventure-label{margin-top:23px}.lvl{font-size:18px}.levels{gap:14px}.cards{gap:11px}.card{height:133px;border-radius:24px}.listen{font-size:25px;gap:8px}.reward-menu{gap:10px}.reward-menu button{padding:12px;font-size:13px}}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}}
+
+.prototype-entry{display:block;margin:25px 0 0;padding:15px;border:1px solid #fff;border-radius:20px;background:#fff6e4b8;color:#635678;text-decoration:none;text-align:center;font-size:16px;box-shadow:0 4px 0 #dbcbb9}
+.prototype-entry span{display:block;font-size:12px;margin-top:5px;color:#86745f}

@@ -291,3 +291,52 @@ l’appareil de l’enfant. Ils ont été générés avec la voix française du 
 Les modèles et l’environnement Python de génération ne sont pas des dépendances du jeu statique.
 `npm run check` vérifie les 641 audios nécessaires et 18 870 tirages des cartes ; `npm test` couvre aussi la
 présence de toutes les consonnes, le surlignage des nouveaux mots et les dix étapes vers le château.
+
+## Prototype immersif — L’aventure de Paillette (Phaser 4)
+
+La branche **`prototype/immersive-worlds`** contient une nouvelle entrée **`prototype.html`**. Le lien « Une nouvelle
+aventure avec Paillette » sur l’accueil classique permet aussi de l’ouvrir. Ce prototype propose un sentier continu
+entre une prairie fleurie, une forêt de lucioles et un passage étoilé jusqu’au château. Paillette possède huit images
+de marche, une caméra qui la suit, des cristaux à libérer et de petits effets que l’on peut déclencher pendant le trajet.
+Le décor devient calme pendant les questions ; les réponses restent de vrais boutons HTML accessibles au toucher et
+au clavier.
+
+Les activités sont toutes disponibles : **voyelles, consonnes, sons, sons experts, tout mélangé et Trouve le mot !**,
+avec les trois niveaux de mots. Les cinq activités de phonologie gardent vingt questions, les mots dix. Les listes de
+vocabulaire, les règles des fausses réponses, les MP3 français et le suivi adaptatif des mots sont réutilisés.
+Dans le prototype, une erreur invite à réessayer au même endroit. Une bonne réponse fait marcher Paillette jusqu’au
+cristal suivant. Chaque partie terminée offre exactement un tour de roue, sans tirelire ni cadeau en argent.
+Les progrès des mots et les cadeaux sont partagés avec le jeu classique dans le navigateur. Une partie interrompue
+recommence au départ lorsque l’on choisit à nouveau une activité.
+
+Le prototype utilise **Phaser 4.2.1**, fourni dans `vendor/phaser/` avec sa licence MIT et la provenance du paquet npm.
+L’intégrité du paquet a été vérifiée par npm ; la somme SHA-256 du module est documentée dans ce dossier. Le moteur est
+servi avec le jeu : aucun CDN, téléchargement de moteur ou compilation n’est nécessaire sur l’appareil de l’enfant.
+Phaser choisit WebGL lorsque disponible et propose un rendu Canvas ; ajouter `&renderer=canvas` à une URL contenant
+`?debug` permet de tester ce dernier. Si le moteur ne peut pas démarrer, un message et le lien vers les activités
+classiques restent disponibles. La préférence système « Réduire les animations » est respectée.
+
+Pour essayer sur votre Mac, depuis le dossier du projet (arrêter d’abord le serveur avec Ctrl+C s’il tourne déjà) :
+
+```bash
+cd ~/la-licorne-des-sons
+git fetch origin
+git switch prototype/immersive-worlds
+git pull --ff-only
+npm run dev
+```
+
+Ouvrir **`http://localhost:8080/prototype.html`**. Choisir une activité, répondre et regarder Paillette marcher.
+Le bouton maison revient au choix des activités. « Retrouver le jeu classique » ouvre l’interface précédente.
+Ce test local ne change pas la branche `main`.
+
+Le code du prototype est dans `js/prototype/` : `world.js` gère Phaser, `art.js` fabrique les textures SVG, `model.js`
+relie les activités aux règles partagées et `app.js` gère les panneaux, les voix et la progression. Le moteur graphique
+et les effets sonores sont séparés pour conserver la gestion audio iOS du projet. `QuestionSession` fournit maintenant
+la machine d’état commune aux questions de sons et de mots ; `WordSession` garde son interface précédente.
+
+Vérifications : `npm test`, `npm run check`, `npm run lint`. Dans l’environnement cloud avec Playwright, Chromium et le
+serveur en marche, lancer `python3 tools/test-prototype-browser.py --screenshots /tmp/paillette-prototype`.
+Le test exerce le véritable moteur, huit parties complètes, les déplacements, l’annulation au retour au menu, le rendu
+Canvas et les dispositions phone/tablette. Les tests de l’interface classique restent disponibles dans leurs scripts.
+L’écoute de la voix des mots et la fluidité sur Safari/iPad réels restent à vérifier sur les appareils concernés.

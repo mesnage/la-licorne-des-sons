@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#d4e8e5"><title>L’aventure de Paillette · La Licorne des Sons</title>
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="css/style.css"><link rel="stylesheet" href="css/prototype.css">
+</head>
+<body class="prototype">
+<div id="adventureWorld" role="img" aria-label="Paillette suit un sentier à travers la prairie et la forêt vers le château"></div>
+<header class="adventure-header">
+ <a href="index.html" class="adventure-brand"><span aria-hidden="true">✦</span> La Licorne des Sons</a>
+ <span id="worldName" class="world-name">🌷 La prairie des fleurs</span>
+ <button id="adventureHome" class="adventure-icon" hidden aria-label="Choisir une activité">⌂</button>
+</header>
+<main>
+ <section id="adventureMenu" class="adventure-menu" aria-labelledby="menuTitle">
+  <p class="adventure-eyebrow">UN PETIT PAS, UNE GRANDE AVENTURE</p>
+  <h1 id="menuTitle">Le château<br>nous attend.</h1>
+  <p class="adventure-intro">Choisis ton aventure. Écoute, trouve la réponse<br>et accompagne Paillette jusqu’au château.</p>
+  <div id="adventureModules" class="adventure-modules"></div>
+  <div class="adventure-menu-footer"><button id="rewardPending" class="adventure-text-button">🎁 Mes cadeaux du jour</button><a href="index.html">Retrouver le jeu classique ↗</a></div>
+  <p id="engineStatus" class="adventure-status" role="status">Paillette prépare son voyage…</p>
+ </section>
+ <section id="adventureHud" class="adventure-hud" aria-label="Ton voyage" hidden>
+  <span id="activityName"></span><span id="adventureCount">💎 0 / 20</span>
+  <div id="adventureProgress" role="progressbar" aria-label="Cristaux collectés" aria-valuemin="0" aria-valuemax="20" aria-valuenow="0"><span></span></div>
+ </section>
+ <section id="adventureQuestion" class="adventure-question" aria-labelledby="questionTitle" hidden>
+  <div class="adventure-question-top"><div><span class="adventure-eyebrow" id="checkpointName">UN CRISTAL À LIBÉRER</span><h2 id="questionTitle">Écoute bien…</h2></div>
+   <button id="listenBtn" class="adventure-speaker"><span aria-hidden="true">🔊</span> Réécouter</button></div>
+  <p id="adventureAudioStatus" class="adventure-status" role="status" aria-live="polite"></p>
+  <div id="adventureChoices" class="adventure-choices" role="group" aria-label="Choisis ce que tu entends"></div>
+  <p id="adventureFeedback" class="adventure-feedback" role="status" aria-live="polite">Regarde bien chaque lettre. Tu peux prendre ton temps.</p>
+ </section>
+ <p id="adventureWalking" class="adventure-walking" role="status" hidden>Bravo ! Paillette avance vers le prochain cristal…</p>
+ <section id="adventureFinish" class="adventure-finish" aria-labelledby="finishTitle" hidden>
+  <p class="adventure-eyebrow">LE CHÂTEAU DE CRISTAL</p><h1 id="finishTitle" tabindex="-1">Quelle belle aventure !</h1>
+  <p id="adventureResult"></p><div id="finishCrystals" class="gems-row" aria-hidden="true"></div>
+  <p>Chaque mot, chaque son fait briller le château.</p>
+  <button id="winReward" class="adventure-primary">🎡 Tourner la roue des cadeaux</button>
+  <button id="adventureAgain" class="adventure-secondary">Rejouer cette aventure</button>
+  <button id="adventureChoose" class="adventure-text-button">Choisir une autre activité</button>
+ </section>
+ <p id="adventureStorage" class="adventure-storage"></p>
+</main>
+<dialog id="adventureLevels" class="adventure-level-dialog" aria-labelledby="levelsTitle">
+ <button id="closeLevels" class="dialog-close" aria-label="Fermer le choix des niveaux">✕</button>
+ <p class="adventure-eyebrow">TROUVE LE MOT !</p><h2 id="levelsTitle">Un chemin pour chaque lecteur</h2>
+ <div id="adventureWordLevels"></div><p>10 mots, à ton rythme. Tu peux toujours réessayer.</p>
+</dialog>
+<!-- Shared reward UI and persistence, without any monetary prize. -->
+<dialog id="rewardsDialog" class="reward-dialog" aria-labelledby="rewardTitle">
+  <button id="rewardsClose" class="dialog-close" data-close-dialog aria-label="Fermer les récompenses">✕</button>
+  <p class="reward-eyebrow">LES PETITES SURPRISES DE PAILLETTE</p>
+  <h2 id="rewardTitle">La roue des cadeaux</h2>
+  <p>Une aventure terminée, un tour de roue !</p>
+  <div class="wheel-stage">
+    <div class="wheel-pointer" aria-hidden="true">▼</div>
+    <div id="rewardWheel" class="reward-wheel" role="img" aria-label="Roue à six cases : bonbons, chocolat, histoire et trois cases prout de licorne"></div>
+    <span class="wheel-hub" aria-hidden="true">⭐</span>
+  </div>
+  <button id="spinReward" class="big-btn candy c-sun">Tourner la roue !</button>
+  <p id="rewardResult" class="reward-result" role="status" aria-live="polite"></p>
+  <div id="fartScene" class="fart-scene" hidden>
+    <div id="fartUnicorn"></div><span class="fart-cloud" aria-hidden="true">💨✨</span>
+    <strong>Prout ! Hi hi hi !</strong>
+  </div>
+  <p class="wheel-odds">Le prout magique a 3 chances sur 6. Chaque autre cadeau a 1 chance sur 6.</p>
+  <h3>Aujourd’hui : <span id="dailyTotal">0</span> cadeau(x)</h3>
+  <ul id="dailyPrizes" class="daily-prizes"></ul>
+  <p class="reward-storage-note"></p>
+</dialog>
+<script type="module" src="js/prototype/boot.js"></script>
+</body></html>

@@ -59,3 +59,12 @@ Phonics vocabulary: 58 graphemes and 495 unique illustrated words; 641 recorded 
 consonants plus Y, CH and Ç. The word module reuses the SAME #scene through js/words/journey.js, mapping ten
 questions onto every second original stop. Restore the stage and show all twenty gems when leaving the module;
 do not mount a second world with duplicate SVG gradient IDs. Words retain retry without losing crystals.
+
+## Immersive prototype
+`prototype.html` is the independent Phaser 4.2.1 entry point on `prototype/immersive-worlds`; classic index.html stays
+available. Engine source/license/checksum provenance is vendored under vendor/phaser; no runtime CDN/build dependency.
+The prototype preserves all six activity choices and the three word levels, using the same data, French phonics MP3s,
+word-progress keys and reward store. Phaser renders three prototype biomes and a winding guided path; native HTML
+buttons handle answers. Prototype mistakes allow retry without setbacks; classic game rules stay as before.
+`QuestionSession` in js/words/model.js is shared; keep WordSession's public interface intact.
+Run `python3 tools/test-prototype-browser.py` with the local server for actual engine, camera and layout coverage.
