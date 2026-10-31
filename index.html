@@ -19,8 +19,8 @@
   <h1 id="menuTitle">Le château<br>nous attend.</h1>
   <p class="adventure-intro">Choisis ton aventure. Écoute, trouve la réponse<br>et accompagne Paillette jusqu’au château.</p>
   <div id="adventureModules" class="adventure-modules"></div>
-  <div class="adventure-menu-footer"><button id="rewardPending" class="adventure-text-button">Mes cadeaux du jour</button><button id="progressOpen" class="adventure-text-button"><span data-art="book"></span> Carnet des progrès</button><span>10 cristaux par monde · un refuge à mi-chemin</span></div>
-  <details class="adventure-help"><summary>Pour les parents · Comment jouer ?</summary><p>Chaque bonne réponse fait avancer Paillette. Un monde compte 10 cristaux ; le refuge à 5 protège la première moitié du chemin. Une erreur ramène au dernier refuge, puis on réessaie tranquillement.</p><p>Une aventure terminée donne un tour de roue. Les progrès et les cadeaux restent sur cet appareil, sans compte. Les lettres gardent leur nom ; l’activité « Les phonèmes » entraîne les sons. Le carnet permet de réinitialiser les progrès. Pour les mots, activez une voix française sur votre appareil et vérifiez le volume.</p><p>Le bouton ⏸ permet de faire une pause ou de changer d’activité. Invitez votre enfant à regarder toutes les lettres, sans se presser.</p></details>
+  <div class="adventure-menu-footer"><button id="rewardPending" class="adventure-text-button">Mes cadeaux du jour</button><span>10 cristaux par monde · un refuge à mi-chemin</span></div>
+  <details class="adventure-help"><summary>Pour les parents · Comment jouer ?</summary><p>Chaque bonne réponse fait avancer Paillette. Un monde compte 10 cristaux ; le refuge à 5 protège la première moitié du chemin. Une erreur ramène au dernier refuge, puis on réessaie tranquillement.</p><p>Une aventure terminée donne un tour de roue. Les progrès et les cadeaux restent sur cet appareil, sans compte. Les trois aventures « Trouve le mot ! » se choisissent directement ici. Toutes les activités utilisent la même voix féminine française ; vérifiez le volume.</p><p>Le bouton ⏸ permet de faire une pause ou de changer d’activité. Invitez votre enfant à regarder toutes les lettres, sans se presser.</p></details>
   <a id="legacyFallback" href="classic.html" hidden>Ouvrir les activités de secours →</a>
   <p id="engineStatus" class="adventure-status" role="status">Paillette prépare son voyage…</p>
  </section>
@@ -47,28 +47,6 @@
  </section>
  <p id="adventureStorage" class="adventure-storage"></p>
 </main>
-<dialog id="adventureLevels" class="adventure-level-dialog" aria-labelledby="levelsTitle">
- <button id="closeLevels" class="dialog-close" aria-label="Fermer le choix des niveaux">✕</button>
- <p class="adventure-eyebrow">TROUVE LE MOT !</p><h2 id="levelsTitle">Un chemin pour chaque lecteur</h2>
- <div id="adventureWordLevels"></div><p>10 mots, à ton rythme. Tu peux toujours réessayer.</p>
-</dialog>
-<dialog id="phonemeLevels" class="adventure-level-dialog" aria-labelledby="phonemesTitle">
- <button id="closePhonemeLevels" class="dialog-close" aria-label="Fermer le choix des phonèmes">✕</button>
- <p class="adventure-eyebrow">LES PHONÈMES</p><h2 id="phonemesTitle">Les sons ont leur aventure</h2>
- <p>Ici, on écoute le son /m/, plutôt que le nom de la lettre M. Un son peut avoir plusieurs écritures : cherche une écriture possible.</p>
- <div id="phonemeLevelChoices"></div><p>10 cristaux, à ton rythme. Les sons difficiles reviennent pour s’entraîner.</p>
-</dialog>
-<dialog id="progressNotebook" class="adventure-level-dialog progress-notebook" aria-labelledby="progressTitle">
- <button id="progressClose" class="dialog-close" aria-label="Fermer le carnet des progrès">✕</button>
- <p class="adventure-eyebrow">LE COIN DES PARENTS</p><h2 id="progressTitle">Les progrès</h2>
- <details class="progress-explanation"><summary>Comment lire ce carnet ?</summary><p>Lettres et phonèmes ont des progrès séparés. Pour les sons, « bien reconnu » demande trois bonnes réponses de suite, sur deux voyages et avec deux mots différents. Cela indique la réussite dans ce jeu.</p></details>
- <div id="progressFilters"><label for="progressScope">Voir les progrès de</label>
- <select id="progressScope"><option value="phonemes">Phonèmes</option><option value="letters">Lettres et groupes de lettres</option><option value="words">Mots</option><option value="all">Tous les apprentissages</option></select></div>
- <p id="progressSummary"></p><ul id="progressSkills"></ul>
- <p id="progressPrivacy"></p><button id="progressReset" class="adventure-secondary">Réinitialiser ces progrès</button>
- <div id="progressResetConfirm" class="progress-reset-confirm" hidden><p id="progressResetQuestion"></p><button id="progressResetCancel" class="adventure-primary">Garder les progrès</button><button id="progressResetDo" class="adventure-text-button">Oui, réinitialiser</button></div>
- <p id="progressResetStatus" role="status" aria-live="polite"></p>
-</dialog>
 <dialog id="adventurePause" class="adventure-level-dialog adventure-pause" aria-labelledby="pauseTitle">
  <p class="adventure-eyebrow">ON PREND SON TEMPS</p><h2 id="pauseTitle">Une petite pause ?</h2>
  <p>Paillette t’attend ici. Tu peux reprendre exactement où tu en étais.</p>

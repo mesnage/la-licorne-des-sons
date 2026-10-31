@@ -53,7 +53,7 @@ server and does not change Cloudflare deployment settings.
 ## Before selling — supervised family review
 
 Try the preview on a real iPad/Safari and an Android phone, with French audio enabled. Test both screen orientations
-and device volume controls. Synthetic word speech is mocked in automated tests; its pronunciation needs listening
+and device volume controls. Word prompts now use the shared recorded female narrator. Their pronunciation and playback need listening
 on the actual device. The five phonics modules retain their recorded French audio.
 
 During short, voluntary sessions with children aged 4–7 and a parent, observe whether they can:
@@ -72,12 +72,12 @@ only on automated checks.
 
 ## Recorded automated result — 31 October 2026
 
-- 32 Node tests passed; lint passed.
-- Content check passed: 58 sounds, 495 words, 641 recorded prompts and 18,870 card-generation trials.
+- 40 Node tests passed; lint passed.
+- Content check passed: 58 sounds, 495 words, 685 recorded prompts and 18,870 card-generation trials.
 - Main adventure browser suite passed all 130 questions across the five phonics modules and three word levels,
   rewards, real walking, Canvas/resizing and engine-failure recovery.
 - Checkpoint browser suite passed returns in two worlds, unique progress credit, all gags and five device sizes.
 - Rainbow browser suite passed real climbs, pauses, rotation, quiet birds and 12 scene-reset loops.
 
-Word speech was mocked in browser automation. These results apply to Chromium in the development environment;
+The current word activity uses recorded prompts; browser checks fetch and decode these files. These results apply to Chromium in the development environment;
 actual French voice quality, Safari behaviour and comfort for children remain part of the family/device review.

@@ -11,7 +11,7 @@ body.prototype{background:#cee2df;color:#394850;font-family:'Fredoka',ui-rounded
 .adventure-brand>span{font-size:26px;color:#bf8a5d;vertical-align:middle;margin-right:8px}
 .world-name{border:1px solid #fff9;border-radius:30px;background:#fff8edc9;box-shadow:0 4px 20px #324a5310;backdrop-filter:blur(10px);padding:10px 18px;font-size:14px}
 .adventure-icon{width:48px;height:48px;flex:none;border:1px solid #fff;border-radius:50%;background:#fff7e6;font-size:28px;box-shadow:0 3px 0 #c6c4b9}
-.adventure-menu{pointer-events:auto;width:min(800px,calc(100% - 40px));margin:100px auto 30px;padding:32px 40px 22px;text-align:center;background:linear-gradient(140deg,#fff9edeb,#f7f0f4e6);border:1px solid #ffffffdb;border-radius:36px;box-shadow:0 20px 75px #314d4c30;backdrop-filter:blur(12px)}
+.adventure-menu{pointer-events:auto;width:min(800px,calc(100% - 40px));margin:100px auto 30px;padding:32px 40px 22px;max-height:calc(100dvh - 120px);overflow-y:auto;text-align:center;background:linear-gradient(140deg,#fff9edeb,#f7f0f4e6);border:1px solid #ffffffdb;border-radius:36px;box-shadow:0 20px 75px #314d4c30;backdrop-filter:blur(12px)}
 .adventure-eyebrow{display:block;font-size:10px;font-weight:700;letter-spacing:2px;color:#8b716b;margin:0 0 12px}
 .adventure-menu h1{font-family:Georgia,serif;font-size:clamp(42px,5vw,68px);font-weight:500;line-height:.98;color:#53675c;letter-spacing:-2px;margin:10px 0 18px}
 .adventure-intro{font-size:16px;line-height:1.6;color:#66716e;margin:0 0 25px}
@@ -60,9 +60,6 @@ body.prototype{background:#cee2df;color:#394850;font-family:'Fredoka',ui-rounded
 .adventure-level-dialog{width:min(500px,calc(100% - 24px));max-height:calc(100dvh - 24px);overflow:auto;border:1px solid #fff;border-radius:30px;background:#fff8ef;color:#4e6259;padding:48px 26px 24px;text-align:center}
 .adventure-level-dialog::backdrop{background:#28454177;backdrop-filter:blur(6px)}
 .adventure-level-dialog h2{font-family:Georgia,serif;font-weight:500;font-size:30px}
-#adventureWordLevels{display:grid;gap:15px}
-#adventureWordLevels button{min-height:76px;border:1px solid #fff;border-radius:20px;background:#e6e4ef;padding:16px;font-size:18px;text-align:left;box-shadow:0 3px 0 #c7c4d9}
-#adventureWordLevels small{display:block;font-size:12px;margin-top:6px}
 .adventure-storage{position:fixed;bottom:2px;left:16px;right:16px;text-align:center;font-size:11px;color:#654f3e;background:#fff8dcdf;border-radius:10px;line-height:1.4;pointer-events:none}
 .adventure-storage:empty{display:none}
 @keyframes gentle-retry{25%{transform:translateX(-4px)}50%{transform:translateX(4px)}75%{transform:translateX(-2px)}}
@@ -129,45 +126,12 @@ body.prototype{background:#cee2df;color:#394850;font-family:'Fredoka',ui-rounded
 .adventure-menu{background:linear-gradient(140deg,#faf6e9f2,#f0ede4eb)}
 .adventure-menu-footer{flex-wrap:wrap;justify-content:center;gap:4px 20px}
 .adventure-menu-footer>span{flex-basis:100%}
-.adventure-module[data-module="words"]{grid-column:span 3;text-align:center;min-height:76px}
-.adventure-module[data-module="words"] .module-icon{float:none;display:inline-block;vertical-align:middle;margin:0 12px 0 0}
-.adventure-module[data-module="words"] strong,.adventure-module[data-module="words"] small{display:inline-block;margin-right:10px}
-#phonemeLevelChoices{display:grid;gap:15px}
-#phonemeLevelChoices button{min-height:76px;border:1px solid #fff;border-radius:20px;background:#e2e9da;padding:16px;font-size:18px;text-align:left;box-shadow:0 3px 0 #bbc9af}
-#phonemeLevelChoices small{display:block;font-size:12px;line-height:1.5;margin-top:6px}
-.progress-notebook{width:min(660px,calc(100% - 24px));text-align:left}
-.progress-notebook>p{font-size:13px;line-height:1.7}
-.progress-notebook h2{margin-top:8px}
-#progressScope{display:block;width:100%;font:inherit;border:1px solid #c9c7b5;border-radius:12px;padding:12px;background:#f5f1e4;color:inherit;margin-top:8px;min-height:48px}
-#progressSkills{list-style:none;margin:16px 0;padding:0;max-height:36dvh;overflow-y:auto;border-block:1px solid #d9d7c8}
-#progressSkills li{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 4px;border-bottom:1px solid #e9e3d3;font-size:17px;min-height:48px}
-.skill-status{font-size:11px;padding:6px 10px;border-radius:20px;white-space:nowrap;background:#e9e7df;color:#61756b}
-.status-1{background:#f3e5cf;color:#826d49}.status-2{background:#e0e8db}.status-3{background:#cfe2d0;color:#426d50}
-.progress-reset-confirm{border:1px solid #cfc5a8;border-radius:16px;padding:16px;margin-top:16px;background:#f1ead6;font-size:13px;line-height:1.6}
-#progressResetStatus{min-height:24px}
 @media(max-width:600px){
- .adventure-module[data-module="words"]{grid-column:span 2;min-height:70px}
- .adventure-module[data-module="words"] small{display:none}
- .adventure-menu-footer{flex-direction:row;gap:0 10px}
- .adventure-menu-footer .adventure-text-button{min-height:44px;font-size:11px}
- .adventure-menu-footer>span{width:100%}
+ .adventure-menu-footer .adventure-text-button{min-height:44px;font-size:12px}
  .module-icon .illustration{width:34px;height:34px}
  .world-name{gap:3px}
  .world-name>.illustration{width:16px;height:16px}
 }
-@media(orientation:landscape) and (max-height:600px){.adventure-module[data-module="words"]{grid-column:span 3;min-height:50px}}
-.progress-notebook[open]{display:flex;flex-direction:column;height:min(780px,calc(100dvh - 24px));padding:42px 24px 20px;overflow-y:auto}
-.progress-notebook>h2{margin:4px 0 8px}
-.progress-notebook>.adventure-eyebrow{margin-bottom:4px}
-.progress-notebook>p{margin:10px 0;font-size:12px}
-.progress-explanation{font-size:12px;line-height:1.6}
-.progress-explanation summary{padding:10px 0;min-height:44px;cursor:pointer}
-#progressSkills{flex:1;min-height:100px;max-height:none;margin:8px 0}
-#progressFilters{font-size:13px}
-#progressScope{padding:9px}
-.progress-notebook>*{flex-shrink:0}
-#progressPrivacy{font-size:11px;margin:6px 0}
-#progressReset{min-height:46px;font-size:14px;margin:4px 0}
-#progressResetStatus:empty{display:none}
-.progress-notebook.confirming #progressSkills,.progress-notebook.confirming #progressFilters,.progress-notebook.confirming .progress-explanation,.progress-notebook.confirming #progressReset,.progress-notebook.confirming #progressSummary,.progress-notebook.confirming #progressPrivacy{display:none}
-.progress-reset-confirm{margin:10px 0;flex:1}
+/* Every activity and word level is a direct choice in the same menu grid. */
+.adventure-module[data-word-level] small{font-size:12px}
+@media(max-width:600px){.adventure-module[data-word-level] small{font-size:11px}}

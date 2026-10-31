@@ -101,3 +101,7 @@
  #wordPlay .word-choice{min-height:80px}
  #wordPlay .word-feedback{font-size:16px;margin-top:18px;min-height:40px}
 }
+
+/* Direct word-level choices share the home activity grid. */
+#home .word-level-button{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;padding:18px 10px;min-height:110px;font-size:17px;text-align:center}
+#home .word-level-button small{display:block;font-size:12px;margin-top:6px;line-height:1.4}

@@ -1,5 +1,5 @@
 """Optional integration test: requires Python Playwright, Chromium and a running static server.
-Speech is mocked for deterministic UI checks; listen on a real French-voice device before release.
+Recorded word prompts use the shared female narrator; device speech is disabled during checks.
 """
 import argparse
 from pathlib import Path
@@ -13,17 +13,7 @@ args = parser.parse_args()
 if args.screenshots:
     args.screenshots.mkdir(parents=True, exist_ok=True)
 
-speech_mock = """
-window.SpeechSynthesisUtterance = class {constructor(text){this.text=text;}};
-window.__spoken = []; window.__cancels = 0; window.__activeVoice = 0;
-Object.defineProperty(window, 'speechSynthesis', {configurable:true, value:{
- getVoices: () => [{lang:'en-US',localService:true},{lang:'fr-FR',localService:true}],
- cancel(){window.__cancels++;window.__activeVoice=0;},
- speak(u){window.__activeVoice++; if(window.__activeVoice>1) throw Error('Overlapping speech');
-  window.__spoken.push({text:u.text,rate:u.rate,lang:u.lang});},
- addEventListener(){},removeEventListener(){}
-}});
-"""
+speech_mock = """window.__spoken=[];Object.defineProperty(window,'speechSynthesis',{value:{getVoices:()=>[],speak(){throw Error('Unexpected device voice');},cancel(){},addEventListener(){},removeEventListener(){}}});"""
 
 def shot(page, name):
     if args.screenshots:
@@ -32,7 +22,6 @@ def shot(page, name):
 def open_game(page):
     page.goto(args.url + '/classic.html?debug', wait_until='domcontentloaded')
     page.wait_for_function('window.__licorneOK')
-    page.locator('#wordActivityOpen').click()
 
 with sync_playwright() as p:
     browser = p.chromium.launch(executable_path=args.chromium, headless=True, args=['--no-sandbox'])
@@ -63,9 +52,7 @@ with sync_playwright() as p:
             if index == 0:
                 for _ in range(5):
                     page.locator('#wordSpeaker').click()
-                assert page.evaluate('window.__spoken.at(-1).lang') == 'fr-FR'
-                assert page.evaluate('window.__spoken.at(-1).rate') == .8
-                assert page.evaluate('window.__activeVoice') == 1
+                assert page.evaluate('window.__spoken.length')==0
                 shot(page, f'word-level-{level}-question')
             if index < 2:
                 wrong = page.locator('.word-choice:not([data-word-id="' + state['targetId'] + '"])').first
@@ -119,7 +106,7 @@ with sync_playwright() as p:
         assert page.evaluate('window.__words.state().targetId') != previous
         page.locator('#wordPlayBack').click()
         page.clock.run_for(3000)
-        assert page.locator('#wordLevels').is_visible()
+        assert page.locator('#home').is_visible()
         assert page.locator('#game > #scene').count() == 1
         print(f'Level {level}: 10 questions, retries, 8/10 first-try score, one reward spin, replay and cancellation passed')
     saved = page.evaluate('localStorage.getItem("licorne.words.v1")')
@@ -127,10 +114,7 @@ with sync_playwright() as p:
     page.reload(wait_until='domcontentloaded')
     page.wait_for_function('window.__licorneOK')
     assert page.evaluate('localStorage.getItem("licorne.words.v1")') == saved
-    page.locator('#wordActivityOpen').click()
-    page.locator('.word-practice summary').click()
-    assert 'à revoir' in page.locator('#wordPractice').inner_text()
-    page.locator('#wordLevelsHome').click()
+    assert page.locator('#wordLevels, #wordPractice, #wordActivityOpen').count()==0
     # Existing games still start, answer correctly, and return home.
     for mode in ['voyelles','consonnes','sons','experts','tout']:
         page.locator(f'[data-level="{mode}"]').click()
@@ -151,7 +135,6 @@ with sync_playwright() as p:
           const {WORDS} = await import('./js/data/words.js');
           localStorage.setItem('licorne.words.v1', JSON.stringify(Object.fromEntries(WORDS.map(w => [w.id,{completed:1,firstTry:1,misses:0,streak:1}]))));
         }""")
-        layout.locator('#wordActivityOpen').click()
         layout.locator('[data-word-level="3"]').click()
         layout.locator('.word-choice').evaluate_all("(cards) => cards.forEach((c,i) => { const text = ['aujourd’hui','maintenant','quelquefois','parce que'][i]; c.querySelector('span').textContent = text; c.classList.toggle('word-long',text.length>8); })")
         assert layout.evaluate('document.documentElement.scrollWidth <= window.innerWidth')
@@ -160,17 +143,16 @@ with sync_playwright() as p:
         shot(layout, f'word-layout-{width}x{height}')
         layout.close()
     print('320px phone, mobile landscape, iPad portrait and landscape layouts passed')
-    # Missing French voices never substitute English or expose an answer in a fallback.
+    # Recorded prompts work without any installed device voice; failures remain generic.
     silent = browser.new_page(viewport={'width':390,'height':844})
-    silent.add_init_script("Object.defineProperty(window,'speechSynthesis',{value:{getVoices:()=>[],cancel(){},addEventListener(){},removeEventListener(){}}})")
+    silent.add_init_script(speech_mock)
+    silent.route('**/audio/mot-entier-*.mp3',lambda route:route.abort())
     silent.on('pageerror', lambda e: errors.append(str(e)))
     open_game(silent)
     silent.locator('[data-word-level="1"]').click()
-    assert 'voix française' in silent.locator('#wordAudioStatus').inner_text()
-    assert silent.locator('.word-choice:enabled').count() == 4
+    silent.wait_for_function('document.querySelector("#wordAudioStatus").textContent.includes("n’a pas pu se charger")')
+    assert silent.locator('.word-choice:enabled').count()==4
     silent.locator('#wordSpeaker').click()
-    assert 'voix française' in silent.locator('#wordAudioStatus').inner_text()
-    print('No-French-voice fallback and replay passed without revealing the target')
-    assert not errors, errors
-    browser.close()
-    print('All browser checks passed; French speech requests mocked, actual device listening still required')
+    print('Missing recorded audio shows a generic retry hint without device-voice substitution')
+    assert not errors,errors
+    browser.close();print('All classic word checks passed with recorded audio')

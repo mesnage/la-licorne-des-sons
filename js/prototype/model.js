@@ -1,8 +1,7 @@
 import { LEVELS } from '../data/sounds.js';
-import { WORDS } from '../data/words.js';
+import { WORDS, WORD_LEVELS } from '../data/words.js';
 import { makeTargets, distractors, pickWord } from '../questions.js';
 import { shuffle } from '../utils.js';
-import { phonemeQuestions } from '../learning/phonemes.js';
 import { weightedPick } from '../learning/mastery.js';
 import { QuestionSession, WordSession } from '../words/model.js';
 
@@ -12,9 +11,8 @@ export const MODULES = [
   { id:'sons', title:'Les sons', icon:'rainbow', detail:'ou, on, an, ui…', color:'mint' },
   { id:'experts', title:'Sons experts', icon:'gem', detail:'Des sons à explorer', color:'peach' },
   { id:'tout', title:'Tout mélangé', icon:'star', detail:'La grande aventure', color:'gold' },
-  { id:'phonemes', title:'Les phonèmes', icon:'sound', detail:'Écouter le son, pas le nom', color:'mint' },
-  { id:'words', title:'Trouve le mot !', icon:'book', detail:'Trois niveaux de lecture', color:'sky' }
 ];
+export const MENU_ITEMS=[...MODULES,...WORD_LEVELS.map(level=>({id:'words-'+level.id,mode:'words',level:level.id,title:'Trouve le mot ! · '+level.id,detail:level.title,icon:'book',color:['sky','mint','lavender'][level.id-1]}))];
 export const WORLD_WIDTH = 3600, WORLD_HEIGHT = 1400;
 export function pathPoint(progress){
   const p = Math.max(0,Math.min(1,progress)), x = 140 + p * 3160;
@@ -77,7 +75,6 @@ export function createJourneyMemory(storage){
   };
 }
 export function createAdventure(mode, level = 1, stats = {}, skills = {}){
-  if(mode === 'phonemes')return new AdventureSession(phonemeQuestions(level,skills));
   if(mode === 'words') return new AdventureSession(new WordSession(WORDS,level,stats).questions);
   if(!LEVELS[mode]) throw new Error('Unknown learning module');
   let targets;

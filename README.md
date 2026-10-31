@@ -8,7 +8,7 @@ Les parties de lettres et sons comportent vingt cristaux, les trois niveaux de m
 - 58 lettres et graphèmes, toutes les consonnes de l’alphabet, Y et Ç, 495 mots illustrés ;
 - cartes en majuscules **et** minuscules ;
 - jamais deux « e » (e, é, è, eu, en, eau) sur les cartes : un « e » est toujours présenté avec deux autres voyelles ;
-- voix française enregistrée pour les lettres et sons ; voix française uniquement pour les mots (voir ci-dessous).
+- même voix féminine française enregistrée pour les lettres, les sons et les mots.
 
 Site 100 % statique, **sans étape de compilation** : HTML, CSS, modules JavaScript et Phaser 4.2.1 fourni avec le jeu.
 
@@ -154,7 +154,6 @@ git push -u origin main
 
 - Voix : modèle [piper](https://github.com/rhasspy/piper) `fr_FR-siwis-medium`, entraîné sur le corpus
   **SIWIS French Speech Synthesis** (licence [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/)).
-- Phonèmes isolés : eSpeak NG français, via la bibliothèque de l’environnement Piper ; narration et exemples dans la voix française existante.
 - Vérification des voix : Whisper (OpenAI, licence MIT) via [sherpa-onnx](https://github.com/k2-fsa/sherpa-onnx) (Apache 2.0).
 - Police : [Fredoka](https://fonts.google.com/specimen/Fredoka) (SIL Open Font License).
 - Paillette, le décor et les illustrations sont dessinés en SVG dans le code.
@@ -209,30 +208,25 @@ bloquée ; le jeu continue alors à suivre les progrès pendant la visite.
 
 ### Écouter et remplacer les voix
 
-**Pour cette nouvelle activité seulement**, une voix de synthèse française du navigateur est utilisée, à vitesse 0,8.
-Une voix locale de France est privilégiée, puis une autre voix française. Aucune voix anglaise n’est utilisée en secours.
-Sur un iPad/iPhone/Mac, vérifier qu’une voix française est disponible et que le volume est activé. Si la voix n’est pas
-encore chargée, toucher de nouveau « Réécouter ». Si aucun son français ne fonctionne, un message invite à faire activer
-une voix française par un adulte, sans jamais afficher la réponse dans le message.
-
-La qualité et la disponibilité de la voix dépendent du système et du navigateur. La voix locale est privilégiée ;
-une voix fournie à distance par le navigateur peut nécessiter Internet. Le jeu n’envoie aucune donnée de progression.
-Tester l’écoute sur l’appareil de l’enfant avant utilisation. Les tests automatisés vérifient les appels vocaux et leur
-annulation avec une voix simulée ; ils ne valident pas la qualité audible des voix Safari/iPad.
+Tous les mots utilisent désormais **la même voix féminine française enregistrée** que les consonnes et les sons :
+Piper `fr_FR-siwis-medium`, à hauteur normale et au débit adapté aux enfants. Les 44 consignes « Trouve le mot, … ! »
+sont des MP3 livrés avec le jeu. Aucune voix système ou synthèse du navigateur n’est utilisée. Sur iPad/iPhone/Mac,
+il suffit de vérifier le volume. En cas d’échec de chargement, le message propose de réécouter sans révéler la réponse.
+Les tests de navigateur utilisent les vrais fichiers MP3 ; l’écoute et la fluidité restent à vérifier sur les appareils.
 
 Le vocabulaire est dans **`js/data/words.js`**, les règles dans `js/words/model.js`, le suivi dans `progress.js`, les voix
 dans `voice.js`, l’interface dans `game.js`, le parcours partagé dans `journey.js` et les styles dans `css/words.css`. Aucun outil de compilation n’est nécessaire.
 Pour ajouter un mot, ajouter par exemple à `WORDS` :
 
 ```js
-word('fleur', 'fleur', 2, { audio: 'audio/mots/fleur.mp3' }),
+word('fleur', 'fleur', 2),
 ```
 
-`audio` est facultatif. Le MP3 doit contenir **la consigne entière**, par exemple « Trouve le mot… fleur ! »,
-avec une voix française claire. Les enregistrements sont lus à vitesse 0,9 et sont prioritaires sur la synthèse.
-Si un fichier ne peut pas être lu, le jeu essaie la voix française. Chaque nouvel appui annule la lecture précédente.
-`speech` peut préciser une prononciation, comme « Léna » pour la carte « lena ». Les prénoms s’affichent en minuscules,
-comme les autres cartes, pour cet exercice. Ajouter des niveaux dans `WORD_LEVELS` et les mots correspondants dans `WORDS`.
+Chaque mot reçoit automatiquement une référence `audioKey: 'W:<id>'` dans `audio/manifest.json`. Après un ajout,
+lancer `python3 tools/voice/build_voice.py` puis `npm run check`. Pour employer un enregistrement humain, remplacer
+le MP3 référencé par cette clé ; il doit contenir la consigne entière, par exemple « Trouve le mot, fleur ! ».
+Chaque nouvel appui annule la lecture précédente. `speech` peut préciser une prononciation lors de la génération,
+comme « Léna » pour la carte « lena ». Ajouter des niveaux dans `WORD_LEVELS` et les mots correspondants dans `WORDS`.
 Prévoir au moins quatre mots de prononciations différentes par niveau.
 
 Donner **le même `soundGroup` aux homophones** lors de l’ajout de vocabulaire. Par exemple :
@@ -290,7 +284,7 @@ fausses réponses ambiguës (par exemple C/K/Q/QU, É/ER/EZ et IN/AIN/EIN/UN).
 Les **335 nouveaux fichiers MP3** sont inclus dans le dépôt : aucune génération de voix n’est nécessaire sur
 l’appareil de l’enfant. Ils ont été générés avec la voix française du projet puis vérifiés avec Whisper.
 Les modèles et l’environnement Python de génération ne sont pas des dépendances du jeu statique.
-`npm run check` vérifie les 641 audios nécessaires et 18 870 tirages des cartes ; `npm test` couvre aussi la
+`npm run check` vérifie les 685 audios nécessaires et 18 870 tirages des cartes ; `npm test` couvre aussi la
 présence de toutes les consonnes, le surlignage des nouveaux mots et les dix étapes vers le château.
 
 ## L’aventure principale — mondes, refuges et gags
@@ -366,16 +360,13 @@ L’écoute et la fluidité sur de vrais appareils Safari/iPad restent à vérif
 
 Les passes de revue et le protocole de test en famille sont décrits dans [docs/PLAYTEST_REVIEW.md](docs/PLAYTEST_REVIEW.md).
 
-## Lettres, phonèmes et carnet des progrès
 
-Les cinq activités de lettres/groupes restent disponibles. **Les phonèmes** ajoute trois étapes de dix cristaux,
-avec 31 sons ciblés et 62 prompts MP3 distincts des noms de lettres. Les erreurs orientent les révisions et les
-nouveaux sons sont introduits progressivement. Les progrès des lettres et des phonèmes sont suivis séparément.
+## Menu direct et voix commune
 
-Le **Carnet des progrès** du menu permet de consulter les sons et de **réinitialiser** une catégorie ou tous les
-apprentissages. Les cadeaux, tours de roue et mondes terminés sont conservés. L’interface et les récompenses utilisent
-des illustrations SVG cohérentes ; les sept mondes ont des couches de paysage, des plantes et des repères distincts.
+Le menu principal présente huit choix au même niveau : les cinq activités de lettres/sons et les trois niveaux de
+**Trouve le mot !**. Un toucher lance directement la partie, sans écran intermédiaire de choix de niveau. Les
+activités phonémiques et le carnet des progrès ont été retirés, avec leurs fichiers audio et leurs outils dédiés.
+La roue et ses compteurs quotidiens restent disponibles. Les sept décors illustrés, les refuges, les gags et les
+révisions locales continuent de fonctionner. Les activités de secours utilisent le même menu direct et la même voix.
 
-Voir [le parcours, les données, la remise à zéro et la validation audio](docs/PHONEMES_AND_MASTERY.md).
-Le contrôle automatique de contexte audio ne remplace pas l’écoute pédagogique des phonèmes avant une diffusion
-commerciale. Les activités de syllabes et de phrases ne font pas encore partie de cette version.
+Voir [docs/FLAT_MENU_AND_VOICE.md](docs/FLAT_MENU_AND_VOICE.md) pour la vérification et la prévisualisation.

@@ -1,12 +1,12 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { MODULES, createAdventure, pathPoint, WORLD_WIDTH, WORLDS, checkpointFor, journeyState, gagFor, createJourneyMemory } from '../js/prototype/model.js';
+import { MODULES, MENU_ITEMS, createAdventure, pathPoint, WORLD_WIDTH, WORLDS, checkpointFor, journeyState, gagFor, createJourneyMemory } from '../js/prototype/model.js';
 import { QuestionSession } from '../js/words/model.js';
 import { isE, OTHER_VOWELS } from '../js/questions.js';
 
 test('all phonics modules and the three word levels retain their learning content',()=>{
-  assert.deepEqual(MODULES.map(m=>m.id),['voyelles','consonnes','sons','experts','tout','phonemes','words']);
-  for(const module of MODULES.filter(m=>!['words','phonemes'].includes(m.id))){
+  assert.deepEqual(MODULES.map(m=>m.id),['voyelles','consonnes','sons','experts','tout']);
+  for(const module of MODULES){
     const session=createAdventure(module.id);assert.equal(session.questions.length,20);
     for(const q of session.questions){
       assert.equal(q.choices.length,3);assert.equal(new Set(q.choices.map(c=>c.p)).size,3);
@@ -20,6 +20,11 @@ test('all phonics modules and the three word levels retain their learning conten
     for(const q of session.questions){assert.equal(q.choices.length,4);assert.equal(q.target.level,level);}
   }
   assert.throws(()=>createAdventure('unknown'),/Unknown/);
+});
+test('the menu has five original activities and three direct word-level choices',()=>{
+ assert.equal(MENU_ITEMS.length,8);assert.equal(new Set(MENU_ITEMS.map(item=>item.id)).size,8);
+ assert.deepEqual(MENU_ITEMS.filter(item=>item.mode==='words').map(item=>item.level),[1,2,3]);
+ for(const item of MENU_ITEMS){const session=createAdventure(item.mode||item.id,item.level||1);assert.equal(session.questions.length,item.mode==='words'?10:20);}
 });
 test('world boundaries are every ten crystals and refuges are exactly halfway',()=>{
   assert.deepEqual([0,1,4,5,6,9,10,11,14,15,16,19].map(checkpointFor),[0,0,0,5,5,5,10,10,10,15,15,15]);

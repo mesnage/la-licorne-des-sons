@@ -33,7 +33,7 @@ with sync_playwright() as p:
     # Real motion: pause in feedback, on the ascent, and while returning across the bridge.
     page=browser.new_page(viewport={'width':390,'height':844},has_touch=True)
     page.add_init_script(speech);page.on('pageerror',lambda e:errors.append(str(e)));open_game(page)
-    page.locator('[data-module="words"]').click();page.locator('[data-word-level="1"]').click()
+    page.locator('[data-word-level="1"]').click()
     initial=state(page);page.wait_for_timeout(300)
     assert state(page)['world']['birdSeconds']==initial['world']['birdSeconds']
     index=right(page);pause(page);page.wait_for_timeout(900)

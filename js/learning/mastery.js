@@ -1,10 +1,6 @@
 import { ALL } from '../data/sounds.js';
-import { PHONEMES } from '../data/phonemes.js';
 export const MASTERY_KEY='licorne.mastery.v1';
-export const SKILLS=[
-  ...ALL.map(s=>({id:'letters:'+s.g,scope:'letters',label:s.g})),
-  ...PHONEMES.map(s=>({id:'phonemes:'+s.id,scope:'phonemes',label:`/${s.ipa}/ · ${s.g}`}))
-];
+export const SKILLS=ALL.map(s=>({id:'letters:'+s.g,scope:'letters',label:s.g}));
 const allowed=new Set(SKILLS.map(s=>s.id));
 const day=86400000;
 const natural=n=>Number.isSafeInteger(n)&&n>=0&&n<=1000000;
@@ -39,7 +35,7 @@ export function createMastery(storage){
       s.nextReview=now+(correct?[1,1,3,7,14][Math.min(4,s.streak)]:0)*day;stats[id]=s;save();
     },
     reset(scope='all'){
-      if(!['all','letters','phonemes'].includes(scope))return;
+      if(!['all','letters'].includes(scope))return;
       load();stats=Object.fromEntries(Object.entries(stats).filter(([id])=>scope!=='all'&&!id.startsWith(scope+':')));save();
     }
   };
