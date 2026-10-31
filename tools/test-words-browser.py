@@ -30,7 +30,7 @@ def shot(page, name):
         page.screenshot(path=str(args.screenshots / (name + '.png')), full_page=True)
 
 def open_game(page):
-    page.goto(args.url + '/?debug', wait_until='domcontentloaded')
+    page.goto(args.url + '/classic.html?debug', wait_until='domcontentloaded')
     page.wait_for_function('window.__licorneOK')
     page.locator('#wordActivityOpen').click()
 
@@ -145,7 +145,7 @@ with sync_playwright() as p:
         layout = context.new_page()
         layout.set_viewport_size({'width':width,'height':height})
         layout.on('pageerror', lambda e: errors.append(str(e)))
-        layout.goto(args.url + '/?debug', wait_until='domcontentloaded')
+        layout.goto(args.url + '/classic.html?debug', wait_until='domcontentloaded')
         layout.wait_for_function('window.__licorneOK')
         layout.evaluate("""async () => {
           const {WORDS} = await import('./js/data/words.js');

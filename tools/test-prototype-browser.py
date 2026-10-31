@@ -17,7 +17,7 @@ Object.defineProperty(window,'speechSynthesis',{value:{getVoices:()=>[{lang:'fr-
 def shot(page,name):
     if args.screenshots: page.screenshot(path=str(args.screenshots/(name+'.png')))
 def open_proto(page,suffix=''):
-    page.goto(args.url+'/prototype.html?debug'+suffix,wait_until='domcontentloaded')
+    page.goto(args.url+'/index.html?debug'+suffix,wait_until='domcontentloaded')
     page.wait_for_function('window.__adventure?.state().ready',timeout=30000)
 def choose(page,module,level=1):
     page.locator(f'[data-module="{module}"]').click()
@@ -50,6 +50,7 @@ with sync_playwright() as p:
             assert page.locator('.adventure-answer').evaluate_all('(buttons)=>buttons.every(b=>b.clientWidth>=b.scrollWidth)')
             if index==0:
                 page.locator('.adventure-answer:not([data-choice-id="'+state['targetId']+'"])').first.click()
+                page.wait_for_function('window.__adventure.state().phase==="question"')
                 assert page.evaluate('window.__adventure.state().index')==0
                 assert page.evaluate('window.__adventure.state().world.progress')==0
                 page.locator('#listenBtn').click()
@@ -105,9 +106,9 @@ with sync_playwright() as p:
     # Unavailable engine leaves a useful path back to the full classic game.
     failure=browser.new_page()
     failure.route('**/vendor/phaser/**',lambda route:route.abort())
-    failure.goto(args.url+'/prototype.html',wait_until='domcontentloaded')
+    failure.goto(args.url+'/index.html',wait_until='domcontentloaded')
     failure.wait_for_function('document.querySelector("#engineStatus").textContent.includes("n’a pas pu démarrer")')
-    failure.locator('.adventure-menu-footer a').click()
+    failure.locator('#legacyFallback').click()
     failure.wait_for_function('window.__licorneOK')
     assert failure.locator('[data-level]').count()==5
     assert failure.locator('#wordActivityOpen').is_visible()

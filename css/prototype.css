@@ -81,3 +81,35 @@ body.prototype{background:#cee2df;color:#394850;font-family:'Fredoka',ui-rounded
  .adventure-header{padding:10px 18px}.adventure-hud{top:auto;bottom:18px;left:18px;width:175px}.adventure-question{left:auto;right:18px;transform:none;width:54%;bottom:18px;padding:16px}.adventure-question h2{font-size:21px}.adventure-question-top{margin-bottom:10px}.adventure-question-top .adventure-eyebrow{font-size:7px;letter-spacing:.8px}.adventure-answer{min-height:62px;font-size:28px}.adventure-answer.long{font-size:19px}.adventure-speaker{font-size:12px;min-height:44px;padding:8px}.adventure-speaker span{font-size:18px}.adventure-feedback{font-size:11px;min-height:20px;margin-top:10px}.adventure-finish{top:65px;bottom:15px;left:20px;right:auto;transform:none;overflow-y:auto;padding:20px}.adventure-finish h1{font-size:28px}.adventure-finish p{font-size:12px;margin:8px}.adventure-primary,.adventure-secondary{min-height:44px;padding:10px;font-size:14px}
 }
 @media(prefers-reduced-motion:reduce){.adventure-answer.retry{animation:none}.adventure-module,.adventure-answer,#adventureProgress>span{transition:none}}
+/* Crystal refuges and larger early-reader cards. */
+.adventure-hud{width:290px;gap:8px}
+.adventure-hud small{font-size:10px;line-height:1.4}
+#adventureProgress{position:relative;overflow:visible}
+.checkpoint-tick{position:absolute;left:50%;top:-3px;width:2px;height:11px;background:#aa8b56;border-radius:2px}
+.adventure-question{width:min(740px,calc(100% - 32px))}
+.adventure-choices:not(.words) .adventure-answer{flex-direction:column;gap:1px;font-size:52px;min-height:120px;line-height:1.05}
+.adventure-choices:not(.words) .adventure-answer small{font-size:.72em}
+.adventure-choices:not(.words) .adventure-answer.phonics-group{font-size:34px}
+.adventure-choices.words .adventure-answer{font-size:34px;min-height:96px}
+.adventure-choices.words .adventure-answer.long{font-size:28px}
+@media(max-width:600px){
+ .adventure-hud{width:220px;padding:8px 12px}.adventure-hud small{font-size:9px}
+ .adventure-choices:not(.words) .adventure-answer{font-size:46px;min-height:110px}
+ .adventure-choices:not(.words) .adventure-answer.phonics-group{font-size:27px}
+ .adventure-choices.words .adventure-answer{font-size:27px;min-height:88px}
+ .adventure-choices.words .adventure-answer.long{font-size:24px}
+}
+@media(max-width:360px) and (orientation:portrait){
+ .adventure-choices.words{grid-template-columns:1fr;gap:8px}
+ .adventure-choices.words .adventure-answer{min-height:54px;padding:9px;font-size:28px}
+ .adventure-choices.words .adventure-answer.long{font-size:25px}
+ .adventure-choices:not(.words) .adventure-answer.phonics-group{font-size:25px}
+ .adventure-hud{width:205px}
+}
+@media(orientation:landscape) and (max-height:600px){
+ .adventure-hud{width:205px}.adventure-question{width:54%}
+ .adventure-choices:not(.words) .adventure-answer{min-height:100px;font-size:46px}
+ .adventure-choices:not(.words) .adventure-answer.phonics-group{font-size:28px}
+ .adventure-choices.words .adventure-answer{font-size:29px;min-height:72px}
+ .adventure-choices.words .adventure-answer.long{font-size:25px}
+}

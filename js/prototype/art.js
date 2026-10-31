@@ -1,5 +1,5 @@
 import { unicornSVG } from '../unicorn.js';
-import { pathPoint, WORLD_WIDTH, WORLD_HEIGHT } from './model.js';
+import { pathPoint, WORLD_WIDTH, WORLD_HEIGHT, WORLDS } from './model.js';
 const svg = (w,h,content) => `<svg xmlns="http://www.w3.org/2000/svg" width="${w}" height="${h}" viewBox="0 0 ${w} ${h}">${content}</svg>`;
 export const uri = source => 'data:image/svg+xml;base64,'+window.btoa(Array.from(new window.TextEncoder().encode(source),byte=>String.fromCharCode(byte)).join(''));
 export function pailletteFrame(frame, happy = false){
@@ -13,15 +13,15 @@ export function pailletteFrame(frame, happy = false){
   });
   return source.replace('class="u-tail"',`class="u-tail" transform="rotate(${wave/3} 38 116)"`);
 }
-export function landscape(){
+export function landscape(theme=WORLDS[0]){
   let mountains='',hills='',flowers='',stars='';
   for(let i=0;i<18;i++){
     const x=i*240-80, y=150+(i*73%120);
-    mountains+=`<path d="M${x-230} 590 L${x+90} ${y} L${x+360} 590Z" fill="${i<6?'#a8d2ce':i<11?'#9fa8ce':'#8f84b8'}" opacity=".65"/><path d="M${x+90} ${y} l-45 67 40 -16 25 24 25 -15Z" fill="#fff9ed" opacity=".8"/>`;
+    mountains+=`<path d="M${x-230} 590 L${x+90} ${y} L${x+360} 590Z" fill="${theme.mountain}" opacity=".65"/><path d="M${x+90} ${y} l-45 67 40 -16 25 24 25 -15Z" fill="#fff9ed" opacity=".8"/>`;
   }
   for(let i=0;i<14;i++){
     const x=i*290;
-    hills+=`<ellipse cx="${x}" cy="${630+i%3*25}" rx="350" ry="150" fill="${i<4?'#8ec5a5':i<8?'#67a89e':'#9991ba'}" opacity=".6"/>`;
+    hills+=`<ellipse cx="${x}" cy="${630+i%3*25}" rx="350" ry="150" fill="${theme.ground}" opacity=".6"/>`;
   }
   let d='';
   for(let i=0;i<=160;i++){const p=pathPoint(i/160);d+=`${i?' L':'M'}${p.x} ${p.y}`;}
@@ -31,10 +31,10 @@ export function landscape(){
   }
   for(let i=0;i<65;i++) stars+=`<circle cx="${2150+i*83%1420}" cy="${40+i*57%350}" r="${i%3+1}" fill="#fff5d5" opacity=".8"/>`;
   return svg(WORLD_WIDTH,WORLD_HEIGHT,`<defs>
-   <linearGradient id="sky"><stop stop-color="#cceaf0"/><stop offset=".4" stop-color="#d7e4ea"/><stop offset=".68" stop-color="#8d8eb9"/><stop offset="1" stop-color="#383d72"/></linearGradient>
-   <linearGradient id="ground"><stop stop-color="#b0d3a8"/><stop offset=".38" stop-color="#8cbea5"/><stop offset=".7" stop-color="#8aa6ac"/><stop offset="1" stop-color="#a5a3c8"/></linearGradient>
-   <linearGradient id="road"><stop stop-color="#fbe4b1"/><stop offset=".5" stop-color="#ead8ae"/><stop offset="1" stop-color="#e5ddf0"/></linearGradient>
-  </defs><path fill="url(#sky)" d="M0 0H3600V1400H0Z"/><circle cx="380" cy="170" r="66" fill="#fff0bb"/><circle cx="3270" cy="135" r="56" fill="#fff4d8"/>${stars}${mountains}
+   <linearGradient id="sky" x2="0" y2="1"><stop stop-color="${theme.sky}"/><stop offset="1" stop-color="${theme.ground}"/></linearGradient>
+   <linearGradient id="ground" x2="0" y2="1"><stop stop-color="${theme.ground}"/><stop offset="1" stop-color="${theme.sky}"/></linearGradient>
+   <linearGradient id="road"><stop stop-color="${theme.road}"/><stop offset="1" stop-color="${theme.road}"/></linearGradient>
+  </defs><path fill="url(#sky)" d="M0 0H3600V1400H0Z"/><circle cx="380" cy="170" r="66" fill="#fff0bb"/><circle cx="3270" cy="135" r="56" fill="#fff4d8"/>${theme.id===6?stars:''}${mountains}
   <path d="M0 580Q800 490 1400 560T2600 470T3600 470V1400H0Z" fill="url(#ground)"/>${hills}
   <path d="${d}" fill="none" stroke="#749983" stroke-width="105" stroke-linecap="round" opacity=".3"/>
   <path d="${d}" fill="none" stroke="url(#road)" stroke-width="88" stroke-linecap="round"/>
@@ -64,3 +64,6 @@ export function castle(){
 export const crystal = () => svg(48,62,`<path d="M7 20L18 3h16l10 17-19 39Z" fill="#b1e5e1" stroke="#fafff0" stroke-width="2"/><path d="M18 3l7 56 9-56M7 20h37" fill="none" stroke="#6bbacb" stroke-width="2"/><path d="M18 5l-7 13h12Z" fill="#fff9ee"/>`);
 export const mushroom = () => svg(100,100,`<ellipse cx="50" cy="92" rx="35" ry="6" fill="#294e4c" opacity=".15"/><rect x="40" y="47" width="20" height="46" rx="10" fill="#f3e7d4"/><path d="M8 54Q8 0 50 0T92 54Q50 70 8 54" fill="#da94b2"/><g fill="#fff4ec"><circle cx="30" cy="25" r="8"/><circle cx="63" cy="15" r="7"/><circle cx="76" cy="40" r="6"/></g>`);
 export const cloud = () => svg(210,85,`<path d="M25 76C-10 76-8 35 28 33 15 5 73-15 89 15c18-25 67-10 65 12 60-1 67 47 16 49Z" fill="#fffaf2" opacity=".8"/>`);
+
+export const checkpointFlag=()=>svg(100,130,`<ellipse cx="50" cy="122" rx="37" ry="7" fill="#718c7b" opacity=".2"/><path d="M35 120V12" stroke="#947967" stroke-width="7" stroke-linecap="round"/><path d="M39 12h48L72 34l15 22H39Z" fill="#f9deb0" stroke="#fff9e8" stroke-width="3"/><path d="M57 25l6 12-6 12-6-12Z" fill="#8dc8bd"/>`);
+export const magicHat=()=>svg(90,80,`<ellipse cx="45" cy="67" rx="43" ry="11" fill="#8b73ac"/><path d="M20 64L15 8Q45-4 75 8L70 64Z" fill="#a699d2"/><path d="M20 50h51v12H20Z" fill="#f4d78b"/><path d="M46 15l3 9 10 3-10 3-3 9-3-9-10-3 10-3Z" fill="#fff4bd"/>`);
