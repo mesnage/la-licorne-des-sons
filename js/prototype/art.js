@@ -1,5 +1,6 @@
+import { paintedLandscape, canopy } from './scenery.js';
 import { unicornSVG } from '../unicorn.js';
-import { pathPoint, WORLD_WIDTH, WORLD_HEIGHT, WORLDS } from './model.js';
+import { pathPoint, WORLDS } from './model.js';
 const svg = (w,h,content) => `<svg xmlns="http://www.w3.org/2000/svg" width="${w}" height="${h}" viewBox="0 0 ${w} ${h}">${content}</svg>`;
 export const uri = source => 'data:image/svg+xml;base64,'+window.btoa(Array.from(new window.TextEncoder().encode(source),byte=>String.fromCharCode(byte)).join(''));
 export function pailletteFrame(frame, happy = false){
@@ -13,42 +14,8 @@ export function pailletteFrame(frame, happy = false){
   });
   return source.replace('class="u-tail"',`class="u-tail" transform="rotate(${wave/3} 38 116)"`);
 }
-export function landscape(theme=WORLDS[0]){
-  let mountains='',hills='',flowers='',stars='';
-  for(let i=0;i<18;i++){
-    const x=i*240-80, y=150+(i*73%120);
-    mountains+=`<path d="M${x-230} 590 L${x+90} ${y} L${x+360} 590Z" fill="${theme.mountain}" opacity=".65"/><path d="M${x+90} ${y} l-45 67 40 -16 25 24 25 -15Z" fill="#fff9ed" opacity=".8"/>`;
-  }
-  for(let i=0;i<14;i++){
-    const x=i*290;
-    hills+=`<ellipse cx="${x}" cy="${630+i%3*25}" rx="350" ry="150" fill="${theme.ground}" opacity=".6"/>`;
-  }
-  let d='';
-  for(let i=0;i<=160;i++){const p=pathPoint(i/160);d+=`${i?' L':'M'}${p.x} ${p.y}`;}
-  for(let i=0;i<130;i++){
-    const x=50+(i*137%3500), y=750+(i*71%550), c=['#ffe1eb','#ffefb1','#d5cef8'][i%3];
-    flowers+=`<path d="M${x} ${y}v-12" stroke="#528c72" stroke-width="2"/><circle cx="${x}" cy="${y-16}" r="6" fill="${c}"/><circle cx="${x}" cy="${y-16}" r="2" fill="#e6ad54"/>`;
-  }
-  for(let i=0;i<65;i++) stars+=`<circle cx="${2150+i*83%1420}" cy="${40+i*57%350}" r="${i%3+1}" fill="#fff5d5" opacity=".8"/>`;
-  return svg(WORLD_WIDTH,WORLD_HEIGHT,`<defs>
-   <linearGradient id="sky" x2="0" y2="1"><stop stop-color="${theme.sky}"/><stop offset="1" stop-color="${theme.ground}"/></linearGradient>
-   <linearGradient id="ground" x2="0" y2="1"><stop stop-color="${theme.ground}"/><stop offset="1" stop-color="${theme.sky}"/></linearGradient>
-   <linearGradient id="road"><stop stop-color="${theme.road}"/><stop offset="1" stop-color="${theme.road}"/></linearGradient>
-  </defs><path fill="url(#sky)" d="M0 0H3600V1400H0Z"/><circle cx="380" cy="170" r="66" fill="#fff0bb"/><circle cx="3270" cy="135" r="56" fill="#fff4d8"/>${theme.id===6?stars:''}${mountains}
-  <path d="M0 580Q800 490 1400 560T2600 470T3600 470V1400H0Z" fill="url(#ground)"/>${hills}
-  <path d="${d}" fill="none" stroke="#749983" stroke-width="105" stroke-linecap="round" opacity=".3"/>
-  <path d="${d}" fill="none" stroke="url(#road)" stroke-width="88" stroke-linecap="round"/>
-  <path d="${d}" fill="none" stroke="#fff7dd" stroke-width="3" stroke-dasharray="2 25" opacity=".6"/>
-  ${flowers}`);
-}
-export function tree(kind = 'pink'){
-  const colors = kind==='pine'?['#518d80','#326f69','#a3c9b0']:kind==='purple'?['#ad9fc9','#7a78a7','#dcd3f0']:['#f2bdcc','#d999b1','#ffe8e8'];
-  return svg(180,240,`<ellipse cx="90" cy="229" rx="58" ry="10" fill="#3c635b" opacity=".15"/>
-   <path d="M78 230L84 85h17l5 145" fill="#a3807a"/><path d="M91 160L50 104M95 142l36-47" stroke="#a3807a" stroke-width="9" stroke-linecap="round"/>
-   <g fill="${colors[1]}"><ellipse cx="53" cy="92" rx="47" ry="53"/><ellipse cx="125" cy="90" rx="47" ry="55"/><ellipse cx="90" cy="65" rx="57" ry="59"/></g>
-   <g fill="${colors[0]}"><ellipse cx="50" cy="77" rx="43" ry="42"/><ellipse cx="127" cy="73" rx="41" ry="44"/><ellipse cx="87" cy="46" rx="49" ry="43"/></g>
-   <g fill="${colors[2]}" opacity=".55"><ellipse cx="62" cy="38" rx="24" ry="11"/><circle cx="28" cy="66" r="9"/><circle cx="132" cy="52" r="11"/></g>`);
-}
+export const landscape=(theme=WORLDS[0])=>paintedLandscape(theme,pathPoint);
+export const tree=(kind='pink')=>canopy(kind);
 export function castle(){
   return svg(340,350,`<defs><linearGradient id="wall"><stop stop-color="#c4d5ee"/><stop offset=".5" stop-color="#fff8f4"/><stop offset="1" stop-color="#b8acd3"/></linearGradient><linearGradient id="roof" x2="1" y2="1"><stop stop-color="#e8aec9"/><stop offset="1" stop-color="#8e7ab6"/></linearGradient></defs>
    <ellipse cx="170" cy="325" rx="160" ry="22" fill="#6d6b99" opacity=".2"/>
@@ -80,4 +47,11 @@ export function birdFrame(frame){
     <path d="M85 33l17 5-17 5Z" fill="#e8ba78"/>
     <circle cx="78" cy="30" r="3.5" fill="#435868"/><circle cx="79" cy="29" r="1" fill="#fff"/>
     <ellipse cx="78" cy="39" rx="4" ry="2" fill="#edc8ca"/>`);
+}
+
+export function pailletteEmotion(emotion){
+  let source=pailletteFrame(0,emotion==='proud');
+  if(emotion==='curious')source=source.replace('class="m-smile"','style="display:none" class="m-smile"').replace('</svg>','<path d="M113 55q10-8 21-2" stroke="#684a7b" stroke-width="3" fill="none" stroke-linecap="round"/><ellipse cx="141" cy="106" rx="4" ry="5" fill="#955078"/></svg>');
+  if(emotion==='encouraging')source=pailletteFrame(0,true).replace('</svg>','<style>.m-open{display:none}.m-smile{display:inline}</style></svg>');
+  return source;
 }

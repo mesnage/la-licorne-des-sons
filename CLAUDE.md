@@ -78,3 +78,19 @@ hero feet and crystals use walkingPoint so they follow the same surface. Keep ca
 on portrait phones. Birds stop translating/flapping while questions are visible, and reduced motion keeps them still.
 The pause dialog freezes the Phaser scene and gates pending answer delays; leaving cancels the old session token.
 Run tools/test-rainbow-browser.py for real climbing, pause/resume, rotation and repeated scene-reset checks.
+
+## Phoneme learning and resettable mastery
+
+Keep the five letter/grapheme activities separate from the new phonemes module. `js/data/phonemes.js` currently
+contains 31 target phonemes, three stages and two audio examples per sound. `P:<id>:<example>` prompts are separate
+from `L:` letter-name recordings. Build with tools/voice/build_phonemes.py in the existing voice environment;
+explicit French phonemes and narration are synthesized separately. Context ASR is not proof of phonetic fidelity:
+require educator listening before release. Do not substitute browser TTS or letter names for missing phoneme audio.
+
+`js/learning/mastery.js` tracks letters and phonemes in independent namespaces. Only the first independent attempt
+per question counts, including abandoned mistakes; checkpoint replays must not inflate evidence. Recognition needs
+three clean attempts, two journeys and two examples. Revision weights keep difficult/due sounds in rotation.
+The notebook can reset one category or all learning. Preserve gifts, pending spins and completed-world history.
+`createWordProgress.reset()` clears word practice only. Keep reset accessible at 320×568 with a cancellable in-app
+confirmation. Tools/test-learning-browser.py covers real decoding, progression and these reset boundaries.
+Scenery and original UI icons live in js/prototype/scenery.js and js/illustrations.js; keep SVG rendering light.

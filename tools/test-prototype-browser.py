@@ -22,6 +22,7 @@ def open_proto(page,suffix=''):
 def choose(page,module,level=1):
     page.locator(f'[data-module="{module}"]').click()
     if module=='words': page.locator(f'[data-word-level="{level}"]').click()
+    if module=='phonemes': page.locator(f'[data-phoneme-level="{level}"]').click()
 
 def right(page):
     state=page.evaluate('window.__adventure.state()')
@@ -35,13 +36,13 @@ with sync_playwright() as p:
     page=context.new_page();page.on('pageerror',lambda e:errors.append(str(e)))
     open_proto(page)
     assert page.locator('#adventureWorld canvas').count()==1
-    assert page.locator('[data-module]').count()==6
+    assert page.locator('[data-module]').count()==7
     assert page.evaluate('window.__adventure.state().world.version')=='4.2.1'
     shot(page,'prototype-menu-phone')
-    modes=[('voyelles',1),('consonnes',1),('sons',1),('experts',1),('tout',1),('words',1),('words',2),('words',3)]
+    modes=[('voyelles',1),('consonnes',1),('sons',1),('experts',1),('tout',1),('words',1),('words',2),('words',3),('phonemes',1),('phonemes',2),('phonemes',3)]
     for number,(module,level) in enumerate(modes,1):
         choose(page,module,level)
-        total=10 if module=='words' else 20
+        total=10 if module in ['words','phonemes'] else 20
         assert page.locator('.adventure-answer').count()==(4 if module=='words' else 3)
         shot(page,'prototype-'+module+'-'+str(level))
         for index in range(total):

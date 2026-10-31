@@ -5,8 +5,8 @@ import { QuestionSession } from '../js/words/model.js';
 import { isE, OTHER_VOWELS } from '../js/questions.js';
 
 test('all phonics modules and the three word levels retain their learning content',()=>{
-  assert.deepEqual(MODULES.map(m=>m.id),['voyelles','consonnes','sons','experts','tout','words']);
-  for(const module of MODULES.filter(m=>m.id!=='words')){
+  assert.deepEqual(MODULES.map(m=>m.id),['voyelles','consonnes','sons','experts','tout','phonemes','words']);
+  for(const module of MODULES.filter(m=>!['words','phonemes'].includes(m.id))){
     const session=createAdventure(module.id);assert.equal(session.questions.length,20);
     for(const q of session.questions){
       assert.equal(q.choices.length,3);assert.equal(new Set(q.choices.map(c=>c.p)).size,3);

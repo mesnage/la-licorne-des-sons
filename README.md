@@ -154,6 +154,7 @@ git push -u origin main
 
 - Voix : modèle [piper](https://github.com/rhasspy/piper) `fr_FR-siwis-medium`, entraîné sur le corpus
   **SIWIS French Speech Synthesis** (licence [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/)).
+- Phonèmes isolés : eSpeak NG français, via la bibliothèque de l’environnement Piper ; narration et exemples dans la voix française existante.
 - Vérification des voix : Whisper (OpenAI, licence MIT) via [sherpa-onnx](https://github.com/k2-fsa/sherpa-onnx) (Apache 2.0).
 - Police : [Fredoka](https://fonts.google.com/specimen/Fredoka) (SIL Open Font License).
 - Paillette, le décor et les illustrations sont dessinés en SVG dans le code.
@@ -364,3 +365,17 @@ changements d’activité consécutifs sans accumulation de décors. Les scripts
 L’écoute et la fluidité sur de vrais appareils Safari/iPad restent à vérifier sur ces appareils.
 
 Les passes de revue et le protocole de test en famille sont décrits dans [docs/PLAYTEST_REVIEW.md](docs/PLAYTEST_REVIEW.md).
+
+## Lettres, phonèmes et carnet des progrès
+
+Les cinq activités de lettres/groupes restent disponibles. **Les phonèmes** ajoute trois étapes de dix cristaux,
+avec 31 sons ciblés et 62 prompts MP3 distincts des noms de lettres. Les erreurs orientent les révisions et les
+nouveaux sons sont introduits progressivement. Les progrès des lettres et des phonèmes sont suivis séparément.
+
+Le **Carnet des progrès** du menu permet de consulter les sons et de **réinitialiser** une catégorie ou tous les
+apprentissages. Les cadeaux, tours de roue et mondes terminés sont conservés. L’interface et les récompenses utilisent
+des illustrations SVG cohérentes ; les sept mondes ont des couches de paysage, des plantes et des repères distincts.
+
+Voir [le parcours, les données, la remise à zéro et la validation audio](docs/PHONEMES_AND_MASTERY.md).
+Le contrôle automatique de contexte audio ne remplace pas l’écoute pédagogique des phonèmes avant une diffusion
+commerciale. Les activités de syllabes et de phrases ne font pas encore partie de cette version.

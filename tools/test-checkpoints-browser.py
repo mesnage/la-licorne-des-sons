@@ -37,7 +37,7 @@ with sync_playwright() as p:
     context=browser.new_context(viewport={'width':390,'height':844},has_touch=True,reduced_motion='reduce')
     context.add_init_script(speech)
     page=context.new_page();page.on('pageerror',lambda e:errors.append(str(e)));open_game(page)
-    assert page.locator('[data-module]').count()==6
+    assert page.locator('[data-module]').count()==7
     assert page.locator('.adventure-menu-footer a').count()==0
     choose(page);reach(page,4);fail_to(page,0)
     reach(page,5)

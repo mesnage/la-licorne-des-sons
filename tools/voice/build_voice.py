@@ -77,7 +77,8 @@ def wanted_keys():
     keys = [p + g for g in sounds for p in ('L:', 'F:')] + ['w:' + w for w in words] + [k.lower() + ':' + t for k, t in lines]
     missing = [g for g in sounds if g not in LETTER]
     if missing: sys.exit(f'Ajoutez la prononciation de {missing} dans LETTER (tools/voice/build_voice.py).')
-    return keys
+    phonemes = json.loads(subprocess.check_output(['node', '--input-type=module', '-e', "import {PHONEMES} from './js/data/phonemes.js';process.stdout.write(JSON.stringify(PHONEMES));"], cwd=ROOT, text=True))
+    return keys + [key for sound in phonemes for key in sound['audio']]
 
 PREFIX = {'L': 'lettre', 'F': 'erreur', 'w': 'mot', 'n': 'voix', 'u': 'paillette'}
 def filename(key):
@@ -172,6 +173,8 @@ def main():
         for k in todo: print('  à générer :', k)
         for k in unused: print('  inutilisée :', k)
         return
+    if any(key.startswith('P:') for key in todo):
+        sys.exit('Générez les phonèmes séparément : python3 tools/voice/build_phonemes.py')
     if todo:
         voice = Voice(); ear = None if args.no_verify else Ear()
         for n, key in enumerate(todo, 1):

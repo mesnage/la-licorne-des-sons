@@ -10,7 +10,7 @@
 <div id="adventureWorld" role="img" aria-label="Paillette suit un sentier à travers la prairie et la forêt vers le château"></div>
 <header class="adventure-header">
  <a href="index.html" class="adventure-brand"><span aria-hidden="true">✦</span> La Licorne des Sons</a>
- <span id="worldName" class="world-name">🌷 La prairie des fleurs</span>
+ <span id="worldName" class="world-name"><span data-art="flower"></span> La prairie des fleurs</span>
  <button id="adventureHome" class="adventure-icon" hidden aria-label="Faire une pause ou choisir une activité"><svg width="16" height="20" viewBox="0 0 16 20" aria-hidden="true"><rect width="5" height="20" rx="2" fill="currentColor"/><rect x="11" width="5" height="20" rx="2" fill="currentColor"/></svg></button>
 </header>
 <main>
@@ -19,19 +19,19 @@
   <h1 id="menuTitle">Le château<br>nous attend.</h1>
   <p class="adventure-intro">Choisis ton aventure. Écoute, trouve la réponse<br>et accompagne Paillette jusqu’au château.</p>
   <div id="adventureModules" class="adventure-modules"></div>
-  <div class="adventure-menu-footer"><button id="rewardPending" class="adventure-text-button">🎁 Mes cadeaux du jour</button><span>10 cristaux par monde · un refuge à mi-chemin</span></div>
-  <details class="adventure-help"><summary>Pour les parents · Comment jouer ?</summary><p>Chaque bonne réponse fait avancer Paillette. Un monde compte 10 cristaux ; le refuge à 5 protège la première moitié du chemin. Une erreur ramène au dernier refuge, puis on réessaie tranquillement.</p><p>Une aventure terminée donne un tour de roue. Les progrès et les cadeaux restent sur cet appareil, sans compte. Pour les mots, activez une voix française sur votre appareil et vérifiez le volume.</p><p>Le bouton ⏸ permet de faire une pause ou de changer d’activité. Invitez votre enfant à regarder toutes les lettres, sans se presser.</p></details>
+  <div class="adventure-menu-footer"><button id="rewardPending" class="adventure-text-button">Mes cadeaux du jour</button><button id="progressOpen" class="adventure-text-button"><span data-art="book"></span> Carnet des progrès</button><span>10 cristaux par monde · un refuge à mi-chemin</span></div>
+  <details class="adventure-help"><summary>Pour les parents · Comment jouer ?</summary><p>Chaque bonne réponse fait avancer Paillette. Un monde compte 10 cristaux ; le refuge à 5 protège la première moitié du chemin. Une erreur ramène au dernier refuge, puis on réessaie tranquillement.</p><p>Une aventure terminée donne un tour de roue. Les progrès et les cadeaux restent sur cet appareil, sans compte. Les lettres gardent leur nom ; l’activité « Les phonèmes » entraîne les sons. Le carnet permet de réinitialiser les progrès. Pour les mots, activez une voix française sur votre appareil et vérifiez le volume.</p><p>Le bouton ⏸ permet de faire une pause ou de changer d’activité. Invitez votre enfant à regarder toutes les lettres, sans se presser.</p></details>
   <a id="legacyFallback" href="classic.html" hidden>Ouvrir les activités de secours →</a>
   <p id="engineStatus" class="adventure-status" role="status">Paillette prépare son voyage…</p>
  </section>
  <section id="adventureHud" class="adventure-hud" aria-label="Ton voyage" hidden>
-  <span id="activityName"></span><span id="adventureCount">💎 0 / 10</span>
-  <small id="adventureTotal">Voyage : 0 / 20</small><small id="adventureRefuge">🏳️ Refuge à 5 cristaux</small>
+  <span id="activityName"></span><span id="adventureCount">0 / 10</span>
+  <small id="adventureTotal">Voyage : 0 / 20</small><small id="adventureRefuge">Refuge à 5 cristaux</small>
   <div id="adventureProgress" role="progressbar" aria-label="Cristaux collectés" aria-valuemin="0" aria-valuemax="10" aria-valuenow="0"><span></span><i class="checkpoint-tick" aria-hidden="true"></i></div>
  </section>
  <section id="adventureQuestion" class="adventure-question" aria-labelledby="questionTitle" hidden>
   <div class="adventure-question-top"><div><span class="adventure-eyebrow" id="checkpointName">UN CRISTAL À LIBÉRER</span><h2 id="questionTitle">Écoute bien…</h2></div>
-   <button id="listenBtn" class="adventure-speaker"><span aria-hidden="true">🔊</span> Réécouter</button></div>
+   <button id="listenBtn" class="adventure-speaker"><span data-art="sound"></span> Réécouter</button></div>
   <p id="adventureAudioStatus" class="adventure-status" role="status" aria-live="polite"></p>
   <div id="adventureChoices" class="adventure-choices" role="group" aria-label="Choisis ce que tu entends"></div>
   <p id="adventureFeedback" class="adventure-feedback" role="status" aria-live="polite">Regarde bien chaque lettre. Tu peux prendre ton temps.</p>
@@ -41,7 +41,7 @@
   <p class="adventure-eyebrow">LE CHÂTEAU DE CRISTAL</p><h1 id="finishTitle" tabindex="-1">Quelle belle aventure !</h1>
   <p id="adventureResult"></p><div id="finishCrystals" class="gems-row" aria-hidden="true"></div>
   <p>Chaque mot, chaque son fait briller le château.</p>
-  <button id="winReward" class="adventure-primary">🎡 Tourner la roue des cadeaux</button>
+  <button id="winReward" class="adventure-primary">Tourner la roue des cadeaux</button>
   <button id="adventureAgain" class="adventure-secondary">Rejouer cette aventure</button>
   <button id="adventureChoose" class="adventure-text-button">Choisir une autre activité</button>
  </section>
@@ -51,6 +51,23 @@
  <button id="closeLevels" class="dialog-close" aria-label="Fermer le choix des niveaux">✕</button>
  <p class="adventure-eyebrow">TROUVE LE MOT !</p><h2 id="levelsTitle">Un chemin pour chaque lecteur</h2>
  <div id="adventureWordLevels"></div><p>10 mots, à ton rythme. Tu peux toujours réessayer.</p>
+</dialog>
+<dialog id="phonemeLevels" class="adventure-level-dialog" aria-labelledby="phonemesTitle">
+ <button id="closePhonemeLevels" class="dialog-close" aria-label="Fermer le choix des phonèmes">✕</button>
+ <p class="adventure-eyebrow">LES PHONÈMES</p><h2 id="phonemesTitle">Les sons ont leur aventure</h2>
+ <p>Ici, on écoute le son /m/, plutôt que le nom de la lettre M. Un son peut avoir plusieurs écritures : cherche une écriture possible.</p>
+ <div id="phonemeLevelChoices"></div><p>10 cristaux, à ton rythme. Les sons difficiles reviennent pour s’entraîner.</p>
+</dialog>
+<dialog id="progressNotebook" class="adventure-level-dialog progress-notebook" aria-labelledby="progressTitle">
+ <button id="progressClose" class="dialog-close" aria-label="Fermer le carnet des progrès">✕</button>
+ <p class="adventure-eyebrow">LE COIN DES PARENTS</p><h2 id="progressTitle">Les progrès</h2>
+ <details class="progress-explanation"><summary>Comment lire ce carnet ?</summary><p>Lettres et phonèmes ont des progrès séparés. Pour les sons, « bien reconnu » demande trois bonnes réponses de suite, sur deux voyages et avec deux mots différents. Cela indique la réussite dans ce jeu.</p></details>
+ <div id="progressFilters"><label for="progressScope">Voir les progrès de</label>
+ <select id="progressScope"><option value="phonemes">Phonèmes</option><option value="letters">Lettres et groupes de lettres</option><option value="words">Mots</option><option value="all">Tous les apprentissages</option></select></div>
+ <p id="progressSummary"></p><ul id="progressSkills"></ul>
+ <p id="progressPrivacy"></p><button id="progressReset" class="adventure-secondary">Réinitialiser ces progrès</button>
+ <div id="progressResetConfirm" class="progress-reset-confirm" hidden><p id="progressResetQuestion"></p><button id="progressResetCancel" class="adventure-primary">Garder les progrès</button><button id="progressResetDo" class="adventure-text-button">Oui, réinitialiser</button></div>
+ <p id="progressResetStatus" role="status" aria-live="polite"></p>
 </dialog>
 <dialog id="adventurePause" class="adventure-level-dialog adventure-pause" aria-labelledby="pauseTitle">
  <p class="adventure-eyebrow">ON PREND SON TEMPS</p><h2 id="pauseTitle">Une petite pause ?</h2>
@@ -68,12 +85,12 @@
   <div class="wheel-stage">
     <div class="wheel-pointer" aria-hidden="true">▼</div>
     <div id="rewardWheel" class="reward-wheel" role="img" aria-label="Roue à six cases : bonbons, chocolat, histoire et trois cases prout de licorne"></div>
-    <span class="wheel-hub" aria-hidden="true">⭐</span>
+    <span class="wheel-hub" aria-hidden="true" data-art="star"></span>
   </div>
   <button id="spinReward" class="big-btn candy c-sun">Tourner la roue !</button>
   <p id="rewardResult" class="reward-result" role="status" aria-live="polite"></p>
   <div id="fartScene" class="fart-scene" hidden>
-    <div id="fartUnicorn"></div><span class="fart-cloud" aria-hidden="true">💨✨</span>
+    <div id="fartUnicorn"></div><span class="fart-cloud" data-art="prout" aria-hidden="true"></span>
     <strong>Prout ! Hi hi hi !</strong>
   </div>
   <p class="wheel-odds">Le prout magique a 3 chances sur 6. Chaque autre cadeau a 1 chance sur 6.</p>
