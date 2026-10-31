@@ -293,8 +293,8 @@ Sur la branche **`prototype/immersive-worlds`**, **`index.html` est l’entrée 
 L’ancienne adresse `prototype.html` redirige vers cette entrée. `classic.html` garde les activités précédentes comme
 solution de secours, accessible si le moteur ne peut pas démarrer.
 
-Les sept thèmes sont la prairie, la forêt des lucioles, les bonbons, le lagon, les glaces, les nuages et le passage des
-étoiles. **Chaque monde compte dix cristaux**, avec un drapeau-refuge au cinquième. Les vingt cristaux d’une partie
+Les sept thèmes sont la prairie, la forêt des lucioles, la jungle des cascades, la plage des coquillages, les glaces,
+le voyage dans les nuages et la lune des petits lapins. **Chaque monde compte dix cristaux**, avec un drapeau-refuge au cinquième. Les vingt cristaux d’une partie
 phonologique traversent deux mondes ; une partie de dix mots traverse un monde. Le nombre de mondes terminés est gardé
 localement dans `licorne.adventure.v1`, pour varier le prochain décor même en changeant de module. Ce compteur ne
 contient aucune information sur l’enfant.
@@ -317,7 +317,8 @@ Le bouton ⏸ met le voyage en pause : l’animation et les voix s’arrêtent, 
 d’onglet met aussi le jeu en pause. Le menu contient une explication dépliable pour les parents.
 
 Le moteur Phaser 4.2.1 est fourni dans `vendor/phaser/` avec sa licence MIT et sa provenance vérifiée. Les sept panoramas
-sont chargés à demi-résolution pour limiter la mémoire graphique. WebGL est utilisé quand il est disponible, avec un
+sont limités à 2400 × 933 pixels pour limiter la mémoire graphique ; les personnages et objets utilisent des textures
+de densité double et les chemins sont dessinés nativement. WebGL est utilisé quand il est disponible, avec un
 rendu Canvas de secours (`?debug&renderer=canvas`). Les réponses restent des boutons HTML accessibles au toucher et au
 clavier. Les voix de lettres/sons restent les MP3 français du projet ; le système de voix des mots est réutilisé.
 
@@ -370,3 +371,23 @@ La roue et ses compteurs quotidiens restent disponibles. Les sept décors illust
 révisions locales continuent de fonctionner. Les activités de secours utilisent le même menu direct et la même voix.
 
 Voir [docs/FLAT_MENU_AND_VOICE.md](docs/FLAT_MENU_AND_VOICE.md) pour la vérification et la prévisualisation.
+
+## Rendu plus net, animaux et nouveaux voyages
+
+Le canvas utilise désormais les vrais pixels de l’écran, jusqu’à une densité de 2 avec un budget de six millions de
+pixels sur les grandes surfaces. Sur un écran Retina 1024 × 768, son tampon est bien de 2048 × 1536. Les chemins
+sont des rubans vectoriels continus ; les personnages et objets sont rasterisés plus finement. Le redimensionnement
+et le rendu Canvas de secours conservent cette densité.
+
+Chaque monde accueille six compagnons : lapins, renards, hiboux, singes, toucans, petits tigres, tortues, crabes,
+manchots, phoques, colombes ou lapins astronautes. Ils saluent Paillette pendant le trajet et se calment pendant les
+questions. Au sixième cristal, chaque habitat propose une surprise : papillon sur la corne, couronne de fleurs,
+éclaboussures, bulle géante ou bonds lunaires. Les animations respectent les pauses et la réduction des mouvements.
+
+La jungle possède des palmiers et des cascades ; la plage un rivage et du sable ; Paillette marche sur un chemin de
+nuages et traverse une Lune avec des cratères, une vue de la Terre et des lapins casqués. Les mondes changent toujours
+tous les dix cristaux, avec le refuge à cinq. Le menu direct, les activités, la même voix féminine et la roue restent
+identiques.
+
+Vérification ciblée : `python3 tools/test-variety-browser.py --screenshots /tmp/licorne-mondes`. Voir aussi
+[docs/RENDERING_AND_WORLDS.md](docs/RENDERING_AND_WORLDS.md).

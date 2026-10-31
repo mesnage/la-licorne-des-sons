@@ -102,3 +102,32 @@ test('decorative birds stay in world bounds and follow gentle independent flight
     for(let s=0;s<500;s+=5){const p=birdPoint(i,s);assert.ok(p.x>=0&&p.x<WORLD_WIDTH);assert.ok(p.y>=297&&p.y<=429);}
   }
 });
+
+test('Retina profiles allocate real pixels while bounding the largest backing buffers',async()=>{
+ const {renderProfile}=await import('../js/prototype/rendering.js');
+ assert.deepEqual(renderProfile(1024,768,2),{ratio:2,width:2048,height:1536,cssWidth:1024,cssHeight:768});
+ assert.equal(renderProfile(390,844,3).ratio,2);
+ const large=renderProfile(1920,1080,2);assert.ok(large.width*large.height<=6010000);assert.ok(large.ratio>1);
+ assert.equal(renderProfile(800,600,1).width,800);assert.ok(renderProfile(0,0,0).width>=1);
+});
+test('all seven habitats have native animal art and their own extra travel surprise',async()=>{
+ const {HABITAT_ANIMALS,ANIMAL_KINDS,animalSVG}=await import('../js/prototype/animals.js');
+ assert.equal(WORLDS.length,7);assert.equal(new Set(WORLDS.map(w=>w.habitat)).size,7);
+ for(const kind of ['jungle','beach','clouds','moon'])assert.ok(WORLDS.some(w=>w.habitat===kind));
+ assert.ok(ANIMAL_KINDS.length>=12);
+ for(const world of WORLDS){
+  assert.ok(HABITAT_ANIMALS[world.habitat].length);assert.ok(gagFor(6,world.habitat));assert.equal(gagFor(4,world.habitat),'rainbow');
+  for(const animal of HABITAT_ANIMALS[world.habitat]){
+   assert.notEqual(animalSVG(animal),animalSVG(animal,true));assert.ok(!/NaN|undefined/.test(animalSVG(animal)));
+  }
+ }
+ assert.equal(gagFor(6,'moon'),'moonhop');assert.equal(gagFor(6,'clouds'),'bubble');assert.equal(gagFor(6,'beach'),'splash');
+});
+test('the native road is a continuous single ribbon with the requested width',async()=>{
+ const {pathRibbon}=await import('../js/prototype/travel.js');
+ const points=pathRibbon(88);assert.equal(points.length,362);
+ for(let i=0;i<=180;i++){
+  const a=points[i],b=points[361-i];assert.ok(Math.abs(Math.hypot(b.x-a.x,b.y-a.y)-88)<1e-8);
+  if(i)assert.ok(Math.hypot(a.x-points[i-1].x,a.y-points[i-1].y)<30);
+ }
+});

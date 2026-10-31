@@ -89,3 +89,18 @@ Both main and classic word activities use `W:` prompts through the shared record
 use Piper fr_FR-siwis-medium, pitch 1.0, rate 0.85, and the existing French ASR verification. No browser TTS fallback.
 Scenery and original UI icons remain in js/prototype/scenery.js and js/illustrations.js; keep SVG rendering light.
 Run tools/test-menu-browser.py for direct selection, real audio decoding, replay cancellation and failure hints.
+
+## Retina rendering, habitats and animal companions
+
+Phaser 4 ignores the old game-config resolution option. js/prototype/rendering.js computes a real backing buffer
+(up to DPR 2, about six million pixels) with CSS scaling. Keep Scale.NONE + explicit resize, the camera's density
+factor, and ResizeObserver/window-resize cleanup together. Do not reintroduce a CSS-sized low-resolution canvas.
+Sprites rasterize at 2× density with explicit display sizes; panoramas stay bounded at 2400×933 to limit memory.
+Native filled pathRibbon geometry avoids translucent wide-stroke seams. Keep foreground foliage clear of Paillette.
+
+Seven stable world IDs now represent meadow, forest, tropical jungle, beach, ice, clouds and moon. Saved numeric world
+progress keeps cycling across those IDs. Six animal companions per scene come from animals.js; new props and habitat
+art live in habitats.js. Animals and particles freeze during questions, pause freezes the entire scene, and reduced
+motion skips travel gags. Gag 6 varies with habitat; the old prout/rainbow/boing/hat schedule stays intact. Clear all
+props and effects on completion, return, reset and exit. Run tools/test-variety-browser.py alongside the existing
+main/checkpoint/menu/rainbow suites. No educational content, audio or reward accounting should change for artwork.

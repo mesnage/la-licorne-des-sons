@@ -1,6 +1,8 @@
+import { habitatLandmark } from './habitats.js';
 // Original storybook scenery: layered washes, botanical silhouettes and quiet landmarks.
 const svg=(w,h,body)=>`<svg xmlns="http://www.w3.org/2000/svg" width="${w}" height="${h}" viewBox="0 0 ${w} ${h}">${body}</svg>`;
 export function landmark(theme){
+  const special=habitatLandmark(theme.habitat);if(special)return special;
   const common='<ellipse cx="165" cy="251" rx="145" ry="15" fill="#334d45" opacity=".12"/>';
   const art=[
     '<path d="M78 238V109h113v129Z" fill="#e2caa5"/><path d="m60 113 73-80 77 80Z" fill="#9c7970"/><path d="M114 237v-65h35v65" fill="#898e78"/><path d="m135 42 4-30" stroke="#7b7562" stroke-width="8"/><g fill="#e8e0bb"><path d="m139 22-63-3 4-19 61 14Zm3 3 50-47 13 15-55 42Zm0 1 50 42-13 15-46-47Zm-3 1-45 49-13-16 54-42Z"/></g><path d="M63 239q-40-20-40 4m168-1q48-38 71 2" stroke="#8b9c75" stroke-width="12" fill="none"/>',
@@ -14,6 +16,8 @@ export function landmark(theme){
   return svg(330,270,common+art[theme.id]);
 }
 export function foreground(theme){
+  if(theme.habitat==='moon')return svg(320,230,'<ellipse cx="150" cy="208" rx="126" ry="18" fill="#8997b2" opacity=".2"/><path d="m48 208 15-46 39-15 33 59m23 0 28-58 29 17 21 46" fill="#b4c1d5"/><path d="m63 162 13 37 26-52m84 1 3 43 26-26" stroke="#dde6eb" stroke-width="3" fill="none"/><ellipse cx="248" cy="212" rx="35" ry="10" fill="#9ba9bf"/>');
+  if(theme.habitat==='clouds')return svg(320,230,'<path d="M10 211C-17 180 11 147 48 162c8-56 79-63 98-8 57-46 100-5 94 16 76-19 97 53 37 54H32Z" fill="#f9f5ee"/><path d="M65 183q24-18 49-6m60 14 26-3" stroke="#e0deed" stroke-width="4" fill="none"/>');
   const green=theme.id===6?'#626a83':theme.id===4?'#9ebbb8':'#6d9474';
   let body='';
   for(let i=0;i<9;i++){
@@ -37,7 +41,7 @@ export function canopy(kind='pink'){
   }
   return svg(180,240,`<ellipse cx="90" cy="231" rx="59" ry="7" fill="#385948" opacity=".12"/><path d="M75 231q18-74 5-144h21q-6 88 6 144" fill="#8c8c72"/><path d="M89 173 42 106m48 45 50-63m-50 33-18-53" stroke="#8c8c72" stroke-width="8" fill="none"/>${leaves}<path d="M87 216q13-48 5-89" stroke="#c1b491" stroke-width="3" opacity=".5" fill="none"/>`);
 }
-export function paintedLandscape(theme,pathPoint){
+export function paintedLandscape(theme){
   let ridges='',grain='',flowers='';
   for(let layer=0;layer<3;layer++){
     let path=`M-100 ${400+layer*65}`;
@@ -52,9 +56,24 @@ export function paintedLandscape(theme,pathPoint){
     const x=i*173%3600,y=760+i*79%550;
     flowers+=`<path d="M${x} ${y}q-5-15 0-26" stroke="#7a9874" stroke-width="2"/><ellipse cx="${x}" cy="${y-28}" rx="${4+i%4}" ry="4" fill="${['#ede0b1','#cfacaa','#c3c5d0'][i%3]}"/>`;
   }
-  let road='';for(let i=0;i<=160;i++){const p=pathPoint(i/160);road+=`${i?'L':'M'}${p.x} ${p.y}`;}
-  return svg(3600,1400,`<defs><linearGradient id="sky" x2="0" y2="1"><stop stop-color="${theme.sky}"/><stop offset="1" stop-color="${theme.id===6?'#495674':'#f3ecd6'}"/></linearGradient><linearGradient id="field" x2="0" y2="1"><stop stop-color="${theme.ground}"/><stop offset="1" stop-color="${theme.sky}"/></linearGradient><radialGradient id="sun"><stop stop-color="#fff2c9" stop-opacity=".65"/><stop offset="1" stop-color="#fff1ce" stop-opacity="0"/></radialGradient></defs>
+  const habitat=theme.habitat;
+  let distant='';
+  if(habitat==='beach'){
+    ridges='';flowers='';grain='';
+    distant='<path d="M0 370q1000-38 1800 0t1800-10v600H0Z" fill="#8bc9d2"/><path d="M0 520q900-38 1800 0t1800-10" fill="none" stroke="#dff2ed" stroke-width="9"/><path d="M0 650q900-45 1800 0t1800-10" fill="none" stroke="#eaf4e5" stroke-width="18"/><path d="M0 687q900-45 1800 0t1800-10v713H0Z" fill="#f0dcb5"/>';
+  }else if(habitat==='clouds'){
+    ridges='';flowers='';grain='';
+    for(let i=0;i<16;i++){const x=i*255,y=330+(i%4)*80;distant+=`<path d="M${x-150} ${y+80}c-120-45-60-130 15-104-1-115 160-136 197-31 166-48 229 135 60 143Z" fill="${i%2?'#f7f1e9':'#ede6f0'}" opacity=".75"/>`;}
+  }else if(habitat==='moon'){
+    flowers='';grain='';
+    distant='<circle cx="2610" cy="168" r="112" fill="#a8cbd4"/><path d="M2570 82q50 18 18 59l45 34-17 63-54-23-24-68Z" fill="#b5c8ad"/><path d="M2643 82q58 35 66 87l-50-2 17-33Z" fill="#e6e5d5" opacity=".75"/>';
+    for(let i=0;i<80;i++)distant+=`<circle cx="${40+i*137%3500}" cy="${24+i*79%370}" r="${1+i%3}" fill="#fbf0ce" opacity=".7"/>`;
+    for(let i=0;i<18;i++){const x=70+i*211,y=850+(i*97%450);distant+=`<ellipse cx="${x}" cy="${y}" rx="${55+i%3*20}" ry="${16+i%3*5}" fill="#7f8ba9" opacity=".25"/><path d="M${x-45} ${y-1}q45-23 91 0" stroke="#d0d9e5" stroke-width="4" fill="none" opacity=".6"/>`;}
+  }else if(habitat==='jungle'){
+    distant='<path d="M2250 230q120-55 190-11l-12 384h-122Z" fill="#9bd4cf" opacity=".7"/><path d="M2290 230v330m70-334 7 340" stroke="#e0f0e1" stroke-width="7" opacity=".5"/>';
+  }
+  return svg(3600,1400,`<defs><linearGradient id="sky" x2="0" y2="1"><stop stop-color="${theme.sky}"/><stop offset="1" stop-color="${habitat==='moon'?'#495674':habitat==='clouds'?theme.sky:'#f3ecd6'}"/></linearGradient><linearGradient id="field" x2="0" y2="1"><stop stop-color="${theme.ground}"/><stop offset="1" stop-color="${theme.sky}"/></linearGradient><radialGradient id="sun"><stop stop-color="#fff2c9" stop-opacity=".65"/><stop offset="1" stop-color="#fff1ce" stop-opacity="0"/></radialGradient></defs>
   <path d="M0 0h3600v1400H0Z" fill="url(#sky)"/><ellipse cx="480" cy="160" rx="500" ry="300" fill="url(#sun)"/>${ridges}
-  <path d="M0 540q500-110 1040 0t1040-10 1520-50v920H0Z" fill="url(#field)"/><path d="M0 780q700-140 1400-30t2200-100v150H0Z" fill="${theme.ground}" opacity=".5"/>
-  <path d="${road}" stroke="#8f9b7c" stroke-width="105" opacity=".22" fill="none" stroke-linecap="round"/><path d="${road}" stroke="${theme.road}" stroke-width="88" fill="none" stroke-linecap="round"/><path d="${road}" stroke="#f6e7c3" stroke-width="3" stroke-dasharray="3 34" opacity=".65" fill="none"/>${flowers}${grain}`);
+  ${['beach','clouds'].includes(habitat)?'':'<path d="M0 540q500-110 1040 0t1040-10 1520-50v920H0Z" fill="url(#field)"/>'}${['beach','clouds'].includes(habitat)?'':`<path d="M0 780q700-140 1400-30t2200-100v150H0Z" fill="${theme.ground}" opacity=".5"/>`}
+  ${distant}${flowers}${grain}`);
 }

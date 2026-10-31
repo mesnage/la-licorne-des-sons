@@ -72,7 +72,7 @@ only on automated checks.
 
 ## Recorded automated result — 31 October 2026
 
-- 40 Node tests passed; lint passed.
+- 43 Node tests passed; lint passed.
 - Content check passed: 58 sounds, 495 words, 685 recorded prompts and 18,870 card-generation trials.
 - Main adventure browser suite passed all 130 questions across the five phonics modules and three word levels,
   rewards, real walking, Canvas/resizing and engine-failure recovery.

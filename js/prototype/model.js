@@ -20,13 +20,13 @@ export function pathPoint(progress){
 }
 export const CRYSTALS_PER_WORLD = 10;
 export const WORLDS = [
-  {id:0,name:'La prairie des fleurs',icon:'flower',kind:'pink',sky:'#cbdedb',ground:'#b5c49e',mountain:'#8da79b',road:'#e9d6ac'},
-  {id:1,name:'La forêt des lucioles',icon:'mushroom',kind:'pine',sky:'#a5bcb0',ground:'#839f81',mountain:'#6e8e80',road:'#d6c89e'},
-  {id:2,name:'Le pays des bonbons',icon:'candy',kind:'pink',sky:'#e6d9d1',ground:'#c7b7ac',mountain:'#b6a5b1',road:'#ecdab4'},
-  {id:3,name:'Le lagon des sirènes',icon:'shell',kind:'pine',sky:'#c3edf0',ground:'#8bcbd1',mountain:'#81b7c5',road:'#fff0cc'},
-  {id:4,name:'Le pays des glaces',icon:'ice',kind:'purple',sky:'#d3e6f5',ground:'#dbe8ef',mountain:'#a5bddb',road:'#f5faff'},
-  {id:5,name:'Le royaume des nuages',icon:'cloud',kind:'purple',sky:'#d9ddf1',ground:'#d1c4e8',mountain:'#aaa4ce',road:'#fff7fb'},
-  {id:6,name:'Le passage des étoiles',icon:'moon',kind:'purple',sky:'#383d72',ground:'#8b88b4',mountain:'#7978aa',road:'#e5ddf0'}
+  {id:0,habitat:'meadow',name:'La prairie des fleurs',icon:'flower',kind:'pink',sky:'#cbdedb',ground:'#b5c49e',mountain:'#8da79b',road:'#e9d6ac'},
+  {id:1,habitat:'forest',name:'La forêt des lucioles',icon:'mushroom',kind:'pine',sky:'#a5bcb0',ground:'#839f81',mountain:'#6e8e80',road:'#d6c89e'},
+  {id:2,habitat:'jungle',name:'La jungle des cascades',icon:'leaf',kind:'palm',sky:'#c3e3d6',ground:'#8eb89c',mountain:'#709c92',road:'#decfa1'},
+  {id:3,habitat:'beach',name:'La plage des coquillages',icon:'shell',kind:'palm',sky:'#c4e9ed',ground:'#f0dbb2',mountain:'#83c4cf',road:'#f8e7c3'},
+  {id:4,habitat:'ice',name:'Le pays des glaces',icon:'ice',kind:'purple',sky:'#d3e6f5',ground:'#dbe8ef',mountain:'#a5bddb',road:'#f5faff'},
+  {id:5,habitat:'clouds',name:'Le voyage dans les nuages',icon:'cloud',kind:'purple',sky:'#d9ddf1',ground:'#d1c4e8',mountain:'#aaa4ce',road:'#fff7fb'},
+  {id:6,habitat:'moon',name:'La lune des petits lapins',icon:'moon',kind:'purple',sky:'#383d72',ground:'#9ba6c2',mountain:'#7978aa',road:'#d9deec'}
 ];
 export function checkpointFor(crystals){
   const count=Math.max(0,Math.floor(crystals));
@@ -38,7 +38,8 @@ export function journeyState(crystals,total,startWorld=0){
   const worldCrystals=finished?10:count%10;
   return {worldIndex,worldCrystals,theme:WORLDS[(startWorld+worldIndex)%WORLDS.length],checkpoint:checkpointFor(count),finished};
 }
-export function gagFor(crystal){
+export function gagFor(crystal,habitat){
+  if(crystal%10===6&&habitat)return {meadow:'butterfly',forest:'crown',jungle:'crown',beach:'splash',ice:'bubble',clouds:'bubble',moon:'moonhop'}[habitat]||null;
   return [null,'prout',null,'rainbow',null,null,'boing',null,'hat',null][(crystal-1)%10]||null;
 }
 export class AdventureSession extends QuestionSession {

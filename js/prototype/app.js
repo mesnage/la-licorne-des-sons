@@ -167,12 +167,12 @@ const world=createWorld($('adventureWorld'),{
     ready=true;$('engineStatus').textContent='';
     document.querySelectorAll('[data-module]').forEach(button=>{button.disabled=false;});world.reset(20,journeyMemory.startWorld);
   },
-  onBiome(biome){$('worldName').innerHTML=illustration(biome.icon)+`<span>${biome.name}</span>`;},
+  onBiome(biome){$('worldName').innerHTML=illustration(biome.icon)+`<span>${biome.name}</span>`;$('adventureWorld').setAttribute('aria-label','Paillette · '+biome.name);},
   onGag(kind){
     const returning=session?.phase==='returning';
-    const messages={prout:'Prout arc-en-ciel ! Paillette a fait une petite surprise !',rainbow:'Tout en haut de l’arc-en-ciel ! Paillette grimpe vers les nuages.',boing:'Boïng ! Les nuages font un trampoline !',hat:'Abracadabra ! Un chapeau magique !'};
+    const messages={prout:'Prout arc-en-ciel ! Paillette a fait une petite surprise !',rainbow:'Tout en haut de l’arc-en-ciel ! Paillette grimpe vers les nuages.',boing:'Boïng ! Les nuages font un trampoline !',hat:'Abracadabra ! Un chapeau magique !',butterfly:'Oh ! Un papillon chatouille la corne de Paillette !',crown:'Une couronne de fleurs ! Paillette est la reine de la forêt.',splash:'Plouf ! Une petite vague chatouille les sabots !',bubble:'Une bulle géante ! Paillette flotte tout doucement.',moonhop:'Youhou ! Sur la Lune, Paillette fait des bonds de géante !'};
     $('adventureWalking').textContent=returning?(session.returnIndex%10===5?'Une petite glissade ! Retour au refuge, tes cinq cristaux sont protégés.':'Une petite glissade ! On repart du début de ce monde.'):(messages[kind]||'Paillette avance !');
-    if(kind==='prout')sfx.prout();else if(kind==='rainbow'||kind==='return')sfx.slip();else if(kind==='boing')sfx.boing();else if(kind==='hat')sfx.sparkle();
+    if(kind==='prout')sfx.prout();else if(kind==='rainbow'||kind==='return')sfx.slip();else if(kind==='boing')sfx.boing();else if(['hat','butterfly','crown'].includes(kind))sfx.sparkle();else if(['moonhop','bubble','splash'].includes(kind))sfx.boing();
   },
   onError(message){$('engineStatus').textContent=message;$('legacyFallback').hidden=false;}
 });

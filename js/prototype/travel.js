@@ -24,3 +24,15 @@ export function birdPoint(index,seconds){
   const speed=14+(index%3)*3,phase=index*1.7;
   return {x:(100+index*395+seconds*speed)%WORLD_WIDTH,y:315+(index%3)*48+Math.sin(seconds*.65+phase)*18};
 }
+
+// A single filled ribbon avoids translucent stroke joins appearing as stripes on broad paths.
+export function pathRibbon(width,offset=0,samples=180){
+  const left=[],right=[];
+  for(let i=0;i<=samples;i++){
+    const progress=i/samples,p=pathPoint(progress),a=pathPoint(Math.max(0,progress-.001)),b=pathPoint(Math.min(1,progress+.001));
+    const dx=b.x-a.x,dy=b.y-a.y,length=Math.hypot(dx,dy),nx=-dy/length,ny=dx/length;
+    left.push({x:p.x+nx*(offset-width/2),y:p.y+ny*(offset-width/2)});
+    right.push({x:p.x+nx*(offset+width/2),y:p.y+ny*(offset+width/2)});
+  }
+  return [...left,...right.reverse()];
+}

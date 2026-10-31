@@ -1,6 +1,6 @@
 import { paintedLandscape, canopy } from './scenery.js';
 import { unicornSVG } from '../unicorn.js';
-import { pathPoint, WORLDS } from './model.js';
+import { WORLDS } from './model.js';
 const svg = (w,h,content) => `<svg xmlns="http://www.w3.org/2000/svg" width="${w}" height="${h}" viewBox="0 0 ${w} ${h}">${content}</svg>`;
 export const uri = source => 'data:image/svg+xml;base64,'+window.btoa(Array.from(new window.TextEncoder().encode(source),byte=>String.fromCharCode(byte)).join(''));
 export function pailletteFrame(frame, happy = false){
@@ -14,7 +14,7 @@ export function pailletteFrame(frame, happy = false){
   });
   return source.replace('class="u-tail"',`class="u-tail" transform="rotate(${wave/3} 38 116)"`);
 }
-export const landscape=(theme=WORLDS[0])=>paintedLandscape(theme,pathPoint);
+export const landscape=(theme=WORLDS[0])=>paintedLandscape(theme);
 export const tree=(kind='pink')=>canopy(kind);
 export function castle(){
   return svg(340,350,`<defs><linearGradient id="wall"><stop stop-color="#c4d5ee"/><stop offset=".5" stop-color="#fff8f4"/><stop offset="1" stop-color="#b8acd3"/></linearGradient><linearGradient id="roof" x2="1" y2="1"><stop stop-color="#e8aec9"/><stop offset="1" stop-color="#8e7ab6"/></linearGradient></defs>
