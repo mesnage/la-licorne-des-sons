@@ -68,7 +68,13 @@ The seven themes change every ten crystals, with a protected refuge at five. Mis
 or the current world's start. Completed-world variety is persisted in licorne.adventure.v1 across modules.
 AdventureSession tracks unique question credit, so replaying lost crystals cannot inflate mastery or reward spins.
 Twenty-crystal phonics sessions cover two worlds; ten-word sessions cover one. Gags rotate through colored prouts,
-rainbow slides, trampoline bounces and a magic hat. Answers use enlarged responsive typography.
+fixed rainbow climbs, trampoline bounces and a magic hat. Answers use enlarged responsive typography.
 Engine license/checksum provenance remains under vendor/phaser; no runtime CDN/build dependency.
 Run tools/test-prototype-browser.py and tools/test-checkpoints-browser.py with the local server for the main game.
 The existing words/rewards browser scripts target classic.html. Real Safari/iPad listening/performance need device review.
+
+Rainbow geometry and bird trajectories live in js/prototype/travel.js. The bridge stays in world coordinates;
+hero feet and crystals use walkingPoint so they follow the same surface. Keep camera framing clear of the HUD
+on portrait phones. Birds stop translating/flapping while questions are visible, and reduced motion keeps them still.
+The pause dialog freezes the Phaser scene and gates pending answer delays; leaving cancels the old session token.
+Run tools/test-rainbow-browser.py for real climbing, pause/resume, rotation and repeated scene-reset checks.

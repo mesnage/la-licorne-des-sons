@@ -83,7 +83,7 @@ with sync_playwright() as p:
     motion.wait_for_function('(x)=>window.__adventure.state().world.position.x>x+20',arg=first)
     assert motion.evaluate('window.__adventure.state().world.frame') is not None
     shot(motion,'prototype-walking')
-    motion.locator('#adventureHome').click()
+    motion.locator('#adventureHome').click();motion.locator('#adventureLeave').click()
     motion.wait_for_timeout(2200)
     assert motion.locator('#adventureMenu').is_visible()
     assert motion.evaluate('window.__adventure.state().world.progress')==0
@@ -113,6 +113,12 @@ with sync_playwright() as p:
     assert failure.locator('[data-level]').count()==5
     assert failure.locator('#wordActivityOpen').is_visible()
     print('Engine failure fallback and classic modules remain accessible')
+    compat=browser.new_page(reduced_motion='reduce')
+    compat.goto(args.url+'/prototype.html?debug&renderer=canvas',wait_until='domcontentloaded')
+    compat.wait_for_function('window.__adventure?.state().ready')
+    assert compat.evaluate('window.__adventure.state().world.renderer')==1
+    assert '/index.html?debug&renderer=canvas' in compat.url
+    compat.close();print('Legacy prototype URL keeps debug/renderer options')
     assert not errors,errors
     browser.close()
     print('All prototype checks passed. Actual Safari/iPad voice quality still needs device review.')

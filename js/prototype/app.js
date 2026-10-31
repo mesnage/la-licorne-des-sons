@@ -13,10 +13,26 @@ try {storage=window.localStorage;}catch(e){}
 const practice=createWordProgress(storage);
 const journeyMemory=createJourneyMemory(storage);
 const voice=createWordVoice(window,message=>{$('adventureAudioStatus').textContent=message;});
-let session=null, mode='voyelles', level=1, token=0, promptToken=0, ready=false, rewardTimer=null, startWorld=0;
+let session=null, mode='voyelles', level=1, token=0, promptToken=0, ready=false, rewardTimer=null, startWorld=0, paused=false;
+const resumeWaiters=new Set();
 initRewards();
 function stopAudio(){promptToken++;hush();voice.stop();}
-function cleanUp(){token++;clearTimeout(rewardTimer);stopAudio();world.cancel();}
+function resume(){
+  paused=false;world.setPaused(false);
+  if($('adventurePause').open)$('adventurePause').close();
+  for(const resolve of resumeWaiters)resolve();resumeWaiters.clear();
+}
+function cleanUp(){token++;resume();clearTimeout(rewardTimer);stopAudio();world.cancel();}
+async function continueWhenReady(my){
+  if(paused)await new Promise(resolve=>resumeWaiters.add(resolve));
+  return my===token;
+}
+function pause(){
+  if(!session||session.phase==='finished'){menu();return;}
+  if(paused)return;
+  paused=true;stopAudio();world.setPaused(true);$('adventurePause').showModal();
+}
+
 function storageNote(){
   $('adventureStorage').textContent=practice.persistent&&journeyMemory.persistent?'':'La sauvegarde est bloquée. Les progrès resteront pendant cette visite.';
 }
@@ -36,7 +52,7 @@ function progress(){
   $('adventureProgress').firstElementChild.style.width=`${state.worldCrystals*10}%`;
 }
 async function replay(){
-  if(!session||session.phase!=='question') return;
+  if(!session||paused||session.phase!=='question') return;
   stopAudio();unlock();$('adventureAudioStatus').textContent='';
   if(mode==='words'){voice.speak(session.current.target);return;}
   const my=promptToken, target=session.current.target, keys=['L:'+target.g,'w:'+plain(target.w)];
@@ -75,7 +91,7 @@ function finish(){
   const my=token;rewardTimer=setTimeout(()=>{if(my===token) showReward();},700);
 }
 async function answer(id,button){
-  if(!session) return;
+  if(!session||paused) return;
   const result=session.answer(id);if(!result) return;
   if(!result.correct){
     if(mode==='words'&&result.firstMistake) practice.miss(session.current.target.id);
@@ -83,7 +99,7 @@ async function answer(id,button){
     button.classList.add('retry');$('adventureChoices').querySelectorAll('button').forEach(b=>{b.disabled=true;});
     const my=token;
     await new Promise(resolve=>setTimeout(resolve,window.matchMedia('(prefers-reduced-motion: reduce)').matches?40:400));
-    if(my!==token)return;
+    if(!await continueWhenReady(my))return;
     panels('walking');world.quiet(false);
     const arrived=await world.moveTo(result.checkpoint,{returning:true});
     if(my!==token||!arrived)return;
@@ -95,7 +111,7 @@ async function answer(id,button){
   const my=token;
   // Show the successful answer briefly, then let the child watch Paillette walk.
   await new Promise(resolve=>setTimeout(resolve,window.matchMedia('(prefers-reduced-motion: reduce)').matches?80:650));
-  if(my!==token) return;
+  if(!await continueWhenReady(my)) return;
   panels('walking');world.quiet(false);$('adventureWalking').textContent='Bravo ! Paillette avance vers le prochain cristal…';
   const arrived=await world.moveTo(session.index+1);
   if(my!==token||!arrived) return;
@@ -128,8 +144,12 @@ for(const data of WORD_LEVELS){
   button.addEventListener('click',()=>{$('adventureLevels').close();start('words',data.id);});$('adventureWordLevels').appendChild(button);
 }
 $('closeLevels').addEventListener('click',()=>$('adventureLevels').close());
-document.querySelector('.adventure-brand').addEventListener('click',event=>{event.preventDefault();menu();});
-$('adventureHome').addEventListener('click',menu);$('adventureChoose').addEventListener('click',menu);
+document.querySelector('.adventure-brand').addEventListener('click',event=>{event.preventDefault();pause();});
+$('adventureHome').addEventListener('click',pause);
+$('adventureResume').addEventListener('click',()=>{resume();replay();});
+$('adventureLeave').addEventListener('click',menu);
+$('adventurePause').addEventListener('cancel',event=>{event.preventDefault();resume();replay();});
+$('adventureChoose').addEventListener('click',menu);
 $('adventureAgain').addEventListener('click',()=>start(mode,level));$('listenBtn').addEventListener('click',replay);
 const world=createWorld($('adventureWorld'),{
   onReady(){
@@ -139,15 +159,15 @@ const world=createWorld($('adventureWorld'),{
   onBiome(biome){$('worldName').textContent=`${biome.icon} ${biome.name}`;},
   onGag(kind){
     const returning=session?.phase==='returning';
-    const messages={prout:'Prout arc-en-ciel ! Paillette a fait une petite surprise !',rainbow:'Youpi ! Une glissade sur un arc-en-ciel !',boing:'Boïng ! Les nuages font un trampoline !',hat:'Abracadabra ! Un chapeau magique !'};
-    $('adventureWalking').textContent=returning?(session.returnIndex%10===5?'Une glissade arc-en-ciel ! Retour au refuge, tes cinq cristaux sont protégés.':'Une glissade arc-en-ciel ! On repart du début de ce monde.'):(messages[kind]||'Paillette avance !');
-    if(kind==='prout')sfx.prout();else if(kind==='rainbow')sfx.slip();else if(kind==='boing')sfx.boing();else if(kind==='hat')sfx.sparkle();
+    const messages={prout:'Prout arc-en-ciel ! Paillette a fait une petite surprise !',rainbow:'Tout en haut de l’arc-en-ciel ! Paillette grimpe vers les nuages.',boing:'Boïng ! Les nuages font un trampoline !',hat:'Abracadabra ! Un chapeau magique !'};
+    $('adventureWalking').textContent=returning?(session.returnIndex%10===5?'Une petite glissade ! Retour au refuge, tes cinq cristaux sont protégés.':'Une petite glissade ! On repart du début de ce monde.'):(messages[kind]||'Paillette avance !');
+    if(kind==='prout')sfx.prout();else if(kind==='rainbow'||kind==='return')sfx.slip();else if(kind==='boing')sfx.boing();else if(kind==='hat')sfx.sparkle();
   },
   onError(message){$('engineStatus').textContent=message;$('legacyFallback').hidden=false;}
 });
-document.addEventListener('visibilitychange',()=>{if(document.hidden) stopAudio();});
+document.addEventListener('visibilitychange',()=>{if(document.hidden){stopAudio();if(session&&session.phase!=='finished')pause();}});
 window.addEventListener('pagehide',event=>{cleanUp();if(!event.persisted){voice.destroy();world.destroy();}});
 window.addEventListener('pageshow',event=>{if(event.persisted) menu();});
 if(location.search.includes('debug')) window.__adventure={
-  state:()=>({ready,mode,level,index:session?.index,total:session?.questions.length,phase:session?.phase,targetId:session?.current?.target.id,score:session?.score,checkpoint:session?.returnIndex,startWorld,world:world.state()})
+  state:()=>({ready,paused,mode,level,index:session?.index,total:session?.questions.length,phase:session?.phase,targetId:session?.current?.target.id,score:session?.score,checkpoint:session?.returnIndex,startWorld,world:world.state()})
 };

@@ -306,14 +306,20 @@ contient aucune information sur l’enfant.
 
 **Une erreur protège le chemin déjà validé :** avant le cinquième cristal, Paillette revient au départ de ce monde ;
 à partir de cinq, elle revient au refuge. Les cristaux gagnés depuis ce point réapparaissent et doivent être retrouvés.
-Exemples : 4 → 0, 8 → 5, 14 → 10 et 19 → 15. Le monde précédent n’est jamais perdu. Une glissade arc-en-ciel accompagne
+Exemples : 4 → 0, 8 → 5, 14 → 10 et 19 → 15. Le monde précédent n’est jamais perdu. Un petit nuage accompagne
 le retour. La progression des mots distingue les questions déjà réussies pour ne pas compter deux fois les réponses
 rejouées. Chaque voyage terminé offre toujours un seul tour de roue.
 
-Pendant le trajet, Paillette fait des prouts colorés, glisse sur un arc-en-ciel, rebondit et fait apparaître un chapeau
-magique. Les réponses sont plus grandes : lettres en deux lignes majuscule/minuscule et grands mots, avec une disposition
+Un grand pont arc-en-ciel est posé sur le chemin entre les cristaux 2 et 5 : Paillette grimpe dessus, passe le sommet
+puis redescend vers le refuge. Le pont reste dans le décor ; les cristaux suivent sa courbe. La caméra recule doucement
+pour montrer la montée. Des oiseaux animés volent autour du chemin, mais restent immobiles pendant les questions.
+Pendant le trajet, Paillette fait aussi des prouts colorés, rebondit et fait apparaître un chapeau magique. Les réponses sont plus grandes : lettres en deux lignes majuscule/minuscule et grands mots, avec une disposition
 sur une colonne sur les petits téléphones si nécessaire. Les effets restent calmes pendant la lecture des questions,
 et la préférence système « Réduire les animations » est respectée.
+
+Le bouton ⏸ met le voyage en pause : l’animation et les voix s’arrêtent, y compris pendant une montée ou un retour.
+« Reprendre l’aventure » continue au même endroit ; « Choisir une autre activité » recommence une partie. Le changement
+d’onglet met aussi le jeu en pause. Le menu contient une explication dépliable pour les parents.
 
 Le moteur Phaser 4.2.1 est fourni dans `vendor/phaser/` avec sa licence MIT et sa provenance vérifiée. Les sept panoramas
 sont chargés à demi-résolution pour limiter la mémoire graphique. WebGL est utilisé quand il est disponible, avec un
@@ -330,13 +336,14 @@ git pull --ff-only
 npm run dev
 ```
 
+Le fichier `serve.json` désactive les redirections d’URL du serveur local pour conserver les paramètres de test.
 Ouvrir **`http://localhost:8080/`**. Choisir n’importe quelle activité. Vérifier les retours avant/après le refuge,
 le changement de monde au dixième cristal et les gags du trajet. Les refuges valent pour le voyage en cours ; choisir
 une autre activité ou recharger la page recommence une partie. Les progrès des mots, cadeaux et décors terminés restent
 sauvegardés. Ce test local ne modifie pas la branche `main`.
 
 Code : `js/prototype/model.js` définit les mondes et les refuges ; `world.js` anime le trajet Phaser ; `art.js` crée les
-textures SVG ; `app.js` relie les modules et les panneaux. `AdventureSession` ajoute le retour au refuge au modèle de
+textures SVG ; `travel.js` définit le pont et les trajectoires des oiseaux ; `app.js` relie les modules et les panneaux. `AdventureSession` ajoute le retour au refuge au modèle de
 questions partagé. Les interfaces de secours conservent leur logique indépendante.
 
 Vérifications : `npm test`, `npm run check`, `npm run lint`. Avec le serveur, Python Playwright et Chromium dans
@@ -345,10 +352,15 @@ l’environnement cloud :
 ```bash
 python3 tools/test-prototype-browser.py
 python3 tools/test-checkpoints-browser.py --screenshots /tmp/paillette-refuges
+python3 tools/test-rainbow-browser.py --screenshots /tmp/paillette-arc-en-ciel
 ```
 
 Ces tests couvrent les huit choix de niveau, les refuges dans deux mondes, la remise en jeu des cristaux perdus,
 les crédits uniques et récompenses, les quatre gags avec leurs vraies animations, les gros mots/graphèmes sur
-phone/tablette et les retours au menu pendant une glissade. Les scripts `test-words-browser.py` et
+téléphone/tablette et les retours au menu pendant une glissade. Le troisième script vérifie les vraies montées, les
+pauses pendant les différentes phases, les oiseaux calmes pendant la lecture, la rotation de l’écran et douze
+changements d’activité consécutifs sans accumulation de décors. Les scripts `test-words-browser.py` et
 `test-rewards-browser.py` vérifient les activités de secours sur `classic.html`.
 L’écoute et la fluidité sur de vrais appareils Safari/iPad restent à vérifier sur ces appareils.
+
+Les passes de revue et le protocole de test en famille sont décrits dans [docs/PLAYTEST_REVIEW.md](docs/PLAYTEST_REVIEW.md).

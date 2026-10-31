@@ -93,9 +93,9 @@ with sync_playwright() as p:
     motion.locator('.adventure-answer:not([data-choice-id="'+current['targetId']+'"])').first.click()
     motion.wait_for_function('window.__adventure.state().world.moving&&window.__adventure.state().phase==="returning"')
     assert 'début' in motion.locator('#adventureWalking').inner_text()
-    motion.locator('#adventureHome').click();motion.wait_for_timeout(1600)
+    motion.locator('#adventureHome').click();motion.locator('#adventureLeave').click();motion.wait_for_timeout(1600)
     assert state(motion)['phase'] is None and state(motion)['world']['crystals']==0
-    print('Real prout, rainbow slide, trampoline and magic-hat animations; leaving during rollback passed')
+    print('Real prout, rainbow climb, trampoline and magic-hat animations; leaving during rollback passed')
     # Larger text and safe touch targets, including four-letter phonics groups and long words.
     for width,height in [(320,568),(390,844),(844,390),(768,1024),(1024,768)]:
         view=context.new_page();view.set_viewport_size({'width':width,'height':height});open_game(view)
@@ -103,7 +103,7 @@ with sync_playwright() as p:
         assert view.locator('.adventure-answer').evaluate_all('(bs)=>bs.every(b=>b.scrollWidth<=b.clientWidth&&b.getBoundingClientRect().height>=44&&parseFloat(getComputedStyle(b).fontSize)>=24)')
         assert view.evaluate('document.documentElement.scrollWidth<=innerWidth')
         shot(view,f'large-words-{width}x{height}')
-        view.locator('#adventureHome').click();choose(view,'experts')
+        view.locator('#adventureHome').click();view.locator('#adventureLeave').click();choose(view,'experts')
         # Exercise a real four-letter question rather than rewriting rendered card styles.
         for _ in range(20):
             if view.locator('.adventure-answer').evaluate_all('bs=>bs.some(b=>b.dataset.choiceId.length===4)'):break

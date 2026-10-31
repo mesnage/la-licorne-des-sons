@@ -67,3 +67,17 @@ export const cloud = () => svg(210,85,`<path d="M25 76C-10 76-8 35 28 33 15 5 73
 
 export const checkpointFlag=()=>svg(100,130,`<ellipse cx="50" cy="122" rx="37" ry="7" fill="#718c7b" opacity=".2"/><path d="M35 120V12" stroke="#947967" stroke-width="7" stroke-linecap="round"/><path d="M39 12h48L72 34l15 22H39Z" fill="#f9deb0" stroke="#fff9e8" stroke-width="3"/><path d="M57 25l6 12-6 12-6-12Z" fill="#8dc8bd"/>`);
 export const magicHat=()=>svg(90,80,`<ellipse cx="45" cy="67" rx="43" ry="11" fill="#8b73ac"/><path d="M20 64L15 8Q45-4 75 8L70 64Z" fill="#a699d2"/><path d="M20 50h51v12H20Z" fill="#f4d78b"/><path d="M46 15l3 9 10 3-10 3-3 9-3-9-10-3 10-3Z" fill="#fff4bd"/>`);
+
+export function birdFrame(frame){
+  const flap=Math.sin(frame*Math.PI/3),tip=23-flap*19;
+  return svg(110,75,`<path d="M34 43Q8 ${tip+9} 3 ${tip+22}Q14 53 40 52Z" fill="#a9c8d5"/>
+    <path d="M34 44Q22 ${tip-5} 5 ${tip}Q16 30 43 40Z" fill="#d9e7ed"/>
+    <path d="M30 47L7 56l23 2" fill="#9cbbcd"/>
+    <ellipse cx="48" cy="47" rx="28" ry="17" fill="#e5edf0"/>
+    <ellipse cx="50" cy="52" rx="22" ry="10" fill="#faf5e8"/>
+    <path d="M42 43Q35 ${tip+3} 20 ${tip+9}Q28 48 55 52Z" fill="#b5cfda"/>
+    <circle cx="72" cy="33" r="17" fill="#e5edf0"/>
+    <path d="M85 33l17 5-17 5Z" fill="#e8ba78"/>
+    <circle cx="78" cy="30" r="3.5" fill="#435868"/><circle cx="79" cy="29" r="1" fill="#fff"/>
+    <ellipse cx="78" cy="39" rx="4" ry="2" fill="#edc8ca"/>`);
+}

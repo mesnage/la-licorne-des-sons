@@ -73,3 +73,27 @@ test('the original word question session keeps its retry behavior',()=>{
   session.answer('b');assert.equal(session.index,0);assert.equal(session.phase,'question');
   session.answer('a');session.next();assert.equal(session.phase,'finished');assert.equal(session.score,0);
 });
+
+test('the rainbow is a fixed climb connected to the road at both ends',async()=>{
+  const { RAINBOW, rainbowPoint, walkingPoint, bridgeFocus }=await import('../js/prototype/travel.js');
+  assert.deepEqual(rainbowPoint(0),pathPoint(RAINBOW.start));
+  assert.ok(Math.abs(rainbowPoint(1).y-pathPoint(RAINBOW.end).y)<1e-9);
+  assert.ok(rainbowPoint(1).x-rainbowPoint(0).x>600);
+  assert.ok(walkingPoint(.35).lift>150);
+  for(let i=0;i<=100;i++){
+    const t=i/100,p=walkingPoint(RAINBOW.start+t*(RAINBOW.end-RAINBOW.start)),surface=rainbowPoint(t);
+    assert.ok(Math.abs(p.y-surface.y)<1e-8);assert.ok(Math.abs(p.angle)<=16);
+  }
+  for(const end of [RAINBOW.start,RAINBOW.end]){
+    assert.ok(Math.abs(walkingPoint(end-1e-8).y-walkingPoint(end+1e-8).y)<.001);
+  }
+  assert.equal(bridgeFocus(0),0);assert.equal(bridgeFocus(.35),1);assert.equal(bridgeFocus(1),0);
+  assert.equal(walkingPoint(.6).onBridge,false);
+});
+test('decorative birds stay in world bounds and follow gentle independent flight paths',async()=>{
+  const {birdPoint}=await import('../js/prototype/travel.js');
+  for(let i=0;i<9;i++){
+    assert.notDeepEqual(birdPoint(i,0),birdPoint(i,1));
+    for(let s=0;s<500;s+=5){const p=birdPoint(i,s);assert.ok(p.x>=0&&p.x<WORLD_WIDTH);assert.ok(p.y>=297&&p.y<=429);}
+  }
+});

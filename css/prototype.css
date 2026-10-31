@@ -113,3 +113,11 @@ body.prototype{background:#cee2df;color:#394850;font-family:'Fredoka',ui-rounded
  .adventure-choices.words .adventure-answer{font-size:29px;min-height:72px}
  .adventure-choices.words .adventure-answer.long{font-size:25px}
 }
+.adventure-help{text-align:left;margin-top:12px;font-size:12px;line-height:1.65;color:#596d64}
+.adventure-help summary{cursor:pointer;min-height:44px;display:flex;align-items:center;justify-content:center;text-decoration:underline;text-underline-offset:4px}
+.adventure-help p{margin:8px 0}
+.adventure-pause p{font-size:17px;line-height:1.6}
+.adventure-pause small{display:block;font-size:12px;line-height:1.6;margin-top:16px}
+@media(orientation:landscape) and (max-height:600px){
+ .adventure-walking{left:auto;right:18px;bottom:18px;transform:none;width:min(390px,calc(100% - 260px));font-size:13px;padding:12px 16px}
+}
