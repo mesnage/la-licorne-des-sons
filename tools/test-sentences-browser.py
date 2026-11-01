@@ -1,4 +1,5 @@
 """Real sentence ordering, narration, checkpoint/reward accounting and responsive layout."""
+from browser_menu import select_activity
 import argparse
 import re
 from pathlib import Path
@@ -45,7 +46,7 @@ with sync_playwright() as p:
  modes=['sentence-copy-3','sentence-copy-5','sentence-listen-3','sentence-listen-5']
  for number,mode in enumerate([] if args.layouts_only else modes,1):
   starts=page.evaluate('window.__starts')
-  page.locator(f'[data-sentence-mode="{mode}"]').click(no_wait_after=True)
+  select_activity(page,f'[data-sentence-mode="{mode}"]')
   page.wait_for_function('(starts)=>window.__starts>starts',arg=starts)
   current=state(page);length=int(mode[-1]);hidden='listen' in mode
   assert len(current['sentenceWords'])==length and current['promptKey'].startswith('S:')
@@ -97,7 +98,7 @@ with sync_playwright() as p:
   page.set_viewport_size({'width':width,'height':height})
   for mode in modes:
    page.evaluate("""async()=>{const {SENTENCES}=await import('./js/data/sentences.js');SENTENCES.sort((a,b)=>b.text.length-a.text.length);Math.random=()=>0;}""")
-   page.locator(f'[data-sentence-mode="{mode}"]').click(no_wait_after=True)
+   select_activity(page,f'[data-sentence-mode="{mode}"]')
    assert page.evaluate('document.documentElement.scrollWidth<=innerWidth')
    assert page.locator('.adventure-answer').evaluate_all('buttons=>buttons.every(button=>button.scrollWidth<=button.clientWidth&&button.getBoundingClientRect().height>=44)')
    assert page.locator('#adventureQuestion').evaluate('(panel)=>panel.getBoundingClientRect().top>=60&&panel.scrollWidth<=panel.clientWidth')
@@ -109,7 +110,7 @@ with sync_playwright() as p:
    leave(page)
  # Returning to the original activities restores their choices and audio pipeline.
  for mode,choices,prefix in [('voyelles',3,'L:'),('words',4,'W:')]:
-  page.locator('[data-word-level="1"]' if mode=='words' else '[data-module="voyelles"]').click(no_wait_after=True)
+  select_activity(page,'[data-word-level="1"]' if mode=='words' else '[data-module="voyelles"]')
   current=state(page);assert current['promptKey'].startswith(prefix)
   assert page.locator('.adventure-answer').count()==choices and not page.locator('#sentenceWorkbench').is_visible()
   page.locator('[data-choice-id="'+current['targetId']+'"]').click(no_wait_after=True)
@@ -118,7 +119,7 @@ with sync_playwright() as p:
  # A missing listening prompt never exposes the model or switches to device speech.
  failure=context.new_page();failure.on('pageerror',lambda error:errors.append(str(error)))
  failure.route('**/audio/phrase-*.mp3',lambda route:route.abort());boot(failure)
- failure.locator('[data-sentence-mode="sentence-listen-5"]').click(no_wait_after=True)
+ select_activity(failure,'[data-sentence-mode="sentence-listen-5"]')
  failure.wait_for_function('document.querySelector("#adventureAudioStatus").textContent.includes("n’a pas pu se charger")')
  assert failure.locator('#sentenceTarget').inner_text()=='' and not failure.locator('#sentenceModel').is_visible()
  assert failure.locator('.adventure-answer:enabled').count()==5

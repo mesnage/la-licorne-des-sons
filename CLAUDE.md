@@ -52,9 +52,8 @@ Progress is local (`licorne.words.v1`); missed words are weighted more heavily i
 Scoped styles: `css/words.css`. Do not use the original `.lvl` class for new level buttons: the phonics initializer binds it.
 Browser checks decode the real recordings. Listen on real iPad/Safari before release.
 
-Every completed game earns one spin: the five 20-step phonics modes and all three 10-question word levels.
-The wheel has six equal segments (candies, chocolate, story, three unicorn animations). No savings or money prize.
-Legacy five-prize records preserve pending spins and non-money counts; future saves omit the balance.
+Every completed game earns one spin: the five 20-step phonics modes and all 10-question word/sentence/typo activities.
+The wheel has six equal segments: chocolate twice, candies twice, ten minutes of TV once and one piggy-bank coin once. There is no in-app cash balance or withdrawal. The version-2 record under licorne.rewards.v1 keeps pending spins and new counts; old stories/unicorn wins stay separate in earlier so they are never relabeled as TV or coins. Original five-prize coin counts are retained, without restoring the old cash balance.
 
 Phonics vocabulary: 58 graphemes and 495 unique illustrated words; 641 recorded prompts, including all alphabet
 consonants plus Y, CH and Ç. The word module reuses the SAME #scene through js/words/journey.js, mapping ten
@@ -81,8 +80,7 @@ Run tools/test-rainbow-browser.py for real climbing, pause/resume, rotation and 
 
 ## Direct activity menu and shared narrator
 
-The main menu contains thirteen direct choices: typo detection, four sentence activities, five letter/sound modes and three word levels. `MENU_ITEMS` in
-js/prototype/model.js defines the main activity cards. Do not add a word-level submenu or a progress notebook.
+The main menu contains exactly four chapter tiles in a 2×2 grid: Les lettres, Les sons, Les mots, Les phrases. CHAPTERS in js/prototype/model.js assigns the thirteen MENU_ITEMS once each (2/3/3/5). Selecting a chapter reveals its activities; leaving a game returns to that chapter and Les chapitres returns to the four-tile home. Do not add a progress notebook.
 Phoneme activities/data/audio and their generators have been removed at the owner's request. Existing local letter
 and word practice stays in the background for revision; gift balances/spins and world history remain intact.
 Both main and classic word activities use `W:` prompts through the shared recorded audio engine. New word prompts
@@ -116,11 +114,16 @@ The world-name button opens the seven-world picker. Habitat changes preserve the
 
 ## Sentence activities
 
-`js/data/sentences.js` defines 24 three-word and 24 five-word French sentences and four direct activity cards: visible model or listening only, at each length. `js/sentences/model.js` selects ten distinct sentences and guarantees genuinely shuffled, lowercase tiles without punctuation. `SentenceAdventureSession` in `js/prototype/model.js` accepts the next word by text, so duplicate written words are interchangeable, while used tile IDs cannot be reused. Partial answers never advance the world, score, mastery or rewards. Wrong words use the existing checkpoint rules; recover/next clears the assembly and unique credit protects replayed sentences.
+`js/data/sentences.js` defines 24 three-word and 24 five-word French sentences and four activity cards in Les phrases: visible model or listening only, at each length. `js/sentences/model.js` selects ten distinct sentences and guarantees genuinely shuffled, lowercase tiles without punctuation. `SentenceAdventureSession` in `js/prototype/model.js` accepts the next word by text, so duplicate written words are interchangeable, while used tile IDs cannot be reused. Partial answers never advance the world, score, mastery or rewards. Wrong words use the existing checkpoint rules; recover/next clears the assembly and unique credit protects replayed sentences.
 
 `app.js` renders the visible model only for copying activities. Clear `sentenceTarget` for listening activities, including audio failure, and retain partial assembly across replay, pause and world selection. Complete sentences use full `S:<id>` MP3 recordings through the shared narrator, rate .85/pitch 1.0, generated and ASR-verified with `build_voice.py`. Never add device speech or text fallbacks that reveal hidden models. Local practice is namespaced by activity in `licorne.sentences.v1`; the existing word save stays separate. The classic fallback retains its original eight activities. Run `tools/test-sentences-browser.py` for all four completions, real audio decoding, checkpoint/reward accounting, pause/picker, hidden-model failure recovery and responsive layouts.
 
 
 ## Find the spelling mistake
 
-`js/data/typos.js` curates three nonword misspellings for each of the 24 three-word sentences. `js/sentences/typos.js` builds ten questions with distinct sentences and balanced error positions. Keep sentence word order intact and change exactly one word. The new `find-typo` menu tile appears first. All three choices must look alike before feedback; the corrected sentence is revealed only after selecting the misspelled word. Narration reuses each sentence's verified `S:` recording and never speaks the misspelling. Typo practice lives separately in `licorne.typos.v1`. Use normal AdventureSession checkpoints and unique credits; never update letter mastery for this activity. Clear the correction when retrying or changing modes. Run `tools/typos.test.mjs`, `tools/test-typos-browser.py` and the menu checks. The versioned entry/import URLs refresh cached clients when the menu or app changes.
+`js/data/typos.js` curates three nonword misspellings for each of the 24 three-word sentences. `js/sentences/typos.js` builds ten questions with distinct sentences and balanced error positions. Keep sentence word order intact and change exactly one word. The `find-typo` tile appears in Les phrases after the four sentence-building activities. All three choices must look alike before feedback; the corrected sentence is revealed only after selecting the misspelled word. Narration reuses each sentence's verified `S:` recording and never speaks the misspelling. Typo practice lives separately in `licorne.typos.v1`. Use normal AdventureSession checkpoints and unique credits; never update letter mastery for this activity. Clear the correction when retrying or changing modes. Run `tools/typos.test.mjs`, `tools/test-typos-browser.py` and the menu checks. The versioned entry/import URLs refresh cached clients when the menu or app changes.
+
+
+## Chapters and the family reward wheel
+
+The chapter menu lives in app.js + css/chapters.css. Keep four root tiles in two rows at every screen size. The chapter back button is available inside each chapter; navigation must not mutate learning progress or rewards. Browser checks use tools/browser_menu.py to open chapters through the real UI before choosing a module. tools/test-chapters-browser.py exercises all thirteen starts, responsive navigation, all six deterministic wheel outcomes, legacy gift migration, one real earned spin, classic fallback and normal-motion locking. The shared reward module/import revision must match across main, game.js and words/game.js. Never reintroduce the removed wheel fart animation; the separate adventure prout gags stay unchanged.

@@ -1,4 +1,5 @@
 """World changes preserve the current adventure; ambient motion continues while reading."""
+from browser_menu import select_activity
 import argparse
 from pathlib import Path
 from playwright.sync_api import sync_playwright
@@ -47,7 +48,7 @@ with sync_playwright() as p:
     page.reload();page.wait_for_function('window.__adventure?.state().ready')
     assert state(page)['world']['theme'] == 6
     pick(page, 0)
-    page.locator('[data-module="voyelles"]').click()
+    select_activity(page,'[data-module="voyelles"]')
     for _ in range(10):
         right(page)
     before = state(page)
@@ -71,7 +72,7 @@ with sync_playwright() as p:
 
     live = browser.new_page(viewport={'width':1024,'height':768}, device_scale_factor=2)
     live.on('pageerror', lambda e: errors.append(str(e)));boot(live)
-    live.locator('[data-word-level="1"]').click()
+    select_activity(live,'[data-word-level="1"]')
     before = state(live);poses = ambient(live);live.wait_for_timeout(400)
     after = state(live)
     assert before['index'] == after['index'] and before['targetId'] == after['targetId']

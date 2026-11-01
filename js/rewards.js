@@ -1,13 +1,12 @@
-import { createRewards, PRIZES, SEGMENTS } from './reward-store.js';
-import { illustration } from './illustrations.js';
-import { unicornSVG } from './unicorn.js';
+import { createRewards, PRIZES, SEGMENTS } from './reward-store.js?v=chapters-wheel-1';
+import { illustration } from './illustrations.js?v=chapters-wheel-1';
 
 const $ = s => document.querySelector(s);
 // Access to localStorage itself can be blocked by browser privacy settings.
 let storage;
 try { storage = window.localStorage; } catch(e){ storage = { getItem(){ throw new Error('Storage unavailable'); } }; }
 const rewards = createRewards(storage);
-const art=p=>illustration(({candies:'candy',candy:'candy',chocolate:'chocolate',story:'book',unicorn:'prout'})[p.id]);
+const art=p=>illustration(({candies:'candy',candy:'candy',chocolate:'chocolate',tv:'tv',coin:'piggy'})[p.id]);
 let turning = false, rotation = 0;
 function refresh(){
   const state = rewards.snapshot();
@@ -15,7 +14,9 @@ function refresh(){
   $('#spinReward').disabled = turning || !state.pending;
   $('#spinReward').textContent = turning ? 'La roue tourne…' : state.pending ? 'Tourner la roue !' : 'Termine une aventure pour tourner !';
   $('#dailyPrizes').innerHTML = PRIZES.map((p,i) => `<li><span>${art(p)} ${p.label}</span><strong>${state.counts[i]}</strong></li>`).join('');
-  $('#dailyTotal').textContent = state.counts.reduce((a,b) => a+b, 0);
+  const earlier=state.earlier.reduce((a,b)=>a+b,0);
+  if(earlier)$('#dailyPrizes').insertAdjacentHTML('beforeend',`<li><span>Autres cadeaux déjà gagnés</span><strong>${earlier}</strong></li>`);
+  $('#dailyTotal').textContent = state.counts.reduce((a,b) => a+b, earlier);
   document.querySelectorAll('.reward-storage-note').forEach(el => {
     el.textContent = state.persistent ? 'Enregistré sur cet appareil, dans ce navigateur.' : 'La sauvegarde est bloquée : les cadeaux seront perdus en quittant cette page.';
   });
@@ -25,8 +26,8 @@ export function earnReward(){ rewards.earn(); refresh(); }
 export function showReward(){ openRewards(); }
 export function initRewards(){
   const wheel = $('#rewardWheel');
-  wheel.innerHTML = SEGMENTS.map((p,i) => `<span style="--angle:${(i+.5)*360/SEGMENTS.length}deg" aria-hidden="true">${art(PRIZES[p])}</span>`).join('');
-  $('#fartUnicorn').innerHTML = unicornSVG();
+  wheel.innerHTML = SEGMENTS.map((p,i) => `<span data-prize="${PRIZES[p].id}" style="--angle:${(i+.5)*360/SEGMENTS.length}deg" aria-hidden="true">${art(PRIZES[p])}</span>`).join('');
+  wheel.style.background='conic-gradient('+SEGMENTS.map((prize,index)=>`${PRIZES[prize].color} ${index*60}deg ${(index+1)*60}deg`).join(',')+')';
   document.querySelectorAll('#rewardPending, #winReward, #wordReward').forEach(button => button.addEventListener('click', openRewards));
   document.querySelectorAll('[data-close-dialog]').forEach(button => button.addEventListener('click', () => {
     if(!turning) button.closest('dialog').close();
@@ -38,7 +39,6 @@ export function initRewards(){
     if(!result) return;
     turning = true;
     $('#rewardResult').textContent = '';
-    $('#fartScene').hidden = true;
     $('#rewardsClose').disabled = true;
     refresh();
     // The selected segment's centre ends up directly beneath the top pointer.
@@ -49,7 +49,6 @@ export function initRewards(){
     setTimeout(() => {
       turning = false;
       $('#rewardResult').innerHTML = `${art(result.prize)} ${result.prize.label}`;
-      $('#fartScene').hidden = result.prize.id !== 'unicorn';
       $('#rewardsClose').disabled = false;
       refresh();
     }, window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 100 : 4200);

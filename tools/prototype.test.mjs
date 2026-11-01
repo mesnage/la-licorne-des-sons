@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { MODULES, MENU_ITEMS, createAdventure, pathPoint, WORLD_WIDTH, WORLDS, checkpointFor, journeyState, gagFor, createJourneyMemory } from '../js/prototype/model.js';
+import { MODULES, MENU_ITEMS, CHAPTERS, createAdventure, pathPoint, WORLD_WIDTH, WORLDS, checkpointFor, journeyState, gagFor, createJourneyMemory } from '../js/prototype/model.js';
 import { QuestionSession } from '../js/words/model.js';
 import { isE, OTHER_VOWELS } from '../js/questions.js';
 
@@ -27,6 +27,15 @@ test('the menu includes typo detection, four sentence activities and the eight o
  assert.equal(MENU_ITEMS.length,13);assert.equal(new Set(MENU_ITEMS.map(item=>item.id)).size,13);
  assert.deepEqual(MENU_ITEMS.filter(item=>item.mode==='words').map(item=>item.level),[1,2,3]);
  for(const item of MENU_ITEMS){const session=createAdventure(item.mode||item.id,item.level||1);assert.equal(session.questions.length,MODULES.some(module=>module.id===item.id)?20:10);}
+});
+test('four chapters contain exactly the requested activities, once each',()=>{
+ assert.deepEqual(CHAPTERS.map(chapter=>chapter.title),['Les lettres','Les sons','Les mots','Les phrases']);
+ assert.deepEqual(CHAPTERS.map(chapter=>chapter.activities),[
+  ['voyelles','consonnes'],['sons','experts','tout'],['words-1','words-2','words-3'],
+  ['sentence-copy-3','sentence-copy-5','sentence-listen-3','sentence-listen-5','find-typo']
+ ]);
+ const activities=CHAPTERS.flatMap(chapter=>chapter.activities);
+ assert.equal(new Set(activities).size,13);assert.deepEqual(new Set(activities),new Set(MENU_ITEMS.map(item=>item.id)));
 });
 test('world boundaries are every ten crystals and refuges are exactly halfway',()=>{
   assert.deepEqual([0,1,4,5,6,9,10,11,14,15,16,19].map(checkpointFor),[0,0,0,5,5,5,10,10,10,15,15,15]);

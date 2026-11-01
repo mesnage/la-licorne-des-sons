@@ -1,6 +1,7 @@
 """Repeatable visual/gameplay review: actual climbing, birds, pauses and scene cleanup.
 Requires a local :8080 server, Python Playwright and Chromium. No clock shortcuts.
 """
+from browser_menu import select_activity
 import argparse
 from pathlib import Path
 from playwright.sync_api import sync_playwright
@@ -33,7 +34,7 @@ with sync_playwright() as p:
     # Real motion: pause in feedback, on the ascent, and while returning across the bridge.
     page=browser.new_page(viewport={'width':390,'height':844},has_touch=True)
     page.add_init_script(speech);page.on('pageerror',lambda e:errors.append(str(e)));open_game(page)
-    page.locator('[data-word-level="1"]').click()
+    select_activity(page,'[data-word-level="1"]')
     initial=state(page);page.wait_for_timeout(300)
     assert state(page)['world']['birdSeconds']>initial['world']['birdSeconds']
     index=right(page);pause(page);page.wait_for_timeout(900)
@@ -66,7 +67,7 @@ with sync_playwright() as p:
     for w,h in [(1280,900),(844,390),(768,1024)]:
         view=browser.new_page(viewport={'width':w,'height':h},has_touch=True)
         view.add_init_script(speech);view.on('pageerror',lambda e:errors.append(str(e)));open_game(view)
-        view.locator('[data-module="voyelles"]').click()
+        select_activity(view,'[data-module="voyelles"]')
         for _ in range(3):settle(view,right(view))
         right(view);view.wait_for_function('window.__adventure.state().world.moving&&window.__adventure.state().world.bridgeLift>160')
         shot(view,f'rainbow-climb-{w}x{h}')
@@ -81,7 +82,7 @@ with sync_playwright() as p:
     reduced.add_init_script(speech);reduced.on('pageerror',lambda e:errors.append(str(e)));open_game(reduced,'&renderer=canvas')
     count=state(reduced)['world']['childCount']
     for _ in range(12):
-        reduced.locator('[data-module="consonnes"]').click();settle(reduced,right(reduced));leave(reduced)
+        select_activity(reduced,'[data-module="consonnes"]');settle(reduced,right(reduced));leave(reduced)
         actual=state(reduced)['world'];assert actual['birdCount']==9 and actual['childCount']==count
         assert actual['effectCount']==0 and actual['birdSeconds']==0
     reduced.locator('.adventure-help summary').click()

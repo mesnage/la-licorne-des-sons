@@ -4,7 +4,7 @@ import { createWordProgress } from './progress.js';
 import { createWordVoice } from './voice.js';
 import { unicornSVG } from '../unicorn.js';
 import { ready, loadClip, say, hush, sfx, unlock } from '../audio.js';
-import { earnReward, showReward } from '../rewards.js';
+import { earnReward, showReward } from '../rewards.js?v=chapters-wheel-1';
 import { gemSVG } from '../utils.js';
 import { createWordJourney } from './journey.js';
 

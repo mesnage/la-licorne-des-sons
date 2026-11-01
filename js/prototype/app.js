@@ -1,14 +1,14 @@
 import { createWorld } from './world.js';
-import { WORLDS, MODULES, MENU_ITEMS, createAdventure, createJourneyMemory, journeyState } from './model.js?v=typo-module-1';
-import { illustration } from '../illustrations.js';
+import { WORLDS, MODULES, MENU_ITEMS, CHAPTERS, createAdventure, createJourneyMemory, journeyState } from './model.js?v=chapters-wheel-1';
+import { illustration } from '../illustrations.js?v=chapters-wheel-1';
 import { createMastery, skillStatus } from '../learning/mastery.js';
 import { WORD_LEVELS } from '../data/words.js';
 import { sentenceActivity } from '../data/sentences.js';
 import { TYPO_ACTIVITY } from '../data/typos.js';
-import { createWordProgress } from '../words/progress.js?v=typo-module-1';
+import { createWordProgress } from '../words/progress.js?v=chapters-wheel-1';
 import { createWordVoice } from '../words/voice.js';
-import { initRewards, earnReward, showReward } from '../rewards.js';
-import { ready as audioReady, loadClip, say, hush, sfx, unlock } from '../audio.js?v=typo-module-1';
+import { initRewards, earnReward, showReward } from '../rewards.js?v=chapters-wheel-1';
+import { ready as audioReady, loadClip, say, hush, sfx, unlock } from '../audio.js?v=chapters-wheel-1';
 import { gemSVG, plain } from '../utils.js';
 
 const $ = id => document.getElementById(id);
@@ -26,8 +26,9 @@ const startingWorld=()=>chosenWorld??journeyMemory.startWorld;
 const voice=createWordVoice({ready:audioReady,loadClip,say,hush,unlock},message=>{$('adventureAudioStatus').textContent=message;});
 let session=null, mode='voyelles', level=1, token=0, promptToken=0, ready=false, rewardTimer=null, startWorld=0, paused=false;
 const resumeWaiters=new Set();
+let selectedChapter=null;
+const activityButtons=new Map();
 initRewards();
-$('fartUnicorn').innerHTML='<img src="assets/storybook/paillette-3.webp" alt="Paillette la licorne">';
 for(const el of document.querySelectorAll('[data-art]'))el.innerHTML=illustration(el.dataset.art);
 function stopAudio(){promptToken++;hush();voice.stop();}
 function resume(){
@@ -221,17 +222,38 @@ function start(id,wordLevel=1){
   startWorld=startingWorld();world.reset(session.questions.length,startWorld);storageNote();ask();
 }
 function menu(){
-  cleanUp();session=null;$('sentenceTarget').textContent='';$('sentenceAssembly').replaceChildren();$('typoCorrection').textContent='';panels('menu');world.reset(20,startingWorld());world.quiet(false);world.setPaused(false);
+  cleanUp();session=null;$('sentenceTarget').textContent='';$('sentenceAssembly').replaceChildren();$('typoCorrection').textContent='';panels('menu');if(selectedChapter)openChapter(selectedChapter);else showChapters();world.reset(20,startingWorld());world.quiet(false);world.setPaused(false);
 }
 for(const module of MENU_ITEMS){
-  const button=document.createElement('button');button.className=`adventure-module tone-${module.color}`;button.dataset.module=module.mode||module.id;if(module.level)button.dataset.wordLevel=module.level;if(module.id===TYPO_ACTIVITY.id)button.dataset.typoMode=module.id;if(sentenceActivity(module.id))button.dataset.sentenceMode=module.id;button.disabled=true;
+  const button=document.createElement('button');button.className=`adventure-module tone-${module.color}`;button.dataset.module=module.mode||module.id;button.dataset.activityId=module.id;button.dataset.chapterId=CHAPTERS.find(chapter=>chapter.activities.includes(module.id)).id;if(module.level)button.dataset.wordLevel=module.level;if(module.id===TYPO_ACTIVITY.id)button.dataset.typoMode=module.id;if(sentenceActivity(module.id))button.dataset.sentenceMode=module.id;button.disabled=true;
   const icon=document.createElement('span');icon.className='module-icon';icon.innerHTML=illustration(module.icon);icon.setAttribute('aria-hidden','true');
   const title=document.createElement('strong');title.textContent=module.title+(sentenceActivity(module.id)?' · '+module.length+' mots':'');
   const detail=document.createElement('small');detail.textContent=module.detail;
   button.append(icon,title,detail);
   button.addEventListener('click',()=>{unlock();start(module.mode||module.id,module.level||1);});
-  $('adventureModules').appendChild(button);
+  activityButtons.set(module.id,button);button.hidden=true;$('adventureModules').appendChild(button);
 }
+function showChapters(focusId=null){
+  selectedChapter=null;$('chapterHome').hidden=false;$('chapterActivities').hidden=true;
+  $('adventureMenu').setAttribute('aria-labelledby','menuTitle');$('adventureMenu').scrollTop=0;
+  if(focusId)document.querySelector(`[data-chapter="${focusId}"]`)?.focus({preventScroll:true});
+}
+function openChapter(id){
+  const chapter=CHAPTERS.find(chapter=>chapter.id===id);if(!chapter)return;
+  selectedChapter=id;$('chapterHome').hidden=true;$('chapterActivities').hidden=false;
+  $('chapterTitle').textContent=chapter.title;$('adventureMenu').setAttribute('aria-labelledby','chapterTitle');
+  for(const [activityId,button] of activityButtons)button.hidden=!chapter.activities.includes(activityId);
+  for(const activityId of chapter.activities)$('adventureModules').appendChild(activityButtons.get(activityId));
+  $('adventureMenu').scrollTop=0;$('chapterTitle').focus({preventScroll:true});
+}
+for(const chapter of CHAPTERS){
+  const button=document.createElement('button');button.type='button';button.className='chapter-tile tone-'+chapter.color;button.dataset.chapter=chapter.id;
+  const icon=document.createElement('span');icon.className='chapter-icon';icon.innerHTML=illustration(chapter.icon);
+  const title=document.createElement('strong');title.textContent=chapter.title;
+  const detail=document.createElement('small');detail.textContent=chapter.detail;
+  button.append(icon,title,detail);button.addEventListener('click',()=>openChapter(chapter.id));$('chapterTiles').appendChild(button);
+}
+$('chapterBack').addEventListener('click',()=>showChapters(selectedChapter));
 function openWorldPicker(){
   if(!ready||paused||(session&&!['question','finished'].includes(session.phase)))return;
   clearTimeout(rewardTimer);stopAudio();paused=true;world.setPaused(true);
@@ -258,7 +280,7 @@ for(const theme of WORLDS){
 $('worldName').addEventListener('click',openWorldPicker);
 $('worldDialogClose').addEventListener('click',closeWorldPicker);
 $('worldDialog').addEventListener('cancel',event=>{event.preventDefault();closeWorldPicker();});
-document.querySelector('.adventure-brand').addEventListener('click',event=>{event.preventDefault();pause();});
+document.querySelector('.adventure-brand').addEventListener('click',event=>{event.preventDefault();if(!session)showChapters(selectedChapter);else pause();});
 $('adventureHome').addEventListener('click',pause);
 $('adventureResume').addEventListener('click',()=>{resume();replay();});
 $('adventureLeave').addEventListener('click',menu);

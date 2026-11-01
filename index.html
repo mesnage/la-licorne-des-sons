@@ -6,7 +6,8 @@
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="css/style.css"><link rel="stylesheet" href="css/prototype.css">
 <link rel="stylesheet" href="css/storybook.css">
-<link rel="stylesheet" href="css/sentences.css?v=typo-module-1">
+<link rel="stylesheet" href="css/sentences.css?v=chapters-wheel-1">
+<link rel="stylesheet" href="css/chapters.css?v=chapters-wheel-1">
 </head>
 <body class="prototype" data-screen="menu">
 <div class="storybook-vista" aria-hidden="true"><img class="storybook-paillette" src="assets/storybook/paillette-0.webp" alt=""><span class="storybook-caption">Un peu de magie.<br>Beaucoup de découvertes.</span></div>
@@ -18,12 +19,20 @@
 </header>
 <main>
  <section id="adventureMenu" class="adventure-menu" aria-labelledby="menuTitle">
+  <div id="chapterHome">
   <p class="adventure-eyebrow">UN PETIT PAS, UNE GRANDE AVENTURE</p>
   <h1 id="menuTitle">Le château<br> <em>nous attend.</em></h1>
-  <p class="adventure-intro">Choisis ton aventure. Écoute, trouve la réponse<br>et accompagne Paillette jusqu’au château.</p>
-  <div id="adventureModules" class="adventure-modules"></div>
+  <p class="adventure-intro">Choisis un chapitre, puis une activité<br>pour accompagner Paillette jusqu’au château.</p>
+  <div id="chapterTiles" class="chapter-tiles" role="group" aria-label="Les quatre chapitres"></div>
+  </div>
+  <div id="chapterActivities" hidden>
+   <button id="chapterBack" class="chapter-back" type="button" aria-label="Revenir aux quatre chapitres">← Les chapitres</button>
+   <h2 id="chapterTitle" class="chapter-title" tabindex="-1"></h2>
+   <p class="chapter-hint">Choisis ton activité.</p>
+   <div id="adventureModules" class="adventure-modules"></div>
+  </div>
   <div class="adventure-menu-footer"><button id="rewardPending" class="adventure-text-button">Mes cadeaux du jour</button><span>10 cristaux par monde · un refuge à mi-chemin</span></div>
-  <details class="adventure-help"><summary>Pour les parents · Comment jouer ?</summary><p>Chaque bonne réponse fait avancer Paillette. Un monde compte 10 cristaux ; le refuge à 5 protège la première moitié du chemin. Une erreur ramène au dernier refuge, puis on réessaie tranquillement.</p><p>Une aventure terminée donne un tour de roue. Les progrès et les cadeaux restent sur cet appareil, sans compte. Les trois aventures « Trouve le mot ! » et les quatre activités de phrases se choisissent directement ici. Dans « Trouve la faute ! », touche le mot mal écrit dans la phrase de trois mots. Pour les phrases à construire, touche les mots dans le bon ordre : avec un modèle visible ou seulement en écoutant, avec 3 ou 5 mots. Toutes les activités utilisent la même voix féminine française ; vérifiez le volume.</p><p>Le bouton ⏸ permet de faire une pause ou de changer d’activité. Invitez votre enfant à regarder toutes les lettres, sans se presser.</p></details>
+  <details class="adventure-help"><summary>Pour les parents · Comment jouer ?</summary><p>Chaque bonne réponse fait avancer Paillette. Un monde compte 10 cristaux ; le refuge à 5 protège la première moitié du chemin. Une erreur ramène au dernier refuge, puis on réessaie tranquillement.</p><p>Une aventure terminée donne un tour de roue. Les progrès et les cadeaux restent sur cet appareil, sans compte. Choisis un des quatre chapitres : Les lettres, Les sons, Les mots ou Les phrases. Le bouton « Les chapitres » permet de revenir au choix des chapitres. Dans « Trouve la faute ! », touche le mot mal écrit dans la phrase de trois mots. Pour les phrases à construire, touche les mots dans le bon ordre : avec un modèle visible ou seulement en écoutant, avec 3 ou 5 mots. Toutes les activités utilisent la même voix féminine française ; vérifiez le volume.</p><p>Le bouton ⏸ permet de faire une pause ou de changer d’activité. Invitez votre enfant à regarder toutes les lettres, sans se presser.</p></details>
   <a id="legacyFallback" href="classic.html" hidden>Ouvrir les activités de secours →</a>
   <p id="engineStatus" class="adventure-status" role="status">Paillette prépare son voyage…</p>
  </section>
@@ -71,7 +80,7 @@
  <button id="adventureLeave" class="adventure-text-button">Choisir une autre activité</button>
  <small>Changer d’activité recommence le voyage. Les progrès et les cadeaux sont conservés.</small>
 </dialog>
-<!-- Shared reward UI and persistence, without any monetary prize. -->
+<!-- Shared reward wheel and local gift counts. -->
 <dialog id="rewardsDialog" class="reward-dialog" aria-labelledby="rewardTitle">
   <button id="rewardsClose" class="dialog-close" data-close-dialog aria-label="Fermer les récompenses">✕</button>
   <p class="reward-eyebrow">LES PETITES SURPRISES DE PAILLETTE</p>
@@ -79,19 +88,15 @@
   <p>Une aventure terminée, un tour de roue !</p>
   <div class="wheel-stage">
     <div class="wheel-pointer" aria-hidden="true">▼</div>
-    <div id="rewardWheel" class="reward-wheel" role="img" aria-label="Roue à six cases : bonbons, chocolat, histoire et trois cases prout de licorne"></div>
+    <div id="rewardWheel" class="reward-wheel" role="img" aria-label="Roue à six cases : deux chocolats, deux bonbons, dix minutes de télé et une pièce pour la tirelire"></div>
     <span class="wheel-hub" aria-hidden="true" data-art="star"></span>
   </div>
   <button id="spinReward" class="big-btn candy c-sun">Tourner la roue !</button>
   <p id="rewardResult" class="reward-result" role="status" aria-live="polite"></p>
-  <div id="fartScene" class="fart-scene" hidden>
-    <div id="fartUnicorn"></div><span class="fart-cloud" data-art="prout" aria-hidden="true"></span>
-    <strong>Prout ! Hi hi hi !</strong>
-  </div>
-  <p class="wheel-odds">Le prout magique a 3 chances sur 6. Chaque autre cadeau a 1 chance sur 6.</p>
+  <p class="wheel-odds">Chocolat : 2 cases · Bonbons : 2 cases · 10 minutes de télé : 1 case · Une pièce pour la tirelire : 1 case.</p>
   <h3>Aujourd’hui : <span id="dailyTotal">0</span> cadeau(x)</h3>
   <ul id="dailyPrizes" class="daily-prizes"></ul>
   <p class="reward-storage-note"></p>
 </dialog>
-<script type="module" src="js/prototype/boot.js?v=typo-module-1"></script>
+<script type="module" src="js/prototype/boot.js?v=chapters-wheel-1"></script>
 </body></html>

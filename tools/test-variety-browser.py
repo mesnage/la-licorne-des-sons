@@ -1,6 +1,7 @@
 """Actual high-DPI canvas, habitat art, companion animation and travel surprises.
 Requires a local server, Playwright and Chromium. Uses real scene/tween time.
 """
+from browser_menu import select_activity
 import argparse
 from pathlib import Path
 from playwright.sync_api import sync_playwright
@@ -12,7 +13,7 @@ def shot(page,name):
 def boot(page,theme=0,suffix=''):
  page.goto(args.url+'/?debug'+suffix,wait_until='domcontentloaded');page.wait_for_function('window.__adventure?.state().ready',timeout=30000)
  page.evaluate('(n)=>localStorage.setItem("licorne.adventure.v1",JSON.stringify({worldsCompleted:n}))',theme)
- page.locator('[data-word-level="1"]').click()
+ select_activity(page,'[data-word-level="1"]')
 def right(page):
  current=state(page);page.locator('[data-choice-id="'+current['targetId']+'"]').click()
  return current['index']+1

@@ -17,6 +17,12 @@ export const MODULES = [
   { id:'tout', title:'Tout mélangé', icon:'star', detail:'La grande aventure', color:'gold' },
 ];
 export const MENU_ITEMS=[TYPO_ACTIVITY,...SENTENCE_ACTIVITIES,...MODULES,...WORD_LEVELS.map(level=>({id:'words-'+level.id,mode:'words',level:level.id,title:'Trouve le mot ! · '+level.id,detail:level.title,icon:'book',color:['sky','mint','lavender'][level.id-1]}))];
+export const CHAPTERS = [
+  {id:'letters',title:'Les lettres',detail:'Voyelles et consonnes',icon:'letters',color:'rose',activities:['voyelles','consonnes']},
+  {id:'sounds',title:'Les sons',detail:'Découvrir et mélanger les sons',icon:'sound',color:'mint',activities:['sons','experts','tout']},
+  {id:'words',title:'Les mots',detail:'Trois niveaux de lecture',icon:'book',color:'sky',activities:['words-1','words-2','words-3']},
+  {id:'sentences',title:'Les phrases',detail:'Construire et trouver la faute',icon:'sentence',color:'lavender',activities:['sentence-copy-3','sentence-copy-5','sentence-listen-3','sentence-listen-5','find-typo']}
+];
 export const WORLD_WIDTH = 3600, WORLD_HEIGHT = 1400;
 export function pathPoint(progress){
   const p = Math.max(0,Math.min(1,progress)), x = 140 + p * 3160;

@@ -1,13 +1,13 @@
-# Menu direct et voix commune
+# Chapitres et voix commune
 
-Le menu principal affiche les cinq activités de lettres/sons, les trois niveaux de **Trouve le mot !**, les quatre activités de phrases et « Trouve la faute ! » au même
-niveau. Un toucher sur une carte de mots lance directement ce niveau. Le retour depuis une partie ou une victoire
-revient à ce menu. Les activités classiques de secours conservent leurs huit choix de lettres, sons et mots.
+L’accueil contient quatre tuiles disposées en 2×2 : **Les lettres**, **Les sons**, **Les mots**, **Les phrases**.
+Les treize activités sont réparties dans ces chapitres (2, 3, 3 et 5). Le bouton « Les chapitres » revient à l’accueil ;
+quitter une aventure revient au chapitre en cours. Les mots et les phrases gardent leurs niveaux de difficulté.
+Le secours classique conserve ses huit activités de lettres, sons et mots.
 
-La roue reste accessible et chaque voyage terminé donne toujours un tour. Les compteurs de cadeaux du jour, les
-mondes terminés, les refuges et les sept décors sont conservés. Le carnet des progrès, ses contrôles et les activités
-phonémiques ont été retirés. Les fichiers de ces activités et leurs outils de génération ont également été supprimés.
-Les historiques de pratique des lettres et des mots continuent d’aider les révisions en arrière-plan.
+La roue reste accessible et chaque voyage terminé donne un tour. Elle comporte deux cases chocolat, deux cases
+bonbons, une case pour dix minutes de télé et une case pour une pièce dans la tirelire. Les gains précédents et
+les tours disponibles sont conservés sans convertir les anciens cadeaux en nouvelles récompenses.
 
 ## Une seule narratrice
 
@@ -37,7 +37,7 @@ git pull --ff-only
 npm run dev
 ```
 
-Ouvrir http://localhost:8080/. Choisir directement chacun des trois niveaux de mots, utiliser Réécouter, revenir
+Ouvrir http://localhost:8080/. Ouvrir « Les mots », puis choisir chacun des trois niveaux, utiliser Réécouter, revenir
 par la pause et terminer un voyage pour vérifier la roue. Le test local ne modifie pas main.
 
 ```bash
@@ -45,12 +45,13 @@ npm test
 npm run check
 npm run lint
 python3 tools/test-menu-browser.py --screenshots /tmp/licorne-menu
+python3 tools/test-chapters-browser.py --screenshots /tmp/licorne-chapitres
 python3 tools/test-word-lengths-browser.py --screenshots /tmp/licorne-word-lengths
 python3 tools/test-prototype-browser.py
 python3 tools/test-words-browser.py
 ```
 
-Les tests de menu vérifient les treize choix directs, l’absence de sous-menu et de carnet, les 194 MP3 avec le vrai
+Les tests de menu vérifient les quatre chapitres et les treize activités, sans carnet, les 194 MP3 avec le vrai
 décodeur du navigateur, l’annulation des lectures et la roue. L’écoute et la fluidité sur un vrai iPad restent une
 vérification manuelle.
 Le test des longueurs rend les mots et expressions les plus longs dans les interfaces principale et classique,

@@ -1,4 +1,5 @@
 """Find one spelling error in three words: feedback, narration, journey and small screens."""
+from browser_menu import select_activity
 import argparse
 from pathlib import Path
 from playwright.sync_api import sync_playwright
@@ -46,9 +47,9 @@ with sync_playwright() as p:
  context.add_init_script(monitor)
  errors=[];page=context.new_page();page.on('pageerror',lambda error:errors.append(str(error)));boot(page)
  assert page.locator('[data-module]').count()==13
- assert page.locator('#adventureModules button').first.get_attribute('data-module')=='find-typo'
+ assert page.locator('[data-chapter]').count()==4
  shot(page,'menu-with-typo')
- page.locator('[data-typo-mode]').click(no_wait_after=True)
+ select_activity(page,'[data-typo-mode]')
  page.wait_for_function('window.__starts>0')
  current=state(page)
  assert current['mode']=='find-typo' and current['promptKey'].startswith('S:') and current['total']==10
@@ -83,7 +84,7 @@ with sync_playwright() as p:
  for width,height in [(320,568),(390,844),(459,724),(844,390),(768,1024),(1280,900)]:
   page.set_viewport_size({'width':width,'height':height})
   page.evaluate("""async()=>{const {TYPO_SENTENCES}=await import('./js/data/typos.js');TYPO_SENTENCES.sort((a,b)=>b.sentence.text.length-a.sentence.text.length);Math.random=()=>0;}""")
-  page.locator('[data-typo-mode]').click(no_wait_after=True)
+  select_activity(page,'[data-typo-mode]')
   assert page.evaluate('document.documentElement.scrollWidth<=innerWidth')
   assert page.locator('.adventure-answer').evaluate_all('buttons=>buttons.every(button=>button.scrollWidth<=button.clientWidth&&button.getBoundingClientRect().height>=44)')
   assert page.locator('#adventureQuestion').evaluate('(panel)=>panel.getBoundingClientRect().top>=60&&panel.getBoundingClientRect().bottom<=innerHeight')
@@ -94,7 +95,7 @@ with sync_playwright() as p:
   leave(page)
  # Other activities must not inherit typo instructions or spelling corrections.
  for selector in ['[data-sentence-mode="sentence-copy-3"]','[data-word-level="1"]','[data-module="voyelles"]']:
-  page.locator(selector).click(no_wait_after=True)
+  select_activity(page,selector)
   assert not page.locator('#typoInstruction').is_visible() and not page.locator('#typoCorrection').is_visible()
   assert page.locator('#typoCorrection').inner_text()==''
   leave(page)
@@ -102,7 +103,7 @@ with sync_playwright() as p:
  assert len(durations)==24 and min(durations)>.5 and max(durations)<10
  failure=context.new_page();failure.on('pageerror',lambda error:errors.append(str(error)))
  failure.route('**/audio/phrase-*.mp3',lambda route:route.abort());boot(failure)
- failure.locator('[data-typo-mode]').click(no_wait_after=True)
+ select_activity(failure,'[data-typo-mode]')
  failure.wait_for_function('document.querySelector("#adventureAudioStatus").textContent.includes("n’a pas pu se charger")')
  assert not failure.locator('#typoCorrection').is_visible() and failure.locator('#typoCorrection').inner_text()==''
  assert failure.locator('.adventure-answer:enabled').count()==3

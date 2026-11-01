@@ -1,4 +1,5 @@
 """Living scenery, opaque wildlife turns, gameplay continuity and renderer/lifecycle checks."""
+from browser_menu import select_activity
 import argparse
 from playwright.sync_api import sync_playwright
 
@@ -24,7 +25,7 @@ with sync_playwright() as p:
  errors=[]
  page=browser.new_page(viewport={'width':390,'height':844},device_scale_factor=2,has_touch=True)
  page.on('pageerror',lambda e:errors.append(str(e)));boot(page)
- page.locator('[data-module="voyelles"]').click()
+ select_activity(page,'[data-module="voyelles"]')
  assert set(['bunny','turtle','hedgehog','deer','cow']).issubset(state(page)['world']['animalKinds'])
  before=state(page);motion=snapshot(page);page.wait_for_timeout(350)
  assert motion!=snapshot(page) and state(page)['index']==before['index']
@@ -46,7 +47,7 @@ with sync_playwright() as p:
  page.locator('#adventureHome').click();page.locator('#adventureLeave').click();pick(page,0)
  count=state(page)['world']['childCount']
  for _ in range(4):
-  page.locator('[data-word-level="1"]').click()
+  select_activity(page,'[data-word-level="1"]')
   page.locator('#adventureHome').click();page.locator('#adventureLeave').click()
   assert state(page)['world']['childCount']==count
   assert state(page)['world']['effectCount']==0
@@ -61,7 +62,7 @@ with sync_playwright() as p:
    assert len(state(reduced)['world']['animalKinds'])>=6
   reduced.set_viewport_size({'width':390,'height':844})
   reduced.wait_for_function('(()=>{const c=document.querySelector("canvas"),r=c.getBoundingClientRect();return c.width===780&&c.height===1688&&r.width===390&&r.height===844})()')
-  pick(reduced,0);reduced.locator('[data-module="voyelles"]').click()
+  pick(reduced,0);select_activity(reduced,'[data-module="voyelles"]')
   assert reduced.locator('.adventure-answer').evaluate_all('bs=>bs.every(b=>b.scrollWidth<=b.clientWidth)')
   # A complete two-world session verifies new scenery lifetimes at transition/arrival.
   for _ in range(20):right(reduced)

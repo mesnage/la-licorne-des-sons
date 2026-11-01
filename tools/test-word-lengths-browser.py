@@ -1,4 +1,5 @@
 """Render the longest vocabulary through both actual word-game interfaces."""
+from browser_menu import select_activity
 import argparse
 from pathlib import Path
 from playwright.sync_api import sync_playwright
@@ -52,7 +53,7 @@ with sync_playwright() as p:
             for level, phrases in [(1,False),(2,False),(3,False),(3,True)]:
                 target = page.evaluate(prepare, {'level':level,'phrases':phrases})
                 starts = page.evaluate('window.__wordStarts')
-                page.locator(f'[data-word-level="{level}"]').click(no_wait_after=True)
+                select_activity(page,f'[data-word-level="{level}"]')
                 state = page.evaluate('window.__words.state()' if classic else 'window.__adventure.state()')
                 assert state['targetId'] == target, state
                 page.wait_for_function('(starts)=>window.__wordStarts>starts', arg=starts)

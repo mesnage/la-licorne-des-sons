@@ -1,4 +1,5 @@
 """Main adventure rules and gags; requires a running local server, Playwright and Chromium."""
+from browser_menu import select_activity
 import argparse
 from pathlib import Path
 from playwright.sync_api import sync_playwright
@@ -15,7 +16,7 @@ def open_game(page):
     page.goto(args.url+'/?debug',wait_until='domcontentloaded')
     page.wait_for_function('window.__adventure?.state().ready',timeout=30000)
 def choose(page,mode='words',level=1):
-    page.locator(f'[data-word-level="{level}"]' if mode=='words' else f'[data-module="{mode}"]').click()
+    select_activity(page,f'[data-word-level="{level}"]' if mode=='words' else f'[data-module="{mode}"]')
 def correct(page):
     current=state(page)
     page.locator('[data-choice-id="'+current['targetId']+'"]').click()

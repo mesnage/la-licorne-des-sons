@@ -1,12 +1,22 @@
 """Optional integration check: pip install playwright; use system Chromium and a server on :8080."""
+import argparse
+from pathlib import Path
 from playwright.sync_api import sync_playwright
+parser=argparse.ArgumentParser()
+parser.add_argument('--url',default='http://127.0.0.1:8080')
+parser.add_argument('--browser-path',default='/usr/bin/chromium')
+parser.add_argument('--screenshots',type=Path)
+args=parser.parse_args()
+if args.screenshots:args.screenshots.mkdir(parents=True,exist_ok=True)
+def shot(page,name):
+    if args.screenshots:page.screenshot(path=str(args.screenshots/(name+'.png')))
 
 with sync_playwright() as p:
-    browser = p.chromium.launch(executable_path='/usr/bin/chromium', headless=True, args=['--no-sandbox'])
+    browser = p.chromium.launch(executable_path=args.browser_path, headless=True, args=['--no-sandbox'])
     page = browser.new_page(viewport={'width': 390, 'height': 844}, has_touch=True, reduced_motion='reduce')
     errors = []
     page.on('pageerror', lambda error: errors.append(str(error)))
-    page.goto('http://127.0.0.1:8080/classic.html?debug', wait_until='domcontentloaded')
+    page.goto(args.url+'/classic.html?debug', wait_until='domcontentloaded')
     page.wait_for_function('window.__licorneOK')
     page.clock.install()
     # Finish real 20-question adventures, without adding a production completion shortcut.
@@ -17,7 +27,7 @@ with sync_playwright() as p:
             assert page.locator('#cards button:not(:disabled)').count() == 3
             assert page.locator('#cards button').evaluate_all('(buttons) => buttons.every(b => b.scrollWidth <= b.clientWidth)')
             if mode == 'experts' and len(page.evaluate('window.__game.right()')) == 4:
-                page.screenshot(path='/workspace/scratch/phonics-experts.png')
+                shot(page,'phonics-experts')
             page.locator('#cards button').evaluate_all('(buttons) => buttons.find(b => b.dataset.g === window.__game.right()).click()')
             page.clock.run_for(4200)
         page.clock.run_for(2700)
@@ -32,12 +42,12 @@ with sync_playwright() as p:
         assert page.locator('#rewardResult').inner_text()
         assert page.locator('#dailyTotal').inner_text() == str(['voyelles', 'consonnes', 'sons', 'experts', 'tout'].index(mode) + 1)
         if mode == 'tout':
-            assert page.locator('#fartScene').is_visible()
-            page.screenshot(path='/workspace/scratch/reward-wheel.png')
+            assert page.locator('#fartScene').count()==0
+            shot(page,'reward-wheel')
         page.locator('#rewardsClose').click()
         page.locator('#menuBtn').click()
         print(mode + ': 20 steps, victory, one spin, correct daily count')
-    assert page.evaluate('JSON.parse(localStorage.getItem("licorne.rewards.v1")).counts') == [1, 1, 1, 2]
+    assert page.evaluate('JSON.parse(localStorage.getItem("licorne.rewards.v1")).counts') == [2, 1, 1, 1]
     page.reload(wait_until='domcontentloaded')
     page.wait_for_function('window.__licorneOK')
     page.locator('#rewardPending').click()
@@ -53,14 +63,14 @@ with sync_playwright() as p:
     # Exercise the normal-motion transition as well as the reduced-motion mobile path.
     desktop = browser.new_page(viewport={'width': 1280, 'height': 900})
     desktop.on('pageerror', lambda error: errors.append(str(error)))
-    desktop.goto('http://127.0.0.1:8080/classic.html?debug', wait_until='domcontentloaded')
+    desktop.goto(args.url+'/classic.html?debug', wait_until='domcontentloaded')
     desktop.wait_for_function('window.__licorneOK')
-    desktop.evaluate("async () => { const r = await import('./js/rewards.js'); r.earnReward(); r.showReward(); Math.random = () => .2; }")
+    desktop.evaluate("async () => { const r = await import('./js/rewards.js'); r.earnReward(); r.showReward(); Math.random = () => 2.5/6; }")
     desktop.locator('#spinReward').click()
     assert desktop.locator('#spinReward').is_disabled()
-    desktop.wait_for_function("document.querySelector('#rewardResult').textContent.includes('prout')")
-    assert desktop.locator('#fartScene').is_visible()
+    desktop.wait_for_function("document.querySelector('#rewardResult').textContent.includes('10 minutes de télé')")
+    assert desktop.locator('#fartScene').count()==0
     assert desktop.locator('#spinReward').is_disabled()
     assert not errors, errors
-    print('Normal-motion desktop wheel and animated unicorn reveal: passed')
+    print('Normal-motion desktop wheel and TV reward: passed')
     browser.close()

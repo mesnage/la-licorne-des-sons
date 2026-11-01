@@ -1,6 +1,7 @@
 """Phaser 4 integration checks; requires Playwright, Chromium and a server on :8080.
 The recorded audio, actual Phaser engine, textures, camera and movement are exercised.
 """
+from browser_menu import select_activity
 import argparse
 from pathlib import Path
 from playwright.sync_api import sync_playwright
@@ -20,7 +21,7 @@ def open_proto(page,suffix=''):
     page.goto(args.url+'/index.html?debug'+suffix,wait_until='domcontentloaded')
     page.wait_for_function('window.__adventure?.state().ready',timeout=30000)
 def choose(page,module,level=1):
-    page.locator(f'[data-word-level="{level}"]' if module=='words' else f'[data-module="{module}"]').click()
+    select_activity(page,f'[data-word-level="{level}"]' if module=='words' else f'[data-module="{module}"]')
 
 def right(page):
     state=page.evaluate('window.__adventure.state()')

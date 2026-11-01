@@ -167,16 +167,17 @@ ou les 10 questions d’une partie de « Trouve le mot ! », quel que soit le ni
 La roue s’ouvre à la fin de la partie et reste accessible depuis « Ma récompense » ou « Mes cadeaux du jour ».
 Un tour ne peut être utilisé qu’une fois ; les tours non utilisés restent disponibles.
 
-La roue comporte **six cases égales** : bonbons, chocolat, histoire supplémentaire le soir et **trois cases de prout
-magique de licorne**. L’animation a donc 3 chances sur 6, chaque autre cadeau 1 sur 6 : elle reste trois fois plus probable.
-Les cadeaux matériels et l’histoire sont à offrir en famille. La tirelire, le solde et le cadeau en centimes ont été retirés.
+La roue comporte **six cases égales** : **2 chocolats**, **2 bonbons**, **1 cadeau de 10 minutes de télé** et
+**1 pièce pour la tirelire**. Les deux premières récompenses ont chacune 2 chances sur 6 ; les deux autres 1 sur 6.
+Les cadeaux sont à offrir en famille. Il n’y a pas de solde en argent ni de formulaire de retrait dans le jeu.
 
-Le compteur indique les cadeaux gagnés **aujourd’hui**, selon la date locale du navigateur. Il repart à zéro le jour
-suivant. Les cadeaux et les tours disponibles sont enregistrés dans `licorne.rewards.v1`, sans serveur ni synchronisation
-entre appareils. Les anciens enregistrements conservent les tours disponibles et les comptes des cadeaux restants ;
-le solde et les anciens cadeaux en argent sont ignorés. Les nouvelles sauvegardes ne contiennent plus de solde.
-Effacer les données du site efface ces informations. Si la sauvegarde est bloquée, un message le signale : les cadeaux
-restent utilisables pendant la visite. La roue et le gag respectent la préférence « Réduire les animations ».
+Le compteur indique les cadeaux gagnés **aujourd’hui**, selon la date locale du navigateur, puis repart à zéro
+le lendemain. Les tours disponibles restent conservés. Le format version 2 de `licorne.rewards.v1` préserve les
+bonbons et chocolats déjà gagnés ; les anciennes histoires et animations restent comptées dans « Autres cadeaux
+déjà gagnés », sans devenir de la télé ou des pièces. Les anciennes pièces du format à cinq récompenses sont
+conservées comme des gains, sans reprendre l’ancien solde. Tout reste local à cet appareil et à ce navigateur.
+Effacer les données du site efface ce suivi. Si la sauvegarde est bloquée, les cadeaux restent utilisables pendant
+la visite. La roue respecte la préférence « Réduire les animations ».
 
 Vérifier avec `npm test`, `npm run check` et `npm run lint`. Le test navigateur optionnel `python3 tools/test-rewards-browser.py`
 complète les cinq aventures et vérifie leurs récompenses, le compteur et la sauvegarde. Le test des mots, décrit ci-dessous,
@@ -185,9 +186,9 @@ et Chromium sont nécessaires pour ces tests navigateur.
 
 ## 📖 Trouve le mot ! — Le château des mots
 
-Une activité indépendante pour reconnaître des **mots entiers**, accessible par « Trouve le mot ! » sur l’accueil.
+Une activité indépendante pour reconnaître des **mots entiers**, accessible par le chapitre « Les mots ».
 Les cinq aventures de lettres et sons conservent leur contenu et leurs voix enregistrées. Toutes les activités partagent
-la roue des cadeaux, sans tirelire ni argent.
+la roue des cadeaux.
 
 - Trois niveaux, avec 194 mots et expressions : **70** au premier niveau, **64** au deuxième et **60** au troisième. Chaque partie propose **10 questions** et quatre cartes.
 - Toucher « Réécouter » pour réentendre « Trouve le mot… maison ! ». Regarder les lettres, puis choisir le mot.
@@ -362,15 +363,23 @@ L’écoute et la fluidité sur de vrais appareils Safari/iPad restent à vérif
 Les passes de revue et le protocole de test en famille sont décrits dans [docs/PLAYTEST_REVIEW.md](docs/PLAYTEST_REVIEW.md).
 
 
-## Menu direct et voix commune
+## Chapitres et voix commune
 
-Le menu principal présente treize choix au même niveau : cinq activités de lettres/sons, trois niveaux de
-**Trouve le mot !**, quatre activités de phrases et **Trouve la faute !**. Un toucher lance directement la partie, sans écran intermédiaire de choix de niveau. Les
-activités phonémiques et le carnet des progrès ont été retirés, avec leurs fichiers audio et leurs outils dédiés.
-La roue et ses compteurs quotidiens restent disponibles. Les sept décors illustrés, les refuges, les gags et les
-révisions locales continuent de fonctionner. Les activités de secours conservent leurs huit choix de lettres, sons et mots avec la même voix.
+L’accueil affiche **quatre grandes tuiles en grille 2×2**. Un toucher ouvre les activités du chapitre :
 
-Voir [docs/FLAT_MENU_AND_VOICE.md](docs/FLAT_MENU_AND_VOICE.md) pour la vérification et la prévisualisation.
+| Chapitre | Activités |
+| --- | --- |
+| Les lettres | Les voyelles, Les consonnes |
+| Les sons | Les sons, Sons experts, Tout mélangé |
+| Les mots | Les trois niveaux de Trouve le mot ! |
+| Les phrases | Phrases de 3 ou 5 mots avec modèle, phrases de 3 ou 5 mots à écouter, Trouve la faute ! |
+
+« Les chapitres » revient à l’accueil. Quitter une aventure revient à son chapitre. Les progrès, les mondes et les
+tours de roue restent conservés. Toutes les activités utilisent la même narratrice française enregistrée.
+Le secours classique conserve ses huit activités précédentes et partage la nouvelle roue des cadeaux.
+
+Voir [docs/FLAT_MENU_AND_VOICE.md](docs/FLAT_MENU_AND_VOICE.md). Vérification ciblée :
+`python3 tools/test-chapters-browser.py --screenshots /tmp/licorne-chapitres`.
 
 ## Rendu plus net, animaux et nouveaux voyages
 
@@ -386,7 +395,7 @@ questions. Au sixième cristal, chaque habitat propose une surprise : papillon s
 
 La jungle possède des palmiers et des cascades ; la plage un rivage et du sable ; Paillette marche sur un chemin de
 nuages et traverse une Lune avec des cratères, une vue de la Terre et des lapins casqués. Les mondes changent toujours
-tous les dix cristaux, avec le refuge à cinq. Le menu direct, les activités, la même voix féminine et la roue restent
+tous les dix cristaux, avec le refuge à cinq. Les chapitres, les activités, la même voix féminine et la roue restent
 identiques.
 
 Vérification ciblée : `python3 tools/test-variety-browser.py --screenshots /tmp/licorne-mondes`. Voir aussi
@@ -395,7 +404,7 @@ Vérification ciblée : `python3 tools/test-variety-browser.py --screenshots /tm
 
 ## Construire une phrase
 
-Quatre nouvelles activités se choisissent directement dans le menu principal :
+Quatre activités se choisissent dans le chapitre « Les phrases » :
 
 - **La phrase en ordre · 3 mots** : le modèle est affiché au-dessus des mots mélangés.
 - **La phrase en ordre · 5 mots** : la même activité avec cinq mots.
@@ -440,6 +449,5 @@ mot français valide. Les phrases sont lues avec les enregistrements français `
 Le suivi est indépendant, dans `licorne.typos.v1`, et les réussites rejouées après un refuge ne donnent pas de
 crédits supplémentaires.
 
-Données : `js/data/typos.js`. Questions : `js/sentences/typos.js`. Le menu affiche la tuile rose **Trouve la faute !**
-en premier. Vérification : `node tools/typos.test.mjs` et, avec le serveur et Python Playwright,
+Données : `js/data/typos.js`. Questions : `js/sentences/typos.js`. Le chapitre **Les phrases** contient la tuile rose **Trouve la faute !**. Vérification : `node tools/typos.test.mjs` et, avec le serveur et Python Playwright,
 `python3 tools/test-typos-browser.py --screenshots /tmp/licorne-fautes`.
