@@ -34,7 +34,7 @@ with sync_playwright() as p:
     page=context.new_page();page.on('pageerror',lambda e:errors.append(str(e)))
     open_proto(page)
     assert page.locator('#adventureWorld canvas').count()==1
-    assert page.locator('[data-module]').count()==8
+    assert page.locator('[data-module]').count()==12
     assert page.evaluate('window.__adventure.state().world.version')=='4.2.1'
     shot(page,'prototype-menu-phone')
     modes=[('voyelles',1),('consonnes',1),('sons',1),('experts',1),('tout',1),('words',1),('words',2),('words',3)]

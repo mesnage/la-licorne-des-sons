@@ -4,6 +4,8 @@ import { makeTargets, distractors, pickWord } from '../questions.js';
 import { shuffle } from '../utils.js';
 import { weightedPick } from '../learning/mastery.js';
 import { QuestionSession, WordSession } from '../words/model.js';
+import { SENTENCE_ACTIVITIES, sentenceActivity } from '../data/sentences.js';
+import { sentenceQuestions } from '../sentences/model.js';
 
 export const MODULES = [
   { id:'voyelles', title:'Les voyelles', icon:'flower', detail:'a, e, i, o, u…', color:'rose' },
@@ -12,7 +14,7 @@ export const MODULES = [
   { id:'experts', title:'Sons experts', icon:'gem', detail:'Des sons à explorer', color:'peach' },
   { id:'tout', title:'Tout mélangé', icon:'star', detail:'La grande aventure', color:'gold' },
 ];
-export const MENU_ITEMS=[...MODULES,...WORD_LEVELS.map(level=>({id:'words-'+level.id,mode:'words',level:level.id,title:'Trouve le mot ! · '+level.id,detail:level.title,icon:'book',color:['sky','mint','lavender'][level.id-1]}))];
+export const MENU_ITEMS=[...MODULES,...WORD_LEVELS.map(level=>({id:'words-'+level.id,mode:'words',level:level.id,title:'Trouve le mot ! · '+level.id,detail:level.title,icon:'book',color:['sky','mint','lavender'][level.id-1]})),...SENTENCE_ACTIVITIES];
 export const WORLD_WIDTH = 3600, WORLD_HEIGHT = 1400;
 export function pathPoint(progress){
   const p = Math.max(0,Math.min(1,progress)), x = 140 + p * 3160;
@@ -46,7 +48,11 @@ export class AdventureSession extends QuestionSession {
   constructor(questions){super(questions);this.mistakes=new Set();this.credited=new Set();this.returnIndex=null;}
   answer(id){
     if(this.phase!=='question'||!this.current.choices.some(c=>c.id===id)) return null;
-    if(id!==this.current.target.id){
+    return this.grade(id===this.current.target.id);
+  }
+  grade(correct){
+    if(this.phase!=='question')return null;
+    if(!correct){
       const firstMistake=!this.mistakes.has(this.index);
       this.mistakes.add(this.index);this.returnIndex=checkpointFor(this.index);this.phase='returning';
       return {correct:false,firstMistake,checkpoint:this.returnIndex,from:this.index};
@@ -60,6 +66,20 @@ export class AdventureSession extends QuestionSession {
     if(this.phase!=='returning') return false;
     this.index=this.returnIndex;this.returnIndex=null;this.phase='question';this.missed=false;return true;
   }
+}
+export class SentenceAdventureSession extends AdventureSession {
+  constructor(questions){super(questions);this.selected=[];}
+  get orderedWords(){return this.selected.map(id=>this.current.choices.find(tile=>tile.id===id).text);}
+  answer(id){
+    if(this.phase!=='question'||this.selected.includes(id))return null;
+    const tile=this.current.choices.find(choice=>choice.id===id);
+    if(!tile)return null;
+    if(tile.text!==this.current.target.words[this.selected.length])return this.grade(false);
+    this.selected.push(id);
+    return this.selected.length===this.current.target.words.length?this.grade(true):{correct:true,partial:true};
+  }
+  next(){const advanced=super.next();if(advanced)this.selected=[];return advanced;}
+  recover(){const recovered=super.recover();if(recovered)this.selected=[];return recovered;}
 }
 export function createJourneyMemory(storage){
   let count=0,persistent=true;
@@ -77,6 +97,8 @@ export function createJourneyMemory(storage){
 }
 export function createAdventure(mode, level = 1, stats = {}, skills = {}){
   if(mode === 'words') return new AdventureSession(new WordSession(WORDS,level,stats).questions);
+  const activity=sentenceActivity(mode);
+  if(activity)return new SentenceAdventureSession(sentenceQuestions(activity.length,stats));
   if(!LEVELS[mode]) throw new Error('Unknown learning module');
   let targets;
   if(Object.keys(skills).some(id=>id.startsWith('letters:'))){

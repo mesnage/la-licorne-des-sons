@@ -21,10 +21,10 @@ test('all phonics modules and the three word levels retain their learning conten
   }
   assert.throws(()=>createAdventure('unknown'),/Unknown/);
 });
-test('the menu has five original activities and three direct word-level choices',()=>{
- assert.equal(MENU_ITEMS.length,8);assert.equal(new Set(MENU_ITEMS.map(item=>item.id)).size,8);
+test('the menu has five original activities, three word levels and four sentence activities',()=>{
+ assert.equal(MENU_ITEMS.length,12);assert.equal(new Set(MENU_ITEMS.map(item=>item.id)).size,12);
  assert.deepEqual(MENU_ITEMS.filter(item=>item.mode==='words').map(item=>item.level),[1,2,3]);
- for(const item of MENU_ITEMS){const session=createAdventure(item.mode||item.id,item.level||1);assert.equal(session.questions.length,item.mode==='words'?10:20);}
+ for(const item of MENU_ITEMS){const session=createAdventure(item.mode||item.id,item.level||1);assert.equal(session.questions.length,MODULES.some(module=>module.id===item.id)?20:10);}
 });
 test('world boundaries are every ten crystals and refuges are exactly halfway',()=>{
   assert.deepEqual([0,1,4,5,6,9,10,11,14,15,16,19].map(checkpointFor),[0,0,0,5,5,5,10,10,10,15,15,15]);

@@ -2,7 +2,7 @@
 """Fabrique la voix du jeu (fichiers audio/*.mp3 + audio/manifest.json).
 
 Ce que le script fait :
-  1. lit les sons dans js/data/sounds.js, les mots entiers dans js/data/words.js, et les phrases N("…") / U("…") dans js/**/*.js ;
+  1. lit les sons dans js/data/sounds.js, les mots entiers et les phrases dans js/data/, et les phrases N("…") / U("…") dans js/**/*.js ;
   2. génère, avec une voix française (piper « fr_FR-siwis-medium »), chaque phrase qui n'a pas encore d'audio ;
   3. (par défaut) vérifie chaque phrase avec une reconnaissance vocale française (Whisper) :
      plusieurs essais, on garde celui qui est compris correctement ;
@@ -19,7 +19,7 @@ Utilisation (depuis la racine du projet) :
 
 Toutes les phrases sont dites EN PHRASES COMPLÈTES (jamais un son isolé, que la voix prononce mal) :
   L:<son>  « Trouve la lettre, M ! »   F:<son>  « Il fallait trouver la lettre, M ! »
-  w:<mot>  « Comme dans, moto ! »      W:<id> « Trouve le mot, maison ! »
+  w:<mot>  « Comme dans, moto ! »      W:<id> « Trouve le mot, maison ! » / S:<id> « Le chat dort. »
   n:/u:    phrases de la narratrice / de Paillette (voix plus aiguë)
 """
 import argparse, difflib, hashlib, json, os, re, subprocess, sys, tempfile, unicodedata
@@ -78,7 +78,7 @@ def wanted_keys():
     keys = [p + g for g in sounds for p in ('L:', 'F:')] + ['w:' + w for w in words] + [k.lower() + ':' + t for k, t in lines]
     missing = [g for g in sounds if g not in LETTER]
     if missing: sys.exit(f'Ajoutez la prononciation de {missing} dans LETTER (tools/voice/build_voice.py).')
-    return keys + ['W:' + word_id for word_id in whole_word_prompts()]
+    return keys + ['W:' + word_id for word_id in whole_word_prompts()] + ['S:' + sentence_id for sentence_id in sentence_prompts()]
 
 _WORD_PROMPTS = None
 def whole_word_prompts():
@@ -88,7 +88,15 @@ def whole_word_prompts():
         _WORD_PROMPTS = {word['id']: word.get('speech', word['text']) for word in words}
     return _WORD_PROMPTS
 
-PREFIX = {'L': 'lettre', 'F': 'erreur', 'w': 'mot', 'W': 'mot-entier', 'n': 'voix', 'u': 'paillette'}
+_SENTENCE_PROMPTS = None
+def sentence_prompts():
+    global _SENTENCE_PROMPTS
+    if _SENTENCE_PROMPTS is None:
+        sentences = json.loads(subprocess.check_output(['node', '--input-type=module', '-e', "import {SENTENCES} from './js/data/sentences.js';process.stdout.write(JSON.stringify(SENTENCES));"], cwd=ROOT, text=True))
+        _SENTENCE_PROMPTS = {sentence['id']: sentence['text'] for sentence in sentences}
+    return _SENTENCE_PROMPTS
+
+PREFIX = {'S': 'phrase', 'L': 'lettre', 'F': 'erreur', 'w': 'mot', 'W': 'mot-entier', 'n': 'voix', 'u': 'paillette'}
 def filename(key):
     p, t = key.split(':', 1)
     s = unicodedata.normalize('NFD', t.lower().replace('œ', 'oe'))
@@ -117,6 +125,8 @@ class Voice:
         p, t = key.split(':', 1)
         if p in ('L', 'F'):
             return self.phon(intro(t, p == 'F')) + [',', ' '] + list(LETTER[t]) + ['!'], 0.85, 1.0
+        if p == 'S':
+            return self.phon(sentence_prompts()[t]), 0.85, 1.0
         if p == 'W':
             return self.phon('Trouve le mot') + [',', ' '] + self.phon(whole_word_prompts()[t] + ' !'), 0.85, 1.0
         if p == 'w':

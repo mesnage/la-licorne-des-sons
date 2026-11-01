@@ -81,7 +81,7 @@ Run tools/test-rainbow-browser.py for real climbing, pause/resume, rotation and 
 
 ## Direct activity menu and shared narrator
 
-The main menu contains eight direct choices: the five letter/sound modes and three word levels. `MENU_ITEMS` in
+The main menu contains twelve direct choices: five letter/sound modes, three word levels and four sentence activities. `MENU_ITEMS` in
 js/prototype/model.js defines the main activity cards. Do not add a word-level submenu or a progress notebook.
 Phoneme activities/data/audio and their generators have been removed at the owner's request. Existing local letter
 and word practice stays in the background for revision; gift balances/spins and world history remain intact.
@@ -112,3 +112,10 @@ The world-name button opens the seven-world picker. Habitat changes preserve the
 `wildlife.js` owns cached layered parts and grounded gait/turn poses for rabbit, fox, turtle, hedgehog, deer and cow. Meadow/forest have eight companions; other habitats have six. Keep foot targets in world space, sole rotation level and opaque turn poses mutually exclusive. Never restore whole-body squeeze/dissolve turns. `atmosphere.js` owns shared spatial wind, fixed-trunk/moving-canopy trees, individual sprigs, articulated flying birds, drifting leaves and restrained ground light. All ambient motion follows the scene clock and must freeze on pause/picker and stay static for reduced motion.
 
 `world.js` reuses matching initial scenery and culls off-screen containers/joint work. Avoid heavyweight SVG filters, new per-frame game-object allocation, and texture growth on reset. Keep the Retina buffer limit and buffer-before-CSS-zoom resize order. The independent iteration record is docs/graphics-upgrade-review.md; tools/graphics-lab.html is a development-only six-species live showcase. Run tools/test-living-world-browser.py and tools/test-world-picker-browser.py with the local server; `--browser-path` supports installed Chrome on macOS.
+
+
+## Sentence activities
+
+`js/data/sentences.js` defines 24 three-word and 24 five-word French sentences and four direct activity cards: visible model or listening only, at each length. `js/sentences/model.js` selects ten distinct sentences and guarantees genuinely shuffled, lowercase tiles without punctuation. `SentenceAdventureSession` in `js/prototype/model.js` accepts the next word by text, so duplicate written words are interchangeable, while used tile IDs cannot be reused. Partial answers never advance the world, score, mastery or rewards. Wrong words use the existing checkpoint rules; recover/next clears the assembly and unique credit protects replayed sentences.
+
+`app.js` renders the visible model only for copying activities. Clear `sentenceTarget` for listening activities, including audio failure, and retain partial assembly across replay, pause and world selection. Complete sentences use full `S:<id>` MP3 recordings through the shared narrator, rate .85/pitch 1.0, generated and ASR-verified with `build_voice.py`. Never add device speech or text fallbacks that reveal hidden models. Local practice is namespaced by activity in `licorne.sentences.v1`; the existing word save stays separate. The classic fallback retains its original eight activities. Run `tools/test-sentences-browser.py` for all four completions, real audio decoding, checkpoint/reward accounting, pause/picker, hidden-model failure recovery and responsive layouts.

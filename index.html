@@ -6,6 +6,7 @@
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="css/style.css"><link rel="stylesheet" href="css/prototype.css">
 <link rel="stylesheet" href="css/storybook.css">
+<link rel="stylesheet" href="css/sentences.css">
 </head>
 <body class="prototype" data-screen="menu">
 <div class="storybook-vista" aria-hidden="true"><img class="storybook-paillette" src="assets/storybook/paillette-0.webp" alt=""><span class="storybook-caption">Un peu de magie.<br>Beaucoup de découvertes.</span></div>
@@ -22,7 +23,7 @@
   <p class="adventure-intro">Choisis ton aventure. Écoute, trouve la réponse<br>et accompagne Paillette jusqu’au château.</p>
   <div id="adventureModules" class="adventure-modules"></div>
   <div class="adventure-menu-footer"><button id="rewardPending" class="adventure-text-button">Mes cadeaux du jour</button><span>10 cristaux par monde · un refuge à mi-chemin</span></div>
-  <details class="adventure-help"><summary>Pour les parents · Comment jouer ?</summary><p>Chaque bonne réponse fait avancer Paillette. Un monde compte 10 cristaux ; le refuge à 5 protège la première moitié du chemin. Une erreur ramène au dernier refuge, puis on réessaie tranquillement.</p><p>Une aventure terminée donne un tour de roue. Les progrès et les cadeaux restent sur cet appareil, sans compte. Les trois aventures « Trouve le mot ! » se choisissent directement ici. Toutes les activités utilisent la même voix féminine française ; vérifiez le volume.</p><p>Le bouton ⏸ permet de faire une pause ou de changer d’activité. Invitez votre enfant à regarder toutes les lettres, sans se presser.</p></details>
+  <details class="adventure-help"><summary>Pour les parents · Comment jouer ?</summary><p>Chaque bonne réponse fait avancer Paillette. Un monde compte 10 cristaux ; le refuge à 5 protège la première moitié du chemin. Une erreur ramène au dernier refuge, puis on réessaie tranquillement.</p><p>Une aventure terminée donne un tour de roue. Les progrès et les cadeaux restent sur cet appareil, sans compte. Les trois aventures « Trouve le mot ! » et les quatre activités de phrases se choisissent directement ici. Pour les phrases, touche les mots dans le bon ordre : avec un modèle visible ou seulement en écoutant, avec 3 ou 5 mots. Toutes les activités utilisent la même voix féminine française ; vérifiez le volume.</p><p>Le bouton ⏸ permet de faire une pause ou de changer d’activité. Invitez votre enfant à regarder toutes les lettres, sans se presser.</p></details>
   <a id="legacyFallback" href="classic.html" hidden>Ouvrir les activités de secours →</a>
   <p id="engineStatus" class="adventure-status" role="status">Paillette prépare son voyage…</p>
  </section>
@@ -35,6 +36,11 @@
   <div class="adventure-question-top"><div><span class="adventure-eyebrow" id="checkpointName">UN CRISTAL À LIBÉRER</span><h2 id="questionTitle">Écoute bien…</h2></div>
    <button id="listenBtn" class="adventure-speaker"><span data-art="sound"></span> Réécouter</button></div>
   <p id="adventureAudioStatus" class="adventure-status" role="status" aria-live="polite"></p>
+  <div id="sentenceWorkbench" class="sentence-workbench" hidden>
+   <div id="sentenceModel" class="sentence-model"><span>Le modèle</span><p id="sentenceTarget"></p></div>
+   <p id="sentenceInstruction" class="sentence-instruction"></p>
+   <div id="sentenceAssembly" class="sentence-assembly" role="group" aria-label="Ta phrase" aria-live="polite"></div>
+  </div>
   <div id="adventureChoices" class="adventure-choices" role="group" aria-label="Choisis ce que tu entends"></div>
   <p id="adventureFeedback" class="adventure-feedback" role="status" aria-live="polite">Regarde bien chaque lettre. Tu peux prendre ton temps.</p>
  </section>
@@ -61,7 +67,7 @@
  <p>Paillette t’attend ici. Tu peux reprendre exactement où tu en étais.</p>
  <button id="adventureResume" class="adventure-primary" autofocus>Reprendre l’aventure</button>
  <button id="adventureLeave" class="adventure-text-button">Choisir une autre activité</button>
- <small>Changer d’activité recommence le voyage. Les mots déjà travaillés et les cadeaux sont conservés.</small>
+ <small>Changer d’activité recommence le voyage. Les progrès et les cadeaux sont conservés.</small>
 </dialog>
 <!-- Shared reward UI and persistence, without any monetary prize. -->
 <dialog id="rewardsDialog" class="reward-dialog" aria-labelledby="rewardTitle">

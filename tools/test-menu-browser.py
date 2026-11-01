@@ -20,7 +20,7 @@ with sync_playwright() as p:
  browser=p.chromium.launch(executable_path=args.browser_path,headless=True,args=['--no-sandbox'])
  errors=[]
  page=browser.new_page(viewport={'width':390,'height':844},has_touch=True,reduced_motion='reduce');page.add_init_script(monitor);page.on('pageerror',lambda e:errors.append(str(e)));boot(page)
- assert page.locator('#adventureModules > button').count()==8
+ assert page.locator('#adventureModules > button').count()==12
  assert page.locator('#adventureModules > [data-word-level]').count()==3
  assert page.locator('#adventureLevels,#phonemeLevels,#progressNotebook,#progressOpen').count()==0
  shot(page,'menu-phone')

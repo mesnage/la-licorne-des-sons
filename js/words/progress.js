@@ -6,15 +6,15 @@ function clean(value){
     ['completed', 'firstTry', 'misses', 'streak'].every(k => integer(s[k])) &&
     s.firstTry <= s.completed && s.streak <= s.firstTry));
 }
-export function createWordProgress(storage){
+export function createWordProgress(storage, key = WORD_PROGRESS_KEY){
   let stats = {}, persistent = true;
   function load(){
     if(!persistent) return;
-    try { stats = clean(JSON.parse(storage.getItem(WORD_PROGRESS_KEY))); }
+    try { stats = clean(JSON.parse(storage.getItem(key))); }
     catch(e){ persistent = false; }
   }
   function save(){
-    try { storage.setItem(WORD_PROGRESS_KEY, JSON.stringify(stats)); }
+    try { storage.setItem(key, JSON.stringify(stats)); }
     catch(e){ persistent = false; }
   }
   function update(id, change){

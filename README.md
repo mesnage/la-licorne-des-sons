@@ -351,7 +351,7 @@ python3 tools/test-checkpoints-browser.py --screenshots /tmp/paillette-refuges
 python3 tools/test-rainbow-browser.py --screenshots /tmp/paillette-arc-en-ciel
 ```
 
-Ces tests couvrent les huit choix de niveau, les refuges dans deux mondes, la remise en jeu des cristaux perdus,
+Ces tests couvrent les huit aventures de lettres, sons et mots, les refuges dans deux mondes, la remise en jeu des cristaux perdus,
 les crédits uniques et récompenses, les quatre gags avec leurs vraies animations, les gros mots/graphèmes sur
 téléphone/tablette et les retours au menu pendant une glissade. Le troisième script vérifie les vraies montées, les
 pauses pendant les différentes phases, les oiseaux calmes pendant la lecture, la rotation de l’écran et douze
@@ -364,11 +364,11 @@ Les passes de revue et le protocole de test en famille sont décrits dans [docs/
 
 ## Menu direct et voix commune
 
-Le menu principal présente huit choix au même niveau : les cinq activités de lettres/sons et les trois niveaux de
-**Trouve le mot !**. Un toucher lance directement la partie, sans écran intermédiaire de choix de niveau. Les
+Le menu principal présente douze choix au même niveau : cinq activités de lettres/sons, trois niveaux de
+**Trouve le mot !** et quatre activités de phrases. Un toucher lance directement la partie, sans écran intermédiaire de choix de niveau. Les
 activités phonémiques et le carnet des progrès ont été retirés, avec leurs fichiers audio et leurs outils dédiés.
 La roue et ses compteurs quotidiens restent disponibles. Les sept décors illustrés, les refuges, les gags et les
-révisions locales continuent de fonctionner. Les activités de secours utilisent le même menu direct et la même voix.
+révisions locales continuent de fonctionner. Les activités de secours conservent leurs huit choix de lettres, sons et mots avec la même voix.
 
 Voir [docs/FLAT_MENU_AND_VOICE.md](docs/FLAT_MENU_AND_VOICE.md) pour la vérification et la prévisualisation.
 
@@ -391,3 +391,36 @@ identiques.
 
 Vérification ciblée : `python3 tools/test-variety-browser.py --screenshots /tmp/licorne-mondes`. Voir aussi
 [docs/RENDERING_AND_WORLDS.md](docs/RENDERING_AND_WORLDS.md).
+
+
+## Construire une phrase
+
+Quatre nouvelles activités se choisissent directement dans le menu principal :
+
+- **La phrase en ordre · 3 mots** : le modèle est affiché au-dessus des mots mélangés.
+- **La phrase en ordre · 5 mots** : la même activité avec cinq mots.
+- **Écoute la phrase · 3 mots** : la phrase est prononcée, sans modèle écrit.
+- **Écoute la phrase · 5 mots** : la même activité avec cinq mots.
+
+L’enfant touche les mots dans l’ordre. Chaque mot correct remplit une case ; les mots choisis restent à leur place
+et deviennent grisés. Les tuiles sont en minuscules et sans ponctuation. Un même mot répété peut être choisi
+sur l’une ou l’autre de ses tuiles. Une phrase complète donne un cristal ; dix phrases différentes terminent
+l’aventure et donnent un seul tour de roue. Une erreur utilise les refuges habituels, sans compter deux fois
+les réussites rejouées. Réécouter, faire une pause et changer de monde conservent les mots déjà placés.
+
+Il y a **48 phrases enregistrées** : 24 de trois mots et 24 de cinq mots. La narratrice française est la même
+que dans les autres activités, avec les mêmes hauteur et débit. Les MP3 `S:<id>` sont vérifiés par reconnaissance
+vocale ; aucune voix système n’est utilisée. En mode écoute, un problème audio propose Réécouter sans afficher
+la réponse. Les progrès restent séparés par activité dans `licorne.sentences.v1`, sans modifier ceux des mots.
+
+Vocabulaire : `js/data/sentences.js`. Mélange et choix : `js/sentences/model.js`. Session et refuges :
+`SentenceAdventureSession` dans `js/prototype/model.js`. Interface : `js/prototype/app.js` et `css/sentences.css`.
+Le secours classique conserve ses huit activités précédentes.
+
+```bash
+npm test
+npm run check
+npm run lint
+python3 tools/test-sentences-browser.py --screenshots /tmp/licorne-phrases
+# Sur macOS, ajouter --browser-path '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome'
+```
