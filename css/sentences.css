@@ -56,3 +56,17 @@
  .adventure-choices.sentence-choices .adventure-answer{font-size:22px;min-height:44px;min-width:44px;padding:6px}
  .sentence-question .adventure-feedback{min-height:18px;margin-top:6px;font-size:12px}
 }
+
+/* The four sentence tiles come first and fit above the fold on short phones. */
+@media(max-width:600px) and (max-height:650px) and (orientation:portrait){
+ .adventure-menu{margin-top:100px;max-height:calc(100dvh - 116px)}
+ .adventure-menu h1{font-size:30px;margin:6px 0 8px}
+ .adventure-menu .adventure-eyebrow{margin-bottom:8px}
+ .adventure-intro{margin-bottom:12px}
+}
+@media(orientation:landscape) and (max-height:600px){
+ .adventure-menu{padding:14px 16px}
+ .adventure-menu h1{font-size:28px;margin:6px 0 8px}
+ .adventure-menu .adventure-eyebrow{margin-bottom:6px}
+ .adventure-intro{font-size:12px;line-height:1.4;margin-bottom:10px}
+}

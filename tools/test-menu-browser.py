@@ -22,6 +22,12 @@ with sync_playwright() as p:
  page=browser.new_page(viewport={'width':390,'height':844},has_touch=True,reduced_motion='reduce');page.add_init_script(monitor);page.on('pageerror',lambda e:errors.append(str(e)));boot(page)
  assert page.locator('#adventureModules > button').count()==12
  assert page.locator('#adventureModules > [data-word-level]').count()==3
+ assert page.locator('#adventureModules > [data-sentence-mode]').count()==4
+ for width,height in [(320,568),(390,844),(459,724),(844,390),(768,1024),(1280,900)]:
+  page.set_viewport_size({'width':width,'height':height})
+  shot(page,f'sentence-menu-{width}-{height}')
+  assert page.locator('[data-sentence-mode]').evaluate_all('buttons=>buttons.every(button=>{const b=button.getBoundingClientRect(),menu=button.closest("#adventureMenu").getBoundingClientRect();return b.top>=menu.top&&b.bottom<=Math.min(menu.bottom,innerHeight)&&b.left>=0&&b.right<=innerWidth;})'), (width,height)
+ page.set_viewport_size({'width':390,'height':844})
  assert page.locator('#adventureLevels,#phonemeLevels,#progressNotebook,#progressOpen').count()==0
  shot(page,'menu-phone')
  for level in [1,2,3]:

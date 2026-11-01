@@ -1,13 +1,13 @@
 import { createWorld } from './world.js';
-import { WORLDS, MODULES, MENU_ITEMS, createAdventure, createJourneyMemory, journeyState } from './model.js';
+import { WORLDS, MODULES, MENU_ITEMS, createAdventure, createJourneyMemory, journeyState } from './model.js?v=sentence-menu-3';
 import { illustration } from '../illustrations.js';
 import { createMastery, skillStatus } from '../learning/mastery.js';
 import { WORD_LEVELS } from '../data/words.js';
 import { sentenceActivity } from '../data/sentences.js';
-import { createWordProgress } from '../words/progress.js';
+import { createWordProgress } from '../words/progress.js?v=sentence-menu-3';
 import { createWordVoice } from '../words/voice.js';
 import { initRewards, earnReward, showReward } from '../rewards.js';
-import { ready as audioReady, loadClip, say, hush, sfx, unlock } from '../audio.js';
+import { ready as audioReady, loadClip, say, hush, sfx, unlock } from '../audio.js?v=sentence-menu-3';
 import { gemSVG, plain } from '../utils.js';
 
 const $ = id => document.getElementById(id);

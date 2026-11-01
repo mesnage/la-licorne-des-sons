@@ -14,7 +14,7 @@ export const MODULES = [
   { id:'experts', title:'Sons experts', icon:'gem', detail:'Des sons à explorer', color:'peach' },
   { id:'tout', title:'Tout mélangé', icon:'star', detail:'La grande aventure', color:'gold' },
 ];
-export const MENU_ITEMS=[...MODULES,...WORD_LEVELS.map(level=>({id:'words-'+level.id,mode:'words',level:level.id,title:'Trouve le mot ! · '+level.id,detail:level.title,icon:'book',color:['sky','mint','lavender'][level.id-1]})),...SENTENCE_ACTIVITIES];
+export const MENU_ITEMS=[...SENTENCE_ACTIVITIES,...MODULES,...WORD_LEVELS.map(level=>({id:'words-'+level.id,mode:'words',level:level.id,title:'Trouve le mot ! · '+level.id,detail:level.title,icon:'book',color:['sky','mint','lavender'][level.id-1]}))];
 export const WORLD_WIDTH = 3600, WORLD_HEIGHT = 1400;
 export function pathPoint(progress){
   const p = Math.max(0,Math.min(1,progress)), x = 140 + p * 3160;

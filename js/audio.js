@@ -3,7 +3,7 @@ import { $, wait } from './utils.js';
 
 /* audio/manifest.json associe chaque clé de phrase (ex. "L:m", "w:moto") à son fichier MP3. */
 let manifest = {};
-const ready = fetch('audio/manifest.json').then(r => r.json()).then(m => { manifest = m; }).catch(() => {});
+const ready = fetch('audio/manifest.json', {cache:'no-cache'}).then(r => r.json()).then(m => { manifest = m; }).catch(() => {});
 /** précharge des phrases à l'avance (ex. la prochaine question) */
 function preload(keys){ ready.then(() => keys.forEach(k => typeof k === 'string' && loadClip(k))); }
 
