@@ -268,8 +268,9 @@ export function createWorld(parent,{onReady,onBiome,onError,onGag=()=>{}}){
         this.birds.forEach((bird,i)=>{const p=birdPoint(i,this.birdSeconds);bird.setPosition(p.x,p.y);});
         this.animals.forEach((friend,i)=>{
           const near=Math.abs(friend.baseX-this.hero.x)<210||this.birdSeconds<friend.greetingUntil;
-          const hop=near?Math.abs(Math.sin(this.birdSeconds*4+i))*12:Math.sin(this.birdSeconds*1.1+i)*1.5;
-          friend.y=friend.baseY-hop;friend.angle=near?Math.sin(this.birdSeconds*3+i)*4:0;
+          const hop=near?Math.abs(Math.sin(this.birdSeconds*4+i))*(this.moving?12:7):Math.sin(this.birdSeconds*1.1+i)*2.5;
+          friend.x=friend.baseX+Math.sin(this.birdSeconds*(friend.kind==='turtle'?.38:.65)+i)*7;
+          friend.y=friend.baseY-hop;friend.angle=Math.sin(this.birdSeconds*(near?3:1)+i)*(near?4:1.5);
           friend.setTexture('animal-'+friend.kind+((this.birdSeconds+i*1.8)%6<.2?'1':'0'));
         });
         this.petals.forEach((p,i)=>{p.x=p.startX+Math.sin(this.birdSeconds*.3+i)*16;p.y=p.startY+Math.sin(this.birdSeconds*.5+i)*9;});
@@ -308,6 +309,12 @@ export function createWorld(parent,{onReady,onBiome,onError,onGag=()=>{}}){
     reset(total,startWorld=0){
       cancel();progress=0;crystals=0;if(!scene?.hero)return;
       scene.total=total;scene.startWorld=startWorld;scene.paintWorld(0,0);
+    },
+    setTheme(id){
+      if(!scene?.hero||scene.moving||!Number.isInteger(id)||id<0||id>=WORLDS.length)return false;
+      scene.startWorld=(id-scene.worldNumber+WORLDS.length)%WORLDS.length;
+      scene.paintWorld(scene.worldNumber,Math.round(scene.travel.value*10));
+      return true;
     },
     quiet(value){if(scene){scene.quiet=value;scene.birds.forEach(bird=>{if(reduced)return;if(value)bird.anims.pause();else if(bird.anims.isPlaying)bird.anims.resume();else bird.play('bird-flight');});}},
     moveTo(count,{returning=false}={}){

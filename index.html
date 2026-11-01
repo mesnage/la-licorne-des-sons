@@ -12,7 +12,7 @@
 <div id="adventureWorld" role="img" aria-label="Paillette suit un sentier à travers la prairie et la forêt vers le château"></div>
 <header class="adventure-header">
  <a href="index.html" class="adventure-brand"><span aria-hidden="true">✦</span> La Licorne des Sons</a>
- <span id="worldName" class="world-name"><span data-art="flower"></span> La prairie des fleurs</span>
+ <button id="worldName" class="world-name" type="button" aria-haspopup="dialog" aria-controls="worldDialog" aria-expanded="false" aria-label="Choisir un monde" disabled><span data-art="flower"></span><span class="world-name-label">La prairie des fleurs</span><span class="world-chevron" aria-hidden="true">⌄</span></button>
  <button id="adventureHome" class="adventure-icon" hidden aria-label="Faire une pause ou choisir une activité"><svg width="16" height="20" viewBox="0 0 16 20" aria-hidden="true"><rect width="5" height="20" rx="2" fill="currentColor"/><rect x="11" width="5" height="20" rx="2" fill="currentColor"/></svg></button>
 </header>
 <main>
@@ -49,6 +49,13 @@
  </section>
  <p id="adventureStorage" class="adventure-storage"></p>
 </main>
+<dialog id="worldDialog" class="adventure-level-dialog world-dialog" aria-labelledby="worldDialogTitle" aria-describedby="worldDialogHint">
+ <button id="worldDialogClose" class="dialog-close" type="button" aria-label="Fermer le choix des mondes">✕</button>
+ <p class="adventure-eyebrow">OÙ VEUX-TU TE PROMENER ?</p>
+ <h2 id="worldDialogTitle">Choisis ton monde</h2>
+ <p id="worldDialogHint">Change de décor. Tu gardes tes cristaux et ta question !</p>
+ <div id="worldChoices" class="world-choices" role="group" aria-label="Les sept mondes de Paillette"></div>
+</dialog>
 <dialog id="adventurePause" class="adventure-level-dialog adventure-pause" aria-labelledby="pauseTitle">
  <p class="adventure-eyebrow">ON PREND SON TEMPS</p><h2 id="pauseTitle">Une petite pause ?</h2>
  <p>Paillette t’attend ici. Tu peux reprendre exactement où tu en étais.</p>

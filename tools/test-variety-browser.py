@@ -34,7 +34,7 @@ with sync_playwright() as p:
   assert not state(page)['world']['propsVisible'] and not state(page)['world']['effectCount']
   page.close()
  print('Retina WebGL/Canvas backing buffers, rotation, reduced motion and quiet companions passed',flush=True)
- # Every habitat has its own animal family, and travel stays still while reading.
+ # Every habitat has its own animal family; reduced motion keeps it still.
  review=browser.new_page(viewport={'width':1024,'height':768},device_scale_factor=2,reduced_motion='reduce')
  review.on('pageerror',lambda e:errors.append(str(e)))
  expected=['meadow','forest','jungle','beach','ice','clouds','moon']
@@ -50,7 +50,7 @@ with sync_playwright() as p:
   page=browser.new_page(viewport={'width':1024,'height':768},device_scale_factor=2,has_touch=True)
   page.on('pageerror',lambda e:errors.append(str(e)));boot(page,theme)
   for _ in range(5):settled(page,right(page))
-  resting=state(page)['world']['animalPoses'];page.wait_for_timeout(250);assert state(page)['world']['animalPoses']==resting
+  resting=state(page)['world']['animalPoses'];page.wait_for_timeout(250);assert state(page)['world']['animalPoses']!=resting
   right(page);page.wait_for_function('(kind)=>window.__adventure.state().world.gag===kind&&window.__adventure.state().world.moving',arg=kind)
   page.wait_for_timeout(450);active=state(page)['world']
   assert active['animalPoses']!=resting

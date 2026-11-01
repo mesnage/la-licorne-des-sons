@@ -2,11 +2,13 @@
 
 Branch: `design/enchanted-storybook`.
 
-The current revision uses a living, layered miniature world rather than a detailed raster landscape. `js/prototype/garden.js` supplies quiet meadow/forest hills, shaded trees, bushes, flower patches and mossy rocks as individual SVG assets. The scene places them in world coordinates around its actual walkable path, with varied sizes, spacing and depth. Near foliage, distant clouds, birds, petals and animal companions animate independently during travel and on the menu. Reading questions freeze ambient movement; pause freezes the scene; reduced motion keeps decorations still.
+The current revision uses a living, layered miniature world rather than a detailed raster landscape. `js/prototype/garden.js` supplies quiet meadow/forest hills, shaded trees, bushes, flower patches and mossy rocks as individual SVG assets. The scene places them in world coordinates around its actual walkable path, with varied sizes, spacing and depth. Near foliage, distant clouds, birds, petals and animal companions animate independently during travel, on the menu, and while reading questions; pause freezes the scene; reduced motion keeps decorations still.
 
 The path now extends off-screen at the entrance, with narrow earthen layers, grass shoulders, fine gravel and small flowers. Tree placement leaves the rainbow and walking lane open. Animal coats share the same soft directional shading as the plants and rocks. The other five habitats keep their distinct native terrain and use the updated trees/roadside props where appropriate.
 
 Paillette's four transparent walking poses remain in `assets/storybook/paillette-0.webp` through `paillette-3.webp`, used throughout the seven worlds and the reward scene. The JPEG landscape explorations in that directory are retained as reference art and are no longer loaded by the game or menu. The generation prompts below document that earlier exploration; the current scenery is code-native artwork, without new image generation or runtime image services.
+
+The world-name badge opens a seven-world picker. Selecting a habitat preserves the question, crystal count and checkpoint, and remembers the preferred starting habitat locally (`licorne.world-choice.v1`). The picker pauses the scene while open; closing it resumes the same question and recording. World switching is available at stable question/menu/finish screens, with the button briefly disabled during travel and answer feedback.
 
 The menu overlays the live world. Portrait framing keeps Paillette above the activity panel. Large reading cards, recordings, path/bridge geometry, checkpoints, progress and reward accounting remain intact. The classic fallback is unchanged. Resize now updates the backing buffer before CSS zoom, keeping the canvas display size in step with portrait/landscape rotation; the existing browser regression also checks both CSS dimensions.
 

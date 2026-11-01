@@ -75,7 +75,7 @@ The existing words/rewards browser scripts target classic.html. Real Safari/iPad
 
 Rainbow geometry and bird trajectories live in js/prototype/travel.js. The bridge stays in world coordinates;
 hero feet and crystals use walkingPoint so they follow the same surface. Keep camera framing clear of the HUD
-on portrait phones. Birds stop translating/flapping while questions are visible, and reduced motion keeps them still.
+on portrait phones. Birds, animal companions and ambient scenery keep moving while questions are visible; explicit pause stops the scene, and reduced motion keeps them still.
 The pause dialog freezes the Phaser scene and gates pending answer delays; leaving cancels the old session token.
 Run tools/test-rainbow-browser.py for real climbing, pause/resume, rotation and repeated scene-reset checks.
 
@@ -100,7 +100,9 @@ Native filled pathRibbon geometry avoids translucent wide-stroke seams. Keep for
 
 Seven stable world IDs now represent meadow, forest, tropical jungle, beach, ice, clouds and moon. Saved numeric world
 progress keeps cycling across those IDs. Six animal companions per scene come from animals.js; new props and habitat
-art live in habitats.js. Animals and particles freeze during questions, pause freezes the entire scene, and reduced
+art live in habitats.js. Animals and particles continue during questions, pause freezes the entire scene, and reduced
 motion skips travel gags. Gag 6 varies with habitat; the old prout/rainbow/boing/hat schedule stays intact. Clear all
 props and effects on completion, return, reset and exit. Run tools/test-variety-browser.py alongside the existing
 main/checkpoint/menu/rainbow suites. No educational content, audio or reward accounting should change for artwork.
+
+The world-name button opens the seven-world picker. Habitat changes preserve the current question, crystals, checkpoints and reward accounting. The preferred starting habitat is saved separately as licorne.world-choice.v1; completion history stays in licorne.adventure.v1. Disable habitat changes during travel/answer feedback; the picker pauses the scene and resumes the existing question on close. Run tools/test-world-picker-browser.py for selection, persistence, ambient motion and pause/reduced-motion checks.

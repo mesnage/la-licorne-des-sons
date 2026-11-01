@@ -35,7 +35,7 @@ with sync_playwright() as p:
     page.add_init_script(speech);page.on('pageerror',lambda e:errors.append(str(e)));open_game(page)
     page.locator('[data-word-level="1"]').click()
     initial=state(page);page.wait_for_timeout(300)
-    assert state(page)['world']['birdSeconds']==initial['world']['birdSeconds']
+    assert state(page)['world']['birdSeconds']>initial['world']['birdSeconds']
     index=right(page);pause(page);page.wait_for_timeout(900)
     assert state(page)['index']==0 and not state(page)['world']['moving']
     assert page.locator('#adventureResume').evaluate('(b)=>b===document.activeElement')
@@ -49,9 +49,9 @@ with sync_playwright() as p:
     page.keyboard.press('Escape');page.wait_for_function('!window.__adventure.state().paused')
     shot(page,'rainbow-climb-phone');settle(page,4)
     assert state(page)['world']['birdSeconds']>initial['world']['birdSeconds']
-    # Bird animation rests as soon as answer cards reappear, including flapping frames.
+    # Birds continue flying while the child considers the answer cards.
     rest=state(page)['world']['birdSeconds'];page.wait_for_timeout(300)
-    assert state(page)['world']['birdSeconds']==rest
+    assert state(page)['world']['birdSeconds']>rest
     before=state(page)
     page.locator('.adventure-answer:not([data-choice-id="'+before['targetId']+'"])').first.click()
     page.wait_for_function('window.__adventure.state().world.moving&&window.__adventure.state().phase==="returning"')
@@ -61,7 +61,7 @@ with sync_playwright() as p:
     # Leaving during the feedback delay must never resurrect the abandoned journey.
     right(page);leave(page);page.wait_for_timeout(900)
     assert state(page)['phase'] is None and state(page)['world']['crystals']==0
-    print('Feedback, climb and return pause/resume; Escape; quiet birds; safe activity change passed')
+    print('Feedback, climb and return pause/resume; Escape; ambient birds; safe activity change passed')
     # Phone rotation, desktop and tablet framing: crest and road remain real world geometry.
     for w,h in [(1280,900),(844,390),(768,1024)]:
         view=browser.new_page(viewport={'width':w,'height':h},has_touch=True)
