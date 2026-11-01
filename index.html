@@ -2,11 +2,13 @@
 <html lang="fr">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#d4e8e5"><title>L’aventure de Paillette · La Licorne des Sons</title>
+<meta name="theme-color" content="#f6e6d9"><title>L’aventure de Paillette · La Licorne des Sons</title>
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="css/style.css"><link rel="stylesheet" href="css/prototype.css">
+<link rel="stylesheet" href="css/storybook.css">
 </head>
-<body class="prototype">
+<body class="prototype" data-screen="menu">
+<div class="storybook-vista" aria-hidden="true"><img class="storybook-paillette" src="assets/storybook/paillette-0.webp" alt=""><span class="storybook-caption">Un peu de magie.<br>Beaucoup de découvertes.</span></div>
 <div id="adventureWorld" role="img" aria-label="Paillette suit un sentier à travers la prairie et la forêt vers le château"></div>
 <header class="adventure-header">
  <a href="index.html" class="adventure-brand"><span aria-hidden="true">✦</span> La Licorne des Sons</a>
@@ -16,7 +18,7 @@
 <main>
  <section id="adventureMenu" class="adventure-menu" aria-labelledby="menuTitle">
   <p class="adventure-eyebrow">UN PETIT PAS, UNE GRANDE AVENTURE</p>
-  <h1 id="menuTitle">Le château<br>nous attend.</h1>
+  <h1 id="menuTitle">Le château<br> <em>nous attend.</em></h1>
   <p class="adventure-intro">Choisis ton aventure. Écoute, trouve la réponse<br>et accompagne Paillette jusqu’au château.</p>
   <div id="adventureModules" class="adventure-modules"></div>
   <div class="adventure-menu-footer"><button id="rewardPending" class="adventure-text-button">Mes cadeaux du jour</button><span>10 cristaux par monde · un refuge à mi-chemin</span></div>

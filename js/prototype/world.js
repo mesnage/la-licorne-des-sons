@@ -1,6 +1,6 @@
 import Phaser from '../../vendor/phaser/phaser.esm.min.js';
 import { WORLD_WIDTH, WORLD_HEIGHT, pathPoint, WORLDS, gagFor } from './model.js';
-import { uri, pailletteFrame, landscape, tree, castle, crystal, mushroom, cloud, checkpointFlag, magicHat, birdFrame, pailletteEmotion } from './art.js';
+import { uri, landscape, tree, castle, crystal, mushroom, cloud, checkpointFlag, magicHat, birdFrame } from './art.js';
 import { landmark, foreground } from './scenery.js';
 import { renderProfile, SPRITE_DENSITY, PANORAMA_SIZE } from './rendering.js';
 import { ANIMAL_KINDS, HABITAT_ANIMALS, animalSVG } from './animals.js';
@@ -19,17 +19,20 @@ export function createWorld(parent,{onReady,onBiome,onError,onGag=()=>{}}){
         const raster=size||{width:Number(dimensions[1])*SPRITE_DENSITY,height:Number(dimensions[2])*SPRITE_DENSITY};
         this.load.svg(key,uri(source),raster);
       };
-      WORLDS.forEach(theme=>load('land'+theme.id,landscape(theme),PANORAMA_SIZE));
+      WORLDS.forEach(theme=>{
+        if(theme.id<2)this.load.image('land'+theme.id,'assets/storybook/'+(theme.id===0?'meadow-game':'forest')+'.jpg');
+        else load('land'+theme.id,landscape(theme),PANORAMA_SIZE);
+      });
       WORLDS.forEach(theme=>{load('landmark'+theme.id,landmark(theme),{width:660,height:540});load('plants'+theme.id,foreground(theme),{width:640,height:460});});
-      for(const emotion of ['curious','encouraging','proud'])load('paillette-'+emotion,pailletteEmotion(emotion),{width:480,height:432});
+      for(const [emotion,frame] of [['curious',1],['encouraging',0],['proud',3]])this.load.image('paillette-'+emotion,`assets/storybook/paillette-${frame}.webp`);
       load('pink',tree());load('pine',tree('pine'));load('purple',tree('purple'));
       load('palm',palm());load('butterfly',butterfly());load('crown',flowerCrown());load('bubble',soapBubble());
       for(const kind of ANIMAL_KINDS)for(let frame=0;frame<2;frame++)load('animal-'+kind+frame,animalSVG(kind,frame===1));
       load('castle',castle());load('crystal',crystal());load('mushroom',mushroom());load('cloud',cloud());
       load('refuge',checkpointFlag());load('hat',magicHat());
       for(let i=0;i<6;i++)load('bird'+i,birdFrame(i),{width:220,height:150});
-      for(let i=0;i<8;i++) load('paillette'+i,pailletteFrame(i),{width:480,height:432});
-      load('pailletteHappy',pailletteFrame(0,true),{width:480,height:432});
+      for(let i=0;i<8;i++)this.load.image('paillette'+i,`assets/storybook/paillette-${i%4}.webp`);
+      this.load.image('pailletteHappy','assets/storybook/paillette-3.webp');
       this.load.on('loaderror',()=>{assetsFailed=true;onError('Le décor n’a pas pu se charger. Recharge la page ou ouvre les activités de secours.');});
     }
     create(){
@@ -47,7 +50,7 @@ export function createWorld(parent,{onReady,onBiome,onError,onGag=()=>{}}){
       this.refuge=this.add.image(refuge.x+55,refuge.y+8,'refuge').setOrigin(.5,1).setDisplaySize(72,94).setDepth(3);
       this.refugeHalo=this.add.ellipse(refuge.x,refuge.y+7,125,25,0xffedb4,.2).setDepth(1);
       this.shadow=this.add.ellipse(140,620,84,17,0x4a5663,.16).setDepth(2);
-      this.hero=this.add.sprite(140,620,'paillette0').setOrigin(.5,.94).setDisplaySize(152,137).setDepth(5);
+      this.hero=this.add.sprite(140,620,'paillette0').setOrigin(.5,.96).setDisplaySize(210,140).setDepth(5);
       this.hat=this.add.image(140,470,'hat').setDisplaySize(65,58).setDepth(6).setVisible(false);
       this.butterfly=this.add.image(0,0,'butterfly').setDisplaySize(60,54).setDepth(7).setVisible(false);
       this.crown=this.add.image(0,0,'crown').setDisplaySize(74,47).setDepth(7).setVisible(false);
@@ -75,8 +78,7 @@ export function createWorld(parent,{onReady,onBiome,onError,onGag=()=>{}}){
       const keep=object=>{this.decor.push(object);return object;};
       for(let i=0;i<46;i++){
         const x=30+i*78,p=Math.max(0,Math.min(1,(x-140)/3160)),point=pathPoint(p),near=i%3===0;
-        if(!['clouds','moon','ice'].includes(this.theme.habitat)&&!(near&&p>.19&&p<.52)) keep(this.add.image(x,point.y+(near?350:this.theme.habitat==='beach'?-48:-110)-(i*19%70),this.theme.kind).setOrigin(.5,1).setDisplaySize(this.theme.kind==='palm'?(near?220:135):(near?162:100+(i%3)*23),this.theme.kind==='palm'?(near?285:174):(near?216:133+(i%3)*30)).setDepth(near?10:this.theme.habitat==='beach'?-1:-10).setAlpha(.9));
-        if(this.theme.id===1&&i%2===0) keep(this.add.image(x+30,point.y+70,'mushroom').setOrigin(.5,1).setDisplaySize(45,45).setDepth(1));
+        if(this.theme.id>1&&!['clouds','moon','ice'].includes(this.theme.habitat)&&!(near&&p>.19&&p<.52)) keep(this.add.image(x,point.y+(near?350:this.theme.habitat==='beach'?-48:-110)-(i*19%70),this.theme.kind).setOrigin(.5,1).setDisplaySize(this.theme.kind==='palm'?(near?220:135):(near?162:100+(i%3)*23),this.theme.kind==='palm'?(near?285:174):(near?216:133+(i%3)*30)).setDepth(near?10:this.theme.habitat==='beach'?-1:-10).setAlpha(.9));
         if(this.theme.id===4&&i%3===0) keep(this.add.triangle(x,point.y+150,0,0,40,-100,80,0,0xb7d8ee).setStrokeStyle(3,0xf3faff).setDepth(0));
         if(this.theme.id===5&&i%2===0) keep(this.add.image(x,point.y+110,'cloud').setDisplaySize(270,110).setDepth(1));
       }
@@ -84,10 +86,10 @@ export function createWorld(parent,{onReady,onBiome,onError,onGag=()=>{}}){
         const fly=keep(this.add.circle(150+i*122,300+(i*61%300),2,0xffedb8,.8).setDepth(4));
         fly.startY=fly.y;this.fireflies.push(fly);
       }
-      for(let i=0;i<8;i++) keep(this.add.image(180+i*490,70+(i*41%180),'cloud').setDisplaySize(147+(i%3)*42,60+(i%3)*17).setScrollFactor(.45,1).setDepth(-12).setAlpha(.6));
+      for(let i=0;i<(this.theme.id<2?0:8);i++) keep(this.add.image(180+i*490,70+(i*41%180),'cloud').setDisplaySize(147+(i%3)*42,60+(i%3)*17).setScrollFactor(.45,1).setDepth(-12).setAlpha(.6));
       const vista=pathPoint(.78);
-      keep(this.add.image(vista.x,vista.y-12,'landmark'+this.theme.id).setOrigin(.5,1).setDisplaySize(330,270).setDepth(-3));
-      for(let i=0;i<9;i++){
+      if(this.theme.id>1)keep(this.add.image(vista.x,vista.y-12,'landmark'+this.theme.id).setOrigin(.5,1).setDisplaySize(330,270).setDepth(-3));
+      for(let i=0;i<(this.theme.id<2?0:9);i++){
         const p=pathPoint(i/9);
         keep(this.add.image(p.x,p.y+280,'plants'+this.theme.id).setOrigin(.5,1).setDisplaySize(192+(i%3)*48,138+(i%3)*34.5).setScrollFactor(1.02,1).setDepth(9).setAlpha(.85));
       }
@@ -126,6 +128,22 @@ export function createWorld(parent,{onReady,onBiome,onError,onGag=()=>{}}){
       }
       line(clouds?145:105,clouds?0xd4cde4:0x8f9b7c,clouds?.45:.22);
       line(clouds?120:88,Number.parseInt(this.theme.road.slice(1),16));
+      if(this.theme.id<2){
+        // Fine deterministic earth and grass details keep the native walkable ribbon
+        // in the same painted world as the panorama without a large texture or filter.
+        this.road.fillStyle(0xffe9bc,.18).fillPoints(pathRibbon(40,-13),true);
+        for(let i=0;i<520;i++){
+          const p=pathPoint(i/520),offset=(i*43%73)-36;
+          this.road.fillStyle(i%3?0xfff1ce:0xa78160,i%3?.23:.14);
+          this.road.fillEllipse(p.x, p.y+offset,2+i%4,1+i%2);
+        }
+        for(let i=0;i<180;i++){
+          const p=pathPoint(i/180),side=i%2?1:-1,y=p.y+side*(47+i%9);
+          this.road.lineStyle(1.5,[0x72994b,0x9ab35b,0xc1c47a][i%3],.65);
+          this.road.lineBetween(p.x,y,p.x-3,y-5-i%6);
+          if(i%4===0){this.road.fillStyle(i%8?0xfff5d8:0xe8aabe,.8);this.road.fillCircle(p.x-3,y-7,2);}
+        }
+      }
       if(clouds){
         this.road.fillStyle(0xfffaf4,1);
         for(let i=0;i<=60;i++){const p=pathPoint(i/60);this.road.fillEllipse(p.x,p.y+23,105,65);this.road.fillEllipse(p.x+24,p.y-27,86,52);}
@@ -171,6 +189,11 @@ export function createWorld(parent,{onReady,onBiome,onError,onGag=()=>{}}){
       // The camera gives the climb room while leaving the arch and landing visible.
       const follow= h<700?.75:.42;
       this.cameras.main.centerOn(this.hero.x+w*.14/zoom,ground.y-lift*follow+h*(h<500?-.1:.09)/zoom);
+      // Keep the painted horizon in view as the camera follows the walkable plane.
+      // The panorama scrolls horizontally; its vertical framing fits the viewport.
+      const camera=this.cameras.main,viewHeight=camera.height/camera.zoom;
+      if(this.theme.id<2)this.background.setY(camera.scrollY+(camera.height-viewHeight)/2).setDisplaySize(WORLD_WIDTH,viewHeight);
+      else this.background.setY(0).setDisplaySize(WORLD_WIDTH,WORLD_HEIGHT);
     }
     sparkle(x,y){
       if(reduced) return;

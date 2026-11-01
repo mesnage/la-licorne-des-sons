@@ -20,6 +20,7 @@ const voice=createWordVoice({ready:audioReady,loadClip,say,hush,unlock},message=
 let session=null, mode='voyelles', level=1, token=0, promptToken=0, ready=false, rewardTimer=null, startWorld=0, paused=false;
 const resumeWaiters=new Set();
 initRewards();
+$('fartUnicorn').innerHTML='<img src="assets/storybook/paillette-3.webp" alt="Paillette la licorne">';
 for(const el of document.querySelectorAll('[data-art]'))el.innerHTML=illustration(el.dataset.art);
 function stopAudio(){promptToken++;hush();voice.stop();}
 function resume(){
@@ -42,6 +43,7 @@ function storageNote(){
   $('adventureStorage').textContent=practice.persistent&&mastery.persistent&&journeyMemory.persistent?'':'La sauvegarde est bloquée. Les progrès resteront pendant cette visite.';
 }
 function panels(name){
+  document.body.dataset.screen=name;
   for(const [id,state] of [['adventureMenu','menu'],['adventureQuestion','question'],['adventureWalking','walking'],['adventureFinish','finish']]) $(id).hidden=name!==state;
   $('adventureHome').hidden=name==='menu';$('adventureHud').hidden=name==='menu';
 }
@@ -144,7 +146,7 @@ function start(id,wordLevel=1){
   startWorld=journeyMemory.startWorld;world.reset(session.questions.length,startWorld);storageNote();ask();
 }
 function menu(){
-  cleanUp();session=null;panels('menu');world.quiet(false);world.reset(20,journeyMemory.startWorld);
+  cleanUp();session=null;panels('menu');world.reset(20,journeyMemory.startWorld);world.quiet(true);world.setPaused(true);
 }
 for(const module of MENU_ITEMS){
   const button=document.createElement('button');button.className=`adventure-module tone-${module.color}`;button.dataset.module=module.mode||module.id;if(module.level)button.dataset.wordLevel=module.level;button.disabled=true;
@@ -165,7 +167,7 @@ $('adventureAgain').addEventListener('click',()=>start(mode,level));$('listenBtn
 const world=createWorld($('adventureWorld'),{
   onReady(){
     ready=true;$('engineStatus').textContent='';
-    document.querySelectorAll('[data-module]').forEach(button=>{button.disabled=false;});world.reset(20,journeyMemory.startWorld);
+    document.querySelectorAll('[data-module]').forEach(button=>{button.disabled=false;});world.reset(20,journeyMemory.startWorld);world.quiet(true);world.setPaused(true);
   },
   onBiome(biome){$('worldName').innerHTML=illustration(biome.icon)+`<span>${biome.name}</span>`;$('adventureWorld').setAttribute('aria-label','Paillette · '+biome.name);},
   onGag(kind){
