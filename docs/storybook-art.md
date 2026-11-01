@@ -2,11 +2,13 @@
 
 Branch: `design/enchanted-storybook`.
 
-The attached sunset valley reference guided the palette, atmosphere, depth and rendering quality. The main menu, meadow and forest use new painted-style artwork; Paillette uses the new artwork throughout all seven worlds and in the reward scene. The other five habitat panoramas and animal companions retain their native illustrations. The classic fallback is unchanged.
+The current revision uses a living, layered miniature world rather than a detailed raster landscape. `js/prototype/garden.js` supplies quiet meadow/forest hills, shaded trees, bushes, flower patches and mossy rocks as individual SVG assets. The scene places them in world coordinates around its actual walkable path, with varied sizes, spacing and depth. Near foliage, distant clouds, birds, petals and animal companions animate independently during travel and on the menu. Reading questions freeze ambient movement; pause freezes the scene; reduced motion keeps decorations still.
 
-Runtime artwork lives in `assets/storybook/`: `meadow.jpg` (menu vista), `meadow-game.jpg` (playfield with a low horizon), `forest.jpg`, and `paillette-0.webp` through `paillette-3.webp` (four transparent walk poses). Sources were generated with the built-in imagegen tool, then encoded as optimized JPEGs and alpha-preserving WebPs. No image service or external font is required at runtime. The four poses were cropped from a 2×2 sheet without discarding alpha. The game retains its native path, bridge, checkpoint geometry, camera and interaction targets.
+The path now extends off-screen at the entrance, with narrow earthen layers, grass shoulders, fine gravel and small flowers. Tree placement leaves the rainbow and walking lane open. Animal coats share the same soft directional shading as the plants and rocks. The other five habitats keep their distinct native terrain and use the updated trees/roadside props where appropriate.
 
-The menu uses an independent decorative vista while the hidden Phaser scene is paused. Starting an activity resumes the scene. Desktop places the menu beside Paillette; portrait phones place her above a scrollable activity panel. Reduced-motion behavior and large uppercase/lowercase answer cards remain in place.
+Paillette's four transparent walking poses remain in `assets/storybook/paillette-0.webp` through `paillette-3.webp`, used throughout the seven worlds and the reward scene. The JPEG landscape explorations in that directory are retained as reference art and are no longer loaded by the game or menu. The generation prompts below document that earlier exploration; the current scenery is code-native artwork, without new image generation or runtime image services.
+
+The menu overlays the live world. Portrait framing keeps Paillette above the activity panel. Large reading cards, recordings, path/bridge geometry, checkpoints, progress and reward accounting remain intact. The classic fallback is unchanged. Resize now updates the backing buffer before CSS zoom, keeping the canvas display size in step with portrait/landscape rotation; the existing browser regression also checks both CSS dimensions.
 
 ## Generation prompts
 

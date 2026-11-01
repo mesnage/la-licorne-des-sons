@@ -1,6 +1,6 @@
 /* Golden-hour storybook art. All assets are local; reading cards keep their large type. */
 body.prototype{--storybook-ink:#4b3c59;--storybook-plum:#75517f;--storybook-gold:#ac7942;color:var(--storybook-ink);background:#cbd6ee}
-.storybook-vista{position:fixed;inset:0;z-index:1;background:linear-gradient(90deg,#40305208 25%,#2f294527),url('../assets/storybook/meadow.jpg') center center/cover no-repeat;pointer-events:none;display:none}
+.storybook-vista{position:fixed;inset:0;z-index:1;background:none;pointer-events:none;display:none}
 [data-screen="menu"] .storybook-vista{display:block}
 [data-screen="menu"] #adventureWorld{visibility:hidden}
 .storybook-paillette{position:absolute;width:clamp(320px,44vw,690px);left:0;bottom:12%;filter:drop-shadow(0 22px 12px #47394333)}
@@ -60,3 +60,14 @@ body.prototype{--storybook-ink:#4b3c59;--storybook-plum:#75517f;--storybook-gold
 }
 @media(prefers-reduced-motion:reduce){.adventure-module,.adventure-answer{transition:none}}
 .prototype #fartUnicorn img{display:block;width:100%;height:auto}
+/* A living miniature world replaces the full-bleed painted photograph. */
+[data-screen="menu"] #adventureWorld{visibility:visible}
+[data-screen="menu"] .storybook-vista{background:none}
+.storybook-paillette{display:none}
+.storybook-caption{color:#566f59;text-shadow:0 1px 12px #fff7e3}
+@media(max-width:600px) and (orientation:portrait){
+ .adventure-menu{margin-top:230px;max-height:calc(100dvh - 246px)}
+}
+@media(max-width:600px) and (max-height:740px) and (orientation:portrait){
+ .adventure-menu{margin-top:190px;max-height:calc(100dvh - 206px)}
+}

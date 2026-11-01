@@ -146,7 +146,7 @@ function start(id,wordLevel=1){
   startWorld=journeyMemory.startWorld;world.reset(session.questions.length,startWorld);storageNote();ask();
 }
 function menu(){
-  cleanUp();session=null;panels('menu');world.reset(20,journeyMemory.startWorld);world.quiet(true);world.setPaused(true);
+  cleanUp();session=null;panels('menu');world.reset(20,journeyMemory.startWorld);world.quiet(false);world.setPaused(false);
 }
 for(const module of MENU_ITEMS){
   const button=document.createElement('button');button.className=`adventure-module tone-${module.color}`;button.dataset.module=module.mode||module.id;if(module.level)button.dataset.wordLevel=module.level;button.disabled=true;
@@ -167,7 +167,7 @@ $('adventureAgain').addEventListener('click',()=>start(mode,level));$('listenBtn
 const world=createWorld($('adventureWorld'),{
   onReady(){
     ready=true;$('engineStatus').textContent='';
-    document.querySelectorAll('[data-module]').forEach(button=>{button.disabled=false;});world.reset(20,journeyMemory.startWorld);world.quiet(true);world.setPaused(true);
+    document.querySelectorAll('[data-module]').forEach(button=>{button.disabled=false;});world.reset(20,journeyMemory.startWorld);world.quiet(false);world.setPaused(false);
   },
   onBiome(biome){$('worldName').innerHTML=illustration(biome.icon)+`<span>${biome.name}</span>`;$('adventureWorld').setAttribute('aria-label','Paillette · '+biome.name);},
   onGag(kind){

@@ -27,7 +27,7 @@ with sync_playwright() as p:
   assert page.locator('canvas').evaluate('(c)=>c.width===2048&&c.height===1536&&c.getBoundingClientRect().width===1024')
   initial=state(page)['world']['animalPoses'];page.wait_for_timeout(200);assert state(page)['world']['animalPoses']==initial
   page.set_viewport_size({'width':390,'height':844})
-  page.wait_for_function('document.querySelector("canvas").width===780&&document.querySelector("canvas").height===1688')
+  page.wait_for_function('(()=>{const c=document.querySelector("canvas"),r=c.getBoundingClientRect();return c.width===780&&c.height===1688&&r.width===390&&r.height===844;})()')
   assert page.evaluate('document.documentElement.scrollWidth<=innerWidth')
   for _ in range(6):settled(page,right(page))
   assert len(state(page)['world']['animalKinds'])==6

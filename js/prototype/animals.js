@@ -42,5 +42,13 @@ export function animalSVG(kind,blink=false){
   body=`<path d="m48 106-30 12 28 1" fill="${toucan?'#687d7f':'#c7d5dd'}"/><ellipse cx="77" cy="97" rx="37" ry="29" fill="${toucan?'#5f777b':'#e8eee7'}"/><path d="M69 84q-19 13-8 35 18 0 29-18" fill="${toucan?'#99aaa5':'#cbdcde'}"/><circle cx="101" cy="62" r="29" fill="${toucan?'#617b80':'#eff1e9'}"/><path d="M117 54q51-7 34 26l-31-7Z" fill="${toucan?'#e6c388':'#d9b58c'}"/><path d="M122 56q27-4 30 7l-27 4" fill="${toucan?'#c6a4a4':'#e3c6a0'}"/>`;
   eyes=face(99,58,blink);
  }
- return `<svg xmlns="http://www.w3.org/2000/svg" width="160" height="150" viewBox="0 0 160 150"><defs><radialGradient id="fur" cx="35%" cy="20%" r="85%"><stop stop-color="#fff9ed"/><stop offset="1" stop-color="${kind==='seal'?'#c3d8dc':'#e8d5c9'}"/></radialGradient></defs><ellipse cx="80" cy="139" rx="46" ry="7" fill="#455e66" opacity=".12"/>${body}${eyes}</svg>`;
+ // Light the individual shapes consistently with the trees and roadside props.
+ const colors=[...new Set([...body.matchAll(/fill="(#[a-fA-F0-9]{6})"/g)].map(match=>match[1]))];
+ const tone=(hex,amount)=>{
+  const rgb=[1,3,5].map(start=>Number.parseInt(hex.slice(start,start+2),16));
+  return 'rgb('+rgb.map(value=>Math.round(amount>0?value+(255-value)*amount:value*(1+amount))).join(',')+')';
+ };
+ const coats=colors.map((color,i)=>`<linearGradient id="coat${i}" x1=".2" y1="0" x2=".8" y2="1"><stop stop-color="${tone(color,.2)}"/><stop offset=".55" stop-color="${color}"/><stop offset="1" stop-color="${tone(color,-.13)}"/></linearGradient>`).join('');
+ body=body.replace(/fill="(#[a-fA-F0-9]{6})"/g,(_,color)=>`fill="url(#coat${colors.indexOf(color)})"`);
+ return `<svg xmlns="http://www.w3.org/2000/svg" width="160" height="150" viewBox="0 0 160 150"><defs>${coats}<radialGradient id="fur" cx="35%" cy="20%" r="85%"><stop stop-color="#fff9ed"/><stop offset="1" stop-color="${kind==='seal'?'#c3d8dc':'#e8d5c9'}"/></radialGradient></defs><ellipse cx="80" cy="139" rx="46" ry="7" fill="#455e66" opacity=".12"/>${body}${eyes}</svg>`;
 }
