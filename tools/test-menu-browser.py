@@ -2,7 +2,7 @@
 import argparse
 from pathlib import Path
 from playwright.sync_api import sync_playwright
-parser=argparse.ArgumentParser();parser.add_argument('--url',default='http://127.0.0.1:8080');parser.add_argument('--screenshots',type=Path);args=parser.parse_args()
+parser=argparse.ArgumentParser();parser.add_argument('--url',default='http://127.0.0.1:8080');parser.add_argument('--browser-path',default='/usr/bin/chromium');parser.add_argument('--screenshots',type=Path);args=parser.parse_args()
 if args.screenshots:args.screenshots.mkdir(parents=True,exist_ok=True)
 monitor="""
 window.__deviceSpeech=0;Object.defineProperty(window,'speechSynthesis',{value:{getVoices:()=>[],speak(){window.__deviceSpeech++;throw Error('Unexpected device voice');},cancel(){},addEventListener(){},removeEventListener(){}}});
@@ -17,7 +17,7 @@ def boot(page):
  page.goto(args.url+'/?debug',wait_until='domcontentloaded');page.wait_for_function('window.__adventure?.state().ready',timeout=30000)
 def state(page):return page.evaluate('window.__adventure.state()')
 with sync_playwright() as p:
- browser=p.chromium.launch(executable_path='/usr/bin/chromium',headless=True,args=['--no-sandbox'])
+ browser=p.chromium.launch(executable_path=args.browser_path,headless=True,args=['--no-sandbox'])
  errors=[]
  page=browser.new_page(viewport={'width':390,'height':844},has_touch=True,reduced_motion='reduce');page.add_init_script(monitor);page.on('pageerror',lambda e:errors.append(str(e)));boot(page)
  assert page.locator('#adventureModules > button').count()==8
@@ -38,8 +38,9 @@ with sync_playwright() as p:
   page.locator('#adventureLeave').click();page.wait_for_timeout(150);assert page.evaluate('window.__playing.size')==0
  print('All three word levels start directly; same recorded pipeline, no device speech and no overlapping playback passed',flush=True)
  durations=page.evaluate("""async()=>{const {WORDS}=await import('./js/data/words.js');const manifest=await(await fetch('audio/manifest.json')).json();const ctx=new OfflineAudioContext(1,1,16000);const out=[];for(const word of WORDS){const r=await fetch('audio/'+manifest[word.audioKey]);if(!r.ok)throw Error(word.id);const b=await ctx.decodeAudioData(await r.arrayBuffer());out.push(b.duration);}return out;}""")
- assert len(durations)==44 and min(durations)>1 and max(durations)<10
- print('All 44 full word prompts fetched and decoded by Chromium',flush=True)
+ word_count=page.evaluate("async()=>{const {WORDS}=await import('./js/data/words.js');return WORDS.length;}")
+ assert len(durations)==word_count and word_count>=194 and min(durations)>1 and max(durations)<10
+ print(f'All {word_count} full word prompts fetched and decoded by Chromium',flush=True)
  # The three word cards share the same layout and touch-target rules as the other activities.
  for w,h in [(320,568),(390,844),(844,390),(768,1024),(1280,900)]:
   page.set_viewport_size({'width':w,'height':h})

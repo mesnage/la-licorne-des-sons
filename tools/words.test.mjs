@@ -14,9 +14,10 @@ function memory(){
 }
 const stat = (extra = {}) => ({ completed: 0, firstTry: 0, misses: 0, streak: 0, ...extra });
 test('all requested words are editable, uniquely identified and lowercase across three levels', () => {
-  assert.ok(WORDS.length >= 44);
+  assert.ok(WORDS.length >= 194);
+  assert.equal(new Set(WORDS.map(w => w.text.normalize('NFC'))).size, WORDS.length);
   assert.equal(new Set(WORDS.map(w => w.id)).size, WORDS.length);
-  assert.ok(WORD_LEVELS.every(l => WORDS.filter(w => w.level === l.id).length >= 4));
+  assert.ok(WORD_LEVELS.every(l => WORDS.filter(w => w.level === l.id).length >= ({1:70,2:64,3:60})[l.id]));
   for(const w of WORDS){ assert.equal(w.text, w.text.toLocaleLowerCase('fr')); assert.ok(w.id); assert.equal(w.audioKey,'W:'+w.id); }
   for(const text of ['lena','léon','aujourd’hui','parce que','prout']) assert.ok(WORDS.some(w => w.text === text));
 });
@@ -58,6 +59,19 @@ test('sessions have exactly ten questions, no consecutive repeated targets, and 
     const first = WORDS.find(w => w.level === level.id);
     const pool = introducedPool(WORDS, level.id, { [first.id]: stat({completed:1}) });
     assert.equal(pool.length, Math.min(7, WORDS.filter(w => w.level === level.id).length));
+  }
+});
+test('the expanded vocabulary is reachable through gradual introductions at every level', () => {
+  for(const level of WORD_LEVELS){
+    const stats = {}, expected = WORDS.filter(w => w.level === level.id);
+    let previousSize = 0;
+    while(previousSize < expected.length){
+      const pool = introducedPool(WORDS, level.id, stats);
+      assert.ok(pool.length > previousSize && pool.length <= previousSize + 6);
+      for(const word of pool) stats[word.id] = stat({completed:1});
+      previousSize = pool.length;
+    }
+    assert.deepEqual(new Set(Object.keys(stats)), new Set(expected.map(w => w.id)));
   }
 });
 test('missed words are selected more often later; mastered words are maintained less often', () => {

@@ -189,7 +189,7 @@ Une activité indépendante pour reconnaître des **mots entiers**, accessible p
 Les cinq aventures de lettres et sons conservent leur contenu et leurs voix enregistrées. Toutes les activités partagent
 la roue des cadeaux, sans tirelire ni argent.
 
-- Trois niveaux, avec 44 mots et expressions au départ. Chaque partie propose **10 questions** et quatre cartes.
+- Trois niveaux, avec 194 mots et expressions : **70** au premier niveau, **64** au deuxième et **60** au troisième. Chaque partie propose **10 questions** et quatre cartes.
 - Toucher « Réécouter » pour réentendre « Trouve le mot… maison ! ». Regarder les lettres, puis choisir le mot.
 - Une erreur ramène au dernier refuge ou au début du monde. La bonne carte devient verte et affiche ✓ avant le trajet.
 - Paillette collecte dix cristaux dans le monde en cours et rejoint le château. Les mondes changent tous les dix
@@ -209,7 +209,7 @@ bloquée ; le jeu continue alors à suivre les progrès pendant la visite.
 ### Écouter et remplacer les voix
 
 Tous les mots utilisent désormais **la même voix féminine française enregistrée** que les consonnes et les sons :
-Piper `fr_FR-siwis-medium`, à hauteur normale et au débit adapté aux enfants. Les 44 consignes « Trouve le mot, … ! »
+Piper `fr_FR-siwis-medium`, à hauteur normale et au débit adapté aux enfants. Les 194 consignes « Trouve le mot, … ! »
 sont des MP3 livrés avec le jeu. Aucune voix système ou synthèse du navigateur n’est utilisée. Sur iPad/iPhone/Mac,
 il suffit de vérifier le volume. En cas d’échec de chargement, le message propose de réécouter sans révéler la réponse.
 Les tests de navigateur utilisent les vrais fichiers MP3 ; l’écoute et la fluidité restent à vérifier sur les appareils.

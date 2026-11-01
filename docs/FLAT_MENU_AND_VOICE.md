@@ -11,11 +11,14 @@ Les historiques de pratique des lettres et des mots continuent d’aider les ré
 
 ## Une seule narratrice
 
-Les 44 mots ont des consignes MP3 complètes (« Trouve le mot, … ! ») dans la voix **Piper fr_FR-siwis-medium** déjà
+Les 194 mots ont des consignes MP3 complètes (« Trouve le mot, … ! ») dans la voix **Piper fr_FR-siwis-medium** déjà
 utilisée pour les consonnes et sons. La hauteur reste 1,0 et la vitesse de génération 0,85. Aucun réglage de voix
 française du système n’est nécessaire, et aucune synthèse vocale du navigateur n’est appelée.
 
 Chaque mot de `js/data/words.js` a une clé `W:<id>`. Le manifeste associe cette clé à son enregistrement.
+Le vocabulaire comprend 70 entrées au niveau 1, 64 au niveau 2 et 60 au niveau 3 : 50 ajouts par niveau,
+des petits mots familiers aux mots plus longs et aux expressions. Les identifiants des mots existants sont conservés
+pour garder les progrès enregistrés. Les nouveaux mots suivent la même introduction progressive.
 Le générateur habituel crée les consignes manquantes et les vérifie avec la reconnaissance vocale française.
 Pour un enregistrement humain, remplacer le fichier correspondant en gardant sa clé. Une consigne personnalisée
 doit inclure le mot entier et sa consigne, sans changer la hauteur lors de la lecture.
@@ -42,10 +45,13 @@ npm test
 npm run check
 npm run lint
 python3 tools/test-menu-browser.py --screenshots /tmp/licorne-menu
+python3 tools/test-word-lengths-browser.py --screenshots /tmp/licorne-word-lengths
 python3 tools/test-prototype-browser.py
 python3 tools/test-words-browser.py
 ```
 
-Les tests de menu vérifient les huit choix directs, l’absence de sous-menu et de carnet, les 44 MP3 avec le vrai
+Les tests de menu vérifient les huit choix directs, l’absence de sous-menu et de carnet, les 194 MP3 avec le vrai
 décodeur du navigateur, l’annulation des lectures et la roue. L’écoute et la fluidité sur un vrai iPad restent une
 vérification manuelle.
+Le test des longueurs rend les mots et expressions les plus longs dans les interfaces principale et classique,
+sur téléphone, tablette et ordinateur, pour vérifier le texte et les zones tactiles.
