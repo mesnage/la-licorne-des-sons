@@ -81,7 +81,7 @@ Run tools/test-rainbow-browser.py for real climbing, pause/resume, rotation and 
 
 ## Direct activity menu and shared narrator
 
-The main menu contains twelve direct choices: five letter/sound modes, three word levels and four sentence activities. `MENU_ITEMS` in
+The main menu contains thirteen direct choices: typo detection, four sentence activities, five letter/sound modes and three word levels. `MENU_ITEMS` in
 js/prototype/model.js defines the main activity cards. Do not add a word-level submenu or a progress notebook.
 Phoneme activities/data/audio and their generators have been removed at the owner's request. Existing local letter
 and word practice stays in the background for revision; gift balances/spins and world history remain intact.
@@ -119,3 +119,8 @@ The world-name button opens the seven-world picker. Habitat changes preserve the
 `js/data/sentences.js` defines 24 three-word and 24 five-word French sentences and four direct activity cards: visible model or listening only, at each length. `js/sentences/model.js` selects ten distinct sentences and guarantees genuinely shuffled, lowercase tiles without punctuation. `SentenceAdventureSession` in `js/prototype/model.js` accepts the next word by text, so duplicate written words are interchangeable, while used tile IDs cannot be reused. Partial answers never advance the world, score, mastery or rewards. Wrong words use the existing checkpoint rules; recover/next clears the assembly and unique credit protects replayed sentences.
 
 `app.js` renders the visible model only for copying activities. Clear `sentenceTarget` for listening activities, including audio failure, and retain partial assembly across replay, pause and world selection. Complete sentences use full `S:<id>` MP3 recordings through the shared narrator, rate .85/pitch 1.0, generated and ASR-verified with `build_voice.py`. Never add device speech or text fallbacks that reveal hidden models. Local practice is namespaced by activity in `licorne.sentences.v1`; the existing word save stays separate. The classic fallback retains its original eight activities. Run `tools/test-sentences-browser.py` for all four completions, real audio decoding, checkpoint/reward accounting, pause/picker, hidden-model failure recovery and responsive layouts.
+
+
+## Find the spelling mistake
+
+`js/data/typos.js` curates three nonword misspellings for each of the 24 three-word sentences. `js/sentences/typos.js` builds ten questions with distinct sentences and balanced error positions. Keep sentence word order intact and change exactly one word. The new `find-typo` menu tile appears first. All three choices must look alike before feedback; the corrected sentence is revealed only after selecting the misspelled word. Narration reuses each sentence's verified `S:` recording and never speaks the misspelling. Typo practice lives separately in `licorne.typos.v1`. Use normal AdventureSession checkpoints and unique credits; never update letter mastery for this activity. Clear the correction when retrying or changing modes. Run `tools/typos.test.mjs`, `tools/test-typos-browser.py` and the menu checks. The versioned entry/import URLs refresh cached clients when the menu or app changes.

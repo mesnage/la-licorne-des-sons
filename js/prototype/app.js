@@ -1,13 +1,14 @@
 import { createWorld } from './world.js';
-import { WORLDS, MODULES, MENU_ITEMS, createAdventure, createJourneyMemory, journeyState } from './model.js?v=sentence-menu-3';
+import { WORLDS, MODULES, MENU_ITEMS, createAdventure, createJourneyMemory, journeyState } from './model.js?v=typo-module-1';
 import { illustration } from '../illustrations.js';
 import { createMastery, skillStatus } from '../learning/mastery.js';
 import { WORD_LEVELS } from '../data/words.js';
 import { sentenceActivity } from '../data/sentences.js';
-import { createWordProgress } from '../words/progress.js?v=sentence-menu-3';
+import { TYPO_ACTIVITY } from '../data/typos.js';
+import { createWordProgress } from '../words/progress.js?v=typo-module-1';
 import { createWordVoice } from '../words/voice.js';
 import { initRewards, earnReward, showReward } from '../rewards.js';
-import { ready as audioReady, loadClip, say, hush, sfx, unlock } from '../audio.js?v=sentence-menu-3';
+import { ready as audioReady, loadClip, say, hush, sfx, unlock } from '../audio.js?v=typo-module-1';
 import { gemSVG, plain } from '../utils.js';
 
 const $ = id => document.getElementById(id);
@@ -15,6 +16,7 @@ let storage;
 try {storage=window.localStorage;}catch(e){}
 const practice=createWordProgress(storage);
 const sentencePractice=createWordProgress(storage,'licorne.sentences.v1');
+const typoPractice=createWordProgress(storage,'licorne.typos.v1');
 const mastery=createMastery(storage);
 let evaluated=new Set(),sessionId='';
 const journeyMemory=createJourneyMemory(storage);
@@ -47,7 +49,7 @@ function pause(){
 }
 
 function storageNote(){
-  $('adventureStorage').textContent=practice.persistent&&sentencePractice.persistent&&mastery.persistent&&journeyMemory.persistent?'':'La sauvegarde est bloquée. Les progrès resteront pendant cette visite.';
+  $('adventureStorage').textContent=practice.persistent&&sentencePractice.persistent&&typoPractice.persistent&&mastery.persistent&&journeyMemory.persistent?'':'La sauvegarde est bloquée. Les progrès resteront pendant cette visite.';
 }
 function panels(name){
   document.body.dataset.screen=name;
@@ -69,7 +71,7 @@ function progress(){
 async function replay(){
   if(!session||paused||session.phase!=='question') return;
   stopAudio();unlock();$('adventureAudioStatus').textContent='';
-  if(mode==='words'||sentenceActivity(mode)){voice.speak(session.current.target);return;}
+  if(mode==='words'||sentenceActivity(mode)||mode===TYPO_ACTIVITY.id){voice.speak(session.current.target);return;}
   const my=promptToken, target=session.current.target, keys=['L:'+target.g,'w:'+plain(target.w)];
   await audioReady;
   const clips=await Promise.all(keys.map(key=>loadClip(key)));
@@ -82,19 +84,23 @@ async function replay(){
 function ask(){
   panels('question');world.quiet(false);progress();
   const activity=sentenceActivity(mode);
-  $('questionTitle').textContent=activity?(activity.hidden?'Écoute la phrase':'La phrase en ordre'):mode==='words'?'Trouve le mot !':'Écoute bien !';
-  const skill=mode==='words'||activity?null:mastery.snapshot()[skillId()];
+  const typo=mode===TYPO_ACTIVITY.id;
+  $('questionTitle').textContent=typo?'Trouve la faute !':activity?(activity.hidden?'Écoute la phrase':'La phrase en ordre'):mode==='words'?'Trouve le mot !':'Écoute bien !';
+  const skill=mode==='words'||activity||typo?null:mastery.snapshot()[skillId()];
   world.react(skill?.attempts?'attentive':'curious');
   const state=journeyState(session.index,session.questions.length,startWorld);
   $('checkpointName').textContent=`MONDE ${state.worldIndex+1} · CRISTAL ${state.worldCrystals+1}/10`;
   $('adventureFeedback').textContent=state.worldCrystals===5?'Refuge atteint ! Tes cinq premiers cristaux sont protégés.':'Regarde bien chaque lettre. Tu peux prendre ton temps.';
-  const box=$('adventureChoices');box.classList.toggle('words',mode==='words'||!!activity);box.classList.toggle('sentence-choices',!!activity);box.replaceChildren();
+  const box=$('adventureChoices');box.classList.toggle('words',mode==='words'||!!activity||typo);box.classList.toggle('typo-choices',typo);box.classList.toggle('sentence-choices',!!activity);box.replaceChildren();
   $('adventureQuestion').classList.toggle('sentence-question',!!activity);
   $('adventureHud').classList.toggle('sentence-hud',!!activity);
   $('sentenceWorkbench').hidden=!activity;
   $('sentenceTarget').textContent='';
+  $('adventureQuestion').classList.toggle('typo-question',typo);
+  $('typoInstruction').hidden=!typo;$('typoCorrection').hidden=true;$('typoCorrection').textContent='';
   box.setAttribute('aria-label',activity?'Mots à remettre dans l’ordre':'Choisis ce que tu entends');
   if(activity){renderSentence(activity);replay();return;}
+  if(typo){renderTypo();replay();return;}
   session.current.choices.forEach((choice,i)=>{
     const button=document.createElement('button');button.className=`adventure-answer tone-${['rose','lavender','mint','peach'][i]}`;
     button.dataset.choiceId=choice.id;
@@ -129,6 +135,22 @@ function renderSentence(activity){
     button.addEventListener('click',()=>answer(tile.id,button));$('adventureChoices').appendChild(button);
   });
 }
+function typoLabel(word,index){return (index===0?word[0].toLocaleUpperCase('fr')+word.slice(1):word)+(index===2?'.':'');}
+function renderTypo(){
+  $('adventureChoices').setAttribute('aria-label','Touche le mot mal écrit dans la phrase');
+  $('adventureFeedback').textContent='Regarde bien les trois mots. Un seul contient une faute.';
+  session.current.choices.forEach((choice,index)=>{
+    const button=document.createElement('button');button.className='adventure-answer tone-sky';button.dataset.choiceId=choice.id;
+    const text=document.createElement('span');text.textContent=typoLabel(choice.text,index);button.appendChild(text);
+    button.addEventListener('click',()=>answer(choice.id,button));$('adventureChoices').appendChild(button);
+  });
+}
+function correctTypo(){
+  const target=session.current.target;
+  $('adventureChoices').querySelectorAll('button>span').forEach((text,index)=>{text.textContent=typoLabel(target.words[index],index);});
+  $('typoCorrection').textContent='La phrase corrigée : '+target.text;$('typoCorrection').hidden=false;
+  $('adventureFeedback').textContent='Bravo ! On écrit « '+target.words[target.wrongIndex]+' ».';
+}
 function finish(){
   stopAudio();world.quiet(false);panels('finish');progress();sfx.fanfare();earnReward();journeyMemory.complete(Math.ceil(session.questions.length/10));
   $('adventureResult').textContent=`Bravo ! Tu as réuni les ${session.questions.length} cristaux et rejoint le château !`;
@@ -140,7 +162,7 @@ function skillId(){return 'letters:'+session.current.target.id;}
 async function answer(id,button){
   if(!session||paused) return;
   const result=session.answer(id);if(!result) return;
-  const activity=sentenceActivity(mode);
+  const activity=sentenceActivity(mode), typo=mode===TYPO_ACTIVITY.id;
   if(result.partial){
     renderAssembly();button.disabled=true;button.classList.add('placed');
     $('adventureFeedback').textContent=`${session.selected.length} mot${session.selected.length>1?'s':''} placé${session.selected.length>1?'s':''} sur ${session.current.target.words.length}. Continue !`;
@@ -149,7 +171,7 @@ async function answer(id,button){
   if(activity&&result.correct)renderAssembly();
   $('worldName').disabled=true;
   let newlyRecognized=false;
-  if(mode!=='words'&&!activity&&!evaluated.has(session.index)){
+  if(mode!=='words'&&!activity&&!typo&&!evaluated.has(session.index)){
     const key=skillId(),before=skillStatus(mastery.snapshot()[key]);
     mastery.record(key,result.correct,sessionId,plain(session.current.target.w));evaluated.add(session.index);
     newlyRecognized=before!=='Bien reconnu'&&skillStatus(mastery.snapshot()[key])==='Bien reconnu';
@@ -157,8 +179,9 @@ async function answer(id,button){
   if(!result.correct){
     if(mode==='words'&&result.firstMistake) practice.miss(session.current.target.id);
     if(activity&&result.firstMistake)sentencePractice.miss(mode+':'+session.current.target.id);
+    if(typo&&result.firstMistake)typoPractice.miss(session.current.target.id);
     storageNote();stopAudio();world.react('encouraging');
-    $('adventureFeedback').textContent='On essaie encore ensemble. Paillette t’accompagne !';
+    $('adventureFeedback').textContent=typo?'Ce mot est bien écrit. Cherche encore !':'On essaie encore ensemble. Paillette t’accompagne !';
     button.classList.add('retry');$('adventureChoices').querySelectorAll('button').forEach(b=>{b.disabled=true;});
     const my=token;
     await new Promise(resolve=>setTimeout(resolve,window.matchMedia('(prefers-reduced-motion: reduce)').matches?40:400));
@@ -171,13 +194,15 @@ async function answer(id,button){
   if(mode==='words'&&result.firstCompletion) practice.complete(session.current.target.id,result.firstTry);
   if(activity&&result.firstCompletion)sentencePractice.complete(mode+':'+session.current.target.id,result.firstTry);
   if(activity)$('adventureFeedback').textContent='Bravo ! Tu as construit toute la phrase !';
+  if(typo){if(result.firstCompletion)typoPractice.complete(session.current.target.id,result.firstTry);correctTypo();}
   storageNote();stopAudio();world.react('proud');
+  if(typo)voice.speak(session.current.target);
   if(newlyRecognized)$('adventureFeedback').textContent='Tu reconnais ce son de mieux en mieux !';
   sfx.ding();button.classList.add('correct');
   $('adventureChoices').querySelectorAll('button').forEach(b=>{b.disabled=true;});
   const my=token;
   // Show the successful answer briefly, then let the child watch Paillette walk.
-  await new Promise(resolve=>setTimeout(resolve,activity?1100:window.matchMedia('(prefers-reduced-motion: reduce)').matches?80:650));
+  await new Promise(resolve=>setTimeout(resolve,typo?1800:activity?1100:window.matchMedia('(prefers-reduced-motion: reduce)').matches?80:650));
   if(!await continueWhenReady(my)) return;
   panels('walking');world.quiet(false);$('adventureWalking').textContent='Bravo ! Paillette avance vers le prochain cristal…';
   const arrived=await world.moveTo(session.index+1);
@@ -190,16 +215,16 @@ function start(id,wordLevel=1){
   cleanUp();mode=id;level=wordLevel;
   evaluated=new Set();sessionId=Date.now().toString(36)+'-'+Math.random().toString(36).slice(2);
   const activity=sentenceActivity(mode);
-  const stats=activity?Object.fromEntries(Object.entries(sentencePractice.snapshot()).filter(([key])=>key.startsWith(mode+':')).map(([key,value])=>[key.slice(mode.length+1),value])):practice.snapshot();
+  const stats=mode===TYPO_ACTIVITY.id?typoPractice.snapshot():activity?Object.fromEntries(Object.entries(sentencePractice.snapshot()).filter(([key])=>key.startsWith(mode+':')).map(([key,value])=>[key.slice(mode.length+1),value])):practice.snapshot();
   session=createAdventure(mode,level,stats,mastery.snapshot());
-  $('activityName').textContent=activity?activity.title+' · '+activity.length+' mots':mode==='words'?WORD_LEVELS.find(l=>l.id===level).title:MODULES.find(m=>m.id===mode).title;
+  $('activityName').textContent=mode===TYPO_ACTIVITY.id?TYPO_ACTIVITY.title:activity?activity.title+' · '+activity.length+' mots':mode==='words'?WORD_LEVELS.find(l=>l.id===level).title:MODULES.find(m=>m.id===mode).title;
   startWorld=startingWorld();world.reset(session.questions.length,startWorld);storageNote();ask();
 }
 function menu(){
-  cleanUp();session=null;$('sentenceTarget').textContent='';$('sentenceAssembly').replaceChildren();panels('menu');world.reset(20,startingWorld());world.quiet(false);world.setPaused(false);
+  cleanUp();session=null;$('sentenceTarget').textContent='';$('sentenceAssembly').replaceChildren();$('typoCorrection').textContent='';panels('menu');world.reset(20,startingWorld());world.quiet(false);world.setPaused(false);
 }
 for(const module of MENU_ITEMS){
-  const button=document.createElement('button');button.className=`adventure-module tone-${module.color}`;button.dataset.module=module.mode||module.id;if(module.level)button.dataset.wordLevel=module.level;if(sentenceActivity(module.id))button.dataset.sentenceMode=module.id;button.disabled=true;
+  const button=document.createElement('button');button.className=`adventure-module tone-${module.color}`;button.dataset.module=module.mode||module.id;if(module.level)button.dataset.wordLevel=module.level;if(module.id===TYPO_ACTIVITY.id)button.dataset.typoMode=module.id;if(sentenceActivity(module.id))button.dataset.sentenceMode=module.id;button.disabled=true;
   const icon=document.createElement('span');icon.className='module-icon';icon.innerHTML=illustration(module.icon);icon.setAttribute('aria-hidden','true');
   const title=document.createElement('strong');title.textContent=module.title+(sentenceActivity(module.id)?' · '+module.length+' mots':'');
   const detail=document.createElement('small');detail.textContent=module.detail;
@@ -258,5 +283,5 @@ document.addEventListener('visibilitychange',()=>{if(document.hidden){stopAudio(
 window.addEventListener('pagehide',event=>{cleanUp();if(!event.persisted){voice.destroy();world.destroy();}});
 window.addEventListener('pageshow',event=>{if(event.persisted) menu();});
 if(location.search.includes('debug')) window.__adventure={
-  state:()=>({ready,paused,mode,level,promptKey:mode==='words'||sentenceActivity(mode)?session?.current?.target.audioKey:session?.current?'L:'+session.current.target.g:null,index:session?.index,total:session?.questions.length,phase:session?.phase,targetId:session?.current?.target.id,score:session?.score,sentenceWords:sentenceActivity(mode)?session?.current?.target.words:null,selected:session?.selected?[...session.selected]:null,checkpoint:session?.returnIndex,startWorld,mastery:mastery.snapshot(),world:world.state()})
+  state:()=>({ready,paused,mode,level,promptKey:mode==='words'||sentenceActivity(mode)||mode===TYPO_ACTIVITY.id?session?.current?.target.audioKey:session?.current?'L:'+session.current.target.g:null,index:session?.index,total:session?.questions.length,phase:session?.phase,targetId:session?.current?.target.id,score:session?.score,sentenceWords:sentenceActivity(mode)?session?.current?.target.words:null,typo:mode===TYPO_ACTIVITY.id&&session?.current?{words:session.current.target.words,wrongIndex:session.current.target.wrongIndex}:null,selected:session?.selected?[...session.selected]:null,checkpoint:session?.returnIndex,startWorld,mastery:mastery.snapshot(),world:world.state()})
 };

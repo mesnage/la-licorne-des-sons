@@ -6,6 +6,8 @@ import { weightedPick } from '../learning/mastery.js';
 import { QuestionSession, WordSession } from '../words/model.js';
 import { SENTENCE_ACTIVITIES, sentenceActivity } from '../data/sentences.js';
 import { sentenceQuestions } from '../sentences/model.js';
+import { TYPO_ACTIVITY } from '../data/typos.js';
+import { typoQuestions } from '../sentences/typos.js';
 
 export const MODULES = [
   { id:'voyelles', title:'Les voyelles', icon:'flower', detail:'a, e, i, o, u…', color:'rose' },
@@ -14,7 +16,7 @@ export const MODULES = [
   { id:'experts', title:'Sons experts', icon:'gem', detail:'Des sons à explorer', color:'peach' },
   { id:'tout', title:'Tout mélangé', icon:'star', detail:'La grande aventure', color:'gold' },
 ];
-export const MENU_ITEMS=[...SENTENCE_ACTIVITIES,...MODULES,...WORD_LEVELS.map(level=>({id:'words-'+level.id,mode:'words',level:level.id,title:'Trouve le mot ! · '+level.id,detail:level.title,icon:'book',color:['sky','mint','lavender'][level.id-1]}))];
+export const MENU_ITEMS=[TYPO_ACTIVITY,...SENTENCE_ACTIVITIES,...MODULES,...WORD_LEVELS.map(level=>({id:'words-'+level.id,mode:'words',level:level.id,title:'Trouve le mot ! · '+level.id,detail:level.title,icon:'book',color:['sky','mint','lavender'][level.id-1]}))];
 export const WORLD_WIDTH = 3600, WORLD_HEIGHT = 1400;
 export function pathPoint(progress){
   const p = Math.max(0,Math.min(1,progress)), x = 140 + p * 3160;
@@ -96,6 +98,7 @@ export function createJourneyMemory(storage){
   };
 }
 export function createAdventure(mode, level = 1, stats = {}, skills = {}){
+  if(mode === TYPO_ACTIVITY.id)return new AdventureSession(typoQuestions(stats));
   if(mode === 'words') return new AdventureSession(new WordSession(WORDS,level,stats).questions);
   const activity=sentenceActivity(mode);
   if(activity)return new SentenceAdventureSession(sentenceQuestions(activity.length,stats));

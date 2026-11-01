@@ -364,8 +364,8 @@ Les passes de revue et le protocole de test en famille sont décrits dans [docs/
 
 ## Menu direct et voix commune
 
-Le menu principal présente douze choix au même niveau : cinq activités de lettres/sons, trois niveaux de
-**Trouve le mot !** et quatre activités de phrases. Un toucher lance directement la partie, sans écran intermédiaire de choix de niveau. Les
+Le menu principal présente treize choix au même niveau : cinq activités de lettres/sons, trois niveaux de
+**Trouve le mot !**, quatre activités de phrases et **Trouve la faute !**. Un toucher lance directement la partie, sans écran intermédiaire de choix de niveau. Les
 activités phonémiques et le carnet des progrès ont été retirés, avec leurs fichiers audio et leurs outils dédiés.
 La roue et ses compteurs quotidiens restent disponibles. Les sept décors illustrés, les refuges, les gags et les
 révisions locales continuent de fonctionner. Les activités de secours conservent leurs huit choix de lettres, sons et mots avec la même voix.
@@ -424,3 +424,22 @@ npm run lint
 python3 tools/test-sentences-browser.py --screenshots /tmp/licorne-phrases
 # Sur macOS, ajouter --browser-path '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome'
 ```
+
+
+## Trouve la faute !
+
+Une phrase de **trois mots** est présentée dans son ordre normal, avec **un seul mot mal écrit**. L’enfant touche
+le mot qui contient la faute de frappe. Les trois mots ont le même aspect avant la réponse. Après une bonne
+réponse, le mot est corrigé et la phrase entière est affichée avec son orthographe correcte. Une erreur reprend
+les règles habituelles des refuges, puis permet de réessayer. Dix phrases complétées donnent un tour de roue.
+
+Le module comprend **24 phrases et 72 variantes de fautes**, réparties entre les trois positions. Chaque aventure
+présente dix phrases différentes. Les fautes sont choisies à la main pour éviter de remplacer un mot par un autre
+mot français valide. Les phrases sont lues avec les enregistrements français `S:` déjà vérifiés ; les mots mal
+écrits ne sont jamais prononcés. « Réécouter », les pauses et le choix du monde conservent la question.
+Le suivi est indépendant, dans `licorne.typos.v1`, et les réussites rejouées après un refuge ne donnent pas de
+crédits supplémentaires.
+
+Données : `js/data/typos.js`. Questions : `js/sentences/typos.js`. Le menu affiche la tuile rose **Trouve la faute !**
+en premier. Vérification : `node tools/typos.test.mjs` et, avec le serveur et Python Playwright,
+`python3 tools/test-typos-browser.py --screenshots /tmp/licorne-fautes`.

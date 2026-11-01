@@ -21,9 +21,10 @@ test('all phonics modules and the three word levels retain their learning conten
   }
   assert.throws(()=>createAdventure('unknown'),/Unknown/);
 });
-test('the menu has five original activities, three word levels and four sentence activities',()=>{
- assert.deepEqual(MENU_ITEMS.slice(0,4).map(item=>item.id),['sentence-copy-3','sentence-copy-5','sentence-listen-3','sentence-listen-5']);
- assert.equal(MENU_ITEMS.length,12);assert.equal(new Set(MENU_ITEMS.map(item=>item.id)).size,12);
+test('the menu includes typo detection, four sentence activities and the eight original activities',()=>{
+ assert.equal(MENU_ITEMS[0].id,'find-typo');
+ assert.deepEqual(MENU_ITEMS.slice(1,5).map(item=>item.id),['sentence-copy-3','sentence-copy-5','sentence-listen-3','sentence-listen-5']);
+ assert.equal(MENU_ITEMS.length,13);assert.equal(new Set(MENU_ITEMS.map(item=>item.id)).size,13);
  assert.deepEqual(MENU_ITEMS.filter(item=>item.mode==='words').map(item=>item.level),[1,2,3]);
  for(const item of MENU_ITEMS){const session=createAdventure(item.mode||item.id,item.level||1);assert.equal(session.questions.length,MODULES.some(module=>module.id===item.id)?20:10);}
 });

@@ -1,6 +1,6 @@
 # Menu direct et voix commune
 
-Le menu principal affiche les cinq activités de lettres/sons, les trois niveaux de **Trouve le mot !** et les quatre activités de phrases au même
+Le menu principal affiche les cinq activités de lettres/sons, les trois niveaux de **Trouve le mot !**, les quatre activités de phrases et « Trouve la faute ! » au même
 niveau. Un toucher sur une carte de mots lance directement ce niveau. Le retour depuis une partie ou une victoire
 revient à ce menu. Les activités classiques de secours conservent leurs huit choix de lettres, sons et mots.
 
@@ -50,7 +50,7 @@ python3 tools/test-prototype-browser.py
 python3 tools/test-words-browser.py
 ```
 
-Les tests de menu vérifient les douze choix directs, l’absence de sous-menu et de carnet, les 194 MP3 avec le vrai
+Les tests de menu vérifient les treize choix directs, l’absence de sous-menu et de carnet, les 194 MP3 avec le vrai
 décodeur du navigateur, l’annulation des lectures et la roue. L’écoute et la fluidité sur un vrai iPad restent une
 vérification manuelle.
 Le test des longueurs rend les mots et expressions les plus longs dans les interfaces principale et classique,

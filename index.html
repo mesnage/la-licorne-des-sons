@@ -6,7 +6,7 @@
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="css/style.css"><link rel="stylesheet" href="css/prototype.css">
 <link rel="stylesheet" href="css/storybook.css">
-<link rel="stylesheet" href="css/sentences.css?v=sentence-menu-3">
+<link rel="stylesheet" href="css/sentences.css?v=typo-module-1">
 </head>
 <body class="prototype" data-screen="menu">
 <div class="storybook-vista" aria-hidden="true"><img class="storybook-paillette" src="assets/storybook/paillette-0.webp" alt=""><span class="storybook-caption">Un peu de magie.<br>Beaucoup de découvertes.</span></div>
@@ -23,7 +23,7 @@
   <p class="adventure-intro">Choisis ton aventure. Écoute, trouve la réponse<br>et accompagne Paillette jusqu’au château.</p>
   <div id="adventureModules" class="adventure-modules"></div>
   <div class="adventure-menu-footer"><button id="rewardPending" class="adventure-text-button">Mes cadeaux du jour</button><span>10 cristaux par monde · un refuge à mi-chemin</span></div>
-  <details class="adventure-help"><summary>Pour les parents · Comment jouer ?</summary><p>Chaque bonne réponse fait avancer Paillette. Un monde compte 10 cristaux ; le refuge à 5 protège la première moitié du chemin. Une erreur ramène au dernier refuge, puis on réessaie tranquillement.</p><p>Une aventure terminée donne un tour de roue. Les progrès et les cadeaux restent sur cet appareil, sans compte. Les trois aventures « Trouve le mot ! » et les quatre activités de phrases se choisissent directement ici. Pour les phrases, touche les mots dans le bon ordre : avec un modèle visible ou seulement en écoutant, avec 3 ou 5 mots. Toutes les activités utilisent la même voix féminine française ; vérifiez le volume.</p><p>Le bouton ⏸ permet de faire une pause ou de changer d’activité. Invitez votre enfant à regarder toutes les lettres, sans se presser.</p></details>
+  <details class="adventure-help"><summary>Pour les parents · Comment jouer ?</summary><p>Chaque bonne réponse fait avancer Paillette. Un monde compte 10 cristaux ; le refuge à 5 protège la première moitié du chemin. Une erreur ramène au dernier refuge, puis on réessaie tranquillement.</p><p>Une aventure terminée donne un tour de roue. Les progrès et les cadeaux restent sur cet appareil, sans compte. Les trois aventures « Trouve le mot ! » et les quatre activités de phrases se choisissent directement ici. Dans « Trouve la faute ! », touche le mot mal écrit dans la phrase de trois mots. Pour les phrases à construire, touche les mots dans le bon ordre : avec un modèle visible ou seulement en écoutant, avec 3 ou 5 mots. Toutes les activités utilisent la même voix féminine française ; vérifiez le volume.</p><p>Le bouton ⏸ permet de faire une pause ou de changer d’activité. Invitez votre enfant à regarder toutes les lettres, sans se presser.</p></details>
   <a id="legacyFallback" href="classic.html" hidden>Ouvrir les activités de secours →</a>
   <p id="engineStatus" class="adventure-status" role="status">Paillette prépare son voyage…</p>
  </section>
@@ -41,7 +41,9 @@
    <p id="sentenceInstruction" class="sentence-instruction"></p>
    <div id="sentenceAssembly" class="sentence-assembly" role="group" aria-label="Ta phrase" aria-live="polite"></div>
   </div>
+  <p id="typoInstruction" class="typo-instruction" hidden>Un mot est mal écrit. Touche ce mot !</p>
   <div id="adventureChoices" class="adventure-choices" role="group" aria-label="Choisis ce que tu entends"></div>
+  <p id="typoCorrection" class="typo-correction" role="status" aria-live="polite" hidden></p>
   <p id="adventureFeedback" class="adventure-feedback" role="status" aria-live="polite">Regarde bien chaque lettre. Tu peux prendre ton temps.</p>
  </section>
  <p id="adventureWalking" class="adventure-walking" role="status" hidden>Bravo ! Paillette avance vers le prochain cristal…</p>
@@ -91,5 +93,5 @@
   <ul id="dailyPrizes" class="daily-prizes"></ul>
   <p class="reward-storage-note"></p>
 </dialog>
-<script type="module" src="js/prototype/boot.js?v=sentence-menu-3"></script>
+<script type="module" src="js/prototype/boot.js?v=typo-module-1"></script>
 </body></html>
