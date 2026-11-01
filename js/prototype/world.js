@@ -1,12 +1,23 @@
 import Phaser from '../../vendor/phaser/phaser.esm.min.js';
 import { WORLD_WIDTH, WORLD_HEIGHT, pathPoint, WORLDS, gagFor } from './model.js';
-import { uri, landscape, castle, crystal, mushroom, cloud, checkpointFlag, magicHat, birdFrame } from './art.js';
+import { uri, landscape, castle, crystal, mushroom, cloud, checkpointFlag, magicHat } from './art.js';
 import { landmark, foreground } from './scenery.js';
-import { gardenTree, gardenProp, gardenLandscape } from './garden.js';
+import { gardenTree, gardenProp, gardenLandscape, gardenSprig } from './garden.js';
+import { createGardenTree, createWindFlowers, windAt, sunPatch, driftingLeaf, glowMote, birdParts, createFlyingBird, poseFlyingBird } from './atmosphere.js';
 import { renderProfile, SPRITE_DENSITY, PANORAMA_SIZE } from './rendering.js';
+import { RIGGED_ANIMALS, animalParts, animalTurnSVG, wildlifePose, createWildlife, poseWildlife } from './wildlife.js';
 import { ANIMAL_KINDS, HABITAT_ANIMALS, animalSVG } from './animals.js';
 import { palm, butterfly, flowerCrown, soapBubble } from './habitats.js';
 import { RAINBOW, rainbowPoint, walkingPoint, bridgeFocus, birdPoint, pathRibbon } from './travel.js';
+
+function companionPlan(theme){
+ const kinds=HABITAT_ANIMALS[theme.habitat],count=theme.id<2?8:6,slots=[.035,.12,.23,.39,.54,.67,.8,.94];
+ return Array.from({length:count},(_,i)=>{
+  const p=pathPoint(count===8?slots[i]:(i+.32)/6),kind=kinds[i%kinds.length],x=p.x+(i%2?12:-18);
+  const landing=p.x>880&&p.x<1700,lane=landing?185:kind==='deer'||kind==='cow'?175:kind==='bunny'?125:kind==='fox'?135:105;
+  return {kind,x,y:p.y+lane,lane,scale:kind==='cow'?.86:kind==='deer'?.76:kind==='hedgehog'?.61:.65};
+ });
+}
 
 export function createWorld(parent,{onReady,onBiome,onError,onGag=()=>{}}){
   const reduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -24,12 +35,19 @@ export function createWorld(parent,{onReady,onBiome,onError,onGag=()=>{}}){
       WORLDS.forEach(theme=>{for(const kind of ['bush','rock','flowers'])load(kind+theme.id,gardenProp(kind,theme));});
       WORLDS.forEach(theme=>{load('landmark'+theme.id,landmark(theme),{width:660,height:540});load('plants'+theme.id,theme.id<2?gardenProp('bush',theme):foreground(theme),{width:640,height:460});});
       for(const [emotion,frame] of [['curious',1],['encouraging',0],['proud',3]])this.load.image('paillette-'+emotion,`assets/storybook/paillette-${frame}.webp`);
-      load('pink',gardenTree());load('pine',gardenTree('pine'));load('purple',gardenTree('purple'));
+      for(const kind of ['pink','pine','purple'])for(let variant=0;variant<2;variant++)for(const layer of ['trunk','back','front'])load('tree-'+kind+'-'+variant+'-'+layer,gardenTree(kind,layer,variant),{width:450,height:600});
+      WORLDS.forEach(theme=>{for(let i=0;i<3;i++)load('sprig'+theme.id+'-'+i,gardenSprig(theme,i));});
       load('palm',palm());load('butterfly',butterfly());load('crown',flowerCrown());load('bubble',soapBubble());
-      for(const kind of ANIMAL_KINDS)for(let frame=0;frame<2;frame++)load('animal-'+kind+frame,animalSVG(kind,frame===1));
+      for(const kind of ANIMAL_KINDS){
+        if(RIGGED_ANIMALS.includes(kind)){
+          for(const [name,part] of Object.entries(animalParts(kind)))if(name!=='leg')load('rig-'+kind+'-'+name+'0',part.source);
+          load('rig-'+kind+'-head1',animalParts(kind,true).head.source);load('rig-'+kind+'-front',animalTurnSVG(kind,true));load('rig-'+kind+'-quarter',animalTurnSVG(kind,false));
+        }else for(let frame=0;frame<2;frame++)load('animal-'+kind+frame,animalSVG(kind,frame===1));
+      }
       load('castle',castle());load('crystal',crystal());load('mushroom',mushroom());load('cloud',cloud());
       load('refuge',checkpointFlag());load('hat',magicHat());
-      for(let i=0;i<6;i++)load('bird'+i,birdFrame(i),{width:220,height:150});
+      load('sun-patch',sunPatch(),{width:900,height:540});load('wind-leaf',driftingLeaf());load('glow-mote',glowMote());
+      for(const [name,source] of Object.entries(birdParts()))load('flying-'+name,source);
       for(let i=0;i<8;i++)this.load.image('paillette'+i,`assets/storybook/paillette-${i%4}.webp`);
       this.load.image('pailletteHappy','assets/storybook/paillette-3.webp');
       this.load.on('loaderror',()=>{assetsFailed=true;onError('Le décor n’a pas pu se charger. Recharge la page ou ouvre les activités de secours.');});
@@ -41,7 +59,7 @@ export function createWorld(parent,{onReady,onBiome,onError,onGag=()=>{}}){
       this.bottomFill=this.add.rectangle(0,WORLD_HEIGHT-1,WORLD_WIDTH,3000,0xd4edf0).setOrigin(0).setDepth(-21);
       this.road=this.add.graphics().setDepth(-2);
       this.background=this.add.image(0,0,'land0').setOrigin(0).setDisplaySize(WORLD_WIDTH,WORLD_HEIGHT).setDepth(-20);
-      this.decor=[];this.fireflies=[];this.gems=[];this.effects=[];this.waits=[];this.birds=[];this.birdSeconds=0;this.petals=[];this.animals=[];this.foliage=[];this.clouds=[];this.emotion='attentive';
+      this.decor=[];this.fireflies=[];this.gems=[];this.effects=[];this.waits=[];this.birds=[];this.birdSeconds=0;this.petals=[];this.animals=[];this.foliage=[];this.clouds=[];this.lights=[];this.ambientButterflies=[];this.emotion='attentive';
       this.total=20;this.startWorld=0;this.worldNumber=0;this.theme=WORLDS[0];
       this.castle=this.add.image(3380,pathPoint(1).y+5,'castle').setOrigin(.5,1).setDisplaySize(340,350).setDepth(0);
       this.portal=this.add.ellipse(3370,pathPoint(1).y-75,115,170,0xe1eee1,.7).setStrokeStyle(8,0xffffff,.75).setDepth(0);
@@ -56,10 +74,9 @@ export function createWorld(parent,{onReady,onBiome,onError,onGag=()=>{}}){
       this.bubble=this.add.image(0,0,'bubble').setDisplaySize(205,205).setDepth(6).setVisible(false);
       this.bridge=this.add.graphics().setDepth(3);
       this.bridgeShadow=this.add.ellipse(0,0,510,34,0x697e80,.12).setDepth(1);
-      this.bridgeClouds=[0,1].map(()=>this.add.image(0,0,'cloud').setDisplaySize(145,72).setDepth(4));
+      this.bridgeClouds=[0,1].map(()=>this.add.image(0,0,'cloud').setDisplaySize(145,72).setDepth(3.1));
       this.returnCloud=this.add.image(0,0,'cloud').setDisplaySize(115,38).setDepth(4).setVisible(false);
       this.anims.create({key:'walk',frames:Array.from({length:8},(_,i)=>({key:'paillette'+i})),frameRate:12,repeat:-1});
-      this.anims.create({key:'bird-flight',frames:Array.from({length:6},(_,i)=>({key:'bird'+i})),frameRate:8,repeat:-1});
       this.quiet=false;this.moving=false;this.travel={value:0};this.motion={t:0};this.gag=null;this.lastGag=null;
       this.cameras.main.setBounds(0,-1800,WORLD_WIDTH,WORLD_HEIGHT+3600);
       this.input.on('pointerdown',pointer=>{if(this.quiet)return;const point=this.cameras.main.getWorldPoint(pointer.x,pointer.y);const friend=this.animals.find(a=>Math.hypot(point.x-a.x,point.y-(a.y-35))<70);if(friend){friend.greetingUntil=this.birdSeconds+1.5;this.sparkle(friend.x,friend.y-65);}else this.sparkle(point.x,point.y);});
@@ -72,40 +89,47 @@ export function createWorld(parent,{onReady,onBiome,onError,onGag=()=>{}}){
       this.skyFill.setFillStyle(Number.parseInt(this.theme.sky.slice(1),16));
       this.bottomFill.setFillStyle(Number.parseInt((this.theme.habitat==='beach'?this.theme.ground:this.theme.sky).slice(1),16));
       this.drawRoad();
-      this.background.setTexture('land'+this.theme.id).setDisplaySize(WORLD_WIDTH,WORLD_HEIGHT);
-      this.decor.forEach(object=>object.destroy());this.decor=[];this.fireflies=[];this.birds=[];this.birdSeconds=0;this.petals=[];this.animals=[];this.foliage=[];this.clouds=[];
-      const keep=object=>{this.decor.push(object);return object;};
-      for(let i=0;i<20;i++){
-        const x=25+i*187+Math.sin(i*2.3)*35,p=Math.max(0,Math.min(1,(x-140)/3160)),point=pathPoint(p);
+      this.background.setTexture('land'+this.theme.id).setDisplaySize(WORLD_WIDTH,WORLD_HEIGHT);this.decor.forEach(object=>object.destroy());this.decor=[];this.fireflies=[];this.birds=[];this.birdSeconds=0;this.petals=[];this.animals=[];this.foliage=[];this.clouds=[];this.lights=[];this.ambientButterflies=[];
+      const keep=object=>{this.decor.push(object);return object;},companions=companionPlan(this.theme);for(let i=0;i<20;i++){
+        const grove=this.theme.habitat==='forest',x=25+i*187+Math.sin(i*2.3)*(grove?70:35)+(grove?Math.sin(i*.9)*85:0),p=Math.max(0,Math.min(1,(x-140)/3160)),point=pathPoint(p);
         const land=!['clouds','moon','ice'].includes(this.theme.habitat);
         if(land){
-          const palm=this.theme.kind==='palm',height=palm?235:195+(i%4)*31;
-          const tree=keep(this.add.image(x,point.y-105-i%3*30,this.theme.kind).setOrigin(.5,1).setDisplaySize(palm?180:height*(.65+i%3*.06),height).setFlipX(i%2===0).setDepth(-8));
-          this.foliage.push({object:tree,amplitude:.45,phase:i*1.8});
+          const palm=this.theme.kind==='palm',height=palm?235:(grove?235:195)+(i%4)*(grove?34:31);
+          const tree=keep(palm?this.add.image(x,point.y-105-i%3*30,'palm').setOrigin(.5,1).setDisplaySize(180,height):createGardenTree(this,x,point.y-105-i%3*30,this.theme.kind,height*(.65+i%3*.06),height,i%2));
+          tree.setDepth(-8);if(palm)tree.setFlipX(i%2===0);else tree.setScale(i%2===0?-1:1,1);
+          if(tree.windParts)this.foliage.push(...tree.windParts);else this.foliage.push({object:tree,amplitude:1.1,phase:i*1.8,x});
+          if(grove&&i%3===0){
+            const distant=keep(createGardenTree(this,x+65,point.y-225,this.theme.kind,height*.5,height*.74,(i+1)%2).setDepth(-10).setAlpha(.65));
+            this.foliage.push(...distant.windParts.map(part=>({...part,amplitude:part.amplitude*.6})));
+          }
           // Near trees frame the sides; the rainbow and walking lane stay open.
           if(i%8===0&&!(p>.15&&p<.55)){
-            const tree=keep(this.add.image(x-110,point.y+265,this.theme.kind).setOrigin(.5,1).setDisplaySize(255,340).setDepth(10));
-            this.foliage.push({object:tree,amplitude:.3,phase:i});
+            const tree=keep(palm?this.add.image(x-110,point.y+265,'palm').setOrigin(.5,1).setDisplaySize(255,340):createGardenTree(this,x-110,point.y+265,this.theme.kind,255,340,i%2));
+            tree.setDepth(10);if(tree.windParts)this.foliage.push(...tree.windParts);else this.foliage.push({object:tree,amplitude:.65,phase:i,x});
           }
         }
         if(this.theme.id===1&&i%2===0)keep(this.add.image(x+74,point.y+70,'mushroom').setOrigin(.5,1).setDisplaySize(40,40).setDepth(3));
         if(this.theme.id===4&&i%3===0)keep(this.add.triangle(x,point.y+145,0,0,40,-100,80,0,0xb7d8ee).setStrokeStyle(3,0xf3faff).setDepth(0));
         if(this.theme.id===5&&i%2===0)keep(this.add.image(x,point.y+110,'cloud').setDisplaySize(270,110).setDepth(1));
-      }
-      for(let i=0;i<44;i++){
+      }for(let i=0;i<44;i++){
         const p=(i+.2)/44,point=pathPoint(p),clouds=this.theme.habitat==='clouds',bare=['ice','moon'].includes(this.theme.habitat);
         if(clouds)continue;
         const kind=bare?'rock':i%5===0?'rock':i%3===0?'bush':'flowers';
         const back=i%4===0,height=kind==='rock'?43+i%3*8:kind==='bush'?74+i%3*8:48+i%3*7;
-        const prop=keep(this.add.image(point.x+(i%2?21:-17),point.y+(back?-66:72+i*17%45),kind+this.theme.id).setOrigin(.5,1).setDisplaySize(height*220/160,height).setFlipX(i%2===0).setTint([0xffffff,0xf4efdf,0xe8f1e6][i%3]).setDepth(back?-4:3));
-        if(kind!=='rock')this.foliage.push({object:prop,amplitude:kind==='flowers'?2: .7,phase:i*1.37});
+        let px=point.x+(i%2?21:-17);const py=point.y+(back?-66:72+i*17%45);
+        if(!back&&kind!=='flowers')for(const friend of companions){
+          if(Math.abs(px-friend.x)<135&&py>friend.y-95&&py<friend.y+45)px=friend.x+(px>=friend.x?160:-160);
+        }
+        const prop=keep(kind==='flowers'?createWindFlowers(this,px,py,this.theme,height,i):this.add.image(px,py,kind+this.theme.id).setOrigin(.5,1).setDisplaySize(height*220/160,height).setFlipX(i%2===0).setTint([0xffffff,0xf4efdf,0xe8f1e6][i%3]));
+        prop.setDepth(back?-4:3+py*.001);
+        if(prop.windParts)this.foliage.push(...prop.windParts);else if(kind!=='rock')this.foliage.push({object:prop,amplitude:1.2,phase:i*1.37,x:px});
         if(i%5===0&&!bare)keep(this.add.image(point.x+55,point.y-72,'bush'+this.theme.id).setOrigin(.5,1).setDisplaySize(135,98).setDepth(-5));
       }
       if([1,6].includes(this.theme.id)) for(let i=0;i<28;i++){
-        const fly=keep(this.add.circle(150+i*122,300+(i*61%300),2,0xffedb8,.8).setDepth(4));
+        const fly=keep(this.add.image(150+i*122,300+(i*61%300),'glow-mote').setDisplaySize(19+i%3*4,19+i%3*4).setAlpha(.65).setDepth(4));
         fly.startY=fly.y;this.fireflies.push(fly);
       }
-      for(let i=0;i<8;i++){
+      for(let i=0;i<(this.theme.habitat==='moon'?0:8);i++){
         const cloud=keep(this.add.image(180+i*490,170+(i*41%100),'cloud').setDisplaySize(147+(i%3)*42,60+(i%3)*17).setScrollFactor(.6,1).setDepth(-12).setAlpha(.55));
         this.clouds.push({object:cloud,x:cloud.x,phase:i});
       }
@@ -115,22 +139,34 @@ export function createWorld(parent,{onReady,onBiome,onError,onGag=()=>{}}){
         const p=pathPoint(i/9);
         keep(this.add.image(p.x,p.y+280,'plants'+this.theme.id).setOrigin(.5,1).setDisplaySize(160+(i%3)*32,115+(i%3)*23).setScrollFactor(1.02,1).setDepth(9).setAlpha(.85));
       }
+      const leafy=['meadow','forest','jungle'].includes(this.theme.habitat);
+      if(leafy){
+        for(let i=0;i<4;i++){
+          const p=pathPoint(.08+i*.25),light=keep(this.add.image(p.x,p.y+64,'sun-patch').setDisplaySize(this.theme.id===1?420:610,240).setAlpha(.2).setDepth(-3));
+          this.lights.push({object:light,x:p.x,phase:i*2});
+        }
+        for(let i=0;i<3;i++){
+          const p=pathPoint(.12+i*.33),friend=keep(this.add.image(p.x,p.y-74,'butterfly').setDisplaySize(30,27).setDepth(3.9));
+          this.ambientButterflies.push({object:friend,x:p.x,y:p.y-74,phase:i*2.3});
+        }
+      }
       for(let i=0;i<18;i++){
-        const mote=keep(this.add.ellipse(150+i*190,290+(i*53%310),3+i%3,2+i%2,this.theme.id===6?0xf4dea4:0xf3e4c4,.45).setDepth(4));
-        mote.startX=mote.x;mote.startY=mote.y;this.petals.push(mote);
+        const x=150+i*190,y=200+(i*53%310);
+        const mote=keep(leafy?this.add.image(x,y,'wind-leaf').setDisplaySize(12+i%3*4,8+i%3*3).setAlpha(.45).setDepth(4):this.add.ellipse(x,y,3+i%3,2+i%2,this.theme.id===6?0xf4dea4:0xf3e4c4,.45).setDepth(4));
+        mote.startX=x;mote.startY=y;mote.leaf=leafy;this.petals.push(mote);
       }
       this.castle.setVisible(number===Math.ceil(this.total/10)-1);this.portal.setVisible(!this.castle.visible);
       this.drawBridge();
       for(let i=0;i<(this.theme.habitat==='moon'?0:9);i++){
-        const bird=keep(this.add.sprite(0,0,'bird0').setDisplaySize(42+(i%3)*6,29+(i%3)*4).setDepth(-5).setAlpha(.9));
-        const p=birdPoint(i,0);bird.setPosition(p.x,p.y);if(!reduced&&!this.quiet)bird.play('bird-flight');
+        const bird=keep(createFlyingBird(this,0,0,42+(i%3)*6,i).setDepth(-5).setAlpha(.95));
+        const p=birdPoint(i,0);bird.setPosition(p.x,p.y);poseFlyingBird(bird,0,reduced);
         this.birds.push(bird);
       }
-      const kinds=HABITAT_ANIMALS[this.theme.habitat];
-      for(let i=0;i<6;i++){
-        const p=pathPoint((i+.32)/6),kind=kinds[i%kinds.length];
-        const friend=keep(this.add.image(p.x+(i%2?42:-18),p.y+(i%2?30:52),'animal-'+kind+'0').setOrigin(.5,1).setDisplaySize(95,89).setDepth(4));
-        friend.baseX=friend.x;friend.baseY=friend.y;friend.kind=kind;friend.greetingUntil=0;this.animals.push(friend);
+      for(let i=0;i<companions.length;i++){
+        const {kind,x,y,lane,scale}=companions[i],rigged=RIGGED_ANIMALS.includes(kind);
+        const friend=keep(rigged?createWildlife(this,kind,x,y,scale).setDepth(4):this.add.image(x,y,'animal-'+kind+'0').setOrigin(.5,1).setDisplaySize(95,89).setDepth(4));
+        friend.baseX=friend.x;friend.baseY=friend.y;friend.pathProgress=(x-140)/3160;friend.lane=lane;friend.kind=kind;friend.greetingUntil=0;this.animals.push(friend);
+        if(rigged)poseWildlife(friend,0,i,reduced);
       }
       this.travel.value=local/10;this.setCrystals(local);this.pose();this.cameraInitialized=false;this.positionCamera();
       onBiome({...this.theme,number:number+1});
@@ -211,7 +247,8 @@ export function createWorld(parent,{onReady,onBiome,onError,onGag=()=>{}}){
       const density=profile.ratio,w=this.scale.width/density,h=this.scale.height/density,base=w<600?.72:w<1000?.85:1;
       const focus=bridgeFocus(this.travel.value),fit=Math.max(.42,Math.min(base,w/850));
       const target=base+(fit-base)*focus;
-      const zoom=this.cameraInitialized&&!reduced?this.cameras.main.zoom/density+(target-this.cameras.main.zoom/density)*.14:target;
+      const smoothing=1-Math.exp(-8.5*(this.frameSeconds||1/60));
+      const zoom=this.cameraInitialized&&!reduced?this.cameras.main.zoom/density+(target-this.cameras.main.zoom/density)*smoothing:target;
       this.cameraInitialized=true;this.cameras.main.setZoom(zoom*density);
       const ground=pathPoint(this.travel.value),lift=ground.y-this.hero.y;
       // The camera gives the climb room while leaving the arch and landing visible.
@@ -260,20 +297,32 @@ export function createWorld(parent,{onReady,onBiome,onError,onGag=()=>{}}){
     }
     update(time,delta){
       if(!this.hero) return;
-      this.pose(time);this.positionCamera();
+      this.frameSeconds=Math.min(delta||16.67,80)/1000;this.pose(time);this.positionCamera();
+      const camera=this.cameras.main,half=camera.width/camera.zoom/2;
+      const center=camera.scrollX+camera.width/2;
+      for(const object of this.decor){const x=object.x+camera.scrollX*(1-object.scrollFactorX);object.setVisible(x>center-half-350&&x<center+half+350);}
       if(!reduced&&!this.quiet){
         this.birdSeconds+=Math.min(delta||0,80)/1000;
-        this.foliage.forEach(({object,amplitude,phase})=>{object.angle=Math.sin(this.birdSeconds*.8+phase)*amplitude;});
-        this.clouds.forEach(({object,x,phase})=>{object.x=x+Math.sin(this.birdSeconds*.12+phase)*30;});
-        this.birds.forEach((bird,i)=>{const p=birdPoint(i,this.birdSeconds);bird.setPosition(p.x,p.y);});
+        this.foliage.forEach(({object,amplitude,phase,x})=>{if(object.parentContainer&&!object.parentContainer.visible)return;object.angle=windAt(this.birdSeconds,x??object.x,phase)*amplitude;});
+        this.clouds.forEach(({object,x,phase})=>{object.x=(x+this.birdSeconds*(3+phase%3)+400)%(WORLD_WIDTH+800)-400;});
+        this.birds.forEach((bird,i)=>{const p=birdPoint(i,this.birdSeconds);bird.setPosition(p.x,p.y);poseFlyingBird(bird,this.birdSeconds);});
+        this.lights.forEach(({object,x,phase})=>{object.x=x+Math.sin(this.birdSeconds*.17+phase)*18;object.alpha=.19+Math.sin(this.birdSeconds*.23+phase)*.045;});
+        this.ambientButterflies.forEach(({object,x,y,phase})=>{object.setPosition(x+Math.sin(this.birdSeconds*.6+phase)*40,y+Math.sin(this.birdSeconds*.95+phase)*18);object.setDisplaySize(30*(.5+Math.sin(this.birdSeconds*8+phase)**2*.5),27);object.angle=Math.sin(this.birdSeconds*.8+phase)*12;});
         this.animals.forEach((friend,i)=>{
+          if(friend.rig){
+            const pose=friend.visible?poseWildlife(friend,this.birdSeconds,i):wildlifePose(friend.kind,this.birdSeconds,i);
+            const p=pathPoint(friend.pathProgress+pose.offset/3160);
+            friend.x=friend.baseX+pose.offset;friend.y=p.y+friend.lane;const depth=3+friend.y*.001;if(Math.abs(friend.depth-depth)>.003)friend.setDepth(depth);
+            if(this.birdSeconds<friend.greetingUntil)friend.rig.neck.angle-=8;
+            return;
+          }
           const near=Math.abs(friend.baseX-this.hero.x)<210||this.birdSeconds<friend.greetingUntil;
           const hop=near?Math.abs(Math.sin(this.birdSeconds*4+i))*(this.moving?12:7):Math.sin(this.birdSeconds*1.1+i)*2.5;
           friend.x=friend.baseX+Math.sin(this.birdSeconds*(friend.kind==='turtle'?.38:.65)+i)*7;
           friend.y=friend.baseY-hop;friend.angle=Math.sin(this.birdSeconds*(near?3:1)+i)*(near?4:1.5);
           friend.setTexture('animal-'+friend.kind+((this.birdSeconds+i*1.8)%6<.2?'1':'0'));
         });
-        this.petals.forEach((p,i)=>{p.x=p.startX+Math.sin(this.birdSeconds*.3+i)*16;p.y=p.startY+Math.sin(this.birdSeconds*.5+i)*9;});
+        this.petals.forEach((p,i)=>{if(p.leaf){const t=(this.birdSeconds+i*3.7)%(18+i%5),life=t/(18+i%5);p.x=(p.startX+this.birdSeconds*13+windAt(this.birdSeconds,p.startX,i)*14)%(WORLD_WIDTH+260)-130;p.y=p.startY+life*210;p.angle=this.birdSeconds*28+i*40;p.alpha=Math.sin(life*Math.PI)*.6;}else{p.x=p.startX+Math.sin(this.birdSeconds*.3+i)*16;p.y=p.startY+Math.sin(this.birdSeconds*.5+i)*9;}});
         this.gems.forEach((g,i)=>{if(g.visible)g.y=g.baseY+Math.sin(time*.002+i)*5;});
         this.fireflies.forEach((f,i)=>{f.y=f.startY+Math.sin(time*.001+i)*14;f.alpha=.3+(Math.sin(time*.002+i)+1)*.3;});
       }
@@ -308,7 +357,13 @@ export function createWorld(parent,{onReady,onBiome,onError,onGag=()=>{}}){
   return {
     reset(total,startWorld=0){
       cancel();progress=0;crystals=0;if(!scene?.hero)return;
-      scene.total=total;scene.startWorld=startWorld;scene.paintWorld(0,0);
+      const reuse=scene.worldNumber===0&&scene.theme.id===WORLDS[startWorld%WORLDS.length].id&&scene.decor.length>0;
+      scene.total=total;scene.startWorld=startWorld;
+      if(reuse){
+        scene.birdSeconds=0;scene.travel.value=0;scene.setCrystals(0);scene.animals.forEach(a=>{a.greetingUntil=0;});
+        scene.castle.setVisible(total<=10);scene.portal.setVisible(total>10);
+        scene.pose();scene.cameraInitialized=false;scene.positionCamera();onBiome({...scene.theme,number:1});
+      }else scene.paintWorld(0,0);
     },
     setTheme(id){
       if(!scene?.hero||scene.moving||!Number.isInteger(id)||id<0||id>=WORLDS.length)return false;
@@ -316,7 +371,7 @@ export function createWorld(parent,{onReady,onBiome,onError,onGag=()=>{}}){
       scene.paintWorld(scene.worldNumber,Math.round(scene.travel.value*10));
       return true;
     },
-    quiet(value){if(scene){scene.quiet=value;scene.birds.forEach(bird=>{if(reduced)return;if(value)bird.anims.pause();else if(bird.anims.isPlaying)bird.anims.resume();else bird.play('bird-flight');});}},
+    quiet(value){if(scene){scene.quiet=value;scene.birds.forEach(bird=>{if(reduced||!bird.anims)return;if(value)bird.anims.pause();else if(bird.anims.isPlaying)bird.anims.resume();else bird.play('bird-flight');});}},
     moveTo(count,{returning=false}={}){
       cancel();if(!scene?.hero)return Promise.resolve(false);
       const my=serial;
@@ -347,7 +402,7 @@ export function createWorld(parent,{onReady,onBiome,onError,onGag=()=>{}}){
     cancel,
     react(emotion){if(scene?.hero&&!scene.moving){scene.emotion=emotion;scene.hero.setTexture(emotion==='attentive'?'paillette0':'paillette-'+emotion);}},
     setPaused(value){if(scene?.hero){if(value)scene.scene.pause();else scene.scene.resume();}},
-    state(){return {camera:scene?.cameras?.main?{width:scene.cameras.main.width,height:scene.cameras.main.height,zoom:scene.cameras.main.zoom,scrollX:scene.cameras.main.scrollX,scrollY:scene.cameras.main.scrollY}:null,foliageCount:scene?.foliage?.length,foliageAngles:scene?.foliage?.map(f=>f.object.angle),density:profile.ratio,canvas:{width:game?.canvas.width,height:game?.canvas.height},animalKinds:scene?.animals?.map(a=>a.kind),greetings:scene?.animals?.map(a=>a.greetingUntil),animalScreens:scene?.animals?.map(a=>{const camera=scene.cameras.main,p=camera.matrixCombined.transformPoint(a.x,a.y-35);return {x:p.x/profile.ratio,y:p.y/profile.ratio};}),animalPoses:scene?.animals?.map(a=>({x:a.x,y:a.y,angle:a.angle})),habitat:scene?.theme.habitat,propsVisible:!!(scene?.butterfly?.visible||scene?.crown?.visible||scene?.bubble?.visible),ready:!!scene?.hero,progress,crystals,moving:!!scene?.moving,worldIndex:scene?.worldNumber,theme:scene?.theme.id,
+    state(){return {camera:scene?.cameras?.main?{width:scene.cameras.main.width,height:scene.cameras.main.height,zoom:scene.cameras.main.zoom,scrollX:scene.cameras.main.scrollX,scrollY:scene.cameras.main.scrollY}:null,rigCount:scene?.animals?.filter(a=>a.rig).length,rigPoses:scene?.animals?.map(a=>a.rig?{head:a.rig.neck.angle,bodyVisible:a.rig.visual.visible,turnVisible:a.rig.front.visible,bodyAlpha:a.rig.visual.alpha,turnAlpha:a.rig.front.alpha,feet:a.rig.legs.map(l=>({x:l.foot.x,y:l.foot.y,angle:l.foot.angle,planted:l.planted}))}:null),lighting:scene?.lights?.map(l=>({x:l.object.x,alpha:l.object.alpha})),leafPoses:scene?.petals?.map(p=>({x:p.x,y:p.y,angle:p.angle,alpha:p.alpha})),animalActivities:scene?.animals?.map((a,i)=>a.rig?(wildlifePose(a.kind,scene.birdSeconds,i).walking?'walking':'resting'):null),foliageCount:scene?.foliage?.length,foliageAngles:scene?.foliage?.map(f=>f.object.angle),density:profile.ratio,canvas:{width:game?.canvas.width,height:game?.canvas.height},animalKinds:scene?.animals?.map(a=>a.kind),greetings:scene?.animals?.map(a=>a.greetingUntil),animalScreens:scene?.animals?.map(a=>{const camera=scene.cameras.main,p=camera.matrixCombined.transformPoint(a.x,a.y-35);return {x:p.x/profile.ratio,y:p.y/profile.ratio};}),animalPoses:scene?.animals?.map(a=>({x:a.x,y:a.y,angle:a.angle})),habitat:scene?.theme.habitat,propsVisible:!!(scene?.butterfly?.visible||scene?.crown?.visible||scene?.bubble?.visible),ready:!!scene?.hero,progress,crystals,moving:!!scene?.moving,worldIndex:scene?.worldNumber,theme:scene?.theme.id,
       emotion:scene?.emotion,landmark:scene?.theme.name,birdCount:scene?.birds?.length,birdSeconds:scene?.birdSeconds,childCount:scene?.children.length,bridge:{start:rainbowPoint(0),crest:rainbowPoint(.5),end:rainbowPoint(1)},onBridge:scene?.travel?walkingPoint(scene.travel.value).onBridge:false,bridgeLift:scene?.travel?walkingPoint(scene.travel.value).lift:0,visibleCrystals:scene?.gems?.filter(g=>g.visible).length,effectCount:scene?.effects?.length,hatVisible:scene?.hat?.visible,angle:scene?.hero?.angle,worldCrystals:Math.round((scene?.travel?.value||0)*10),gag:scene?.gag,lastGag:scene?.lastGag,
       position:scene?.hero?{x:scene.hero.x,y:scene.hero.y}:null,frame:scene?.hero?.anims.currentFrame?.index,renderer:game?.renderer?.type,version:Phaser.VERSION};},
     destroy(){cancel();observer?.disconnect();window.removeEventListener('resize',resize);game?.destroy(true);}

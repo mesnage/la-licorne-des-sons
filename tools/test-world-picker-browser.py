@@ -19,10 +19,10 @@ def boot(page):
     page.wait_for_function('window.__adventure?.state().ready')
 
 def pick(page, theme):
-    page.locator('#worldName').click()
+    page.locator('#worldName').click(no_wait_after=True)
     assert page.locator('#worldDialog').is_visible()
     assert page.locator('#worldChoices button').count() == 7
-    page.locator(f'[data-world-id="{theme}"]').click()
+    page.locator(f'[data-world-id="{theme}"]').click(no_wait_after=True)
     assert not page.locator('#worldDialog').is_visible()
     assert state(page)['world']['theme'] == theme
     assert not state(page)['paused']
@@ -63,7 +63,7 @@ with sync_playwright() as p:
     right(page)
     assert state(page)['world']['theme'] == 6
     still = ambient(page);page.wait_for_timeout(300);assert ambient(page) == still
-    page.locator('#worldName').click()
+    page.locator('#worldName').click(no_wait_after=True)
     page.keyboard.press('Escape')
     assert not state(page)['paused'] and state(page)['targetId'] is not None
     print('Seven-world selection, persisted preference, in-progress question/crystals and reduced motion passed', flush=True)

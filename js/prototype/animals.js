@@ -1,11 +1,13 @@
+import { RIGGED_ANIMALS, wildlifePortrait } from './wildlife.js';
 // Original rounded animal portraits; rasterized at Retina density by the scene loader.
 export const HABITAT_ANIMALS={
- meadow:['bunny','fox'],forest:['owl','fox','bunny'],jungle:['monkey','toucan','tiger'],
+ meadow:['bunny','hedgehog','deer','cow','turtle','fox'],forest:['deer','bunny','hedgehog','fox','owl','turtle'],jungle:['monkey','toucan','tiger'],
  beach:['turtle','crab'],ice:['penguin','seal'],clouds:['cloud-bunny','dove'],moon:['moon-bunny']
 };
 export const ANIMAL_KINDS=[...new Set(Object.values(HABITAT_ANIMALS).flat())];
 const face=(x,y,blink=false)=>`<g fill="#40515b">${blink?`<path d="M${x-21} ${y}q7-8 14 0m14 0q7-8 14 0" fill="none" stroke="#40515b" stroke-width="3" stroke-linecap="round"/>`:`<ellipse cx="${x-14}" cy="${y}" rx="6" ry="8"/><ellipse cx="${x+14}" cy="${y}" rx="6" ry="8"/><g fill="#fff"><circle cx="${x-12}" cy="${y-3}" r="2.2"/><circle cx="${x+16}" cy="${y-3}" r="2.2"/></g>`}<path d="M${x-6} ${y+16}q6 7 12 0" fill="none" stroke="#705564" stroke-width="2.5" stroke-linecap="round"/></g><g fill="#edb4b4" opacity=".7"><ellipse cx="${x-25}" cy="${y+10}" rx="8" ry="4"/><ellipse cx="${x+25}" cy="${y+10}" rx="8" ry="4"/></g>`;
 export function animalSVG(kind,blink=false){
+ if(RIGGED_ANIMALS.includes(kind))return wildlifePortrait(kind,blink);
  let body='',eyes='';
  if(kind.includes('bunny')){
   body='<ellipse cx="80" cy="108" rx="35" ry="31" fill="url(#fur)"/><ellipse cx="56" cy="132" rx="18" ry="9" fill="#f7e6db"/><ellipse cx="104" cy="132" rx="18" ry="9" fill="#f7e6db"/><ellipse cx="59" cy="30" rx="13" ry="29" transform="rotate(-13 59 30)" fill="url(#fur)"/><ellipse cx="99" cy="28" rx="13" ry="29" transform="rotate(12 99 28)" fill="url(#fur)"/><g fill="#eabfc7"><ellipse cx="59" cy="29" rx="6" ry="20" transform="rotate(-13 59 29)"/><ellipse cx="99" cy="27" rx="6" ry="20" transform="rotate(12 99 27)"/></g><ellipse cx="80" cy="70" rx="42" ry="35" fill="url(#fur)"/><path d="m75 79 5 5 5-5Z" fill="#ce9ba9"/>';

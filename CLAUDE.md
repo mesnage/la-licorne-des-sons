@@ -99,10 +99,16 @@ Sprites rasterize at 2× density with explicit display sizes; panoramas stay bou
 Native filled pathRibbon geometry avoids translucent wide-stroke seams. Keep foreground foliage clear of Paillette.
 
 Seven stable world IDs now represent meadow, forest, tropical jungle, beach, ice, clouds and moon. Saved numeric world
-progress keeps cycling across those IDs. Six animal companions per scene come from animals.js; new props and habitat
+progress keeps cycling across those IDs. Six to eight animal companions per scene come from animals.js; new props and habitat
 art live in habitats.js. Animals and particles continue during questions, pause freezes the entire scene, and reduced
 motion skips travel gags. Gag 6 varies with habitat; the old prout/rainbow/boing/hat schedule stays intact. Clear all
 props and effects on completion, return, reset and exit. Run tools/test-variety-browser.py alongside the existing
 main/checkpoint/menu/rainbow suites. No educational content, audio or reward accounting should change for artwork.
 
 The world-name button opens the seven-world picker. Habitat changes preserve the current question, crystals, checkpoints and reward accounting. The preferred starting habitat is saved separately as licorne.world-choice.v1; completion history stays in licorne.adventure.v1. Disable habitat changes during travel/answer feedback; the picker pauses the scene and resumes the existing question on close. Run tools/test-world-picker-browser.py for selection, persistence, ambient motion and pause/reduced-motion checks.
+
+## Living world graphics
+
+`wildlife.js` owns cached layered parts and grounded gait/turn poses for rabbit, fox, turtle, hedgehog, deer and cow. Meadow/forest have eight companions; other habitats have six. Keep foot targets in world space, sole rotation level and opaque turn poses mutually exclusive. Never restore whole-body squeeze/dissolve turns. `atmosphere.js` owns shared spatial wind, fixed-trunk/moving-canopy trees, individual sprigs, articulated flying birds, drifting leaves and restrained ground light. All ambient motion follows the scene clock and must freeze on pause/picker and stay static for reduced motion.
+
+`world.js` reuses matching initial scenery and culls off-screen containers/joint work. Avoid heavyweight SVG filters, new per-frame game-object allocation, and texture growth on reset. Keep the Retina buffer limit and buffer-before-CSS-zoom resize order. The independent iteration record is docs/graphics-upgrade-review.md; tools/graphics-lab.html is a development-only six-species live showcase. Run tools/test-living-world-browser.py and tools/test-world-picker-browser.py with the local server; `--browser-path` supports installed Chrome on macOS.

@@ -2,7 +2,7 @@
 
 Branch: `design/enchanted-storybook`.
 
-The current revision uses a living, layered miniature world rather than a detailed raster landscape. `js/prototype/garden.js` supplies quiet meadow/forest hills, shaded trees, bushes, flower patches and mossy rocks as individual SVG assets. The scene places them in world coordinates around its actual walkable path, with varied sizes, spacing and depth. Near foliage, distant clouds, birds, petals and animal companions animate independently during travel, on the menu, and while reading questions; pause freezes the scene; reduced motion keeps decorations still.
+The current revision uses a living, layered miniature world rather than a detailed raster landscape. The subsequent four-round wildlife/wind upgrade and independent design reviews are documented in [graphics-upgrade-review.md](graphics-upgrade-review.md). `js/prototype/garden.js` supplies quiet meadow/forest hills, shaded trees, bushes, flower patches and mossy rocks as individual SVG assets. The scene places them in world coordinates around its actual walkable path, with varied sizes, spacing and depth. Near foliage, distant clouds, birds, petals and animal companions animate independently during travel, on the menu, and while reading questions; pause freezes the scene; reduced motion keeps decorations still.
 
 The path now extends off-screen at the entrance, with narrow earthen layers, grass shoulders, fine gravel and small flowers. Tree placement leaves the rainbow and walking lane open. Animal coats share the same soft directional shading as the plants and rocks. The other five habitats keep their distinct native terrain and use the updated trees/roadside props where appropriate.
 

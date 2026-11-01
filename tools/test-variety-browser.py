@@ -30,7 +30,7 @@ with sync_playwright() as p:
   page.wait_for_function('(()=>{const c=document.querySelector("canvas"),r=c.getBoundingClientRect();return c.width===780&&c.height===1688&&r.width===390&&r.height===844;})()')
   assert page.evaluate('document.documentElement.scrollWidth<=innerWidth')
   for _ in range(6):settled(page,right(page))
-  assert len(state(page)['world']['animalKinds'])==6
+  assert len(state(page)['world']['animalKinds'])>=6
   assert not state(page)['world']['propsVisible'] and not state(page)['world']['effectCount']
   page.close()
  print('Retina WebGL/Canvas backing buffers, rotation, reduced motion and quiet companions passed',flush=True)
@@ -41,7 +41,7 @@ with sync_playwright() as p:
  for theme,habitat in enumerate(expected):
   boot(review,theme)
   for _ in range(6):settled(review,right(review))
-  actual=state(review)['world'];assert actual['habitat']==habitat and len(actual['animalKinds'])==6
+  actual=state(review)['world'];assert actual['habitat']==habitat and len(actual['animalKinds'])>=6
   if habitat=='moon':assert actual['birdCount']==0 and set(actual['animalKinds'])=={'moon-bunny'}
   shot(review,'world-'+habitat)
  review.close();print('All seven habitats and their companion families rendered at Retina density',flush=True)

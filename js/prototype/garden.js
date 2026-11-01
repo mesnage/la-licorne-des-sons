@@ -2,29 +2,52 @@
 // object shares the same soft light, palette and rounded silhouette.
 const svg=(w,h,body)=>`<svg xmlns="http://www.w3.org/2000/svg" width="${w}" height="${h}" viewBox="0 0 ${w} ${h}">${body}</svg>`;
 const palettes={
- pink:['#e3edb2','#a9c47e','#5c906a'],
- pine:['#b9d4a0','#7eab82','#3f7664'],
- purple:['#eadcec','#b5acd2','#7e86ac']
+ pink:['#d6e9a3','#7fa95e','#345f4c'],
+ pine:['#b7d29b','#5b9870','#274f46'],
+ purple:['#e0d9ed','#9a9ac3','#606e9c']
 };
-export function gardenTree(kind='pink'){
+export function gardenTree(kind='pink',layer='whole',variant=0){
  const [light,mid,dark]=palettes[kind]||palettes.pink;
- let crown='',detail='';
- for(let i=0;i<25;i++){
-  const a=i*2.399,r=Math.sqrt(i/25),x=145+Math.cos(a)*93*r,y=117+Math.sin(a)*70*r;
-  crown+=`<ellipse cx="${x}" cy="${y}" rx="${39+i%4*6}" ry="${32+i%3*5}" fill="url(#leaf${i%3})"/>`;
-  if(i%2===0)detail+=`<path d="M${x-12} ${y-10}q8-7 18-3m-2 9 10-5" stroke="${light}" stroke-width="3" opacity=".45" stroke-linecap="round" fill="none"/>`;
-  if(kind==='pink'&&i%3===0)detail+=`<g fill="#f4c5d6"><circle cx="${x}" cy="${y+8}" r="4"/><circle cx="${x+6}" cy="${y+6}" r="3.5"/><circle cx="${x+3}" cy="${y+13}" r="3"/></g>`;
+ const birch=variant===1&&kind==='pink',conifer=variant===1&&kind!=='pink';
+ const groups=[[],[]];let detail='';
+ const count=conifer?6:16;
+ for(let i=0;i<count;i++){
+  const a=i*2.399+variant*.7,r=Math.sqrt(i/count),x=150+Math.cos(a)*(birch?57:87)*r,y=(birch?128:118)+Math.sin(a)*(birch?93:66)*r;
+  const rx=conifer?18+i*12:birch?30+i%3*6:43+i%4*6,ry=conifer?28:birch?38:31+i%3*5;
+  const cx=conifer?150:x,cy=conifer?35+i*30:y;
+  let edge=`M${cx+rx} ${cy}`;
+  for(let n=0;n<12;n++){const angle=n*Math.PI/6,next=(n+1)*Math.PI/6;edge+=`Q${cx+Math.cos(angle+.16)*rx*1.12} ${cy+Math.sin(angle+.16)*ry*1.13} ${cx+Math.cos(next)*rx} ${cy+Math.sin(next)*ry}`;}
+  let cluster=conifer?`<path d="M150 ${cy-38}Q${cx-rx*.25} ${cy-8} ${cx-rx} ${cy+14}l13-3-6 9q${rx-6} 12 ${rx*2-14} 0l-7-10 13 4Q${cx+rx*.25} ${cy-8} 150 ${cy-38}Z" fill="url(#leaf${i%3})"/>`:`<path d="${edge}Z" fill="url(#leaf${i%3})"/>`;
+  for(let n=0;n<7;n++){
+   const lx=cx+(n*29%Math.max(1,rx*1.5))-rx*.7,ly=cy+(n*17%Math.max(1,ry*1.5))-ry*.7;
+   cluster+=`<path d="M${lx-4} ${ly}q3-8 10-6-1 8-10 6Z" fill="${n%2?light:mid}" opacity=".38"/>`;
+  }
+  if(kind==='pink'&&!birch&&i%3===0)cluster+=`<g fill="#f4c4d1"><circle cx="${cx-7}" cy="${cy+8}" r="3.5"/><circle cx="${cx-2}" cy="${cy+6}" r="3"/><circle cx="${cx-4}" cy="${cy+12}" r="3"/></g>`;
+  groups[i%3===0?0:1].push(cluster);
  }
- return svg(300,400,`<defs>${[0,1,2].map((n)=>`<radialGradient id="leaf${n}" cx="30%" cy="18%" r="85%"><stop stop-color="${n===1?mid:light}"/><stop offset=".55" stop-color="${mid}"/><stop offset="1" stop-color="${dark}"/></radialGradient>`).join('')}<linearGradient id="bark"><stop stop-color="#b39976"/><stop offset=".4" stop-color="#a28365"/><stop offset="1" stop-color="#715f54"/></linearGradient></defs>
- <ellipse cx="150" cy="382" rx="108" ry="13" fill="#42664e" opacity=".15"/>
- <path d="M122 380q27-104 8-222l35-4q-12 141 14 226l-27-11Z" fill="url(#bark)"/>
- <path d="M145 263Q110 195 71 173m76 60q33-60 78-78m-80 48-18-91" fill="none" stroke="#94785f" stroke-width="15" stroke-linecap="round"/>
- <path d="M143 354q13-63 3-118m12 82 3 35" stroke="#d2b68a" stroke-width="4" stroke-linecap="round" fill="none" opacity=".65"/>
- ${crown}${detail}<path d="M109 378q16-28 28-13m32 13q15-25 30-14" fill="none" stroke="${mid}" stroke-width="7" stroke-linecap="round"/>`);
+ for(let i=0;i<14;i++)detail+=`<path d="M${138+i*7%27} ${220+i*19%140}l${i%2?7:-5} ${birch?0:12}" stroke="${birch?'#647973':'#685a48'}" stroke-width="${birch?3:1.4}" opacity=".45" stroke-linecap="round"/>`;
+ const trunk=`<ellipse cx="150" cy="382" rx="93" ry="10" fill="#2b4d3a" opacity=".2"/><path d="M125 378q26-108 7-222l31-4q-11 143 16 226l-27-10Z" fill="url(#bark)"/><path d="M146 270q-21-69-70-104m71 65q31-65 80-77m-81 54-16-94" fill="none" stroke="${birch?'#ced4c2':'#8a7356'}" stroke-width="12" stroke-linecap="round"/><path d="M145 357q10-78-2-145" stroke="${birch?'#fff3d4':'#d9b77c'}" stroke-width="4" opacity=".6" fill="none"/>${detail}<path d="M115 380q13-23 23-12m29 12q14-19 27-10" fill="none" stroke="${mid}" stroke-width="5" stroke-linecap="round"/>`;
+ const defs=`<defs>${[0,1,2].map(n=>`<radialGradient id="leaf${n}" cx="25%" cy="10%" r="88%"><stop stop-color="${n===1?mid:light}"/><stop offset=".52" stop-color="${mid}"/><stop offset="1" stop-color="${dark}"/></radialGradient>`).join('')}<linearGradient id="bark"><stop stop-color="${birch?'#f0e9d0':'#ba9b72'}"/><stop offset=".5" stop-color="${birch?'#d3d5c2':'#947452'}"/><stop offset="1" stop-color="${birch?'#8b9e93':'#655943'}"/></linearGradient></defs>`;
+ return svg(300,400,defs+(layer==='trunk'?trunk:layer==='back'?groups[0].join(''):layer==='front'?groups[1].join(''):trunk+groups[0].join('')+groups[1].join('')));
+}
+export function gardenSprig(theme,variant=0){
+ const forest=theme.habitat==='forest',petal=['#fff2cf','#e5a9ca','#abb9df'][variant];
+ const green=forest?'#487e60':'#6c9557',dark=forest?'#2c5946':'#416c4b';
+ let body='';
+ for(let i=0;i<2;i++){
+  const x=25+i*34,y=24+i*27;
+  body+=`<path d="M${x+4} 139Q${x-6} ${y+34} ${x} ${y}" stroke="${dark}" stroke-width="2.5" fill="none"/><path d="M${x+1} ${y+51}q-26-22-24-5 3 13 25 11m-1 20q26-23 26-7-5 12-24 12" fill="${green}"/>`;
+  if(variant===2)body+=`<path d="M${x-11} ${y+5}q2-22 12-18 12 1 11 22l-7-4-7 4-6-5Z" fill="${petal}" stroke="#838cbd" stroke-width="1"/>`;
+  else{
+   for(let n=0;n<6;n++){const a=n*Math.PI/3;body+=`<ellipse cx="${x+Math.cos(a)*8}" cy="${y+Math.sin(a)*8}" rx="6.5" ry="3.8" transform="rotate(${n*60} ${x+Math.cos(a)*8} ${y+Math.sin(a)*8})" fill="${petal}"/>`;}
+   body+=`<circle cx="${x}" cy="${y}" r="4.5" fill="#d7a652"/><circle cx="${x-1}" cy="${y-1}" r="2" fill="#f4d795"/>`;
+  }
+ }
+ return svg(90,145,body);
 }
 export function gardenProp(kind,theme){
  const ice=theme.habitat==='ice',moon=theme.habitat==='moon',night=moon||theme.habitat==='forest';
- const light=ice?'#e9f5ee':moon?'#cbd3eb':'#d8e5a5',green=ice?'#a5c6ce':moon?'#8494b5':night?'#7bab81':'#a4be77',dark=ice?'#85a8bd':moon?'#687994':'#588568';
+ const light=ice?'#e9f5ee':moon?'#cbd3eb':'#d8e5a5',green=ice?'#a5c6ce':moon?'#8494b5':night?'#689a73':'#89ad68',dark=ice?'#85a8bd':moon?'#687994':'#3f7255';
  const defs=`<defs><radialGradient id="leaves" cx="25%" cy="15%" r="95%"><stop stop-color="${light}"/><stop offset=".5" stop-color="${green}"/><stop offset="1" stop-color="${dark}"/></radialGradient><linearGradient id="stone" x2=".8" y2="1"><stop stop-color="${ice?'#e5f0f7':moon?'#cbd3e5':'#d1cbbb'}"/><stop offset=".55" stop-color="${ice?'#b6cfdf':moon?'#9caaca':'#aaa99d'}"/><stop offset="1" stop-color="${ice?'#8cabc4':moon?'#7785a6':'#7e8f87'}"/></linearGradient></defs>`;
  let art='';
  if(kind==='bush'){
@@ -54,11 +77,11 @@ export function gardenLandscape(theme){
   const x=i*139%3600,y=460+i*67%920;
   grass+=`<path d="M${x} ${y}q8-6 18-2m9 3 9-4" stroke="${i%2?'#f4edca':'#769a77'}" stroke-width="2" opacity=".12" fill="none" stroke-linecap="round"/>`;
  }
- return svg(3600,1400,`<defs><linearGradient id="sky" x2="0" y2="1"><stop stop-color="${forest?'#b4d3d4':'#c3dcea'}"/><stop offset="1" stop-color="#f8e8cd"/></linearGradient><linearGradient id="grass" x2=".1" y2="1"><stop stop-color="${forest?'#afc99b':'#c8dba8'}"/><stop offset=".65" stop-color="${forest?'#9ab88c':'#b7ce9d'}"/><stop offset="1" stop-color="${forest?'#87a987':'#a4bf91'}"/></linearGradient><radialGradient id="sun"><stop stop-color="#fff7d9" stop-opacity=".7"/><stop offset="1" stop-color="#fff7d9" stop-opacity="0"/></radialGradient></defs>
+ return svg(3600,1400,`<defs><linearGradient id="sky" x2="0" y2="1"><stop stop-color="${forest?'#b4d3d4':'#c3dcea'}"/><stop offset="1" stop-color="#f8e8cd"/></linearGradient><linearGradient id="grass" x2=".1" y2="1"><stop stop-color="${forest?'#8aae8c':'#c3d998'}"/><stop offset=".65" stop-color="${forest?'#699477':'#a3c17d'}"/><stop offset="1" stop-color="${forest?'#537d66':'#8faf6d'}"/></linearGradient><radialGradient id="sun"><stop stop-color="#fff7d9" stop-opacity=".7"/><stop offset="1" stop-color="#fff7d9" stop-opacity="0"/></radialGradient></defs>
  <path d="M0 0h3600v1400H0Z" fill="url(#sky)"/><ellipse cx="580" cy="170" rx="550" ry="250" fill="url(#sun)"/>
  <path d="M0 290Q220 115 430 240T850 220 1300 235 1800 210 2300 230 2800 195 3600 255V700H0Z" fill="#b1b9d2" opacity=".4"/>
  <path d="M0 343Q300 232 600 310T1200 285 1800 320 2400 265 3000 310 3600 270V700H0Z" fill="#a7c3b9" opacity=".6"/>
  ${trees}<path d="M0 385Q380 320 780 375T1540 350 2320 370 3000 325 3600 360V1400H0Z" fill="url(#grass)"/>
- <path d="M0 750Q430 530 950 760T1970 700 2800 720 3600 640V1400H0Z" fill="${forest?'#8eae82':'#9fbe87'}" opacity=".14"/>
+ <path d="M0 750Q430 530 950 760T1970 700 2800 720 3600 640V1400H0Z" fill="${forest?'#3c6c58':'#779b59'}" opacity=".14"/>
  ${grass}`);
 }
