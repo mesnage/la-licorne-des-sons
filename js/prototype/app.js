@@ -1,5 +1,6 @@
+import { PHONEME_ACTIVITY } from '../phonemes/model.js?v=phoneme-red-3';
 import { createWorld } from './world.js';
-import { WORLDS, MODULES, MENU_ITEMS, CHAPTERS, createAdventure, createJourneyMemory, journeyState } from './model.js?v=chapters-wheel-1';
+import { WORLDS, MODULES, MENU_ITEMS, CHAPTERS, createAdventure, createJourneyMemory, journeyState } from './model.js?v=phoneme-red-3';
 import { illustration } from '../illustrations.js?v=chapters-wheel-1';
 import { createMastery, skillStatus } from '../learning/mastery.js';
 import { WORD_LEVELS } from '../data/words.js';
@@ -15,6 +16,7 @@ const $ = id => document.getElementById(id);
 let storage;
 try {storage=window.localStorage;}catch(e){}
 const practice=createWordProgress(storage);
+const phonemePractice=createWordProgress(storage,'licorne.phonemes.v1');
 const sentencePractice=createWordProgress(storage,'licorne.sentences.v1');
 const typoPractice=createWordProgress(storage,'licorne.typos.v1');
 const mastery=createMastery(storage);
@@ -50,7 +52,7 @@ function pause(){
 }
 
 function storageNote(){
-  $('adventureStorage').textContent=practice.persistent&&sentencePractice.persistent&&typoPractice.persistent&&mastery.persistent&&journeyMemory.persistent?'':'La sauvegarde est bloquée. Les progrès resteront pendant cette visite.';
+  $('adventureStorage').textContent=practice.persistent&&phonemePractice.persistent&&sentencePractice.persistent&&typoPractice.persistent&&mastery.persistent&&journeyMemory.persistent?'':'La sauvegarde est bloquée. Les progrès resteront pendant cette visite.';
 }
 function panels(name){
   document.body.dataset.screen=name;
@@ -72,7 +74,7 @@ function progress(){
 async function replay(){
   if(!session||paused||session.phase!=='question') return;
   stopAudio();unlock();$('adventureAudioStatus').textContent='';
-  if(mode==='words'||sentenceActivity(mode)||mode===TYPO_ACTIVITY.id){voice.speak(session.current.target);return;}
+  if(mode===PHONEME_ACTIVITY.id||mode==='words'||sentenceActivity(mode)||mode===TYPO_ACTIVITY.id){voice.speak(session.current.target);return;}
   const my=promptToken, target=session.current.target, keys=['L:'+target.g,'w:'+plain(target.w)];
   await audioReady;
   const clips=await Promise.all(keys.map(key=>loadClip(key)));
@@ -86,8 +88,8 @@ function ask(){
   panels('question');world.quiet(false);progress();
   const activity=sentenceActivity(mode);
   const typo=mode===TYPO_ACTIVITY.id;
-  $('questionTitle').textContent=typo?'Trouve la faute !':activity?(activity.hidden?'Écoute la phrase':'La phrase en ordre'):mode==='words'?'Trouve le mot !':'Écoute bien !';
-  const skill=mode==='words'||activity||typo?null:mastery.snapshot()[skillId()];
+  $('questionTitle').textContent=mode===PHONEME_ACTIVITY.id?'Quel son entends-tu ?':typo?'Trouve la faute !':activity?(activity.hidden?'Écoute la phrase':'La phrase en ordre'):mode==='words'?'Trouve le mot !':'Écoute bien !';
+  const skill=mode===PHONEME_ACTIVITY.id||mode==='words'||activity||typo?null:mastery.snapshot()[skillId()];
   world.react(skill?.attempts?'attentive':'curious');
   const state=journeyState(session.index,session.questions.length,startWorld);
   $('checkpointName').textContent=`MONDE ${state.worldIndex+1} · CRISTAL ${state.worldCrystals+1}/10`;
@@ -106,7 +108,12 @@ function ask(){
     const button=document.createElement('button');button.className=`adventure-answer tone-${['rose','lavender','mint','peach'][i]}`;
     button.dataset.choiceId=choice.id;
     const text=document.createElement('span');text.textContent=mode==='words'?choice.text:choice.g.toUpperCase();button.appendChild(text);
-    if(mode!=='words'){
+    if(mode===PHONEME_ACTIVITY.id){
+      const word=choice.example||choice.g, [start,length]=choice.highlight;
+      const sound=document.createElement('span');sound.className='phoneme-highlight';sound.textContent=word.slice(start,start+length);
+      text.replaceChildren(document.createTextNode(word.slice(0,start)),sound,document.createTextNode(word.slice(start+length)));
+      button.classList.add('phoneme-answer');
+    }else if(mode!=='words'){
       const lower=document.createElement('small');lower.textContent=choice.g;button.appendChild(lower);
       if(choice.g.length>2) button.classList.add('long','phonics-group');
     }else if(choice.text.length>8) button.classList.add('long');
@@ -159,7 +166,7 @@ function finish(){
   $('finishTitle').focus({preventScroll:true});
   const my=token;rewardTimer=setTimeout(()=>{if(my===token) showReward();},700);
 }
-function skillId(){return 'letters:'+session.current.target.id;}
+function skillId(){return (mode===PHONEME_ACTIVITY.id?'phonemes:':'letters:')+session.current.target.id;}
 async function answer(id,button){
   if(!session||paused) return;
   const result=session.answer(id);if(!result) return;
@@ -172,12 +179,13 @@ async function answer(id,button){
   if(activity&&result.correct)renderAssembly();
   $('worldName').disabled=true;
   let newlyRecognized=false;
-  if(mode!=='words'&&!activity&&!typo&&!evaluated.has(session.index)){
+  if(mode!==PHONEME_ACTIVITY.id&&mode!=='words'&&!activity&&!typo&&!evaluated.has(session.index)){
     const key=skillId(),before=skillStatus(mastery.snapshot()[key]);
-    mastery.record(key,result.correct,sessionId,plain(session.current.target.w));evaluated.add(session.index);
+    mastery.record(key,result.correct,sessionId,plain(session.current.target.w||session.current.target.example));evaluated.add(session.index);
     newlyRecognized=before!=='Bien reconnu'&&skillStatus(mastery.snapshot()[key])==='Bien reconnu';
   }
   if(!result.correct){
+    if(mode===PHONEME_ACTIVITY.id&&result.firstMistake) phonemePractice.miss(session.current.target.id);
     if(mode==='words'&&result.firstMistake) practice.miss(session.current.target.id);
     if(activity&&result.firstMistake)sentencePractice.miss(mode+':'+session.current.target.id);
     if(typo&&result.firstMistake)typoPractice.miss(session.current.target.id);
@@ -192,6 +200,7 @@ async function answer(id,button){
     if(my!==token||!arrived)return;
     session.recover();ask();return;
   }
+  if(mode===PHONEME_ACTIVITY.id&&result.firstCompletion) phonemePractice.complete(session.current.target.id,result.firstTry);
   if(mode==='words'&&result.firstCompletion) practice.complete(session.current.target.id,result.firstTry);
   if(activity&&result.firstCompletion)sentencePractice.complete(mode+':'+session.current.target.id,result.firstTry);
   if(activity)$('adventureFeedback').textContent='Bravo ! Tu as construit toute la phrase !';
@@ -218,7 +227,7 @@ function start(id,wordLevel=1){
   const activity=sentenceActivity(mode);
   const stats=mode===TYPO_ACTIVITY.id?typoPractice.snapshot():activity?Object.fromEntries(Object.entries(sentencePractice.snapshot()).filter(([key])=>key.startsWith(mode+':')).map(([key,value])=>[key.slice(mode.length+1),value])):practice.snapshot();
   session=createAdventure(mode,level,stats,mastery.snapshot());
-  $('activityName').textContent=mode===TYPO_ACTIVITY.id?TYPO_ACTIVITY.title:activity?activity.title+' · '+activity.length+' mots':mode==='words'?WORD_LEVELS.find(l=>l.id===level).title:MODULES.find(m=>m.id===mode).title;
+  $('activityName').textContent=mode===PHONEME_ACTIVITY.id?PHONEME_ACTIVITY.title:mode===TYPO_ACTIVITY.id?TYPO_ACTIVITY.title:activity?activity.title+' · '+activity.length+' mots':mode==='words'?WORD_LEVELS.find(l=>l.id===level).title:MODULES.find(m=>m.id===mode).title;
   startWorld=startingWorld();world.reset(session.questions.length,startWorld);storageNote();ask();
 }
 function menu(){
@@ -305,5 +314,5 @@ document.addEventListener('visibilitychange',()=>{if(document.hidden){stopAudio(
 window.addEventListener('pagehide',event=>{cleanUp();if(!event.persisted){voice.destroy();world.destroy();}});
 window.addEventListener('pageshow',event=>{if(event.persisted) menu();});
 if(location.search.includes('debug')) window.__adventure={
-  state:()=>({ready,paused,mode,level,promptKey:mode==='words'||sentenceActivity(mode)||mode===TYPO_ACTIVITY.id?session?.current?.target.audioKey:session?.current?'L:'+session.current.target.g:null,index:session?.index,total:session?.questions.length,phase:session?.phase,targetId:session?.current?.target.id,score:session?.score,sentenceWords:sentenceActivity(mode)?session?.current?.target.words:null,typo:mode===TYPO_ACTIVITY.id&&session?.current?{words:session.current.target.words,wrongIndex:session.current.target.wrongIndex}:null,selected:session?.selected?[...session.selected]:null,checkpoint:session?.returnIndex,startWorld,mastery:mastery.snapshot(),world:world.state()})
+  state:()=>({ready,paused,mode,level,promptKey:mode===PHONEME_ACTIVITY.id||mode==='words'||sentenceActivity(mode)||mode===TYPO_ACTIVITY.id?session?.current?.target.audioKey:session?.current?'L:'+session.current.target.g:null,index:session?.index,total:session?.questions.length,phase:session?.phase,targetId:session?.current?.target.id,score:session?.score,sentenceWords:sentenceActivity(mode)?session?.current?.target.words:null,typo:mode===TYPO_ACTIVITY.id&&session?.current?{words:session.current.target.words,wrongIndex:session.current.target.wrongIndex}:null,selected:session?.selected?[...session.selected]:null,checkpoint:session?.returnIndex,startWorld,mastery:mastery.snapshot(),world:world.state()})
 };

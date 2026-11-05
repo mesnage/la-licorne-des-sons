@@ -451,3 +451,19 @@ crédits supplémentaires.
 
 Données : `js/data/typos.js`. Questions : `js/sentences/typos.js`. Le chapitre **Les phrases** contient la tuile rose **Trouve la faute !**. Vérification : `node tools/typos.test.mjs` et, avec le serveur et Python Playwright,
 `python3 tools/test-typos-browser.py --screenshots /tmp/licorne-fautes`.
+
+### Écoute des phonèmes avec Robin
+
+Dans **Les sons → Quel son entends-tu ?**, une aventure de dix questions tire
+sans répétition parmi les 36 phonèmes validés. Chaque question joue uniquement
+le son enregistré et propose trois mots repères, avec la lettre ou le groupe de
+lettres du son en rouge. Le e muet est présenté seul, faute de mot initial adapté.
+Les variantes proches et les paires de consonnes définies dans
+`js/phonemes/model.js` ne sont jamais proposées ensemble, même comme distracteurs.
+Les MP3 validés sont dans `audio/phonemes-robin/` ; `provenance.json` conserve
+leur origine et leur empreinte SHA-256. Aucun appel ElevenLabs n'est fait par le jeu.
+Les progrès sont séparés de ceux des lettres ; les refuges et cadeaux sont partagés.
+
+Vérification : `npm test`, `npm run check`, puis
+`python3 tools/test-phonemes-browser.py --url http://127.0.0.1:8080`
+avec Playwright et Chrome installés. L'écoute sur iPad/Safari reste à vérifier sur appareil.

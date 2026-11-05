@@ -4,3 +4,7 @@ node_modules/
 tools/voice/models/
 __pycache__/
 *.wav
+
+# Local ElevenLabs credentials
+.env.local
+tools/voice/previews/

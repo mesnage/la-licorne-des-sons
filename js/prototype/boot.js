@@ -1,4 +1,4 @@
-import('./app.js?v=chapters-wheel-1').catch(() => {
+import('./app.js?v=phoneme-red-3').catch(() => {
   document.getElementById('legacyFallback').hidden=false;
   document.getElementById('engineStatus').textContent='Le décor animé n’a pas pu démarrer. Recharge la page ou ouvre les activités classiques avec le lien de secours.';
 });

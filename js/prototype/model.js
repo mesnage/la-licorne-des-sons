@@ -1,3 +1,4 @@
+import { PHONEME_ACTIVITY, phonemeQuestions } from '../phonemes/model.js?v=phoneme-red-3';
 import { LEVELS } from '../data/sounds.js';
 import { WORDS, WORD_LEVELS } from '../data/words.js';
 import { makeTargets, distractors, pickWord } from '../questions.js';
@@ -16,10 +17,10 @@ export const MODULES = [
   { id:'experts', title:'Sons experts', icon:'gem', detail:'Des sons à explorer', color:'peach' },
   { id:'tout', title:'Tout mélangé', icon:'star', detail:'La grande aventure', color:'gold' },
 ];
-export const MENU_ITEMS=[TYPO_ACTIVITY,...SENTENCE_ACTIVITIES,...MODULES,...WORD_LEVELS.map(level=>({id:'words-'+level.id,mode:'words',level:level.id,title:'Trouve le mot ! · '+level.id,detail:level.title,icon:'book',color:['sky','mint','lavender'][level.id-1]}))];
+export const MENU_ITEMS=[TYPO_ACTIVITY,...SENTENCE_ACTIVITIES,...MODULES,PHONEME_ACTIVITY,...WORD_LEVELS.map(level=>({id:'words-'+level.id,mode:'words',level:level.id,title:'Trouve le mot ! · '+level.id,detail:level.title,icon:'book',color:['sky','mint','lavender'][level.id-1]}))];
 export const CHAPTERS = [
   {id:'letters',title:'Les lettres',detail:'Voyelles et consonnes',icon:'letters',color:'rose',activities:['voyelles','consonnes']},
-  {id:'sounds',title:'Les sons',detail:'Découvrir et mélanger les sons',icon:'sound',color:'mint',activities:['sons','experts','tout']},
+  {id:'sounds',title:'Les sons',detail:'Découvrir et mélanger les sons',icon:'sound',color:'mint',activities:['sons','experts','tout','listen-phonemes']},
   {id:'words',title:'Les mots',detail:'Trois niveaux de lecture',icon:'book',color:'sky',activities:['words-1','words-2','words-3']},
   {id:'sentences',title:'Les phrases',detail:'Construire et trouver la faute',icon:'sentence',color:'lavender',activities:['sentence-copy-3','sentence-copy-5','sentence-listen-3','sentence-listen-5','find-typo']}
 ];
@@ -104,6 +105,7 @@ export function createJourneyMemory(storage){
   };
 }
 export function createAdventure(mode, level = 1, stats = {}, skills = {}){
+  if(mode === PHONEME_ACTIVITY.id)return new AdventureSession(phonemeQuestions());
   if(mode === TYPO_ACTIVITY.id)return new AdventureSession(typoQuestions(stats));
   if(mode === 'words') return new AdventureSession(new WordSession(WORDS,level,stats).questions);
   const activity=sentenceActivity(mode);
