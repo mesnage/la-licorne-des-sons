@@ -1,9 +1,10 @@
+import { createEncounter, poseEncounter } from './encounters.js';
+import { drawHabitatTouch } from './habitat-touch.js';
 import Phaser from '../../vendor/phaser/phaser.esm.min.js';
 import { WORLD_WIDTH, WORLD_HEIGHT, pathPoint, WORLDS, worldPanorama, gagFor } from './model.js';
 import { uri, crystal, cloud, checkpointFlag, magicHat } from './art.js';
 import { landmark } from './scenery.js';
-import { gardenProp, gardenSprig } from './garden.js';
-import { createWindFlowers, coastalBreeze, coastalGrasses, windAt, sunPatch, driftingLeaf, glowMote, birdParts, createFlyingBird, poseCoastalBird } from './atmosphere.js';
+import { coastalBreeze, coastalGrasses, windAt, sunPatch, driftingLeaf, glowMote, birdParts, createFlyingBird, poseCoastalBird } from './atmosphere.js';
 import { renderProfile, SPRITE_DENSITY } from './rendering.js';
 import { wildlifePose } from './wildlife.js';
 import { HABITAT_ANIMALS } from './animals.js';
@@ -35,12 +36,11 @@ export function createWorld(parent,{onReady,onBiome,onError,onGag=()=>{}}){
         this.load.svg(key,uri(source),raster);
       };
       WORLDS.forEach(theme=>this.load.image('land'+theme.id,worldPanorama(theme)));
-      WORLDS.forEach(theme=>{for(const kind of ['bush','rock','flowers'])load(kind+theme.id,gardenProp(kind,theme));});
+      this.load.spritesheet('trail-details','assets/storybook/bords-du-sentier.webp',{frameWidth:240,frameHeight:200});
       load('landmark0',landmark(WORLDS[0]),{width:660,height:540});
       this.load.spritesheet('world-fauna','assets/storybook/faune-mondes.webp',{frameWidth:400,frameHeight:280});
       this.load.spritesheet('coastal-fauna','assets/storybook/faune-prairie.webp',{frameWidth:400,frameHeight:280});
       this.load.spritesheet('coastal-pony','assets/storybook/paillette-etoilee.webp',{frameWidth:368,frameHeight:368});
-      WORLDS.forEach(theme=>{for(let i=0;i<3;i++)load('sprig'+theme.id+'-'+i,gardenSprig(theme,i));});
       for(let i=0;i<3;i++)load('coastal-grass'+i,coastalGrasses(i));
       load('butterfly',butterfly());load('crown',flowerCrown());load('bubble',soapBubble());
       this.load.image('castle','assets/storybook/chateau-etoile.webp');load('crystal',crystal());load('cloud',cloud());
@@ -77,7 +77,43 @@ export function createWorld(parent,{onReady,onBiome,onError,onGag=()=>{}}){
       this.returnCloud=this.add.image(0,0,'cloud').setDisplaySize(115,38).setDepth(4).setVisible(false);
       this.quiet=false;this.moving=false;this.travel={value:0};this.motion={t:0};this.gag=null;this.lastGag=null;
       this.cameras.main.setBounds(0,-1800,WORLD_WIDTH,WORLD_HEIGHT+3600);
-      this.input.on('pointerdown',pointer=>{if(this.quiet)return;const point=this.cameras.main.getWorldPoint(pointer.x,pointer.y);const friend=this.animals.find(a=>Math.hypot(point.x-a.x,point.y-(a.y-35))<70);if(friend){friend.greetingUntil=this.birdSeconds+1.5;this.sparkle(friend.x,friend.y-65);}else this.sparkle(point.x,point.y);});
+      this.habitatTouch=this.add.graphics().setDepth(19);
+      this.input.on('pointerdown',pointer=>{
+        if(this.quiet)return;
+        const point=this.cameras.main.getWorldPoint(pointer.x,pointer.y);
+        const encounter=this.encounter;
+        if(encounter && (encounter.animal.getBounds().contains(point.x,point.y)||encounter.token.getBounds().contains(point.x,point.y))){
+          encounter.cheer=this.birdSeconds;
+          encounter.start=this.birdSeconds;
+          if(reduced){
+            encounter.animal.setFrame(encounter.spec.frame+(encounter.habitat==='moon'?3:4));
+            this.touchClear?.remove(false);
+            this.touchClear=this.time.delayedCall(800,()=>encounter.animal.setFrame(encounter.spec.frame));
+          }else this.sparkle(point.x,point.y);
+          return;
+        }
+        const friend=this.animals.filter(a=>a.visible&&a.painted.drawing.getBounds().contains(point.x,point.y))
+          .sort((a,b)=>b.depth-a.depth)[0];
+        if(friend){
+          friend.greetingUntil=this.birdSeconds+1.5;
+          if(reduced){
+            const drawing=friend.painted.drawing;
+            drawing.setFrame(friend.painted.greetingFrame);
+            friend.resetGreeting?.remove(false);
+            friend.resetGreeting=this.time.delayedCall(900,()=>{if(drawing.active)drawing.setFrame(friend.painted.restFrame);});
+          }
+        }else if(this.theme.habitat==='meadow')this.sparkle(point.x,point.y);
+        else{
+          this.habitatTouch.setPosition(point.x,point.y);
+          this.touchStart=this.birdSeconds;
+          if(reduced){
+            drawHabitatTouch(this.habitatTouch,this.theme.habitat,.45);
+            this.touchClear?.remove(false);
+            this.touchClear=this.time.delayedCall(650,()=>this.habitatTouch.clear());
+          }
+        }
+        this.touchBreeze={x:point.x,y:point.y,time:this.birdSeconds};
+      });
       this.scale.on('resize',()=>{this.cameraInitialized=false;this.positionCamera();});
       parent.querySelector('canvas').setAttribute('aria-hidden','true');parent.dataset.phaserVersion=Phaser.VERSION;
       onReady();
@@ -87,24 +123,27 @@ export function createWorld(parent,{onReady,onBiome,onError,onGag=()=>{}}){
       this.skyFill.setFillStyle(Number.parseInt(this.theme.sky.slice(1),16));
       this.bottomFill.setFillStyle(Number.parseInt((this.theme.habitat==='beach'?this.theme.ground:this.theme.sky).slice(1),16));
       const paintedMeadow=this.theme.habitat==='meadow';
+      this.touchStart=null;this.habitatTouch.clear();this.touchClear?.remove(false);
+      this.touchBreeze=null;
       this.hero.stop();
       this.setHeroDrawing();
       this.drawRoad();
       this.background.setTexture('land'+this.theme.id).setDisplaySize(WORLD_WIDTH,WORLD_HEIGHT);this.decor.forEach(object=>object.destroy());this.decor=[];this.fireflies=[];this.birds=[];this.birdSeconds=0;this.petals=[];this.animals=[];this.foliage=[];this.clouds=[];this.lights=[];this.ambientButterflies=[];
       const keep=object=>{this.decor.push(object);return object;},companions=companionPlan(this.theme);
-      for(let i=0;i<44;i++){
-        const p=(i+.2)/44,point=pathPoint(p),clouds=this.theme.habitat==='clouds',bare=['ice','moon'].includes(this.theme.habitat);
-        if(clouds||i%4!==1)continue;
-        const kind=bare?'rock':i%5===0?'rock':i%3===0?'bush':'flowers';
-        const back=i%4===0,height=kind==='rock'?43+i%3*8:kind==='bush'?74+i%3*8:48+i%3*7;
-        let px=point.x+(i%2?21:-17);const py=point.y+(back?-66:72+i*17%45);
-        if(!back&&kind!=='flowers')for(const friend of companions){
-          if(Math.abs(px-friend.x)<135&&py>friend.y-95&&py<friend.y+45)px=friend.x+(px>=friend.x?160:-160);
-        }
-        const prop=keep(kind==='flowers'?createWindFlowers(this,px,py,this.theme,height,i):this.add.image(px,py,kind+this.theme.id).setOrigin(.5,1).setDisplaySize(height*220/160,height).setFlipX(i%2===0).setTint([0xffffff,0xf4efdf,0xe8f1e6][i%3]));
-        prop.setDepth(back?-4:3+py*.001);
-        if(prop.windParts)this.foliage.push(...prop.windParts);else if(kind!=='rock')this.foliage.push({object:prop,amplitude:1.2,phase:i*1.37,x:px});
-        if(i%5===0&&!bare)keep(this.add.image(point.x+55,point.y-72,'bush'+this.theme.id).setOrigin(.5,1).setDisplaySize(135,98).setDepth(-5));
+      this.encounter=createEncounter(this,this.theme.habitat);
+      if(this.encounter)keep(this.encounter.group);
+      const detailsByHabitat={
+        meadow:[0,1], forest:[2,3,15], jungle:[4,5], beach:[6,7,14],
+        ice:[8,9], clouds:[10,11], moon:[12,13]
+      };
+      const frames=detailsByHabitat[this.theme.habitat];
+      for(let i=0;i<17;i++){
+        const point=pathPoint((i+.3)/17),back=i%3===1;
+        const x=point.x+Math.sin(i*4)*24,y=point.y+(back?-64:170+i*37%60);
+        const frame=frames[i%frames.length],height=back?46:56+i*13%27;
+        const detail=keep(this.add.image(x,y,'trail-details',frame).setOrigin(.5,.985)
+          .setDisplaySize(height*1.2,height).setFlipX(i%2===1).setDepth(back?-4:3+y*.001));
+        if([0,1,3,4,5,7,10].includes(frame))this.foliage.push({object:detail,amplitude:2,phase:i,x});
       }
       if([1,6].includes(this.theme.id)) for(let i=0;i<28;i++){
         const fly=keep(this.add.image(150+i*122,300+(i*61%300),'glow-mote').setDisplaySize(19+i%3*4,19+i%3*4).setAlpha(.65).setDepth(4));
@@ -281,12 +320,32 @@ export function createWorld(parent,{onReady,onBiome,onError,onGag=()=>{}}){
       const camera=this.cameras.main,half=camera.width/camera.zoom/2;
       const center=camera.scrollX+camera.width/2;
       for(const object of this.decor){const x=object.x+camera.scrollX*(1-object.scrollFactorX);object.setVisible(x>center-half-350&&x<center+half+350);}
+      if(this.encounter){
+        const anchor=Math.min(WORLD_WIDTH-155,Math.max(90,this.hero.x+Math.min(150,half*.25)));
+        const ground=pathPoint((anchor-140)/3160).y;
+        if(!reduced||this.encounter.anchor!==anchor)poseEncounter(this.encounter,this.birdSeconds,anchor,ground,reduced);
+        this.encounter.anchor=anchor;
+      }
       if(!reduced&&!this.quiet){
         this.birdSeconds+=Math.min(delta||0,80)/1000;
+        if(this.touchStart!=null){
+          const t=Math.min(1,(this.birdSeconds-this.touchStart)/1.45);
+          drawHabitatTouch(this.habitatTouch,this.theme.habitat,t);
+          if(t===1){this.touchStart=null;this.habitatTouch.clear();}
+        }
         this.foliage.forEach(({object,amplitude,phase,x})=>{if(object.parentContainer&&!object.parentContainer.visible)return;const sway=this.theme.habitat==='meadow'
           ?coastalBreeze(this.birdSeconds-(phase%3)*.06,x??object.x)
           :windAt(this.birdSeconds,x??object.x,phase);
-          object.angle=sway*amplitude;});
+          const worldX=x??object.x;
+          const distance=worldX-this.hero.x;
+          const passing=this.moving?Math.sin(distance/110*Math.PI)*Math.max(0,1-Math.abs(distance)/110):0;
+          let ripple=0;
+          if(this.touchBreeze){
+            const radius=Math.hypot(worldX-this.touchBreeze.x,(object.parentContainer?.y??object.y)-this.touchBreeze.y);
+            const age=this.birdSeconds-this.touchBreeze.time-radius/420;
+            if(age>0&&age<1)ripple=Math.sin(age*Math.PI*2)*(1-age)*Math.max(0,1-radius/320);
+          }
+          object.angle=(sway+passing*.85+ripple*1.8)*amplitude;});
         this.clouds.forEach(({object,x,phase})=>{object.x=(x+this.birdSeconds*(3+phase%3)+400)%(WORLD_WIDTH+800)-400;});
         this.birds.forEach((bird,i)=>{const p=birdPoint(i,this.birdSeconds);bird.setPosition(p.x,p.y);this.poseBird(bird,this.birdSeconds);});
         this.lights.forEach(({object,x,phase})=>{object.x=x+Math.sin(this.birdSeconds*.17+phase)*18;object.alpha=.19+Math.sin(this.birdSeconds*.23+phase)*.045;});

@@ -24,7 +24,7 @@ export function createCoastalAnimal(scene,kind,x,y){
   const drawing=scene.add.image(0,0,worldSpecies[kind]?'world-fauna':'coastal-fauna',frame).setOrigin(.5,.99).setScale(width/400);
   if(tint)drawing.setTint(tint);
   root.add([shadow,drawing]);
-  root.painted={shadow,drawing};
+  root.painted={shadow,drawing,restFrame:frame,greetingFrame:frame+(worldSpecies[kind]?4:3)};
   return root;
 }
 
@@ -36,10 +36,15 @@ export function poseCoastalAnimal(friend,pose,seconds,reduced=false){
   const lift=step && friend.kind.endsWith('bunny') ? (1-Math.cos(phase))*5*pose.activity : 0;
   const greeting=Math.max(0,Math.min(1,(friend.greetingUntil-seconds)/1.5));
   const grazing=friend.kind==='cow' && !step && !reduced && Math.sin(seconds*.61+friend.baseX)>.5;
-  drawing.setFrame(frame+((step && Math.cos(phase)<0)||grazing?(worldSpecies[friend.kind]?4:3):0)).setFlipX(pose.facing<0);
-  drawing.y=-lift;
-  drawing.angle=reduced?0:pose.facing*(Math.sin(phase)*pose.activity*1.7-4*Math.sin(Math.PI*greeting));
+  const arc=Math.sin(Math.PI*greeting)**2;
+  const hopping=friend.kind.endsWith('bunny')||friend.kind==='monkey';
+  const wings=['owl','dove','toucan'].includes(friend.kind);
+  const greetingLift=hopping?22*arc:wings?14*arc:0;
+  const tilt=['seal','crab','penguin'].includes(friend.kind)?Math.sin(greeting*Math.PI*4)*arc*11:arc*7;
+  drawing.setFrame(frame+((step && Math.cos(phase)<0)||grazing||arc>.18?(worldSpecies[friend.kind]?4:3):0)).setFlipX(pose.facing<0);
+  drawing.y=-lift-greetingLift;
+  drawing.angle=reduced?0:pose.facing*(Math.sin(phase)*pose.activity*1.7-tilt);
   const breath=reduced?0:Math.sin(seconds*1.65+friend.baseX)*.009;
   drawing.setScale(width/400,width/400*(1+breath));
-  shadow.scaleX=1-lift*.025;
+  shadow.scaleX=1-(lift+greetingLift)*.014;
 }
