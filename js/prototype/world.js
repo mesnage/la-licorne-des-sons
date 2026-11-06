@@ -3,7 +3,7 @@ import { WORLD_WIDTH, WORLD_HEIGHT, pathPoint, WORLDS, gagFor } from './model.js
 import { uri, landscape, castle, crystal, mushroom, cloud, checkpointFlag, magicHat } from './art.js';
 import { landmark, foreground } from './scenery.js';
 import { gardenTree, gardenProp, gardenLandscape, gardenSprig } from './garden.js';
-import { createGardenTree, createWindFlowers, windAt, sunPatch, driftingLeaf, glowMote, birdParts, createFlyingBird, poseFlyingBird } from './atmosphere.js';
+import { createGardenTree, createWindFlowers, windAt, sunPatch, driftingLeaf, glowMote, birdParts, createFlyingBird, poseFlyingBird, poseCoastalBird } from './atmosphere.js';
 import { renderProfile, SPRITE_DENSITY, PANORAMA_SIZE } from './rendering.js';
 import { RIGGED_ANIMALS, animalParts, animalTurnSVG, wildlifePose, createWildlife, poseWildlife } from './wildlife.js';
 import { ANIMAL_KINDS, HABITAT_ANIMALS, animalSVG } from './animals.js';
@@ -162,9 +162,10 @@ export function createWorld(parent,{onReady,onBiome,onError,onGag=()=>{}}){
       }
       this.castle.setVisible(number===Math.ceil(this.total/10)-1);this.portal.setVisible(!this.castle.visible);
       this.drawBridge();
+      this.poseBird=paintedMeadow?poseCoastalBird:poseFlyingBird;
       for(let i=0;i<(this.theme.habitat==='moon'?0:9);i++){
         const bird=keep(createFlyingBird(this,0,0,42+(i%3)*6,i).setDepth(-5).setAlpha(.95));
-        const p=birdPoint(i,0);bird.setPosition(p.x,p.y);poseFlyingBird(bird,0,reduced);
+        const p=birdPoint(i,0);bird.setPosition(p.x,p.y);this.poseBird(bird,0,reduced);
         this.birds.push(bird);
       }
       for(let i=0;i<companions.length;i++){
@@ -310,7 +311,7 @@ export function createWorld(parent,{onReady,onBiome,onError,onGag=()=>{}}){
         this.birdSeconds+=Math.min(delta||0,80)/1000;
         this.foliage.forEach(({object,amplitude,phase,x})=>{if(object.parentContainer&&!object.parentContainer.visible)return;object.angle=windAt(this.birdSeconds,x??object.x,phase)*amplitude;});
         this.clouds.forEach(({object,x,phase})=>{object.x=(x+this.birdSeconds*(3+phase%3)+400)%(WORLD_WIDTH+800)-400;});
-        this.birds.forEach((bird,i)=>{const p=birdPoint(i,this.birdSeconds);bird.setPosition(p.x,p.y);poseFlyingBird(bird,this.birdSeconds);});
+        this.birds.forEach((bird,i)=>{const p=birdPoint(i,this.birdSeconds);bird.setPosition(p.x,p.y);this.poseBird(bird,this.birdSeconds);});
         this.lights.forEach(({object,x,phase})=>{object.x=x+Math.sin(this.birdSeconds*.17+phase)*18;object.alpha=.19+Math.sin(this.birdSeconds*.23+phase)*.045;});
         this.ambientButterflies.forEach(({object,x,y,phase})=>{object.setPosition(x+Math.sin(this.birdSeconds*.6+phase)*40,y+Math.sin(this.birdSeconds*.95+phase)*18);object.setDisplaySize(30*(.5+Math.sin(this.birdSeconds*8+phase)**2*.5),27);object.angle=Math.sin(this.birdSeconds*.8+phase)*12;});
         this.animals.forEach((friend,i)=>{

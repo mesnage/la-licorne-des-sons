@@ -41,6 +41,19 @@ export function createFlyingBird(scene,x,y,width=52,seed=0){
  const root=scene.add.container(x,y),back=scene.add.image(-5,-7,'flying-wing').setOrigin(.17,.85).setDisplaySize(52,55).setAlpha(.75),body=scene.add.image(0,0,'flying-body').setDisplaySize(100,70),front=scene.add.image(-5,0,'flying-wing').setOrigin(.17,.85).setDisplaySize(52,55);
  root.add([back,body,front]);root.setScale(width/100);root.wings={back,front,seed};return root;
 }
+// Three short strokes followed by a held soaring pose. Sample only the
+// drawing, so the bird still travels smoothly while its silhouette holds.
+const coastalWingAngles = [-48, -60, -65, -12, 32, 35, 16, -8, -23, -36];
+export function poseCoastalBird(bird, seconds, reduced=false){
+ const {front, back, seed}=bird.wings;
+ const frame=reduced?30:Math.floor((seconds+seed*1.37)*12)%84;
+ const stroke=frame<30;
+ const angle=stroke?coastalWingAngles[frame%10]:-42;
+ front.angle=angle;
+ back.angle=angle*.82-15;
+ bird.angle=stroke?-(angle+42)*.07:0;
+}
+
 export function poseFlyingBird(bird,seconds,reduced=false){
  const {front,back,seed}=bird.wings;
  const cycle=(seconds+seed*1.3)%8,glide=cycle>5.5?Math.sin((cycle-5.5)/2.5*Math.PI)**2:0;
