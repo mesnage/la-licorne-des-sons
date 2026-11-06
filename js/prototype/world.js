@@ -31,7 +31,11 @@ export function createWorld(parent,{onReady,onBiome,onError,onGag=()=>{}}){
         const raster=size||{width:Number(dimensions[1])*SPRITE_DENSITY,height:Number(dimensions[2])*SPRITE_DENSITY};
         this.load.svg(key,uri(source),raster);
       };
-      WORLDS.forEach(theme=>load('land'+theme.id,theme.id<2?gardenLandscape(theme):landscape(theme),PANORAMA_SIZE));
+      WORLDS.forEach(theme=>{
+        const key='land'+theme.id;
+        if(theme.habitat==='meadow')this.load.image(key,'assets/storybook/prairie-cotiere.jpg');
+        else load(key,theme.id===1?gardenLandscape(theme):landscape(theme),PANORAMA_SIZE);
+      });
       WORLDS.forEach(theme=>{for(const kind of ['bush','rock','flowers'])load(kind+theme.id,gardenProp(kind,theme));});
       WORLDS.forEach(theme=>{load('landmark'+theme.id,landmark(theme),{width:660,height:540});load('plants'+theme.id,theme.id<2?gardenProp('bush',theme):foreground(theme),{width:640,height:460});});
       for(const [emotion,frame] of [['curious',1],['encouraging',0],['proud',3]])this.load.image('paillette-'+emotion,`assets/storybook/paillette-${frame}.webp`);
@@ -88,12 +92,13 @@ export function createWorld(parent,{onReady,onBiome,onError,onGag=()=>{}}){
       this.worldNumber=number;this.theme=WORLDS[(this.startWorld+number)%WORLDS.length];
       this.skyFill.setFillStyle(Number.parseInt(this.theme.sky.slice(1),16));
       this.bottomFill.setFillStyle(Number.parseInt((this.theme.habitat==='beach'?this.theme.ground:this.theme.sky).slice(1),16));
+      const paintedMeadow=this.theme.habitat==='meadow';
       this.drawRoad();
       this.background.setTexture('land'+this.theme.id).setDisplaySize(WORLD_WIDTH,WORLD_HEIGHT);this.decor.forEach(object=>object.destroy());this.decor=[];this.fireflies=[];this.birds=[];this.birdSeconds=0;this.petals=[];this.animals=[];this.foliage=[];this.clouds=[];this.lights=[];this.ambientButterflies=[];
       const keep=object=>{this.decor.push(object);return object;},companions=companionPlan(this.theme);for(let i=0;i<20;i++){
         const grove=this.theme.habitat==='forest',x=25+i*187+Math.sin(i*2.3)*(grove?70:35)+(grove?Math.sin(i*.9)*85:0),p=Math.max(0,Math.min(1,(x-140)/3160)),point=pathPoint(p);
         const land=!['clouds','moon','ice'].includes(this.theme.habitat);
-        if(land){
+        if(land&&!paintedMeadow){
           const palm=this.theme.kind==='palm',height=palm?235:(grove?235:195)+(i%4)*(grove?34:31);
           const tree=keep(palm?this.add.image(x,point.y-105-i%3*30,'palm').setOrigin(.5,1).setDisplaySize(180,height):createGardenTree(this,x,point.y-105-i%3*30,this.theme.kind,height*(.65+i%3*.06),height,i%2));
           tree.setDepth(-8);if(palm)tree.setFlipX(i%2===0);else tree.setScale(i%2===0?-1:1,1);
@@ -113,7 +118,7 @@ export function createWorld(parent,{onReady,onBiome,onError,onGag=()=>{}}){
         if(this.theme.id===5&&i%2===0)keep(this.add.image(x,point.y+110,'cloud').setDisplaySize(270,110).setDepth(1));
       }for(let i=0;i<44;i++){
         const p=(i+.2)/44,point=pathPoint(p),clouds=this.theme.habitat==='clouds',bare=['ice','moon'].includes(this.theme.habitat);
-        if(clouds)continue;
+        if(clouds||(paintedMeadow&&i%4!==1))continue;
         const kind=bare?'rock':i%5===0?'rock':i%3===0?'bush':'flowers';
         const back=i%4===0,height=kind==='rock'?43+i%3*8:kind==='bush'?74+i%3*8:48+i%3*7;
         let px=point.x+(i%2?21:-17);const py=point.y+(back?-66:72+i*17%45);
@@ -129,13 +134,13 @@ export function createWorld(parent,{onReady,onBiome,onError,onGag=()=>{}}){
         const fly=keep(this.add.image(150+i*122,300+(i*61%300),'glow-mote').setDisplaySize(19+i%3*4,19+i%3*4).setAlpha(.65).setDepth(4));
         fly.startY=fly.y;this.fireflies.push(fly);
       }
-      for(let i=0;i<(this.theme.habitat==='moon'?0:8);i++){
+      for(let i=0;i<(paintedMeadow||this.theme.habitat==='moon'?0:8);i++){
         const cloud=keep(this.add.image(180+i*490,170+(i*41%100),'cloud').setDisplaySize(147+(i%3)*42,60+(i%3)*17).setScrollFactor(.6,1).setDepth(-12).setAlpha(.55));
         this.clouds.push({object:cloud,x:cloud.x,phase:i});
       }
       const vista=pathPoint(.78);
       keep(this.add.image(vista.x,vista.y-80,'landmark'+this.theme.id).setOrigin(.5,1).setDisplaySize(330,270).setDepth(-3));
-      for(let i=0;i<9;i++){
+      for(let i=0;!paintedMeadow&&i<9;i++){
         const p=pathPoint(i/9);
         keep(this.add.image(p.x,p.y+280,'plants'+this.theme.id).setOrigin(.5,1).setDisplaySize(160+(i%3)*32,115+(i%3)*23).setScrollFactor(1.02,1).setDepth(9).setAlpha(.85));
       }
