@@ -8,7 +8,7 @@ Les parties de lettres et sons comportent vingt cristaux, les trois niveaux de m
 - 58 lettres et graphèmes, toutes les consonnes de l’alphabet, Y et Ç, 495 mots illustrés ;
 - cartes en majuscules **et** minuscules ;
 - jamais deux « e » (e, é, è, eu, en, eau) sur les cartes : un « e » est toujours présenté avec deux autres voyelles ;
-- même voix féminine française enregistrée pour les lettres, les sons et les mots.
+- voix enregistrée de Robin pour les lettres, les sons et les mots.
 
 Site 100 % statique, **sans étape de compilation** : HTML, CSS, modules JavaScript et Phaser 4.2.1 fourni avec le jeu.
 
@@ -209,8 +209,8 @@ bloquée ; le jeu continue alors à suivre les progrès pendant la visite.
 
 ### Écouter et remplacer les voix
 
-Tous les mots utilisent désormais **la même voix féminine française enregistrée** que les consonnes et les sons :
-Piper `fr_FR-siwis-medium`, à hauteur normale et au débit adapté aux enfants. Les 194 consignes « Trouve le mot, … ! »
+Tous les mots utilisent désormais **la voix enregistrée de Robin** que les consonnes et les sons :
+Les fichiers livrés utilisent la voix Robin. Les 194 consignes « Trouve le mot, … ! »
 sont des MP3 livrés avec le jeu. Aucune voix système ou synthèse du navigateur n’est utilisée. Sur iPad/iPhone/Mac,
 il suffit de vérifier le volume. En cas d’échec de chargement, le message propose de réécouter sans révéler la réponse.
 Les tests de navigateur utilisent les vrais fichiers MP3 ; l’écoute et la fluidité restent à vérifier sur les appareils.
@@ -375,7 +375,7 @@ L’accueil affiche **quatre grandes tuiles en grille 2×2**. Un toucher ouvre l
 | Les phrases | Phrases de 3 ou 5 mots avec modèle, phrases de 3 ou 5 mots à écouter, Trouve la faute ! |
 
 « Les chapitres » revient à l’accueil. Quitter une aventure revient à son chapitre. Les progrès, les mondes et les
-tours de roue restent conservés. Toutes les activités utilisent la même narratrice française enregistrée.
+tours de roue restent conservés. Toutes les activités utilisent la voix enregistrée de Robin.
 Le secours classique conserve ses huit activités précédentes et partage la nouvelle roue des cadeaux.
 
 Voir [docs/FLAT_MENU_AND_VOICE.md](docs/FLAT_MENU_AND_VOICE.md). Vérification ciblée :
@@ -395,7 +395,7 @@ questions. Au sixième cristal, chaque habitat propose une surprise : papillon s
 
 La jungle possède des palmiers et des cascades ; la plage un rivage et du sable ; Paillette marche sur un chemin de
 nuages et traverse une Lune avec des cratères, une vue de la Terre et des lapins casqués. Les mondes changent toujours
-tous les dix cristaux, avec le refuge à cinq. Les chapitres, les activités, la même voix féminine et la roue restent
+tous les dix cristaux, avec le refuge à cinq. Les chapitres, les activités, la voix de Robin et la roue restent
 identiques.
 
 Vérification ciblée : `python3 tools/test-variety-browser.py --screenshots /tmp/licorne-mondes`. Voir aussi
@@ -417,9 +417,7 @@ sur l’une ou l’autre de ses tuiles. Une phrase complète donne un cristal ; 
 l’aventure et donnent un seul tour de roue. Une erreur utilise les refuges habituels, sans compter deux fois
 les réussites rejouées. Réécouter, faire une pause et changer de monde conservent les mots déjà placés.
 
-Il y a **48 phrases enregistrées** : 24 de trois mots et 24 de cinq mots. La narratrice française est la même
-que dans les autres activités, avec les mêmes hauteur et débit. Les MP3 `S:<id>` sont vérifiés par reconnaissance
-vocale ; aucune voix système n’est utilisée. En mode écoute, un problème audio propose Réécouter sans afficher
+Il y a **48 phrases enregistrées** : 24 de trois mots et 24 de cinq mots. Les phrases utilisent également la voix de Robin ; aucune voix système n’est utilisée. En mode écoute, un problème audio propose Réécouter sans afficher
 la réponse. Les progrès restent séparés par activité dans `licorne.sentences.v1`, sans modifier ceux des mots.
 
 Vocabulaire : `js/data/sentences.js`. Mélange et choix : `js/sentences/model.js`. Session et refuges :
@@ -467,3 +465,5 @@ Les progrès sont séparés de ceux des lettres ; les refuges et cadeaux sont pa
 Vérification : `npm test`, `npm run check`, puis
 `python3 tools/test-phonemes-browser.py --url http://127.0.0.1:8080`
 avec Playwright et Chrome installés. L'écoute sur iPad/Safari reste à vérifier sur appareil.
+
+Le [catalogue d’écoute](ecoute.html) permet de rechercher et écouter les 919 enregistrements avec Robin.
