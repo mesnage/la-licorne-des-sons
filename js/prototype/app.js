@@ -1,6 +1,6 @@
 import { PHONEME_ACTIVITY } from '../phonemes/model.js?v=phoneme-red-3';
 import { createWorld } from './world.js';
-import { WORLDS, MODULES, MENU_ITEMS, CHAPTERS, createAdventure, createJourneyMemory, journeyState } from './model.js?v=phoneme-red-3';
+import { WORLDS, worldPanorama, MODULES, MENU_ITEMS, CHAPTERS, createAdventure, createJourneyMemory, journeyState } from './model.js?v=phoneme-red-3';
 import { illustration } from '../illustrations.js?v=chapters-wheel-1';
 import { createMastery, skillStatus } from '../learning/mastery.js';
 import { WORD_LEVELS } from '../data/words.js';
@@ -274,8 +274,8 @@ function openWorldPicker(){
 function closeWorldPicker(){resume();replay();$('worldName').focus();}
 for(const theme of WORLDS){
   const button=document.createElement('button');button.type='button';button.className='world-option';button.dataset.worldId=theme.id;
-  button.style.setProperty('--world-sky',theme.sky);button.style.setProperty('--world-ground',theme.ground);
-  button.innerHTML=`<span class="world-option-art" aria-hidden="true">${illustration(theme.icon)}</span><strong>${theme.name}</strong><span class="world-check" aria-hidden="true">✓</span>`;
+  button.style.setProperty('--world-sky',theme.sky);
+  button.innerHTML=`<img class="world-option-art" src="${worldPanorama(theme)}" alt=""><strong>${theme.name}</strong><span class="world-check" aria-hidden="true">✓</span>`;
   button.setAttribute('aria-pressed','false');
   button.addEventListener('click',()=>{
     if(!world.setTheme(theme.id))return;

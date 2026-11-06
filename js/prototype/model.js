@@ -39,6 +39,10 @@ export const WORLDS = [
   {id:5,habitat:'clouds',name:'Le voyage dans les nuages',icon:'cloud',kind:'purple',sky:'#d9ddf1',ground:'#d1c4e8',mountain:'#aaa4ce',road:'#fff7fb'},
   {id:6,habitat:'moon',name:'La lune des petits lapins',icon:'moon',kind:'purple',sky:'#383d72',ground:'#9ba6c2',mountain:'#7978aa',road:'#d9deec'}
 ];
+export function worldPanorama(theme){
+  const file=theme.habitat==='meadow'?'prairie-cotiere.jpg':theme.habitat+'.webp';
+  return 'assets/storybook/'+file;
+}
 export function checkpointFor(crystals){
   const count=Math.max(0,Math.floor(crystals));
   return Math.floor(count/5)*5;

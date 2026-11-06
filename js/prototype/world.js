@@ -1,6 +1,6 @@
 import Phaser from '../../vendor/phaser/phaser.esm.min.js';
-import { WORLD_WIDTH, WORLD_HEIGHT, pathPoint, WORLDS, gagFor } from './model.js';
-import { uri, castle, crystal, mushroom, cloud, checkpointFlag, magicHat } from './art.js';
+import { WORLD_WIDTH, WORLD_HEIGHT, pathPoint, WORLDS, worldPanorama, gagFor } from './model.js';
+import { uri, crystal, cloud, checkpointFlag, magicHat } from './art.js';
 import { landmark } from './scenery.js';
 import { gardenProp, gardenSprig } from './garden.js';
 import { createWindFlowers, coastalBreeze, coastalGrasses, windAt, sunPatch, driftingLeaf, glowMote, birdParts, createFlyingBird, poseCoastalBird } from './atmosphere.js';
@@ -34,11 +34,7 @@ export function createWorld(parent,{onReady,onBiome,onError,onGag=()=>{}}){
         const raster=size||{width:Number(dimensions[1])*SPRITE_DENSITY,height:Number(dimensions[2])*SPRITE_DENSITY};
         this.load.svg(key,uri(source),raster);
       };
-      WORLDS.forEach(theme=>{
-        const key='land'+theme.id;
-        const file=theme.habitat==='meadow'?'prairie-cotiere.jpg':theme.habitat+'.webp';
-        this.load.image(key,'assets/storybook/'+file);
-      });
+      WORLDS.forEach(theme=>this.load.image('land'+theme.id,worldPanorama(theme)));
       WORLDS.forEach(theme=>{for(const kind of ['bush','rock','flowers'])load(kind+theme.id,gardenProp(kind,theme));});
       load('landmark0',landmark(WORLDS[0]),{width:660,height:540});
       this.load.spritesheet('world-fauna','assets/storybook/faune-mondes.webp',{frameWidth:400,frameHeight:280});
@@ -47,7 +43,7 @@ export function createWorld(parent,{onReady,onBiome,onError,onGag=()=>{}}){
       WORLDS.forEach(theme=>{for(let i=0;i<3;i++)load('sprig'+theme.id+'-'+i,gardenSprig(theme,i));});
       for(let i=0;i<3;i++)load('coastal-grass'+i,coastalGrasses(i));
       load('butterfly',butterfly());load('crown',flowerCrown());load('bubble',soapBubble());
-      load('castle',castle());load('crystal',crystal());load('mushroom',mushroom());load('cloud',cloud());
+      this.load.image('castle','assets/storybook/chateau-etoile.webp');load('crystal',crystal());load('cloud',cloud());
       load('refuge',checkpointFlag());load('hat',magicHat());
       load('sun-patch',sunPatch(),{width:900,height:540});load('wind-leaf',driftingLeaf());load('glow-mote',glowMote());
       for(const [name,source] of Object.entries(birdParts()))load('flying-'+name,source);
@@ -203,7 +199,7 @@ export function createWorld(parent,{onReady,onBiome,onError,onGag=()=>{}}){
       this.bridge.clear();
       const colors=[0xf09eb5,0xf4b891,0xf4dfa0,0xb6d3a7,0x9dcfd3,0xa9b8df,0xc2a8d6];
       colors.forEach((color,i)=>{
-        this.bridge.lineStyle(RAINBOW.band+2,color,.98).beginPath();
+        this.bridge.lineStyle(RAINBOW.band+1,color,.79).beginPath();
         for(let j=0;j<=100;j++){
           const p=rainbowPoint(j/100),y=p.y+RAINBOW.band/2+i*RAINBOW.band;
           if(j===0)this.bridge.moveTo(p.x,y);else this.bridge.lineTo(p.x,y);
@@ -213,6 +209,14 @@ export function createWorld(parent,{onReady,onBiome,onError,onGag=()=>{}}){
       this.bridge.lineStyle(2,0xfffae9,.9).beginPath();
       for(let j=0;j<=100;j++){const p=rainbowPoint(j/100);if(j===0)this.bridge.moveTo(p.x,p.y);else this.bridge.lineTo(p.x,p.y);}
       this.bridge.strokePath();
+      // Fixed flecks follow the painted arch as the camera moves.
+      for(let i=1;i<180;i++){
+        const point=rainbowPoint(i/180);
+        const y=point.y+2+(i*31%53);
+        this.bridge.fillStyle(0xfff4cb,i%9===0?.78:.36);
+        this.bridge.fillEllipse(point.x,y,i%9===0?5:2,1.5);
+        if(i%9===0)this.bridge.fillEllipse(point.x,y,1.5,7);
+      }
       [0,1].forEach((t,i)=>{const p=rainbowPoint(t);this.bridgeClouds[i].setPosition(p.x,p.y+56);});
       const middle=pathPoint((RAINBOW.start+RAINBOW.end)/2);
       this.bridgeShadow.setPosition(middle.x,middle.y+35);
@@ -376,7 +380,7 @@ export function createWorld(parent,{onReady,onBiome,onError,onGag=()=>{}}){
     setPaused(value){if(scene?.hero){if(value)scene.scene.pause();else scene.scene.resume();}},
     state(){return {camera:scene?.cameras?.main?{width:scene.cameras.main.width,height:scene.cameras.main.height,zoom:scene.cameras.main.zoom,scrollX:scene.cameras.main.scrollX,scrollY:scene.cameras.main.scrollY}:null,rigCount:scene?.animals?.filter(a=>a.rig).length,rigPoses:scene?.animals?.map(a=>a.rig?{head:a.rig.neck.angle,bodyVisible:a.rig.visual.visible,turnVisible:a.rig.front.visible,bodyAlpha:a.rig.visual.alpha,turnAlpha:a.rig.front.alpha,feet:a.rig.legs.map(l=>({x:l.foot.x,y:l.foot.y,angle:l.foot.angle,planted:l.planted}))}:null),lighting:scene?.lights?.map(l=>({x:l.object.x,alpha:l.object.alpha})),leafPoses:scene?.petals?.map(p=>({x:p.x,y:p.y,angle:p.angle,alpha:p.alpha})),animalActivities:scene?.animals?.map((a,i)=>(a.rig||a.painted)?(wildlifePose(a.kind,scene.birdSeconds,i).walking?'walking':'resting'):null),foliageCount:scene?.foliage?.length,foliageAngles:scene?.foliage?.map(f=>f.object.angle),density:profile.ratio,canvas:{width:game?.canvas.width,height:game?.canvas.height},animalKinds:scene?.animals?.map(a=>a.kind),greetings:scene?.animals?.map(a=>a.greetingUntil),animalScreens:scene?.animals?.map(a=>{const camera=scene.cameras.main,p=camera.matrixCombined.transformPoint(a.x,a.y-35);return {x:p.x/profile.ratio,y:p.y/profile.ratio};}),animalPoses:scene?.animals?.map(a=>({x:a.x,y:a.y,angle:a.angle})),habitat:scene?.theme.habitat,propsVisible:!!(scene?.butterfly?.visible||scene?.crown?.visible||scene?.bubble?.visible),ready:!!scene?.hero,progress,crystals,moving:!!scene?.moving,worldIndex:scene?.worldNumber,theme:scene?.theme.id,
       emotion:scene?.emotion,landmark:scene?.theme.name,birdCount:scene?.birds?.length,birdSeconds:scene?.birdSeconds,childCount:scene?.children.length,bridge:{start:rainbowPoint(0),crest:rainbowPoint(.5),end:rainbowPoint(1)},onBridge:scene?.travel?walkingPoint(scene.travel.value).onBridge:false,bridgeLift:scene?.travel?walkingPoint(scene.travel.value).lift:0,visibleCrystals:scene?.gems?.filter(g=>g.visible).length,effectCount:scene?.effects?.length,hatVisible:scene?.hat?.visible,angle:scene?.hero?.angle,worldCrystals:Math.round((scene?.travel?.value||0)*10),gag:scene?.gag,lastGag:scene?.lastGag,
-      position:scene?.hero?{x:scene.hero.x,y:scene.hero.y}:null,frame:scene?.hero?.anims.currentFrame?.index,renderer:game?.renderer?.type,version:Phaser.VERSION};},
+      position:scene?.hero?{x:scene.hero.x,y:scene.hero.y}:null,frame:scene?.hero?.frame.name,renderer:game?.renderer?.type,version:Phaser.VERSION};},
     destroy(){cancel();observer?.disconnect();window.removeEventListener('resize',resize);game?.destroy(true);}
   };
 }
