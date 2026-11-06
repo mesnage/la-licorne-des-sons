@@ -2,6 +2,24 @@
 export function windAt(seconds,x=0,phase=0){
  return Math.sin(seconds*.72-x*.0016+phase)*.58+Math.sin(seconds*.31-x*.0021)*.29+Math.sin(seconds*1.8+phase)*.13;
 }
+// A gust crosses the shore, bends the stems and leaves a small recoil.
+export function coastalBreeze(seconds,x){
+ const phase=((seconds-x/360)%9+9)%9;
+ if(phase<3.8)return Math.sin(Math.PI*phase/3.8)**2;
+ if(phase<5.2)return -.16*Math.sin(Math.PI*(phase-3.8)/1.4)**2;
+ return 0;
+}
+export function coastalGrasses(variant){
+ const blades=[];
+ for(let i=0;i<13;i++){
+  const base=18+i*5,lean=Math.sin(i*2.4+variant)*24;
+  const height=22+(i*23+variant*17)%54,tip=base+lean;
+  const color=['#808847','#a8a451','#c0b364','#777e46'][i%4];
+  blades.push(`<path d="M${base-3} 89Q${base+lean*.55} ${86-height*.48} ${tip} ${89-height}Q${base+lean*.7+3} ${90-height*.55} ${base+3} 89Z" fill="${color}"/>`);
+  if(i%4===1)blades.push(`<g fill="#ccac71" transform="translate(${tip} ${89-height}) rotate(${lean*.65})"><ellipse cy="-3" rx="2" ry="6"/><ellipse cx="-2" cy="2" rx="2" ry="4"/></g>`);
+ }
+ return svg(100,90,blades.join(''));
+}
 export function createGardenTree(scene,x,y,kind,width,height,variant=0){
  const tree=scene.add.container(x,y);
  const key=kind+'-'+variant;

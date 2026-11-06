@@ -98,6 +98,20 @@ export function createWildlife(scene,kind,x,y,scale=1){
 export function poseWildlife(root,seconds,seed=0,reduced=false){
  const rig=root.rig,pose=wildlifePose(root.kind,reduced?0:seconds,seed);
  if(root.kind==='bunny'){const distance=pose.direction>0?pose.offset+48:48-pose.offset;pose.hop=Math.sin(Math.PI*distance/(46*rig.scale))**2*13*pose.activity;}
+ if(root.coastal && !reduced){
+  // One readable gesture per pause. A rabbit listens before its ears settle;
+  // grazers lower their muzzle, while the hedgehog noses the ground.
+  const cycle=root.kind==='cow'?25:root.kind==='turtle'?28:root.kind==='hedgehog'?19:18;
+  const phase=(seconds+seed*2.71)%cycle;
+  const beat=(delay,duration)=>{
+   const u=Math.max(0,Math.min(1,(phase-delay)/duration));
+   return smooth(Math.min(1,u*5,(1-u)*4));
+  };
+  const listen=beat(cycle*.08,cycle*.075),forage=beat(cycle*.435,cycle*.11);
+  pose.head=pose.activity*Math.sin(pose.stride)*2-listen*9+forage*(root.kind==='cow'||root.kind==='deer'?19:8);
+  pose.ear=beat(cycle*.075,cycle*.057)*10-forage*3;
+  pose.tail=pose.activity*Math.sin(pose.stride*.6)*4+forage*Math.sin(phase*5)*5;
+ }
  const speed=pose.activity;
  rig.visual.y=reduced?0:-pose.hop;
  rig.visual.scaleX=reduced?1:pose.facing;const turning=!reduced&&pose.turnBlend>.3;rig.visual.setVisible(!turning);rig.front.setVisible(turning);rig.visual.alpha=1;rig.front.alpha=1;

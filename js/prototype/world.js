@@ -3,7 +3,7 @@ import { WORLD_WIDTH, WORLD_HEIGHT, pathPoint, WORLDS, gagFor } from './model.js
 import { uri, landscape, castle, crystal, mushroom, cloud, checkpointFlag, magicHat } from './art.js';
 import { landmark, foreground } from './scenery.js';
 import { gardenTree, gardenProp, gardenLandscape, gardenSprig } from './garden.js';
-import { createGardenTree, createWindFlowers, windAt, sunPatch, driftingLeaf, glowMote, birdParts, createFlyingBird, poseFlyingBird, poseCoastalBird } from './atmosphere.js';
+import { createGardenTree, createWindFlowers, coastalBreeze, coastalGrasses, windAt, sunPatch, driftingLeaf, glowMote, birdParts, createFlyingBird, poseFlyingBird, poseCoastalBird } from './atmosphere.js';
 import { renderProfile, SPRITE_DENSITY, PANORAMA_SIZE } from './rendering.js';
 import { RIGGED_ANIMALS, animalParts, animalTurnSVG, wildlifePose, createWildlife, poseWildlife } from './wildlife.js';
 import { ANIMAL_KINDS, HABITAT_ANIMALS, animalSVG } from './animals.js';
@@ -45,6 +45,7 @@ export function createWorld(parent,{onReady,onBiome,onError,onGag=()=>{}}){
       for(const [emotion,frame] of [['curious',1],['encouraging',0],['proud',3]])this.load.image('paillette-'+emotion,`assets/storybook/paillette-${frame}.webp`);
       for(const kind of ['pink','pine','purple'])for(let variant=0;variant<2;variant++)for(const layer of ['trunk','back','front'])load('tree-'+kind+'-'+variant+'-'+layer,gardenTree(kind,layer,variant),{width:450,height:600});
       WORLDS.forEach(theme=>{for(let i=0;i<3;i++)load('sprig'+theme.id+'-'+i,gardenSprig(theme,i));});
+      for(let i=0;i<3;i++)load('coastal-grass'+i,coastalGrasses(i));
       load('palm',palm());load('butterfly',butterfly());load('crown',flowerCrown());load('bubble',soapBubble());
       for(const kind of ANIMAL_KINDS){
         if(RIGGED_ANIMALS.includes(kind)){
@@ -150,6 +151,15 @@ export function createWorld(parent,{onReady,onBiome,onError,onGag=()=>{}}){
         const p=pathPoint(i/9);
         keep(this.add.image(p.x,p.y+280,'plants'+this.theme.id).setOrigin(.5,1).setDisplaySize(160+(i%3)*32,115+(i%3)*23).setScrollFactor(1.02,1).setDepth(9).setAlpha(.85));
       }
+      if(paintedMeadow){
+        for(let i=0;i<32;i++){
+          const point=pathPoint((i+.25)/32),x=point.x+Math.sin(i*7)*43;
+          const near=i%3!==0,height=near?48+i*17%34:30+i%14;
+          const grass=keep(this.add.image(x,point.y+(near?190+i*41%88:-65-i%24),'coastal-grass'+i%3)
+            .setOrigin(.5,.98).setDisplaySize(height*100/90,height).setDepth(near?4.5:-5));
+          this.foliage.push({object:grass,amplitude:5+height*.055,phase:i,x});
+        }
+      }
       const leafy=['meadow','forest','jungle'].includes(this.theme.habitat);
       if(leafy){
         for(let i=0;i<4;i++){
@@ -177,7 +187,7 @@ export function createWorld(parent,{onReady,onBiome,onError,onGag=()=>{}}){
       for(let i=0;i<companions.length;i++){
         const {kind,x,y,lane,scale}=companions[i],rigged=RIGGED_ANIMALS.includes(kind);
         const friend=keep(rigged?createWildlife(this,kind,x,y,scale).setDepth(4):this.add.image(x,y,'animal-'+kind+'0').setOrigin(.5,1).setDisplaySize(95,89).setDepth(4));
-        friend.baseX=friend.x;friend.baseY=friend.y;friend.pathProgress=(x-140)/3160;friend.lane=lane;friend.kind=kind;friend.greetingUntil=0;this.animals.push(friend);
+        friend.coastal=paintedMeadow;friend.baseX=friend.x;friend.baseY=friend.y;friend.pathProgress=(x-140)/3160;friend.lane=lane;friend.kind=kind;friend.greetingUntil=0;this.animals.push(friend);
         if(rigged)poseWildlife(friend,0,i,reduced);
       }
       this.travel.value=local/10;this.setCrystals(local);this.pose();this.cameraInitialized=false;this.positionCamera();
@@ -340,7 +350,10 @@ export function createWorld(parent,{onReady,onBiome,onError,onGag=()=>{}}){
       for(const object of this.decor){const x=object.x+camera.scrollX*(1-object.scrollFactorX);object.setVisible(x>center-half-350&&x<center+half+350);}
       if(!reduced&&!this.quiet){
         this.birdSeconds+=Math.min(delta||0,80)/1000;
-        this.foliage.forEach(({object,amplitude,phase,x})=>{if(object.parentContainer&&!object.parentContainer.visible)return;object.angle=windAt(this.birdSeconds,x??object.x,phase)*amplitude;});
+        this.foliage.forEach(({object,amplitude,phase,x})=>{if(object.parentContainer&&!object.parentContainer.visible)return;const sway=this.theme.habitat==='meadow'
+          ?coastalBreeze(this.birdSeconds-(phase%3)*.06,x??object.x)
+          :windAt(this.birdSeconds,x??object.x,phase);
+          object.angle=sway*amplitude;});
         this.clouds.forEach(({object,x,phase})=>{object.x=(x+this.birdSeconds*(3+phase%3)+400)%(WORLD_WIDTH+800)-400;});
         this.birds.forEach((bird,i)=>{const p=birdPoint(i,this.birdSeconds);bird.setPosition(p.x,p.y);this.poseBird(bird,this.birdSeconds);});
         this.lights.forEach(({object,x,phase})=>{object.x=x+Math.sin(this.birdSeconds*.17+phase)*18;object.alpha=.19+Math.sin(this.birdSeconds*.23+phase)*.045;});
