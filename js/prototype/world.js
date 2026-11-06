@@ -10,6 +10,7 @@ import { ANIMAL_KINDS, HABITAT_ANIMALS, animalSVG } from './animals.js';
 import { palm, butterfly, flowerCrown, soapBubble } from './habitats.js';
 import { RAINBOW, rainbowPoint, walkingPoint, bridgeFocus, birdPoint, pathRibbon } from './travel.js';
 
+import { createCoastalAnimal, poseCoastalAnimal } from './coastal-fauna.js';
 import { coastalPony, COASTAL_STEPS, COASTAL_STRIDE } from './coastal-pony.js';
 
 function companionPlan(theme){
@@ -40,6 +41,7 @@ export function createWorld(parent,{onReady,onBiome,onError,onGag=()=>{}}){
       });
       WORLDS.forEach(theme=>{for(const kind of ['bush','rock','flowers'])load(kind+theme.id,gardenProp(kind,theme));});
       WORLDS.forEach(theme=>{load('landmark'+theme.id,landmark(theme),{width:660,height:540});load('plants'+theme.id,theme.id<2?gardenProp('bush',theme):foreground(theme),{width:640,height:460});});
+      this.load.spritesheet('coastal-fauna','assets/storybook/faune-prairie.webp',{frameWidth:400,frameHeight:280});
       for(const pose of ['attentive','curious','encouraging','proud','blink'])load('coastal-'+pose,coastalPony(pose));
       for(let i=0;i<COASTAL_STEPS;i++)load('coastal-walk'+i,coastalPony('walk',i));
       for(const [emotion,frame] of [['curious',1],['encouraging',0],['proud',3]])this.load.image('paillette-'+emotion,`assets/storybook/paillette-${frame}.webp`);
@@ -157,7 +159,12 @@ export function createWorld(parent,{onReady,onBiome,onError,onGag=()=>{}}){
           const near=i%3!==0,height=near?48+i*17%34:30+i%14;
           const grass=keep(this.add.image(x,point.y+(near?190+i*41%88:-65-i%24),'coastal-grass'+i%3)
             .setOrigin(.5,.98).setDisplaySize(height*100/90,height).setDepth(near?4.5:-5));
-          this.foliage.push({object:grass,amplitude:5+height*.055,phase:i,x});
+          this.foliage.push({object:grass,amplitude:2+height*.04,phase:i,x});
+          if(near){
+            const tuft=keep(this.add.image(x+height*.27,grass.y+3,'coastal-grass'+(i+1)%3)
+              .setOrigin(.5,.98).setDisplaySize(height*.59,height*.54).setFlipX(true).setDepth(4.5));
+            this.foliage.push({object:tuft,amplitude:3,phase:i+1,x:x+14});
+          }
         }
       }
       const leafy=['meadow','forest','jungle'].includes(this.theme.habitat);
@@ -186,9 +193,10 @@ export function createWorld(parent,{onReady,onBiome,onError,onGag=()=>{}}){
       }
       for(let i=0;i<companions.length;i++){
         const {kind,x,y,lane,scale}=companions[i],rigged=RIGGED_ANIMALS.includes(kind);
-        const friend=keep(rigged?createWildlife(this,kind,x,y,scale).setDepth(4):this.add.image(x,y,'animal-'+kind+'0').setOrigin(.5,1).setDisplaySize(95,89).setDepth(4));
-        friend.coastal=paintedMeadow;friend.baseX=friend.x;friend.baseY=friend.y;friend.pathProgress=(x-140)/3160;friend.lane=lane;friend.kind=kind;friend.greetingUntil=0;this.animals.push(friend);
-        if(rigged)poseWildlife(friend,0,i,reduced);
+        const friend=keep(paintedMeadow?createCoastalAnimal(this,kind,x,y).setDepth(4):rigged?createWildlife(this,kind,x,y,scale).setDepth(4):this.add.image(x,y,'animal-'+kind+'0').setOrigin(.5,1).setDisplaySize(95,89).setDepth(4));
+        friend.baseX=friend.x;friend.baseY=friend.y;friend.pathProgress=(x-140)/3160;friend.lane=lane;friend.kind=kind;friend.greetingUntil=0;this.animals.push(friend);
+        if(paintedMeadow)poseCoastalAnimal(friend,wildlifePose(kind,0,i),0,reduced);
+        else if(rigged)poseWildlife(friend,0,i,reduced);
       }
       this.travel.value=local/10;this.setCrystals(local);this.pose();this.cameraInitialized=false;this.positionCamera();
       onBiome({...this.theme,number:number+1});
@@ -359,16 +367,12 @@ export function createWorld(parent,{onReady,onBiome,onError,onGag=()=>{}}){
         this.lights.forEach(({object,x,phase})=>{object.x=x+Math.sin(this.birdSeconds*.17+phase)*18;object.alpha=.19+Math.sin(this.birdSeconds*.23+phase)*.045;});
         this.ambientButterflies.forEach(({object,x,y,phase})=>{object.setPosition(x+Math.sin(this.birdSeconds*.6+phase)*40,y+Math.sin(this.birdSeconds*.95+phase)*18);object.setDisplaySize(30*(.5+Math.sin(this.birdSeconds*8+phase)**2*.5),27);object.angle=Math.sin(this.birdSeconds*.8+phase)*12;});
         this.animals.forEach((friend,i)=>{
-          if(friend.rig){
-            const pose=friend.visible?poseWildlife(friend,this.birdSeconds,i):wildlifePose(friend.kind,this.birdSeconds,i);
+          if(friend.rig||friend.painted){
+            const pose=friend.rig&&friend.visible?poseWildlife(friend,this.birdSeconds,i):wildlifePose(friend.kind,this.birdSeconds,i);
             const p=pathPoint(friend.pathProgress+pose.offset/3160);
             friend.x=friend.baseX+pose.offset;friend.y=p.y+friend.lane;const depth=3+friend.y*.001;if(Math.abs(friend.depth-depth)>.003)friend.setDepth(depth);
-            if(this.theme.habitat==='meadow'&&!pose.walking){
-              // A resting companion lifts its head as Paillette passes.
-              const attention=Math.max(0,1-Math.abs(friend.x-this.hero.x)/170);
-              friend.rig.neck.angle-=9*attention*attention;
-            }
-            if(this.birdSeconds<friend.greetingUntil)friend.rig.neck.angle-=8;
+            if(friend.painted)poseCoastalAnimal(friend,pose,this.birdSeconds);
+            else if(this.birdSeconds<friend.greetingUntil)friend.rig.neck.angle-=8;
             return;
           }
           const near=Math.abs(friend.baseX-this.hero.x)<210||this.birdSeconds<friend.greetingUntil;
@@ -457,7 +461,7 @@ export function createWorld(parent,{onReady,onBiome,onError,onGag=()=>{}}){
     cancel,
     react(emotion){if(scene?.hero&&!scene.moving){scene.emotion=emotion;scene.setHeroDrawing();}},
     setPaused(value){if(scene?.hero){if(value)scene.scene.pause();else scene.scene.resume();}},
-    state(){return {camera:scene?.cameras?.main?{width:scene.cameras.main.width,height:scene.cameras.main.height,zoom:scene.cameras.main.zoom,scrollX:scene.cameras.main.scrollX,scrollY:scene.cameras.main.scrollY}:null,rigCount:scene?.animals?.filter(a=>a.rig).length,rigPoses:scene?.animals?.map(a=>a.rig?{head:a.rig.neck.angle,bodyVisible:a.rig.visual.visible,turnVisible:a.rig.front.visible,bodyAlpha:a.rig.visual.alpha,turnAlpha:a.rig.front.alpha,feet:a.rig.legs.map(l=>({x:l.foot.x,y:l.foot.y,angle:l.foot.angle,planted:l.planted}))}:null),lighting:scene?.lights?.map(l=>({x:l.object.x,alpha:l.object.alpha})),leafPoses:scene?.petals?.map(p=>({x:p.x,y:p.y,angle:p.angle,alpha:p.alpha})),animalActivities:scene?.animals?.map((a,i)=>a.rig?(wildlifePose(a.kind,scene.birdSeconds,i).walking?'walking':'resting'):null),foliageCount:scene?.foliage?.length,foliageAngles:scene?.foliage?.map(f=>f.object.angle),density:profile.ratio,canvas:{width:game?.canvas.width,height:game?.canvas.height},animalKinds:scene?.animals?.map(a=>a.kind),greetings:scene?.animals?.map(a=>a.greetingUntil),animalScreens:scene?.animals?.map(a=>{const camera=scene.cameras.main,p=camera.matrixCombined.transformPoint(a.x,a.y-35);return {x:p.x/profile.ratio,y:p.y/profile.ratio};}),animalPoses:scene?.animals?.map(a=>({x:a.x,y:a.y,angle:a.angle})),habitat:scene?.theme.habitat,propsVisible:!!(scene?.butterfly?.visible||scene?.crown?.visible||scene?.bubble?.visible),ready:!!scene?.hero,progress,crystals,moving:!!scene?.moving,worldIndex:scene?.worldNumber,theme:scene?.theme.id,
+    state(){return {camera:scene?.cameras?.main?{width:scene.cameras.main.width,height:scene.cameras.main.height,zoom:scene.cameras.main.zoom,scrollX:scene.cameras.main.scrollX,scrollY:scene.cameras.main.scrollY}:null,rigCount:scene?.animals?.filter(a=>a.rig).length,rigPoses:scene?.animals?.map(a=>a.rig?{head:a.rig.neck.angle,bodyVisible:a.rig.visual.visible,turnVisible:a.rig.front.visible,bodyAlpha:a.rig.visual.alpha,turnAlpha:a.rig.front.alpha,feet:a.rig.legs.map(l=>({x:l.foot.x,y:l.foot.y,angle:l.foot.angle,planted:l.planted}))}:null),lighting:scene?.lights?.map(l=>({x:l.object.x,alpha:l.object.alpha})),leafPoses:scene?.petals?.map(p=>({x:p.x,y:p.y,angle:p.angle,alpha:p.alpha})),animalActivities:scene?.animals?.map((a,i)=>(a.rig||a.painted)?(wildlifePose(a.kind,scene.birdSeconds,i).walking?'walking':'resting'):null),foliageCount:scene?.foliage?.length,foliageAngles:scene?.foliage?.map(f=>f.object.angle),density:profile.ratio,canvas:{width:game?.canvas.width,height:game?.canvas.height},animalKinds:scene?.animals?.map(a=>a.kind),greetings:scene?.animals?.map(a=>a.greetingUntil),animalScreens:scene?.animals?.map(a=>{const camera=scene.cameras.main,p=camera.matrixCombined.transformPoint(a.x,a.y-35);return {x:p.x/profile.ratio,y:p.y/profile.ratio};}),animalPoses:scene?.animals?.map(a=>({x:a.x,y:a.y,angle:a.angle})),habitat:scene?.theme.habitat,propsVisible:!!(scene?.butterfly?.visible||scene?.crown?.visible||scene?.bubble?.visible),ready:!!scene?.hero,progress,crystals,moving:!!scene?.moving,worldIndex:scene?.worldNumber,theme:scene?.theme.id,
       emotion:scene?.emotion,landmark:scene?.theme.name,birdCount:scene?.birds?.length,birdSeconds:scene?.birdSeconds,childCount:scene?.children.length,bridge:{start:rainbowPoint(0),crest:rainbowPoint(.5),end:rainbowPoint(1)},onBridge:scene?.travel?walkingPoint(scene.travel.value).onBridge:false,bridgeLift:scene?.travel?walkingPoint(scene.travel.value).lift:0,visibleCrystals:scene?.gems?.filter(g=>g.visible).length,effectCount:scene?.effects?.length,hatVisible:scene?.hat?.visible,angle:scene?.hero?.angle,worldCrystals:Math.round((scene?.travel?.value||0)*10),gag:scene?.gag,lastGag:scene?.lastGag,
       position:scene?.hero?{x:scene.hero.x,y:scene.hero.y}:null,frame:scene?.hero?.anims.currentFrame?.index,renderer:game?.renderer?.type,version:Phaser.VERSION};},
     destroy(){cancel();observer?.disconnect();window.removeEventListener('resize',resize);game?.destroy(true);}
