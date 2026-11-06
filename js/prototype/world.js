@@ -11,7 +11,7 @@ import { palm, butterfly, flowerCrown, soapBubble } from './habitats.js';
 import { RAINBOW, rainbowPoint, walkingPoint, bridgeFocus, birdPoint, pathRibbon } from './travel.js';
 
 import { createCoastalAnimal, poseCoastalAnimal } from './coastal-fauna.js';
-import { coastalPony, COASTAL_STEPS, COASTAL_STRIDE } from './coastal-pony.js';
+import { coastalPonyFrame, posePonyGlints } from './coastal-pony.js';
 
 function companionPlan(theme){
  const kinds=HABITAT_ANIMALS[theme.habitat],count=theme.id<2?8:6,slots=[.035,.12,.23,.39,.54,.67,.8,.94];
@@ -42,8 +42,7 @@ export function createWorld(parent,{onReady,onBiome,onError,onGag=()=>{}}){
       WORLDS.forEach(theme=>{for(const kind of ['bush','rock','flowers'])load(kind+theme.id,gardenProp(kind,theme));});
       WORLDS.forEach(theme=>{load('landmark'+theme.id,landmark(theme),{width:660,height:540});load('plants'+theme.id,theme.id<2?gardenProp('bush',theme):foreground(theme),{width:640,height:460});});
       this.load.spritesheet('coastal-fauna','assets/storybook/faune-prairie.webp',{frameWidth:400,frameHeight:280});
-      for(const pose of ['attentive','curious','encouraging','proud','blink'])load('coastal-'+pose,coastalPony(pose));
-      for(let i=0;i<COASTAL_STEPS;i++)load('coastal-walk'+i,coastalPony('walk',i));
+      this.load.spritesheet('coastal-pony','assets/storybook/paillette-etoilee.webp',{frameWidth:368,frameHeight:368});
       for(const [emotion,frame] of [['curious',1],['encouraging',0],['proud',3]])this.load.image('paillette-'+emotion,`assets/storybook/paillette-${frame}.webp`);
       for(const kind of ['pink','pine','purple'])for(let variant=0;variant<2;variant++)for(const layer of ['trunk','back','front'])load('tree-'+kind+'-'+variant+'-'+layer,gardenTree(kind,layer,variant),{width:450,height:600});
       WORLDS.forEach(theme=>{for(let i=0;i<3;i++)load('sprig'+theme.id+'-'+i,gardenSprig(theme,i));});
@@ -79,6 +78,8 @@ export function createWorld(parent,{onReady,onBiome,onError,onGag=()=>{}}){
       this.refugeHalo=this.add.ellipse(refuge.x,refuge.y+7,125,25,0xffedb4,.2).setDepth(1);
       this.shadow=this.add.ellipse(140,620,84,17,0x4a5663,.16).setDepth(2);
       this.hero=this.add.sprite(140,620,'paillette0').setOrigin(.5,.96).setDisplaySize(210,140).setDepth(5);
+      this.ponyGlints=[7,5,4].map(radius=>this.add.star(0,0,4,radius*.25,radius,0xffedaf)
+        .setStrokeStyle(1,0xfffbde).setDepth(5.5).setVisible(false));
       this.hat=this.add.image(140,470,'hat').setDisplaySize(65,58).setDepth(6).setVisible(false);
       this.butterfly=this.add.image(0,0,'butterfly').setDisplaySize(60,54).setDepth(7).setVisible(false);
       this.crown=this.add.image(0,0,'crown').setDisplaySize(74,47).setDepth(7).setVisible(false);
@@ -205,15 +206,13 @@ export function createWorld(parent,{onReady,onBiome,onError,onGag=()=>{}}){
       const pose=this.emotion||'attentive';
       let key=pose==='attentive'?'paillette0':'paillette-'+pose;
       if(this.theme.habitat==='meadow'){
-        key='coastal-'+pose;
-        if(this.moving&&!reduced&&this.gag!=='boing'&&(!this.backwards||walkingPoint(this.travel.value).onBridge)){
-          const distance=this.travel.value*3160;
-          key='coastal-walk'+(Math.floor(distance/COASTAL_STRIDE*COASTAL_STEPS)%COASTAL_STEPS);
-        }else if(!this.moving&&!reduced&&pose==='attentive'&&this.birdSeconds%5.7>5.53){
-          key='coastal-blink';
-        }
+        const walking=this.moving&&this.gag!=='boing'&&(!this.backwards||walkingPoint(this.travel.value).onBridge);
+        const frame=coastalPonyFrame(pose,this.birdSeconds||0,this.travel.value*3160,walking,reduced);
+        if(this.hero.texture.key!=='coastal-pony')this.hero.setTexture('coastal-pony',frame).setDisplaySize(185,185).setOrigin(.5,.976);
+        else if(this.hero.frame.name!==frame)this.hero.setFrame(frame);
+        return;
       }
-      if(this.hero.texture.key!==key)this.hero.setTexture(key).setDisplaySize(210,140);
+      if(this.hero.texture.key!==key)this.hero.setTexture(key).setDisplaySize(210,140).setOrigin(.5,.96);
     }
     drawRoad(){
       this.road.clear();
@@ -346,6 +345,7 @@ export function createWorld(parent,{onReady,onBiome,onError,onGag=()=>{}}){
       this.hero.setPosition(p.x,p.y+bounce);
       const ground=pathPoint(this.travel.value);this.shadow.setPosition(p.x,ground.y-1).setAlpha(p.onBridge?.08:.16);
       this.hero.angle=p.onBridge?p.angle*(this.backwards?-1:1):this.gag==='return'&&!reduced?Math.sin(phase*Math.PI)*-7:0;
+      posePonyGlints(this.ponyGlints,this.hero,this.birdSeconds,this.theme.habitat==='meadow'&&!reduced);
       this.hat.setPosition(p.x,p.y-145+bounce);this.returnCloud.setPosition(p.x,p.y+16);
       this.bubble.setPosition(p.x+6,p.y-67+bounce);this.crown.setPosition(p.x+32,p.y-118+bounce);
       this.butterfly.setPosition(p.x+66+Math.sin(phase*Math.PI*4)*18,p.y-112+bounce+Math.cos(phase*Math.PI*3)*12).setScale((.55+Math.sin(phase*Math.PI*12)*.08)/SPRITE_DENSITY,.6/SPRITE_DENSITY);
