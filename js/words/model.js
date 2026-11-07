@@ -15,10 +15,7 @@ export function practiceWeight(stat){
   return 1 + Math.min(4, stat?.misses || 0) / (1 + (stat?.firstTry || 0));
 }
 export function introducedPool(words, level, stats){
-  const pool = words.filter(w => w.level === level);
-  const known = w => (stats[w.id]?.completed || 0) + (stats[w.id]?.misses || 0) > 0;
-  const newWords = pool.filter(w => !known(w)).slice(0, 6);
-  return pool.filter(w => known(w) || newWords.includes(w));
+  return words.filter(w => w.level === level);
 }
 export function chooseTarget(pool, stats, previousId, random = Math.random){
   const candidates = pool.filter(w => w.id !== previousId);
@@ -72,11 +69,14 @@ export class WordSession extends QuestionSession {
   constructor(words, level, stats = {}, random = Math.random, previousId){
     const pool = introducedPool(words, level, stats);
     const questions = [];
-    let previous = previousId;
-    for(let i = 0; i < SESSION_LENGTH; i++){
-      const target = chooseTarget(pool, stats, previous, random);
-      questions.push(makeQuestion(target, pool, random));
-      previous = target.id;
+    let bag=[];
+    let previous=previousId;
+    for(let i=0;i<SESSION_LENGTH;i++){
+      if(!bag.length)bag=shuffle(pool,random);
+      const different=bag.findIndex(word=>word.id!==previous);
+      const [target]=bag.splice(different<0?0:different,1);
+      questions.push(makeQuestion(target,pool,random));
+      previous=target.id;
     }
     super(questions);
   }

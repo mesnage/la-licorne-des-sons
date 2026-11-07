@@ -50,38 +50,22 @@ test('homophones and duplicate written words never appear together, including di
   }
   assert.throws(() => makeQuestion(pool[0], pool.slice(0,3)), /four distinguishable/);
 });
-test('sessions have exactly ten questions, no consecutive repeated targets, and gradual introductions', () => {
-  for(const level of WORD_LEVELS){
-    const session = new WordSession(WORDS, level.id, {}, seeded());
-    assert.equal(session.questions.length, 10);
-    for(let i = 1; i < 10; i++) assert.notEqual(session.questions[i].target.id, session.questions[i-1].target.id);
-    assert.equal(introducedPool(WORDS, level.id, {}).length, Math.min(6, WORDS.filter(w => w.level === level.id).length));
-    const first = WORDS.find(w => w.level === level.id);
-    const pool = introducedPool(WORDS, level.id, { [first.id]: stat({completed:1}) });
-    assert.equal(pool.length, Math.min(7, WORDS.filter(w => w.level === level.id).length));
+test('word sessions draw from the whole level without repeats or history weighting',()=>{
+ for(const level of WORD_LEVELS){
+  const pool=WORDS.filter(w=>w.level===level.id);
+  assert.equal(introducedPool(WORDS,level.id,{}).length,pool.length);
+  const random=seeded(),seen=new Set();
+  for(let run=0;run<100;run++){
+   const session=new WordSession(WORDS,level.id,{le:stat({misses:100})},random);
+   assert.equal(session.questions.length,10);
+   assert.equal(new Set(session.questions.map(q=>q.target.id)).size,10);
+   session.questions.forEach(q=>seen.add(q.target.id));
   }
-});
-test('the expanded vocabulary is reachable through gradual introductions at every level', () => {
-  for(const level of WORD_LEVELS){
-    const stats = {}, expected = WORDS.filter(w => w.level === level.id);
-    let previousSize = 0;
-    while(previousSize < expected.length){
-      const pool = introducedPool(WORDS, level.id, stats);
-      assert.ok(pool.length > previousSize && pool.length <= previousSize + 6);
-      for(const word of pool) stats[word.id] = stat({completed:1});
-      previousSize = pool.length;
-    }
-    assert.deepEqual(new Set(Object.keys(stats)), new Set(expected.map(w => w.id)));
-  }
-});
-test('missed words are selected more often later; mastered words are maintained less often', () => {
-  const pool = WORDS.filter(w => w.level === 1).slice(0,6), stats = { le: stat({misses:3}), la: stat({streak:3,firstTry:3,completed:3}) };
-  const counts = Object.fromEntries(pool.map(w => [w.id,0])), random = seeded();
-  for(let i = 0; i < 10000; i++) counts[chooseTarget(pool,stats,null,random).id]++;
-  assert.ok(counts.le > counts.un * 3);
-  assert.ok(counts.la < counts.un * .7);
-  assert.ok(practiceWeight(stats.le) > practiceWeight(stats.la));
-  assert.equal(mastered(stats.la), true);
+  assert.ok(seen.has(pool.at(-1).id));
+ }
+ const pool=WORDS.filter(w=>w.level===1).slice(0,6);
+ const a=seeded(),b=seeded();
+ for(let n=0;n<100;n++)assert.deepEqual(new WordSession(pool,1,{},a).questions,new WordSession(pool,1,{le:stat({misses:100})},b).questions);
 });
 test('retry without penalty, first-try scoring, duplicate tap protection and exact end of session', () => {
   const session = new WordSession(WORDS,1,{},seeded());

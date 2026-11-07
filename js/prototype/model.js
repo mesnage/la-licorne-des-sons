@@ -1,9 +1,8 @@
 import { PHONEME_ACTIVITY, phonemeQuestions } from '../phonemes/model.js?v=phoneme-red-3';
 import { LEVELS } from '../data/sounds.js';
 import { WORDS, WORD_LEVELS } from '../data/words.js';
-import { makeTargets, distractors, pickWord } from '../questions.js';
+import { distractors, pickWord } from '../questions.js';
 import { shuffle } from '../utils.js';
-import { weightedPick } from '../learning/mastery.js';
 import { QuestionSession, WordSession } from '../words/model.js';
 import { SENTENCE_ACTIVITIES, sentenceActivity } from '../data/sentences.js';
 import { sentenceQuestions } from '../sentences/model.js';
@@ -115,15 +114,22 @@ export function createAdventure(mode, level = 1, stats = {}, skills = {}){
   const activity=sentenceActivity(mode);
   if(activity)return new SentenceAdventureSession(sentenceQuestions(activity.length,stats));
   if(!LEVELS[mode]) throw new Error('Unknown learning module');
-  let targets;
-  if(Object.keys(skills).some(id=>id.startsWith('letters:'))){
-    targets=[];let previous;
-    for(let i=0;i<20;i++){
-      const eligible=LEVELS[mode].filter(s=>s.p!==previous);
-      const sound=weightedPick(eligible,skills,s=>'letters:'+s.g,null);
-      targets.push(pickWord(sound));previous=sound.p;
-    }
-  }else targets=makeTargets(LEVELS[mode],20);
+  const targets=[],history={};
+  let bag=[];
+  while(targets.length<20){
+    if(!bag.length)bag=shuffle(LEVELS[mode]);
+    const previous=targets.at(-1)?.p;
+    const remaining=new Map();
+    for(const sound of bag)remaining.set(sound.p,(remaining.get(sound.p)||0)+1);
+    const eligible=bag.filter(sound=>sound.p!==previous);
+    eligible.sort((a,b)=>remaining.get(b.p)-remaining.get(a.p));
+    const different=eligible.length?bag.indexOf(eligible[0]):-1;
+    // A shuffled bag balances exposure while keeping the order unpredictable.
+    // Prefer a different sound, including across the boundary between bags.
+    const index=different<0?0:different;
+    const [sound]=bag.splice(index,1);
+    targets.push(pickWord(sound,history));
+  }
   const questions = targets.map(target => ({
     target:{...target,id:target.g},
     choices:shuffle([target,...distractors(target,LEVELS[mode])]).map(w => ({...w,id:w.g,text:w.g}))

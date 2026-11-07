@@ -142,3 +142,19 @@ test('the native road is a continuous single ribbon with the requested width',as
   if(i)assert.ok(Math.hypot(a.x-points[i-1].x,a.y-points[i-1].y)<30);
  }
 });
+
+ test('letter adventures stay balanced even when E has a difficult learning history',()=>{
+  const skills={'letters:e':{attempts:100,correct:0}};
+  const orders=new Set();
+  for(let run=0;run<30;run++){
+    const questions=createAdventure('voyelles',1,{},skills).questions;
+    const letters=questions.map(q=>q.target.g);
+    const counts=Object.fromEntries(['a','e','i','o','u','é','è'].map(g=>[g,letters.filter(v=>v===g).length]));
+    assert.ok(Object.values(counts).every(n=>n===2||n===3));
+    assert.equal(new Set(letters.slice(0,7)).size,7);
+    assert.equal(new Set(letters.slice(7,14)).size,7);
+    assert.ok(questions.every((q,i)=>i===0||q.target.p!==questions[i-1].target.p));
+    orders.add(letters.join(','));
+  }
+  assert.ok(orders.size>1);
+});
