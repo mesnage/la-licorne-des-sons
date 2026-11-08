@@ -11,8 +11,18 @@ export function isChapterOneUnit(id) {
   return id === pilotUnitId || Object.hasOwn(units, id);
 }
 
-export function chapterPlayUrl(id) {
-  return id === pilotUnitId ? 'curriculum-play.html' : 'curriculum-play.html?unite=' + id;
+export function chapterPlayUrl(id, testMode = false, block) {
+  const params = [];
+  if (id !== pilotUnitId) params.push('unite=' + id);
+  if (testMode) {
+    params.push('test=1');
+    if (block) params.push('bloc=' + block);
+  }
+  return 'curriculum-play.html' + (params.length ? '?' + params.join('&') : '');
+}
+
+export function chapterMapUrl(id, testMode) {
+  return 'curriculum.html' + (testMode ? '?test=1' : '') + '#' + id;
 }
 
 function decode(annotated, taught, isWord) {

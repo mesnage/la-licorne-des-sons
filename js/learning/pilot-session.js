@@ -65,13 +65,14 @@ export function restorePilotState(value, length) {
   return { seed: value.seed, cursor, answers: [...answers], wrong, marks, order: [...order] };
 }
 
-export function unitProgressKey(id) {
+export function unitProgressKey(id, testMode = false, block) {
+  if (testMode) return pilotProgressKey + '.test.' + id + (block ? '.B' + block : '');
   return id === pilotUnitId ? pilotProgressKey : pilotProgressKey + '.' + id;
 }
 
-export function readPilotProgress(storage, id = pilotUnitId) {
+export function readPilotProgress(storage, id = pilotUnitId, testMode = false, block) {
   try {
-    const value = JSON.parse(storage.getItem(unitProgressKey(id)));
+    const value = JSON.parse(storage.getItem(unitProgressKey(id, testMode, block)));
     if (value?.version === 1 || value?.version === simpleProgrammeVersion) return value;
   } catch {
     // The pilot also works when browser storage is unavailable.

@@ -1,12 +1,13 @@
 import { simpleExercise } from '../data/curriculum-simple.js';
 import { illustration } from '../illustrations.js';
 import { createCurriculum } from '../learning/curriculum.js';
-import { chapterPlayUrl } from '../learning/chapter-one.js';
+import { chapterMapUrl, chapterPlayUrl } from '../learning/chapter-one.js';
 import { pilotProgressKey, pilotQuestionCount, readPilotProgress, restoreProgrammeState } from '../learning/pilot-session.js';
 import { WORLDS, worldPanorama } from './model.js';
 
+const testMode = new window.URLSearchParams(location.search).get('test') === '1';
 const content = document.getElementById('curriculumContent');
-const statusLabels = { completed: 'Terminée', available: 'Prochaine étape', upcoming: 'À venir' };
+const statusLabels = { completed: 'Terminée', available: testMode ? 'À tester' : 'Prochaine étape', upcoming: 'À venir' };
 
 function element(tag, className, text = '') {
   const node = document.createElement(tag);
@@ -59,7 +60,7 @@ function chapterHome(curriculum, completedUnits, pilot) {
   const progress = pilot.get(destination.id);
   const startLabel = !next ? 'Revoir le château final' : progress?.session || completedUnits.size
     ? 'Continuer mon aventure' : 'Commencer mon aventure';
-  intro.append(link(chapterPlayUrl(destination.id), startLabel, 'curriculum-link curriculum-play-link'));
+  intro.append(link(chapterPlayUrl(destination.id, testMode), startLabel, 'curriculum-link curriculum-play-link'));
   hero.append(intro, art('assets/storybook/paillette-0.webp', 'curriculum-paillette'));
   const chapters = element('nav', 'curriculum-chapters');
   chapters.setAttribute('aria-label', 'Chapitres du parcours de lecture');
@@ -82,6 +83,9 @@ function unitDetail(unit, status, pilot) {
     icon.innerHTML = illustration(exercise.icon);
     const copy = element('div', '');
     copy.append(element('small', 'curriculum-label', 'Bloc ' + block.position + ' · ' + block.questionCount + ' questions'));
+    if (testMode) {
+      copy.append(link(chapterPlayUrl(unit.id, true, block.position), 'Tester le bloc ' + block.position));
+    }
     item.append(icon, copy);
     blocks.append(item);
   }
@@ -103,12 +107,14 @@ function unitDetail(unit, status, pilot) {
     const active = restoreProgrammeState(progress, pilotQuestionCount);
     const label = active && active.cursor < pilotQuestionCount
       ? 'Reprendre l’unité' : progress?.completed ? 'Voir le château' : 'Jouer cette unité';
-    detail.append(link(chapterPlayUrl(unit.id), label, 'curriculum-link curriculum-play-link'));
+    detail.append(link(chapterPlayUrl(unit.id, testMode), label, 'curriculum-link curriculum-play-link'));
   }
   return detail;
 }
 
 function chapterView(curriculum, chapter, selectedUnit, completedUnits, pilot) {
+  const getStatus = id => testMode && !completedUnits.has(id)
+    ? 'available' : curriculum.getUnitStatus(id, completedUnits);
   const heading = element('h1', '', chapter.title);
   const header = element('div', 'curriculum-chapter-header');
   header.append(link('#chapitres', '← Les chapitres'), heading, element('p', '', chapter.description));
@@ -117,7 +123,7 @@ function chapterView(curriculum, chapter, selectedUnit, completedUnits, pilot) {
   const units = element('ol', 'curriculum-units');
   units.setAttribute('aria-label', 'Unités du chapitre');
   for (const unit of chapter.units) {
-    const status = curriculum.getUnitStatus(unit.id, completedUnits);
+    const status = getStatus(unit.id);
     const item = element('li', '');
     const anchor = link('#' + unit.id, '', 'curriculum-unit');
     anchor.dataset.unitId = unit.id;
@@ -134,7 +140,7 @@ function chapterView(curriculum, chapter, selectedUnit, completedUnits, pilot) {
   map.append(units);
 
   if (selectedUnit) {
-    map.append(unitDetail(selectedUnit, curriculum.getUnitStatus(selectedUnit.id, completedUnits), pilot));
+    map.append(unitDetail(selectedUnit, getStatus(selectedUnit.id), pilot));
   }
   content.replaceChildren(header, map);
   return selectedUnit ? document.getElementById('curriculumUnitTitle') : heading;
@@ -144,11 +150,16 @@ async function openCatalogue() {
   const response = await fetch(new window.URL('../data/curriculum.v2.json', import.meta.url));
   if (!response.ok) throw new Error('Chargement du catalogue V2 : ' + response.status);
   const curriculum = createCurriculum(await response.json());
+  if (testMode) {
+    const banner = document.getElementById('curriculumNotice');
+    banner.textContent = 'Mode test · Toutes les unités et tous les blocs sont accessibles. ';
+    banner.append(link(chapterMapUrl('chapitres', false), 'Revenir au parcours normal'));
+  }
   function render(focus) {
     const pilot = new Map();
     try {
       for (const unit of curriculum.chapters.flatMap(chapter => chapter.units)) {
-        pilot.set(unit.id, readPilotProgress(window.localStorage, unit.id));
+        pilot.set(unit.id, readPilotProgress(window.localStorage, unit.id, testMode));
       }
     } catch { /* Storage may be disabled. */ }
     const completedUnits = new Set([...pilot].filter(([, progress]) => progress?.completed).map(([id]) => id));

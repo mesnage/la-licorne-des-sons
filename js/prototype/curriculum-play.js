@@ -1,5 +1,5 @@
 import * as playback from '../audio.js?v=curriculum-chapter-1';
-import { chapterPlayUrl } from '../learning/chapter-one.js';
+import { chapterMapUrl, chapterPlayUrl } from '../learning/chapter-one.js';
 import { createSimpleQuestions } from '../learning/curriculum-simple.js';
 import { simpleProgrammeVersion } from '../data/curriculum-simple.js';
 import { WORLDS } from './model.js';
@@ -43,15 +43,19 @@ async function readJson(path) {
 
 async function openPilot() {
   const catalogue = createCurriculum(await readJson('js/data/curriculum.v2.json'));
-  const id = new window.URLSearchParams(location.search).get('unite') ?? pilotUnitId;
+  const params = new window.URLSearchParams(location.search);
+  const testMode = params.get('test') === '1';
+  const id = params.get('unite') ?? pilotUnitId;
   const unit = catalogue.getUnit(id);
   let storage;
   try { storage = window.localStorage; } catch { /* Play with session memory. */ }
-  if (!unit || (unit.prerequisiteUnitId && !readPilotProgress(storage, unit.prerequisiteUnitId)?.completed)) {
+  if (!unit || (!testMode && unit.prerequisiteUnitId && !readPilotProgress(storage, unit.prerequisiteUnitId)?.completed)) {
     loadStatus.textContent = 'Termine l’unité précédente sur la carte pour commencer celle-ci.';
     return;
   }
   const chapter = catalogue.getChapter(unit.chapterId);
+  const block = testMode && unit.blocks.find(item => String(item.position) === params.get('bloc'));
+  get('pilotTestMode').hidden = !testMode;
   const allUnits = catalogue.chapters.flatMap(item => item.units);
   const nextUnit = allUnits[allUnits.indexOf(unit) + 1];
   const nextChapter = nextUnit && nextUnit.chapterId !== unit.chapterId;
@@ -62,12 +66,15 @@ async function openPilot() {
   const files = Object.fromEntries(Object.entries({ ...chapterAudio, ...simpleAudio }).map(([audioId, track]) => [audioId, track.file]));
   await playback.registerClips(files);
   const manifest = { ...legacyAudio, ...files };
-  document.querySelectorAll('[data-chapter-return]').forEach(link => { link.href = 'curriculum.html#' + chapter.id; });
-  const total = unit.blocks.reduce((count, block) => count + block.questionCount, 0);
-  const key = unitProgressKey(id);
+  document.querySelectorAll('[data-chapter-return]').forEach(link => {
+    link.href = chapterMapUrl(block ? unit.id : chapter.id, testMode);
+  });
+  const total = block ? block.questionCount : unit.blocks.reduce((count, item) => count + item.questionCount, 0);
+  get('pilotCrystals').max = total;
+  const key = unitProgressKey(id, testMode, block?.position);
   get('pilotUnitName').textContent = unit.title;
   document.title = unit.title + ' · La Licorne des Sons';
-  const saved = readPilotProgress(storage, id);
+  const saved = readPilotProgress(storage, id, testMode, block?.position);
   let completed = saved?.completed === true;
   let lastSaved;
   try { lastSaved = storage.getItem(key); } catch { storage = null; }
@@ -79,7 +86,8 @@ async function openPilot() {
   const readyAnswers = [];
 
   function restart(state) {
-    session = createPilotSession(createSimpleQuestions(chapter, unit, manifest, state.seed), state);
+    const questions = createSimpleQuestions(chapter, unit, manifest, state.seed);
+    session = createPilotSession(block ? questions.filter(q => q.blockIndex + 1 === block.position) : questions, state);
     lastQuestion = null;
   }
 
@@ -261,23 +269,27 @@ async function openPilot() {
     get('pilotCount').textContent = state.answers.length + ' / ' + total;
     get('pilotCrystals').value = state.answers.length;
     if (session.finished) {
-      heading.textContent = !nextUnit ? 'Le parcours est terminé !'
+      heading.textContent = block ? 'Bloc ' + block.position + ' testé !' : !nextUnit ? 'Le parcours est terminé !'
         : nextChapter ? 'Chapitre terminé !' : 'Bienvenue au château !';
-      instructions.textContent = 'Tu as terminé les quatre blocs et gagné les vingt cristaux.';
+      instructions.textContent = block ? 'Les cinq questions du bloc sont terminées.'
+        : 'Tu as terminé les quatre blocs et gagné les vingt cristaux.';
       const castle = document.createElement('img');
       castle.src = 'assets/storybook/chateau-etoile.webp';
       castle.alt = '';
       castle.className = 'pilot-castle-art';
-      controls.append(castle);
+      if (!block) controls.append(castle);
       feedback.textContent = state.answers.filter(wrong => wrong === 0).length + ' réponses justes du premier coup sur ' + total + '.';
-      if (nextUnit) {
+      if (block || nextUnit) {
         const next = document.createElement('a');
         next.className = 'curriculum-link curriculum-play-link';
-        next.href = chapterPlayUrl(nextUnit.id);
-        next.textContent = nextChapter ? 'Chapitre suivant' : 'Unité suivante';
+        const nextBlock = block && unit.blocks[block.position];
+        next.href = nextBlock ? chapterPlayUrl(id, true, nextBlock.position)
+          : block ? chapterMapUrl(id, true) : chapterPlayUrl(nextUnit.id, testMode);
+        next.textContent = nextBlock ? 'Tester le bloc suivant' : block ? 'Retour à l’unité'
+          : nextChapter ? 'Chapitre suivant' : 'Unité suivante';
         actions.append(next);
       }
-      actions.append(button('Rejouer l’unité', () => {
+      actions.append(button(block ? 'Rejouer le bloc' : 'Rejouer l’unité', () => {
         restart(newPilotState(Math.floor(Math.random() * 1000000)));
         save();
         if (conflict) return;
@@ -287,7 +299,7 @@ async function openPilot() {
     } else if (session.solved) {
       heading.textContent = question.position === 4 ? 'Bloc ' + (question.blockIndex + 1) + ' terminé !' : 'Un cristal de plus !';
       feedback.textContent = 'Paillette avance avec toi.';
-      const label = state.answers.length === total ? 'Entrer dans le château'
+      const label = state.answers.length === total ? (block ? 'Terminer le bloc' : 'Entrer dans le château')
         : question.position === 4 ? 'Commencer le bloc suivant' : 'Question suivante';
       actions.append(button(label, () => {
         if (!session.advance()) return;
