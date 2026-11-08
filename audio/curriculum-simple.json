@@ -1,4 +1,12 @@
 {
+  "simple:consigne:Combien y en a-t-il ? Touche le bon mot.": {
+    "file": "curriculum-simple/simple-consigne-Combien-y-en-a-t-il---Touche-le-bon-mot--10ae40c6.mp3",
+    "phonemes": "kɔ̃bjˈɛ̃ iʲ ɑ̃n atˈil? tˈuʃ lə- bˈɔ̃ mˈo.",
+    "review": "pending_human_review",
+    "sha256": "73b9a26dbab28f178aa3c378d0cf4974262673bdb9b1ea531c81ea8f1703f6eb",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "Combien y en a-t-il ? Touche le bon mot."
+  },
   "simple:consigne:Lis la carte. Écoute les deux choix, puis touche ta réponse.": {
     "file": "curriculum-simple/simple-consigne-Lis-la-carte--Ecoute-les-deux-choix--puis-touche-ta-re-aad54328.mp3",
     "phonemes": "lˈi la- kˈaʁt. ekˈut le- dˈø ʃwˈa, pyˈi tˈuʃ ta- ʁepˈɔ̃s.",
@@ -7,13 +15,21 @@
     "speaker": "piper-fr_FR-siwis-medium",
     "text": "Lis la carte. Écoute les deux choix, puis touche ta réponse."
   },
-  "simple:consigne:Lis la phrase. Touche la bonne image.": {
-    "file": "curriculum-simple/simple-consigne-Lis-la-phrase--Touche-la-bonne-image--c13549da.mp3",
-    "phonemes": "lˈi la- fʁˈaz. tˈuʃ la- bˈɔn imˈaʒ.",
+  "simple:consigne:Lis la phrase. Choisis la bonne réponse.": {
+    "file": "curriculum-simple/simple-consigne-Lis-la-phrase--Choisis-la-bonne-reponse--ca08e46e.mp3",
+    "phonemes": "lˈi la- fʁˈaz. ʃwazˈi la- bˈɔn ʁepˈɔ̃s.",
     "review": "pending_human_review",
-    "sha256": "28066e2e5cb9b42e5f2a62ff5a136e84ed56c7796d4fba737cd3c10cb5685f1c",
+    "sha256": "7ff5a3d1c00c18298dba14d613d1e7284654b7f36f7d05548a4064943bfbf1ad",
     "speaker": "piper-fr_FR-siwis-medium",
-    "text": "Lis la phrase. Touche la bonne image."
+    "text": "Lis la phrase. Choisis la bonne réponse."
+  },
+  "simple:consigne:Lis la phrase. Touche le bon endroit.": {
+    "file": "curriculum-simple/simple-consigne-Lis-la-phrase--Touche-le-bon-endroit--2cea966d.mp3",
+    "phonemes": "lˈi la- fʁˈaz. tˈuʃ lə- bˈɔ̃n ɑ̃dʁwˈa.",
+    "review": "pending_human_review",
+    "sha256": "8a778fb44ccdeb46845529f38b7fed19048a6019d1376e4a41dfa29cb0979011",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "Lis la phrase. Touche le bon endroit."
   },
   "simple:consigne:Lis le petit mot. Touche la forme qui va avec.": {
     "file": "curriculum-simple/simple-consigne-Lis-le-petit-mot--Touche-la-forme-qui-va-avec--9cbe7617.mp3",
@@ -55,21 +71,13 @@
     "speaker": "piper-fr_FR-siwis-medium",
     "text": "Quelle lettre reste muette à la fin du mot ?"
   },
-  "simple:consigne:Touche le mot qui va avec l’image.": {
-    "file": "curriculum-simple/simple-consigne-Touche-le-mot-qui-va-avec-limage--e3183f4d.mp3",
-    "phonemes": "tˈuʃ lə- mˈo ki vˈa avˌɛk limˈaʒ.",
+  "simple:consigne:Écoute la phrase. Choisis ce que tu as entendu.": {
+    "file": "curriculum-simple/simple-consigne-Ecoute-la-phrase--Choisis-ce-que-tu-as-entendu--ebf9afc3.mp3",
+    "phonemes": "ekˈut la- fʁˈaz. ʃwazˈi sə- kə ty az ɑ̃tɑ̃dˈy.",
     "review": "pending_human_review",
-    "sha256": "f37ee939226512330bcee9cb3787787e9001333e7187df997962c39a64d1ec45",
+    "sha256": "c2ec894c0f21b33fff99ba32269a31af8f1a4608c9dd7663d3078b394faeece9",
     "speaker": "piper-fr_FR-siwis-medium",
-    "text": "Touche le mot qui va avec l’image."
-  },
-  "simple:consigne:Écoute la phrase. Touche la bonne image.": {
-    "file": "curriculum-simple/simple-consigne-Ecoute-la-phrase--Touche-la-bonne-image--253ad902.mp3",
-    "phonemes": "ekˈut la- fʁˈaz. tˈuʃ la- bˈɔn imˈaʒ.",
-    "review": "pending_human_review",
-    "sha256": "8b7f35b40220fc67fdbbf57732714d43478dc784f12079e464b17a8f64cd4c7b",
-    "speaker": "piper-fr_FR-siwis-medium",
-    "text": "Écoute la phrase. Touche la bonne image."
+    "text": "Écoute la phrase. Choisis ce que tu as entendu."
   },
   "simple:consigne:Écoute le mot. Combien de syllabes entends-tu ?": {
     "file": "curriculum-simple/simple-consigne-Ecoute-le-mot--Combien-de-syllabes-entends-tu---e0dc1c4d.mp3",
@@ -78,6 +86,14 @@
     "sha256": "4d35ab5195f533e7415c665e14fee02643096f5ce00ce1e82e520b2d20f525db",
     "speaker": "piper-fr_FR-siwis-medium",
     "text": "Écoute le mot. Combien de syllabes entends-tu ?"
+  },
+  "simple:consigne:Écoute le mot. Touche les lettres qui manquent.": {
+    "file": "curriculum-simple/simple-consigne-Ecoute-le-mot--Touche-les-lettres-qui-manquent--2a47be49.mp3",
+    "phonemes": "ekˈut lə- mˈo. tˈuʃ le- lˈɛtʁ ki mˈɑ̃k.",
+    "review": "pending_human_review",
+    "sha256": "5cc4d801ed265c5494a2106f38f4a9f677f381a7495bd759bbe503ee8bca85bd",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "Écoute le mot. Touche les lettres qui manquent."
   },
   "simple:consigne:Écoute le son. Touche la lettre ou les lettres qui vont avec.": {
     "file": "curriculum-simple/simple-consigne-Ecoute-le-son--Touche-la-lettre-ou-les-lettres-qui-von-5a695c80.mp3",
@@ -94,5 +110,805 @@
     "sha256": "91ce97ef2574e90ebe72b2c3b6927af2077d3fa73822ad63e9bdb4d79d32c12d",
     "speaker": "piper-fr_FR-siwis-medium",
     "text": "Écoute l’histoire. Qui est le personnage principal ?"
+  },
+  "simple:consigne:Écoute. Touche les deux morceaux dans l’ordre.": {
+    "file": "curriculum-simple/simple-consigne-Ecoute--Touche-les-deux-morceaux-dans-lordre--976ca9ca.mp3",
+    "phonemes": "ekˈut. tˈuʃ le- dˈø mɔʁsˈo dɑ̃ lˈɔʁdʁ.",
+    "review": "pending_human_review",
+    "sha256": "f87e215635b64211f90c0e831927ab7b23800971246c515eabab3e43e0554d19",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "Écoute. Touche les deux morceaux dans l’ordre."
+  },
+  "simple:question:Où dort le chat ?": {
+    "file": "curriculum-simple/simple-question-Ou-dort-le-chat---fd9f9f50.mp3",
+    "phonemes": "u dˈɔʁ lə- ʃˈa?",
+    "review": "pending_human_review",
+    "sha256": "fc4163b571e1e39117cf74305d6f2945c8b9de0578657c677341752e86184caa",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "Où dort le chat ?"
+  },
+  "simple:question:Où nage le canard ?": {
+    "file": "curriculum-simple/simple-question-Ou-nage-le-canard---f35be343.mp3",
+    "phonemes": "u nˈaʒ lə- kanˈaʁ?",
+    "review": "pending_human_review",
+    "sha256": "a41dec81a47fdfd24f6fb410cfd1651503aac20f6714d0ac5bb9af6822164b45",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "Où nage le canard ?"
+  },
+  "simple:question:Par où passe le lapin ?": {
+    "file": "curriculum-simple/simple-question-Par-ou-passe-le-lapin---b53dd84f.mp3",
+    "phonemes": "paʁ u pˈas lə- lapˈɛ̃?",
+    "review": "pending_human_review",
+    "sha256": "41d86cca4e33b9bd5bf945db6417f49a5e510a456a654800f1a5b758a593ca67",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "Par où passe le lapin ?"
+  },
+  "simple:question:Pourquoi la poule picore-t-elle ?": {
+    "file": "curriculum-simple/simple-question-Pourquoi-la-poule-picore-t-elle---6ff9b80d.mp3",
+    "phonemes": "puʁkwˌa la- pˈul pikˈɔʁtˈɛl?",
+    "review": "pending_human_review",
+    "sha256": "df081acbc27c7f1ec42a38474808632407eac62a5b7f7071cdd808b9146b0e81",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "Pourquoi la poule picore-t-elle ?"
+  },
+  "simple:question:Pourquoi la vache va-t-elle près de la mare ?": {
+    "file": "curriculum-simple/simple-question-Pourquoi-la-vache-va-t-elle-pres-de-la-mare---9fcc9f46.mp3",
+    "phonemes": "puʁkwˌa la- vˈaʃ vˈatɛl pʁɛ də- la- mˈaʁ?",
+    "review": "pending_human_review",
+    "sha256": "d9c4a5fc107528542d373d1710b3e726fdfb3a4f689828a735b7b2cf7e151bf0",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "Pourquoi la vache va-t-elle près de la mare ?"
+  },
+  "simple:question:Pourquoi le chat boit-il ?": {
+    "file": "curriculum-simple/simple-question-Pourquoi-le-chat-boit-il---e984251b.mp3",
+    "phonemes": "puʁkwˌa lə- ʃˈa bwˈatˈil?",
+    "review": "pending_human_review",
+    "sha256": "9448ae98842bdfe563324ef87a1b30a703a38790a376410f9eac5141790ed995",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "Pourquoi le chat boit-il ?"
+  },
+  "simple:question:Pourquoi le chat se couche-t-il ?": {
+    "file": "curriculum-simple/simple-question-Pourquoi-le-chat-se-couche-t-il---cd6c997f.mp3",
+    "phonemes": "puʁkwˌa lə- ʃˈa sə- kˈuʃtˈil?",
+    "review": "pending_human_review",
+    "sha256": "faf53ce022e32392ca802bc6745f13ddedf0717816cae7582ca5495d6e30fbfd",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "Pourquoi le chat se couche-t-il ?"
+  },
+  "simple:question:Pourquoi le loup rentre-t-il ?": {
+    "file": "curriculum-simple/simple-question-Pourquoi-le-loup-rentre-t-il---dfc0f2ed.mp3",
+    "phonemes": "puʁkwˌa lə- lˈu ʁˈɑ̃tʁtˈil?",
+    "review": "pending_human_review",
+    "sha256": "603ad041a1b7cb9397a8759f94a5b402a8005fceee21441e08cda0fe2777a47f",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "Pourquoi le loup rentre-t-il ?"
+  },
+  "simple:question:Pourquoi le panda se cache-t-il ?": {
+    "file": "curriculum-simple/simple-question-Pourquoi-le-panda-se-cache-t-il---4fe597cd.mp3",
+    "phonemes": "puʁkwˌa lə- pɑ̃dˈa sə- kˈaʃtˈil?",
+    "review": "pending_human_review",
+    "sha256": "0a2640978636d7ec189d636d3f7fdcd46bc734a3ddfd2b825cd6c56d12dda2e8",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "Pourquoi le panda se cache-t-il ?"
+  },
+  "simple:question:Pourquoi le rat boit-il ?": {
+    "file": "curriculum-simple/simple-question-Pourquoi-le-rat-boit-il---d919091e.mp3",
+    "phonemes": "puʁkwˌa lə- ʁˈa bwˈatˈil?",
+    "review": "pending_human_review",
+    "sha256": "94948c55371006bf3305e0ed120e1c2d9284b62789fcc19018652483c395903f",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "Pourquoi le rat boit-il ?"
+  },
+  "simple:question:Quand la poule picore-t-elle ?": {
+    "file": "curriculum-simple/simple-question-Quand-la-poule-picore-t-elle---1fc5aead.mp3",
+    "phonemes": "kɑ̃ la- pˈul pikˈɔʁtˈɛl?",
+    "review": "pending_human_review",
+    "sha256": "8aa24c2e89c2c36aaf11b5fff999c6f93cd230ed590adf262d806348252f2d5a",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "Quand la poule picore-t-elle ?"
+  },
+  "simple:question:Quand le loup file-t-il ?": {
+    "file": "curriculum-simple/simple-question-Quand-le-loup-file-t-il---dad50280.mp3",
+    "phonemes": "kɑ̃ lə- lˈu fˈiltˈil?",
+    "review": "pending_human_review",
+    "sha256": "10716cacb9252b3ee8f31c19cc284fff9d21f5172ca0c38ad3675240b0459561",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "Quand le loup file-t-il ?"
+  },
+  "simple:question:Que fait la poule ?": {
+    "file": "curriculum-simple/simple-question-Que-fait-la-poule---ca16611f.mp3",
+    "phonemes": "kə fˈɛ la- pˈul?",
+    "review": "pending_human_review",
+    "sha256": "56916351f056ee521aa140c317d6efef0119c5b7161ba5ec5aeb4ea9d13ddc14",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "Que fait la poule ?"
+  },
+  "simple:question:Que fait la vache ?": {
+    "file": "curriculum-simple/simple-question-Que-fait-la-vache---a4cdf9a4.mp3",
+    "phonemes": "kə fˈɛ la- vˈaʃ?",
+    "review": "pending_human_review",
+    "sha256": "e92b2f1d21907140c7c8ef8244e416d65f9c6b5399dde3d936b2b92ef2270c50",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "Que fait la vache ?"
+  },
+  "simple:question:Que fait le canard ?": {
+    "file": "curriculum-simple/simple-question-Que-fait-le-canard---f6b27ffe.mp3",
+    "phonemes": "kə fˈɛ lə- kanˈaʁ?",
+    "review": "pending_human_review",
+    "sha256": "4518de625abd6f5aa0b703271aa19403d866348c792006c19a38f312ec011e1e",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "Que fait le canard ?"
+  },
+  "simple:question:Que fait le chat ?": {
+    "file": "curriculum-simple/simple-question-Que-fait-le-chat---cc5a6820.mp3",
+    "phonemes": "kə fˈɛ lə- ʃˈa?",
+    "review": "pending_human_review",
+    "sha256": "658c5f1af1835e0f418c01265f24267ebe6a551775d8110754e55dd852c7a316",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "Que fait le chat ?"
+  },
+  "simple:question:Que fait le chat en premier ?": {
+    "file": "curriculum-simple/simple-question-Que-fait-le-chat-en-premier---d801e7cb.mp3",
+    "phonemes": "kə fˈɛ lə- ʃˈa ɑ̃ pʁəmjˈe?",
+    "review": "pending_human_review",
+    "sha256": "8e3b5021d0ffbf511c3d05f966025d6396684fb580f11297302748f32ff4654c",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "Que fait le chat en premier ?"
+  },
+  "simple:question:Que fait le lapin ?": {
+    "file": "curriculum-simple/simple-question-Que-fait-le-lapin---298d5b60.mp3",
+    "phonemes": "kə fˈɛ lə- lapˈɛ̃?",
+    "review": "pending_human_review",
+    "sha256": "65131b7445a76d8459c653873d2d31becc5b1f029eba5b97f3920033113b3821",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "Que fait le lapin ?"
+  },
+  "simple:question:Que fait le lapin en premier ?": {
+    "file": "curriculum-simple/simple-question-Que-fait-le-lapin-en-premier---8e0f1c52.mp3",
+    "phonemes": "kə fˈɛ lə- lapˈɛ̃ ɑ̃ pʁəmjˈe?",
+    "review": "pending_human_review",
+    "sha256": "488ce3886bd0c40bcfce3d120f705d097f6cce17c8da9853ab5a36c5834e705d",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "Que fait le lapin en premier ?"
+  },
+  "simple:question:Que fait le loup ?": {
+    "file": "curriculum-simple/simple-question-Que-fait-le-loup---c6cdf077.mp3",
+    "phonemes": "kə fˈɛ lə- lˈu?",
+    "review": "pending_human_review",
+    "sha256": "5abb25241d0b2a290344c0af38a9f8623704a8986cdb2b7321a7fce58ef9e2d0",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "Que fait le loup ?"
+  },
+  "simple:question:Que fait le panda ?": {
+    "file": "curriculum-simple/simple-question-Que-fait-le-panda---59617760.mp3",
+    "phonemes": "kə fˈɛ lə- pɑ̃dˈa?",
+    "review": "pending_human_review",
+    "sha256": "c9dd0114a1c19ad9fe9b0326debca7906d4fef31d1a7fda64b11e0df47a0d448",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "Que fait le panda ?"
+  },
+  "simple:question:Que fait le rat ?": {
+    "file": "curriculum-simple/simple-question-Que-fait-le-rat---273dffcc.mp3",
+    "phonemes": "kə fˈɛ lə- ʁˈa?",
+    "review": "pending_human_review",
+    "sha256": "c89f6a835c5c0a16cdef09d9c0f6d99fd225f64e67e865dc3b2128a20925c2d3",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "Que fait le rat ?"
+  },
+  "simple:question:Que grignote le lapin ?": {
+    "file": "curriculum-simple/simple-question-Que-grignote-le-lapin---bdd712d4.mp3",
+    "phonemes": "kə ɡʁinjˈɔt lə- lapˈɛ̃?",
+    "review": "pending_human_review",
+    "sha256": "0f18d180da7f309560eb3f0d58ccbf8a631120f87a3d4cc7c2903cc3e945c8aa",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "Que grignote le lapin ?"
+  },
+  "simple:question:Que longe la vache ?": {
+    "file": "curriculum-simple/simple-question-Que-longe-la-vache---9c888195.mp3",
+    "phonemes": "kə lˈɔ̃ʒ la- vˈaʃ?",
+    "review": "pending_human_review",
+    "sha256": "4f52b9b6741d76b3ad5a04d1c11e51aff7bacc0bddf407ec185c73829c965ebf",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "Que longe la vache ?"
+  },
+  "simple:question:Que lèche le chat ?": {
+    "file": "curriculum-simple/simple-question-Que-leche-le-chat---5908f89b.mp3",
+    "phonemes": "kə lˈɛʃ lə- ʃˈa?",
+    "review": "pending_human_review",
+    "sha256": "06517bac21defe31c029b62533502833aee4c00cd387a4b4d6c926854aa0a769",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "Que lèche le chat ?"
+  },
+  "simple:question:Que mange le panda ?": {
+    "file": "curriculum-simple/simple-question-Que-mange-le-panda---65ebf6fb.mp3",
+    "phonemes": "kə mˈɑ̃ʒ lə- pɑ̃dˈa?",
+    "review": "pending_human_review",
+    "sha256": "57f18362783b5771df88d716eaef3fa0f0c23cc0cfa5f1df37059aec301cdae1",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "Que mange le panda ?"
+  },
+  "simple:question:Que picore la poule ?": {
+    "file": "curriculum-simple/simple-question-Que-picore-la-poule---337cc9b9.mp3",
+    "phonemes": "kə pikˈɔʁ la- pˈul?",
+    "review": "pending_human_review",
+    "sha256": "242c8fdb7115fcd9242bb143824c046418d041064c59b31a87b840dd8970f06c",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "Que picore la poule ?"
+  },
+  "simple:question:Qui file ?": {
+    "file": "curriculum-simple/simple-question-Qui-file---dc783e08.mp3",
+    "phonemes": "ki fˈil?",
+    "review": "pending_human_review",
+    "sha256": "125eaf7fa3fcbd4c0e7eebc33fd4f7c943f5d6406657ae3c0a658bb15813b87f",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "Qui file ?"
+  },
+  "simple:question:Qui rumine ?": {
+    "file": "curriculum-simple/simple-question-Qui-rumine---40536e80.mp3",
+    "phonemes": "ki ʁymˈin?",
+    "review": "pending_human_review",
+    "sha256": "aabfa0c75526aa3917a16345c91280c5c65bcfba0c9fbfc6ae649f55aac8a232",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "Qui rumine ?"
+  },
+  "simple:question:Qu’est-ce qui brille ?": {
+    "file": "curriculum-simple/simple-question-Quest-ce-qui-brille---28d1e055.mp3",
+    "phonemes": "kɛs ki bʁˈij?",
+    "review": "pending_human_review",
+    "sha256": "2ef30de088d296662576ba0b3e34136e6d3194198cd5f4e3074d26390805566b",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "Qu’est-ce qui brille ?"
+  },
+  "simple:réponse:Après la pluie": {
+    "file": "curriculum-simple/simple-reponse-Apres-la-pluie-194608ee.mp3",
+    "phonemes": "apʁˌɛ la- plyˈi.",
+    "review": "pending_human_review",
+    "sha256": "ed414cccf9f649ed4c2dfbbca9c8c5fa85cab53151956458019d126662c1b29f",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "Après la pluie"
+  },
+  "simple:réponse:Avant la pluie": {
+    "file": "curriculum-simple/simple-reponse-Avant-la-pluie-f5b633b4.mp3",
+    "phonemes": "avˌɑ̃ la- plyˈi.",
+    "review": "pending_human_review",
+    "sha256": "e4427848c0a26c1ee069a7d7802716de6caa6b3ffeba5d06939f70bae65b7534",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "Avant la pluie"
+  },
+  "simple:réponse:Dans la mare": {
+    "file": "curriculum-simple/simple-reponse-Dans-la-mare-69fb21f3.mp3",
+    "phonemes": "dɑ̃ la- mˈaʁ.",
+    "review": "pending_human_review",
+    "sha256": "b8c8ff630740e8a35e2bb3a09bc1db4932fb62bc38b8056a468d4104b6daf37d",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "Dans la mare"
+  },
+  "simple:réponse:De la salade": {
+    "file": "curriculum-simple/simple-reponse-De-la-salade-6ca9a2d9.mp3",
+    "phonemes": "də- la- salˈad.",
+    "review": "pending_human_review",
+    "sha256": "4f4389a6b6a8ade371272c28a3bcf34c0cc0c4abebed3e4b6d2ba10d49777fc9",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "De la salade"
+  },
+  "simple:réponse:De l’eau": {
+    "file": "curriculum-simple/simple-reponse-De-leau-8d193372.mp3",
+    "phonemes": "də- lˈo.",
+    "review": "pending_human_review",
+    "sha256": "64380ca31547f4b3cbb871f36d709291ae529f379dd2328bd9f1a524472be834",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "De l’eau"
+  },
+  "simple:réponse:Derrière la porte": {
+    "file": "curriculum-simple/simple-reponse-Derriere-la-porte-ac0a4c52.mp3",
+    "phonemes": "dɛʁjˈɛʁ la- pˈɔʁt.",
+    "review": "pending_human_review",
+    "sha256": "a33b54165525d86288241cc106c190dbb96de4b0daaf0a15f4f6f114f993adb5",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "Derrière la porte"
+  },
+  "simple:réponse:Derrière le mur": {
+    "file": "curriculum-simple/simple-reponse-Derriere-le-mur-74ea2dca.mp3",
+    "phonemes": "dɛʁjˈɛʁ lə- mˈyʁ.",
+    "review": "pending_human_review",
+    "sha256": "959f7eef2e6846fa8ac64906063490dee026242f87af935fe1fbadf25bbe195f",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "Derrière le mur"
+  },
+  "simple:réponse:Des poules dorment": {
+    "file": "curriculum-simple/simple-reponse-Des-poules-dorment-45e5a432.mp3",
+    "phonemes": "de- pˈul dˈɔʁm.",
+    "review": "pending_human_review",
+    "sha256": "d99d7f13db0cf36a3b6dc2568144327dfb8da776a3a82cea11891516b7f9fddb",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "Des poules dorment"
+  },
+  "simple:réponse:Des poules picorent": {
+    "file": "curriculum-simple/simple-reponse-Des-poules-picorent-84f1220a.mp3",
+    "phonemes": "de- pˈul pikˈoʁ.",
+    "review": "pending_human_review",
+    "sha256": "d55190e1e884ecfa240b67bb3af1308fe9ac9fee9742110c99616e02891dfecf",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "Des poules picorent"
+  },
+  "simple:réponse:Deux loups": {
+    "file": "curriculum-simple/simple-reponse-Deux-loups-cbfc47ba.mp3",
+    "phonemes": "dˈø lˈu.",
+    "review": "pending_human_review",
+    "sha256": "4caadb93c7c3ecb2777c12560efb8f88e30a3125e9a14a48cf0a684c4f0b3187",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "Deux loups"
+  },
+  "simple:réponse:Devant la porte": {
+    "file": "curriculum-simple/simple-reponse-Devant-la-porte-a5ea465f.mp3",
+    "phonemes": "dəvˈɑ̃ la- pˈɔʁt.",
+    "review": "pending_human_review",
+    "sha256": "8030d31a1e45bd47392b185fed9bb25b97649fb26c6eb74f9d9943d43b3ad457",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "Devant la porte"
+  },
+  "simple:réponse:Devant le mur": {
+    "file": "curriculum-simple/simple-reponse-Devant-le-mur-e5841153.mp3",
+    "phonemes": "dəvˈɑ̃ lə- mˈyʁ.",
+    "review": "pending_human_review",
+    "sha256": "a2632e6d1609679cf250e951aa3f92305ecfa419bd5a1178cb61e05df618aabe",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "Devant le mur"
+  },
+  "simple:réponse:Du bambou": {
+    "file": "curriculum-simple/simple-reponse-Du-bambou-cf9b949f.mp3",
+    "phonemes": "dy- bɑ̃bˈu.",
+    "review": "pending_human_review",
+    "sha256": "6f63a6dcfe40bd22d7ff9b1234da035bfefbabd9c9b73a701f4c9416cfaac996",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "Du bambou"
+  },
+  "simple:réponse:Du blé": {
+    "file": "curriculum-simple/simple-reponse-Du-ble-e5cd0d92.mp3",
+    "phonemes": "dy- blˈe.",
+    "review": "pending_human_review",
+    "sha256": "1ec6f16673520025ec96daeede9faba1efff1201c527dc0cf13f3359e1b1fabe",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "Du blé"
+  },
+  "simple:réponse:Elle a chaud": {
+    "file": "curriculum-simple/simple-reponse-Elle-a-chaud-4a169713.mp3",
+    "phonemes": "ɛl a ʃˈo.",
+    "review": "pending_human_review",
+    "sha256": "310129b577bdd234a056ba0ddafa57a52fc4da9bc2e82c45f485f0d2a05e80e6",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "Elle a chaud"
+  },
+  "simple:réponse:Elle a faim": {
+    "file": "curriculum-simple/simple-reponse-Elle-a-faim-2ec923f5.mp3",
+    "phonemes": "ɛl a fˈɛ̃.",
+    "review": "pending_human_review",
+    "sha256": "102020d8ec8d84d1e23d686c285580f83459f7c0fb3cd094058fd2115b911134",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "Elle a faim"
+  },
+  "simple:réponse:Elle a froid": {
+    "file": "curriculum-simple/simple-reponse-Elle-a-froid-98af74b3.mp3",
+    "phonemes": "ɛl a fʁwˈa.",
+    "review": "pending_human_review",
+    "sha256": "31132632c6b17ad6a2b08fbacc8563f57b5c387b77889a7d749ac708fa87fdf4",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "Elle a froid"
+  },
+  "simple:réponse:Elle broute": {
+    "file": "curriculum-simple/simple-reponse-Elle-broute-ddc8d33a.mp3",
+    "phonemes": "ɛl bʁˈut.",
+    "review": "pending_human_review",
+    "sha256": "7e07aead241a131f18be89748156bef686c803a7497c54cc1ea0c32ddf05463b",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "Elle broute"
+  },
+  "simple:réponse:Elle dort": {
+    "file": "curriculum-simple/simple-reponse-Elle-dort-f06f4f13.mp3",
+    "phonemes": "ɛl dˈɔʁ.",
+    "review": "pending_human_review",
+    "sha256": "b2cd40e91afc4bc3a58350777e15b3a82b4d3f1524cf2f2e37bd8e6829b95586",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "Elle dort"
+  },
+  "simple:réponse:Elle picore": {
+    "file": "curriculum-simple/simple-reponse-Elle-picore-376fd18a.mp3",
+    "phonemes": "ɛl pikˈɔʁ.",
+    "review": "pending_human_review",
+    "sha256": "6a491ffa99a0729b9b98f8612bedb5c3eb107a471879ba05a29cb9e4c672c7f6",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "Elle picore"
+  },
+  "simple:réponse:Il a chaud": {
+    "file": "curriculum-simple/simple-reponse-Il-a-chaud-2ffda983.mp3",
+    "phonemes": "il a ʃˈo.",
+    "review": "pending_human_review",
+    "sha256": "dad90468987c908db67e8f438728ca86ed4a22b91358a63aec86edd44567ee16",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "Il a chaud"
+  },
+  "simple:réponse:Il a faim": {
+    "file": "curriculum-simple/simple-reponse-Il-a-faim-82341d44.mp3",
+    "phonemes": "il a fˈɛ̃.",
+    "review": "pending_human_review",
+    "sha256": "76c4cba5ea9a15a8be3d8565758f602f8182b9d44e010dc2f9dd793a7af91476",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "Il a faim"
+  },
+  "simple:réponse:Il a froid": {
+    "file": "curriculum-simple/simple-reponse-Il-a-froid-bbc8cb6a.mp3",
+    "phonemes": "il a fʁwˈa.",
+    "review": "pending_human_review",
+    "sha256": "e73562cfc88ec3c4f4a2b6ff099d7252fbda67a5845244813a328bcbf66a1e21",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "Il a froid"
+  },
+  "simple:réponse:Il a soif": {
+    "file": "curriculum-simple/simple-reponse-Il-a-soif-20648c04.mp3",
+    "phonemes": "il a swˈaf.",
+    "review": "pending_human_review",
+    "sha256": "ef51a6310e1605a417f43e617b4c7532ac7fd1390716f547a347a4225e1b88ad",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "Il a soif"
+  },
+  "simple:réponse:Il a sommeil": {
+    "file": "curriculum-simple/simple-reponse-Il-a-sommeil-7ee370a2.mp3",
+    "phonemes": "il a sɔmˈɛj.",
+    "review": "pending_human_review",
+    "sha256": "ab117aee759097bacfbff09768896e04836a53b425cfda616beaceb3adf5c014",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "Il a sommeil"
+  },
+  "simple:réponse:Il boit": {
+    "file": "curriculum-simple/simple-reponse-Il-boit-fed4d0d3.mp3",
+    "phonemes": "il bwˈa.",
+    "review": "pending_human_review",
+    "sha256": "09540e79b324b119fb4351548cf4085682c5480a6629b7f32e845097087981df",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "Il boit"
+  },
+  "simple:réponse:Il court": {
+    "file": "curriculum-simple/simple-reponse-Il-court-a700e2e9.mp3",
+    "phonemes": "il kˈuʁ.",
+    "review": "pending_human_review",
+    "sha256": "bc335b261712e4b16eb697ed68cfe546e8f686bf2a0f6c6e951acb07a059e688",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "Il court"
+  },
+  "simple:réponse:Il dort": {
+    "file": "curriculum-simple/simple-reponse-Il-dort-a61ac552.mp3",
+    "phonemes": "il dˈɔʁ.",
+    "review": "pending_human_review",
+    "sha256": "22259206de29db1f39b965a58ef18951f942d17063c486571116d9ee0a366c48",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "Il dort"
+  },
+  "simple:réponse:Il fait beau": {
+    "file": "curriculum-simple/simple-reponse-Il-fait-beau-cb266de4.mp3",
+    "phonemes": "il fˈɛ bˈo.",
+    "review": "pending_human_review",
+    "sha256": "3044b984ed756b91b82b457c9703a41538ef22d8b0b123230245ee13b38429d3",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "Il fait beau"
+  },
+  "simple:réponse:Il file": {
+    "file": "curriculum-simple/simple-reponse-Il-file-847c1e4b.mp3",
+    "phonemes": "il fˈil.",
+    "review": "pending_human_review",
+    "sha256": "cbd5df4e3f900887cc06d012a39768253946b75d8144803bd0ae3ea5e84fc10b",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "Il file"
+  },
+  "simple:réponse:Il mange": {
+    "file": "curriculum-simple/simple-reponse-Il-mange-7466238a.mp3",
+    "phonemes": "il mˈɑ̃ʒ.",
+    "review": "pending_human_review",
+    "sha256": "3f77763a97d25a6b7a0aeebd6d0711bea6c616d6436523df33e04fd0cd991da0",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "Il mange"
+  },
+  "simple:réponse:Il nage": {
+    "file": "curriculum-simple/simple-reponse-Il-nage-a10359f2.mp3",
+    "phonemes": "il nˈaʒ.",
+    "review": "pending_human_review",
+    "sha256": "9491572a41631b604fabad44d21952268f554d98c582813ed41db7728fbc0fcf",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "Il nage"
+  },
+  "simple:réponse:Il passe": {
+    "file": "curriculum-simple/simple-reponse-Il-passe-93e5faba.mp3",
+    "phonemes": "il pˈas.",
+    "review": "pending_human_review",
+    "sha256": "589e256cc2e48741ead8ed254017ce6540b371a9f637cd52d7e515b4a26d6086",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "Il passe"
+  },
+  "simple:réponse:Il pleut": {
+    "file": "curriculum-simple/simple-reponse-Il-pleut-92ac44bc.mp3",
+    "phonemes": "il plˈø.",
+    "review": "pending_human_review",
+    "sha256": "46a715e91ad730a5b142935a81a559d39152187bab21c0f5be480fbf9d4279d4",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "Il pleut"
+  },
+  "simple:réponse:Il saute": {
+    "file": "curriculum-simple/simple-reponse-Il-saute-221f2134.mp3",
+    "phonemes": "il sˈot.",
+    "review": "pending_human_review",
+    "sha256": "8b87bc23f8f33f1f3eaa66f4ebeb035df7cccd7e8c3318fad6263f6b7773142e",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "Il saute"
+  },
+  "simple:réponse:La balle": {
+    "file": "curriculum-simple/simple-reponse-La-balle-ae71fd32.mp3",
+    "phonemes": "la- bˈal.",
+    "review": "pending_human_review",
+    "sha256": "688d90ef8a8a4debd43734b6eb8300554efbad268925a247b4f68711591dafcb",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "La balle"
+  },
+  "simple:réponse:La lune": {
+    "file": "curriculum-simple/simple-reponse-La-lune-4606eaac.mp3",
+    "phonemes": "la- lˈyn.",
+    "review": "pending_human_review",
+    "sha256": "ecfc22bcda825a184eecd23dad8749205caab795e847fc4c24d4f0749d6adac5",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "La lune"
+  },
+  "simple:réponse:La mare": {
+    "file": "curriculum-simple/simple-reponse-La-mare-76deca8f.mp3",
+    "phonemes": "la- mˈaʁ.",
+    "review": "pending_human_review",
+    "sha256": "fa241483c2be0b034b2896922a8ef1511d986153af15c2174c03b401c3bb002d",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "La mare"
+  },
+  "simple:réponse:La nuit": {
+    "file": "curriculum-simple/simple-reponse-La-nuit-2b80a56a.mp3",
+    "phonemes": "la- nyˈi.",
+    "review": "pending_human_review",
+    "sha256": "05edbb226705e7728c6c9c6caa39c4df5521a9d742b368c2cdaa23e6d8984a43",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "La nuit"
+  },
+  "simple:réponse:La porte": {
+    "file": "curriculum-simple/simple-reponse-La-porte-7ff470eb.mp3",
+    "phonemes": "la- pˈɔʁt.",
+    "review": "pending_human_review",
+    "sha256": "655e2dd0ce8910260e8509cdd76db32d7e63f655c840c76a7259583ce768b06a",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "La porte"
+  },
+  "simple:réponse:La poule": {
+    "file": "curriculum-simple/simple-reponse-La-poule-3e4f88d7.mp3",
+    "phonemes": "la- pˈul.",
+    "review": "pending_human_review",
+    "sha256": "7f9760ca94c374095d7128ffb87b2552a60de80024a1b2775cb05b358846cd24",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "La poule"
+  },
+  "simple:réponse:La vache": {
+    "file": "curriculum-simple/simple-reponse-La-vache-3f85363b.mp3",
+    "phonemes": "la- vˈaʃ.",
+    "review": "pending_human_review",
+    "sha256": "283665bb81b157847de1e6465fd890a6a8a34254fbea5681df1f4080974dc3e7",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "La vache"
+  },
+  "simple:réponse:Le bois": {
+    "file": "curriculum-simple/simple-reponse-Le-bois-79fbd888.mp3",
+    "phonemes": "lə- bwˈa.",
+    "review": "pending_human_review",
+    "sha256": "18ba027cc657d7de89bd7479a5c19849c33e8a5bc7f1bfabef9c50cb6d263a10",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "Le bois"
+  },
+  "simple:réponse:Le bol": {
+    "file": "curriculum-simple/simple-reponse-Le-bol-ccbf0a8d.mp3",
+    "phonemes": "lə- bˈɔl.",
+    "review": "pending_human_review",
+    "sha256": "d48e0ab376047648a25a0ef7498e37c72677e2ae3f751157886118bcc72a07f1",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "Le bol"
+  },
+  "simple:réponse:Le canard": {
+    "file": "curriculum-simple/simple-reponse-Le-canard-e00e9041.mp3",
+    "phonemes": "lə- kanˈaʁ.",
+    "review": "pending_human_review",
+    "sha256": "3dd6f1682a1fe63ffde78101dea40120bc1411778e499798b72fd1775210dd58",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "Le canard"
+  },
+  "simple:réponse:Le chat": {
+    "file": "curriculum-simple/simple-reponse-Le-chat-6a079283.mp3",
+    "phonemes": "lə- ʃˈa.",
+    "review": "pending_human_review",
+    "sha256": "8dde53ce81859774826fdbdecfd00383036c7d0f4916302455fe8951689cb7a5",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "Le chat"
+  },
+  "simple:réponse:Le jour": {
+    "file": "curriculum-simple/simple-reponse-Le-jour-c93f00cc.mp3",
+    "phonemes": "lə- ʒˈuʁ.",
+    "review": "pending_human_review",
+    "sha256": "b29470d6f176d52f20859e16fb615569afad8321a01301838987de5e5805dc83",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "Le jour"
+  },
+  "simple:réponse:Le lapin": {
+    "file": "curriculum-simple/simple-reponse-Le-lapin-c32e6538.mp3",
+    "phonemes": "lə- lapˈɛ̃.",
+    "review": "pending_human_review",
+    "sha256": "e43c6f264de2d150ec340d526d5b33f25199c25141f68913c1bcd5a92aac7b1c",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "Le lapin"
+  },
+  "simple:réponse:Le lapin dort": {
+    "file": "curriculum-simple/simple-reponse-Le-lapin-dort-4bf4d738.mp3",
+    "phonemes": "lə- lapˈɛ̃ dˈɔʁ.",
+    "review": "pending_human_review",
+    "sha256": "8db26cf44639a1011ee35e3629a8e7e6dcdd91327aafb48fcedf7eda6e11d19f",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "Le lapin dort"
+  },
+  "simple:réponse:Le lapin saute": {
+    "file": "curriculum-simple/simple-reponse-Le-lapin-saute-adf61681.mp3",
+    "phonemes": "lə- lapˈɛ̃ sˈot.",
+    "review": "pending_human_review",
+    "sha256": "5c9c4c390862bebb3e25000e3dc5404059d4479fc2330c57b02d9cf25ce8ce94",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "Le lapin saute"
+  },
+  "simple:réponse:Le loup": {
+    "file": "curriculum-simple/simple-reponse-Le-loup-95ea35aa.mp3",
+    "phonemes": "lə- lˈu.",
+    "review": "pending_human_review",
+    "sha256": "4ab64416a4715d368e6195552b538ee867d61f801f49b4a75c4924150c03ee7a",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "Le loup"
+  },
+  "simple:réponse:Le panda": {
+    "file": "curriculum-simple/simple-reponse-Le-panda-f6f7154d.mp3",
+    "phonemes": "lə- pɑ̃dˈa.",
+    "review": "pending_human_review",
+    "sha256": "e7dabac5acc17b676ecd33f200d2d313c95993b72639e44d057c50d773ccd3ac",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "Le panda"
+  },
+  "simple:réponse:Le rat": {
+    "file": "curriculum-simple/simple-reponse-Le-rat-7421f18b.mp3",
+    "phonemes": "lə- ʁˈa.",
+    "review": "pending_human_review",
+    "sha256": "e649843c525789a614af4c1f32b7f7db34b8855e5296495fc3ca27bec75571b4",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "Le rat"
+  },
+  "simple:réponse:Le renard": {
+    "file": "curriculum-simple/simple-reponse-Le-renard-c71ad368.mp3",
+    "phonemes": "lə- ʁənˈaʁ.",
+    "review": "pending_human_review",
+    "sha256": "307ae49a474fd885b05d8f4edd75ac9a8d31335e71f59620acf85a600e3605af",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "Le renard"
+  },
+  "simple:réponse:Le soleil": {
+    "file": "curriculum-simple/simple-reponse-Le-soleil-c4fc039b.mp3",
+    "phonemes": "lə- solˈɛj.",
+    "review": "pending_human_review",
+    "sha256": "bf9ff2ff815acaf09667d8b3bb7f2affab3d8cd0b698ec54a67af29518fb0750",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "Le soleil"
+  },
+  "simple:réponse:Les pandas dorment": {
+    "file": "curriculum-simple/simple-reponse-Les-pandas-dorment-7b3ce4c2.mp3",
+    "phonemes": "le- pɑ̃dˈa dˈɔʁm.",
+    "review": "pending_human_review",
+    "sha256": "4d57ef77350f0ae0bd7d13f865eca2f2bc1a3f741a6d28efc4055acc235e724a",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "Les pandas dorment"
+  },
+  "simple:réponse:Les pandas mangent": {
+    "file": "curriculum-simple/simple-reponse-Les-pandas-mangent-490db940.mp3",
+    "phonemes": "le- pɑ̃dˈa mˈɑ̃ʒ.",
+    "review": "pending_human_review",
+    "sha256": "f210358ee440c277cdd0e28cf4009ff9993e5b3d17df7b4ad26a3ed21761d87a",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "Les pandas mangent"
+  },
+  "simple:réponse:L’arbre": {
+    "file": "curriculum-simple/simple-reponse-Larbre-e2dcb875.mp3",
+    "phonemes": "lˈaʁbʁ.",
+    "review": "pending_human_review",
+    "sha256": "b967f21c2c48cb07f581c787f569539f341204bfdd36f086583eeb75549dbab3",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "L’arbre"
+  },
+  "simple:réponse:Plusieurs": {
+    "file": "curriculum-simple/simple-reponse-Plusieurs-54a893dd.mp3",
+    "phonemes": "plyzjˈœʁ.",
+    "review": "pending_human_review",
+    "sha256": "47f57687c1a94bda95a4a41277a11dc6002c30a682f236ce86ee7fc303218e76",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "Plusieurs"
+  },
+  "simple:réponse:Sous la table": {
+    "file": "curriculum-simple/simple-reponse-Sous-la-table-0f0c0d84.mp3",
+    "phonemes": "su la- tˈabl.",
+    "review": "pending_human_review",
+    "sha256": "1870fb9d9b3f0ccf9a752ec89ffe92d5f2e6153b71aa4b37895d033d86f4d67b",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "Sous la table"
+  },
+  "simple:réponse:Sous le lit": {
+    "file": "curriculum-simple/simple-reponse-Sous-le-lit-2bfcc0e6.mp3",
+    "phonemes": "su lə- lˈi.",
+    "review": "pending_human_review",
+    "sha256": "a6b7ddf83e84eaa2d5d727138447ed171a42e0fe480ea0052aeeffb429ef8639",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "Sous le lit"
+  },
+  "simple:réponse:Sous le pont": {
+    "file": "curriculum-simple/simple-reponse-Sous-le-pont-2983ab69.mp3",
+    "phonemes": "su lə- pˈɔ̃.",
+    "review": "pending_human_review",
+    "sha256": "ba1cd31d71f1a790089ac32dec9adb79f5b80e0b3828ed827a27d0604f324b90",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "Sous le pont"
+  },
+  "simple:réponse:Sous un arbre": {
+    "file": "curriculum-simple/simple-reponse-Sous-un-arbre-b3150954.mp3",
+    "phonemes": "suz œ̃n ˈaʁbʁ.",
+    "review": "pending_human_review",
+    "sha256": "5e936b2ba6fc1abde09975ffbb666fd4fcabd535d862c4e77480439dfecbae3c",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "Sous un arbre"
+  },
+  "simple:réponse:Sur la table": {
+    "file": "curriculum-simple/simple-reponse-Sur-la-table-d6d8ac34.mp3",
+    "phonemes": "syʁ la- tˈabl.",
+    "review": "pending_human_review",
+    "sha256": "85e51e0e427298f14d331de7bdea88567fd872a1a812be4f228494d8323a7fe7",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "Sur la table"
+  },
+  "simple:réponse:Sur le lit": {
+    "file": "curriculum-simple/simple-reponse-Sur-le-lit-1b79f801.mp3",
+    "phonemes": "syʁ lə- lˈi.",
+    "review": "pending_human_review",
+    "sha256": "725736f6ef113c38135ecab2ddedb6384dcb2bfb7e9c3a42019af4657379258d",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "Sur le lit"
+  },
+  "simple:réponse:Sur le pont": {
+    "file": "curriculum-simple/simple-reponse-Sur-le-pont-954eefe7.mp3",
+    "phonemes": "syʁ lə- pˈɔ̃.",
+    "review": "pending_human_review",
+    "sha256": "b9d20946f8f83126cdc74035d00b42acc4c719c3c006ee9aa8bc4704c84fdb2f",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "Sur le pont"
+  },
+  "simple:réponse:Un loup et une vache": {
+    "file": "curriculum-simple/simple-reponse-Un-loup-et-une-vache-4455ce93.mp3",
+    "phonemes": "œ̃ lˈu e yn vˈaʃ.",
+    "review": "pending_human_review",
+    "sha256": "423bd22e956848a1d2928b352739635a8c6ee52a31f7d593a9747f708f815b69",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "Un loup et une vache"
+  },
+  "simple:réponse:Un seul": {
+    "file": "curriculum-simple/simple-reponse-Un-seul-1becbfde.mp3",
+    "phonemes": "œ̃ sˈœl.",
+    "review": "pending_human_review",
+    "sha256": "980296ce394c59b703ea93f4e4e9bca66244750706c83f06807a925e33a3e00a",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "Un seul"
+  },
+  "simple:réponse:Une pomme": {
+    "file": "curriculum-simple/simple-reponse-Une-pomme-52a65da5.mp3",
+    "phonemes": "yn pˈɔm.",
+    "review": "pending_human_review",
+    "sha256": "b9436196e5219f599c15371d257f9a6081ea7811d7529a37fb95ebba36f9b0c4",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "Une pomme"
   }
 }

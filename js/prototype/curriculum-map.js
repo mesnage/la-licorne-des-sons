@@ -1,4 +1,4 @@
-import { simpleExercise } from '../data/curriculum-simple.js';
+import { exerciseVersion, simpleExercise } from '../data/curriculum-simple.js';
 import { illustration } from '../illustrations.js';
 import { createCurriculum } from '../learning/curriculum.js';
 import { chapterMapUrl, chapterPlayUrl } from '../learning/chapter-one.js';
@@ -104,7 +104,7 @@ function unitDetail(unit, status, pilot) {
   if (status === 'upcoming') {
     detail.append(element('p', '', 'Termine l’unité précédente pour jouer à celle-ci.'));
   } else {
-    const active = restoreProgrammeState(progress, pilotQuestionCount);
+    const active = restoreProgrammeState(progress, pilotQuestionCount, exerciseVersion(unit));
     const label = active && active.cursor < pilotQuestionCount
       ? 'Reprendre l’unité' : progress?.completed ? 'Voir le château' : 'Jouer cette unité';
     detail.append(link(chapterPlayUrl(unit.id, testMode), label, 'curriculum-link curriculum-play-link'));

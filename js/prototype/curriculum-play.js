@@ -1,7 +1,7 @@
 import * as playback from '../audio.js?v=curriculum-chapter-1';
 import { chapterMapUrl, chapterPlayUrl } from '../learning/chapter-one.js';
 import { createSimpleQuestions } from '../learning/curriculum-simple.js';
-import { simpleProgrammeVersion } from '../data/curriculum-simple.js';
+import { exerciseVersion } from '../data/curriculum-simple.js';
 import { WORLDS } from './model.js';
 import { illustration } from '../illustrations.js';
 import { createCurriculum } from '../learning/curriculum.js';
@@ -72,6 +72,7 @@ async function openPilot() {
   document.querySelectorAll('[data-chapter-return]').forEach(link => {
     link.href = chapterMapUrl(block ? unit.id : chapter.id, testMode);
   });
+  const version = exerciseVersion(unit);
   const total = block ? block.questionCount : unit.blocks.reduce((count, item) => count + item.questionCount, 0);
   get('pilotCrystals').max = total;
   const key = unitProgressKey(id, testMode, block?.position);
@@ -104,7 +105,7 @@ async function openPilot() {
         showConflict();
         return;
       }
-      const value = JSON.stringify({ version: simpleProgrammeVersion, completed, session: session.snapshot() });
+      const value = JSON.stringify({ version, completed, session: session.snapshot() });
       storage.setItem(key, value);
       lastSaved = value;
     } catch {
@@ -134,7 +135,8 @@ async function openPilot() {
   function refreshAnswers() {
     const question = session.question;
     const canAnswer = (!question.prompt || heard.has(question.prompt)) && question.choices.every(key => heard.has(key));
-    for (const node of readyAnswers) node.disabled = !canAnswer;
+    const placed = question.order ? session.snapshot().order : [];
+    for (const node of readyAnswers) node.disabled = !canAnswer || placed.includes(Number(node.dataset.tile));
   }
 
   async function play(keys) {
@@ -174,7 +176,10 @@ async function openPilot() {
   function showCorrection(question) {
     actions.querySelector('.pilot-hint')?.remove();
     const hint = button('Un indice', () => {
-      if (question.choices.length) {
+      if (question.order) {
+        feedback.textContent = 'Touche « ' + question.order[session.snapshot().order.length] + ' » pour continuer.';
+        play([question.prompt]);
+      } else if (question.choices.length) {
         feedback.textContent = 'Écoute le choix ' + (question.answer + 1) + '.';
         play([question.choices[question.answer]]);
       } else if (question.labels) {
@@ -200,8 +205,10 @@ async function openPilot() {
       return;
     }
 
+    const word = session.question.word;
     stopAudio();
     render(true);
+    if (word) feedback.textContent = 'Tu as fabriqué « ' + word + ' ».';
     if (worldReady) {
       const next = actions.querySelector('button');
       next.disabled = true;
@@ -212,11 +219,77 @@ async function openPilot() {
     }
   }
 
+  function showWordTiles(question, placed) {
+    const slots = makeRow('pilot-word-slots');
+    slots.setAttribute('aria-label', 'Le mot se construit de gauche à droite');
+    for (const [position] of question.order.entries()) {
+      const slot = document.createElement('span');
+      slot.className = 'pilot-word-slot';
+      if (placed[position] !== undefined) slot.textContent = question.order[placed[position]];
+      else if (position === placed.length) slot.classList.add('pilot-next-slot');
+      slots.append(slot);
+    }
+    controls.append(slots);
+
+    const tray = makeRow('pilot-word-tiles');
+    for (const tile of question.tiles) {
+      const piece = question.order[tile];
+      const node = button(piece, () => {
+        if (piece !== question.order[session.snapshot().order.length]) {
+          answer(2);
+          return;
+        }
+        session.toggleTile(tile);
+        if (session.orderIsCorrect()) answer(1);
+        else {
+          save();
+          if (!conflict) {
+            render();
+            controls.querySelector('.pilot-word-tiles button:not(:disabled)')?.focus();
+          }
+        }
+      }, 'pilot-letter-tile');
+      node.dataset.tile = tile;
+      readyAnswers.push(node);
+      tray.append(node);
+    }
+    controls.append(tray);
+  }
+
+  function showMissingLetters(parts) {
+    const word = makeRow('pilot-word-slots pilot-gap-word');
+    const blank = document.createElement('span');
+    blank.className = 'pilot-word-slot pilot-next-slot';
+    blank.setAttribute('aria-label', 'Lettres manquantes');
+    word.append(parts[0], blank, parts[1]);
+    controls.append(word);
+  }
+
+  function showAnswerCards(question) {
+    const row = makeRow('pilot-answer-pair');
+    for (const [index, label] of question.labels.entries()) {
+      const answer = answerButton(label, index);
+      if (question.blank) answer.classList.add('pilot-letter-tile');
+      if (question.optionAudio) {
+        const card = document.createElement('div');
+        card.className = 'pilot-answer-card';
+        const speaker = listen('Écouter', [question.optionAudio[index]], 'pilot-card-listen');
+        speaker.setAttribute('aria-label', 'Écouter : ' + label);
+        card.append(answer, speaker);
+        row.append(card);
+      } else row.append(answer);
+    }
+    controls.append(row);
+  }
+
   function showQuestion(question, state) {
     instructions.textContent = question.instruction;
     const audioControls = makeRow();
     const promptLabels = {
       oral_count: 'Écouter le mot',
+      assemble_word: 'Écouter',
+      fill_grapheme: 'Écouter le mot',
+      morph_choice: 'Écouter le nombre',
       sound_to_grapheme: 'Écouter le son',
       oral_vocabulary: 'Écouter la phrase',
       story_listen_question: 'Écouter l’histoire'
@@ -227,18 +300,27 @@ async function openPilot() {
       display.textContent = question.display;
       controls.append(display);
     }
+    if (question.question) {
+      const task = document.createElement('p');
+      task.className = 'pilot-reading-question';
+      task.textContent = question.question;
+      controls.append(task);
+    }
+    if (question.blank) showMissingLetters(question.blank);
     if (question.prompt) {
       audioControls.append(listen(promptLabels[question.type], [question.prompt, question.context].filter(Boolean), 'pilot-primary'));
     }
     if (question.choices.length) {
       audioControls.append(listen('Écouter les deux choix', question.choices, 'pilot-primary'));
     }
-    audioControls.append(listen('Écouter la consigne', [question.instructionAudio], 'pilot-instruction'));
+    audioControls.append(question.questionAudio
+      ? listen('Écouter la question', [question.questionAudio], 'pilot-instruction')
+      : listen('Écouter la consigne', [question.instructionAudio], 'pilot-instruction'));
     controls.append(audioControls);
-    if (question.labels) {
-      const row = makeRow(question.scene ? 'pilot-scene-options' : 'pilot-answer-pair');
-      question.labels.forEach((label, index) => row.append(answerButton(label, index)));
-      controls.append(row);
+    if (question.order) {
+      showWordTiles(question, state.order);
+    } else if (question.labels) {
+      showAnswerCards(question);
     } else if (question.choices.length) {
       const row = makeRow('pilot-answer-pair');
       question.choices.forEach((_, index) => row.append(answerButton('Choix ' + (index + 1), index)));
@@ -317,7 +399,7 @@ async function openPilot() {
     if (focus) heading.focus({ preventScroll: true });
   }
 
-  const restored = restoreProgrammeState(saved, total);
+  const restored = restoreProgrammeState(saved, total, version);
   if (!restored && saved?.session) get('pilotMigration').hidden = false;
   restart(restored ?? newPilotState(Math.floor(Math.random() * 1000000)));
   get('pilotPanel').hidden = false;

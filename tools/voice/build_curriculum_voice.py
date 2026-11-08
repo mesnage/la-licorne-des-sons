@@ -15,6 +15,7 @@ import {readFileSync} from 'node:fs';
 import {createCurriculum} from './js/learning/curriculum.js';
 import {curriculumAudioSources} from './js/learning/curriculum-questions.js';
 import {simpleExercise, simpleInstructionKey} from './js/data/curriculum-simple.js';
+import {createSimpleQuestions} from './js/learning/curriculum-simple.js';
 const curriculum = createCurriculum(JSON.parse(readFileSync('js/data/curriculum.v2.json')));
 const selection = process.argv[1];
 const sources = selection === 'simple'
@@ -23,6 +24,17 @@ const sources = selection === 'simple'
         return [simpleInstructionKey(text), { text }];
     }))
     : curriculumAudioSources(curriculum.getChapter(selection));
+if (selection === 'simple') {
+    const chapter = curriculum.getChapter('C4');
+    for (const unit of chapter.units) {
+        for (const question of createSimpleQuestions(chapter, unit, null, 0)) {
+            for (const key of [question.prompt, question.questionAudio, ...(question.optionAudio ?? [])]) {
+                const prefix = ['simple:réponse:', 'simple:question:'].find(value => key?.startsWith(value));
+                if (prefix) sources[key] = { text: key.slice(prefix.length) };
+            }
+        }
+    }
+}
 console.log(JSON.stringify(sources));
 """
 

@@ -73,16 +73,16 @@ export function unitProgressKey(id, testMode = false, block) {
 export function readPilotProgress(storage, id = pilotUnitId, testMode = false, block) {
   try {
     const value = JSON.parse(storage.getItem(unitProgressKey(id, testMode, block)));
-    if (value?.version === 1 || value?.version === simpleProgrammeVersion) return value;
+    if ([1, 2, simpleProgrammeVersion].includes(value?.version)) return value;
   } catch {
     // The pilot also works when browser storage is unavailable.
   }
   return null;
 }
 
-export function restoreProgrammeState(progress, length) {
+export function restoreProgrammeState(progress, length, version = simpleProgrammeVersion) {
   const state = restorePilotState(progress?.session, length);
-  return progress?.version === simpleProgrammeVersion || (progress?.completed && state?.cursor === length)
+  return progress?.version === version || (progress?.completed && state?.cursor === length)
     ? state : null;
 }
 

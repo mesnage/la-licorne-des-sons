@@ -4,6 +4,7 @@ import { createRequire } from 'node:module';
 import { readFileSync } from 'node:fs';
 import { URL } from 'node:url';
 import { createCurriculum } from '../js/learning/curriculum.js';
+import { exerciseVersion } from '../js/data/curriculum-simple.js';
 import { createSimpleQuestions } from '../js/learning/curriculum-simple.js';
 import { chapterPlayUrl } from '../js/learning/chapter-one.js';
 import { unitProgressKey } from '../js/learning/pilot-session.js';
@@ -25,14 +26,14 @@ try {
     if (new URL(request.url()).origin !== new URL(base).origin) foreign.push(request.url());
   });
 
-  await page.addInitScript(({ prior, chapterKeys }) => {
+  await page.addInitScript(({ prior, chapterKeys, version }) => {
     for (const key of prior) {
       localStorage.setItem(key, JSON.stringify({ version: 1, completed: true }));
     }
     for (const key of chapterKeys) {
       if (!localStorage.getItem(key)) {
         localStorage.setItem(key, JSON.stringify({
-          version: 2, completed: false, session: { seed: 0, cursor: 0, answers: [], wrong: 0, marks: 0 }
+          version, completed: false, session: { seed: 0, cursor: 0, answers: [], wrong: 0, marks: 0 }
         }));
       }
     }
@@ -45,7 +46,7 @@ try {
     };
   }, {
     prior: all.slice(0, all.indexOf(chapter.units[0])).map(unit => unitProgressKey(unit.id)),
-    chapterKeys: chapter.units.map(unit => unitProgressKey(unit.id))
+    chapterKeys: chapter.units.map(unit => unitProgressKey(unit.id)), version: exerciseVersion(chapter.units[0])
   });
 
   await page.goto(new URL('curriculum.html#' + chapter.units[0].id, base).href);
@@ -54,7 +55,7 @@ try {
   const controls = page.locator('#pilotControls');
   for (const unit of chapter.units) {
     await page.locator('#pilotUnitName').filter({ hasText: unit.title }).waitFor();
-    await controls.getByRole('button', { name: 'Écouter la consigne' }).click();
+    await controls.getByRole('button', { name: /Écouter la (consigne|question)/ }).click();
     await page.locator('#pilotControls[aria-busy="false"]').waitFor();
     const questions = createSimpleQuestions(chapter, unit, null, 0);
     for (const [index, question] of questions.entries()) {
@@ -84,11 +85,14 @@ try {
         if (item.prompt) {
           const promptLabels = {
             oral_count: 'Écouter le mot', sound_to_grapheme: 'Écouter le son',
+            assemble_word: 'Écouter', fill_grapheme: 'Écouter le mot', morph_choice: 'Écouter le nombre',
             oral_vocabulary: 'Écouter la phrase', story_listen_question: 'Écouter l’histoire'
           };
           await hear(promptLabels[item.type]);
         }
-        if (item.choices.length) {
+        if (item.order) {
+          for (const tile of item.order) await press(tile, controls.querySelector('.pilot-word-tiles'));
+        } else if (item.choices.length) {
           if ([...controls.querySelectorAll('button')].filter(button => /^Choix [12]$/.test(button.textContent.trim()))
               .some(button => !button.disabled)) throw new Error('Choix activé avant écoute ' + item.id);
           await hear('Écouter les deux choix');

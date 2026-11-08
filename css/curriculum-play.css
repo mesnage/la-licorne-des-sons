@@ -50,5 +50,33 @@
 #pilotActions .curriculum-play-link { margin-top:0; }
 
 .pilot-text { font-size:clamp(1.2rem,4vw,1.7rem); line-height:1.55; }
-.pilot-scene-options { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:8px; margin-top:12px; }
-.pilot-scene-options .pilot-button { min-height:64px; font-size:clamp(1.2rem,5vw,1.85rem); }
+
+.pilot-word-slots,.pilot-word-tiles {
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  gap:8px;
+  margin:12px 0;
+}
+.pilot-word-slot,.pilot-letter-tile {
+  display:inline-grid;
+  place-items:center;
+  min-width:58px;
+  min-height:55px;
+  padding:6px 12px;
+  border-radius:12px;
+  font-size:clamp(1.25rem,6vw,2rem);
+  font-weight:700;
+}
+.pilot-word-slot { border:2px solid #cfbddc; background:#f6eef9; }
+.pilot-next-slot { border:2px dashed #795493; background:#fffaf4; }
+.pilot-gap-word { font-size:clamp(1.25rem,6vw,2rem); font-weight:700; flex-wrap:wrap; }
+.pilot-answer-pair button.pilot-letter-tile { font-size:1.5rem; }
+.pilot-reading-question { font-weight:650; }
+.pilot-answer-card { display:grid; align-content:start; grid-template-rows:1fr auto; gap:5px; }
+.pilot-answer-card button:first-child { background:#eee3f3; }
+.pilot-answer-pair .pilot-card-listen { min-height:44px; font-size:.875rem; padding:6px; justify-content:center; }
+@media(max-width:420px) {
+ .pilot-answer-pair:has(.pilot-answer-card) { grid-template-columns:minmax(0,1fr); }
+ .pilot-answer-card { grid-template-columns:minmax(0,1fr) auto; grid-template-rows:auto; }
+}

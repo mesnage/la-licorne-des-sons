@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { test } from 'node:test';
 import { URL } from 'node:url';
-import { simpleExercise, simpleProgrammeVersion } from '../js/data/curriculum-simple.js';
+import { exerciseVersion, simpleExercise, simpleProgrammeVersion } from '../js/data/curriculum-simple.js';
 import { createCurriculum } from '../js/learning/curriculum.js';
 import { createSimpleQuestions } from '../js/learning/curriculum-simple.js';
 import { createPilotSession, newPilotState, restoreProgrammeState } from '../js/learning/pilot-session.js';
@@ -32,9 +32,25 @@ test('all 56 units use the same exercise and instruction for four blocks of five
         for (const block of unit.blocks) {
           const items = questions.filter(q => q.id.startsWith(block.id + '-'));
           assert.equal(items.length, 5, block.id);
-          assert.equal(new Set(items.map(q => q.context ?? q.prompt ?? (q.display + (unit.id === 'C4-U06' ? q.labels.slice().sort().join('|') : '')))).size, 5, block.id);
+          assert.equal(new Set(items.map(q => q.word ?? q.context ?? (q.display === undefined
+            ? q.prompt : q.display + (['C4-U05','C4-U06'].includes(unit.id) ? q.labels.slice().sort().join('|') : '')))).size, 5, block.id);
           for (const q of items) {
-            assert.ok(!q.order && !q.parts && !q.reference);
+            assert.ok(!q.parts && !q.reference);
+            if (chapter.id === 'C2') {
+              assert.equal(q.order.length, 2);
+              assert.equal(q.order.join('').toLowerCase(), q.word.replaceAll(' ', ''));
+              assert.ok(q.prompt && !q.choices.length);
+              for (const index of q.order.keys()) session.toggleTile(index);
+              assert.equal(session.orderIsCorrect(), true);
+            }
+            if (chapter.id === 'C3') {
+              assert.equal((q.blank[0] + q.labels[q.answer] + q.blank[1]).toLowerCase(), q.word);
+              assert.equal(q.labels.length, 2);
+              assert.ok(q.prompt && !q.choices.length);
+            }
+            if (chapter.id === 'C4') {
+              assert.ok(!/\p{Extended_Pictographic}/u.test([q.display, ...q.labels].join(' ')), q.id);
+            }
             assert.equal(session.answer(q.answer), true);
             assert.equal(session.advance(), true);
           }
@@ -63,4 +79,7 @@ test('the new sequence restarts old partial sessions and retains completed units
   const finished = { version: 1, completed: true, session: { ...newPilotState(0), cursor: 20, answers: Array(20).fill(0) } };
   assert.equal(restoreProgrammeState(finished, 20).cursor, 20);
   assert.equal(restoreProgrammeState({ ...old, version: simpleProgrammeVersion }, 20).cursor, 2);
+  const earlier = { ...old, version: 2 };
+  assert.equal(restoreProgrammeState(earlier, 20, exerciseVersion(curriculum.getUnit('C1-U01'))).cursor, 2);
+  assert.equal(restoreProgrammeState(earlier, 20, exerciseVersion(curriculum.getUnit('C2-U01'))), null);
 });
