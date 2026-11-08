@@ -64,7 +64,7 @@ try {
       nodes.map(node => node.dataset.blockId)), unit.blocks.map(block => block.id));
   }
   await page.reload();
-  await page.getByRole('heading', { name: 'Je lis ma première histoire' }).waitFor();
+  await page.getByRole('heading', { name: catalogue.units.at(-1).title, exact: true }).waitFor();
   await page.evaluate(() => { location.hash = 'inconnu'; });
   await page.getByRole('heading', { name: 'Mon parcours de lecture' }).waitFor();
   await page.getByRole('link', { name: 'Jouer aux activités actuelles' }).click();
