@@ -80,3 +80,34 @@
  .pilot-answer-pair:has(.pilot-answer-card) { grid-template-columns:minmax(0,1fr); }
  .pilot-answer-card { grid-template-columns:minmax(0,1fr) auto; grid-template-rows:auto; }
 }
+
+.pilot-writing-paper {
+  margin:14px 0;
+  padding:8px 18px 13px;
+  border:1px solid #e9d8bc;
+  border-left:4px solid #ce957b;
+  border-radius:5px 12px 12px 5px;
+  background:#fff9eb;
+}
+.pilot-writing-label { color:#74523c; font-size:.82rem; font-weight:650; }
+.pilot-writing-line {
+  display:flex;
+  align-items:baseline;
+  min-height:48px;
+  padding-top:4px;
+  border-bottom:1px solid #b48d75;
+  color:#452d45;
+  font-size:clamp(1.45rem,7vw,2.2rem);
+  font-weight:700;
+  line-height:1.15;
+  letter-spacing:.07em;
+}
+.pilot-writing-blank {
+  flex:0 1 1.6em;
+  margin-inline:3px;
+  height:.83em;
+  border-bottom:2px dotted #b49a91;
+}
+.pilot-writing-next { border-color:#795493; }
+.pilot-word-tiles button { background:#e8d8f4; box-shadow:0 3px 0 #b998ce; }
+.pilot-word-tiles button:disabled { box-shadow:none; }

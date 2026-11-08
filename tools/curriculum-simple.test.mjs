@@ -1,4 +1,5 @@
 import assert from 'node:assert/strict';
+import { createHash } from 'node:crypto';
 import { readFileSync } from 'node:fs';
 import { test } from 'node:test';
 import { URL } from 'node:url';
@@ -82,4 +83,28 @@ test('the new sequence restarts old partial sessions and retains completed units
   const earlier = { ...old, version: 2 };
   assert.equal(restoreProgrammeState(earlier, 20, exerciseVersion(curriculum.getUnit('C1-U01'))).cursor, 2);
   assert.equal(restoreProgrammeState(earlier, 20, exerciseVersion(curriculum.getUnit('C2-U01'))), null);
+});
+
+
+test('chapters 2 through 4 have a complete local Robin manifest, including optional spoken answers', () => {
+  for (const chapter of curriculum.chapters.slice(1)) {
+    const tracks = read('../audio/curriculum-' + chapter.id.toLowerCase() + '-robin.json');
+    const files = Object.fromEntries(Object.entries(tracks).map(([key, track]) => [key, track.file]));
+    const used = new Set();
+    for (const unit of chapter.units) {
+      for (const seed of [0, 1, 27]) {
+        for (const q of createSimpleQuestions(chapter, unit, files, seed)) {
+          [q.instructionAudio, q.prompt, q.context, q.questionAudio, ...q.choices, ...(q.optionAudio ?? [])]
+            .filter(Boolean).forEach(key => used.add(key));
+        }
+      }
+    }
+    assert.deepEqual([...used].sort(), Object.keys(tracks).sort(), chapter.id);
+    for (const track of Object.values(tracks)) {
+      assert.equal(track.speaker, 'robin');
+      assert.equal(track.provider, 'elevenlabs');
+      const audio = readFileSync(new URL('../audio/' + track.file, import.meta.url));
+      assert.equal(createHash('sha256').update(audio).digest('hex'), track.sha256);
+    }
+  }
 });

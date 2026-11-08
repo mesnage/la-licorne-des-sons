@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Generate only the audible Chapter 1 curriculum clips with the existing Robin voice."""
+"""Generate the audible curriculum clips with the existing Robin voice."""
 import argparse
 from array import array
 import base64
@@ -19,7 +19,13 @@ ROOT = Path(__file__).resolve().parents[2]
 AUDIO = ROOT / 'audio'
 VOICE = 'ZLsOpArVEayz7qulwa9E'
 MODEL = 'eleven_v4'
-SPOKEN = {'ché':'chez', 'lou':'loup', 'rou':'roue', 'sé':'ses', 'vou':'vous'}
+SPOKEN = {
+    'ché':'chez', 'lou':'loup', 'rou':'roue', 'sé':'ses', 'vou':'vous',
+    'ba':'bas', 'bo':'beau', 'di':'dis', 'do':'dos', 'ka':'cas', 'qua':'cas',
+    'ki':'qui', 'ko':'co', 'quo':'co',
+    'mo':'mot', 'no':'nos', 'po':'pot', 'to':'tôt',
+    'bonv':'bonve', 'lanf':'lanfe', 'painr':'painre', 'toim':'toime', 'veilp':'veilpe'
+}
 # Selected after comparing the isolated and contextual pronunciations.
 CONTEXTS = {
     'cabane':'Cabane, comme une petite maison.',
@@ -42,10 +48,16 @@ SOURCE = """
 import {readFileSync} from 'node:fs';
 import {createCurriculum} from './js/learning/curriculum.js';
 import {createSimpleQuestions} from './js/learning/curriculum-simple.js';
-const chapter = createCurriculum(JSON.parse(readFileSync('js/data/curriculum.v2.json'))).getChapter('C1');
-const keys = chapter.units.flatMap(unit => createSimpleQuestions(chapter, unit, null, 0))
-  .flatMap(q => [q.instructionAudio, q.prompt, q.context, ...q.choices].filter(Boolean));
-console.log(JSON.stringify([...new Set(keys)].sort()));
+const curriculum = createCurriculum(JSON.parse(readFileSync('js/data/curriculum.v2.json')));
+const requested = process.argv.slice(1);
+const result = {};
+for (const id of requested) {
+    const chapter = curriculum.getChapter(id);
+    const keys = chapter.units.flatMap(unit => createSimpleQuestions(chapter, unit, null, 0))
+      .flatMap(q => [q.instructionAudio, q.prompt, q.context, q.questionAudio, ...q.choices, ...(q.optionAudio ?? [])].filter(Boolean));
+    result[id] = [...new Set(keys)].sort();
+}
+console.log(JSON.stringify(result));
 """
 
 def read_json(name):
@@ -114,7 +126,7 @@ def normalize(raw, path):
         raise ValueError('Piste silencieuse.')
     core = samples[voiced[0]:voiced[-1]+1]
     duration = len(core) / 44100
-    if not 0.10 <= duration <= 10:
+    if not 0.10 <= duration <= 24:
         raise ValueError(f'Durée inattendue : {duration:.2f} s.')
     rms = math.sqrt(sum(value*value for value in core) / len(core))
     gain = min(0.12 / rms, 0.85 / max(abs(value) for value in core))
@@ -131,23 +143,44 @@ def main():
     parser.add_argument('--generate', action='store_true', help='Submit paid audio-generation requests.')
     parser.add_argument('--env-file', type=Path, default=ROOT / '.env.local')
     parser.add_argument('--cache', type=Path, required=True, help='Directory for paid raw audio, outside the repository.')
+    parser.add_argument('--chapters', nargs='+', choices=['C1', 'C2', 'C3', 'C4'], default=['C1'])
     args = parser.parse_args()
-    keys = json.loads(subprocess.check_output(['node','--input-type=module','-e',SOURCE], cwd=ROOT))
-    chapter = {**read_json('curriculum-c1.json'), **read_json('curriculum-simple.json')}
+    chapters = list(dict.fromkeys(args.chapters))
+    keys = json.loads(subprocess.check_output(['node','--input-type=module','-e',SOURCE,*chapters], cwd=ROOT))
+    shared = read_json('curriculum-simple.json')
+    sources = {chapter: {**read_json('curriculum-'+chapter.lower()+'.json'), **shared} for chapter in chapters}
     legacy = read_json('manifest.json')
-    synth = [key for key in keys if not key.startswith('P:robin:')]
-    print(f'{len(keys)} pistes : {len(synth)} mots et consignes à produire, {len(keys)-len(synth)} phonèmes Robin à réutiliser.', flush=True)
+    stop = threading.Event()
+    guard = threading.Lock()
+    clip_locks = {}
+    jobs = [(chapter, key) for chapter in chapters for key in keys[chapter]]
+
+    def utterance(chapter, key):
+        text = sources[chapter][key]['text']
+        written = key.startswith(('C1:écrit:', 'C23:écrit:'))
+        spoken = SPOKEN.get(text, text) if written else text
+        if not spoken.endswith(('?', '.', '!')):
+            spoken += '.'
+        return text, spoken, CONTEXTS.get(spoken.removesuffix('.'))
+
+    existing = {}
+    for chapter in ['C1', 'C2', 'C3', 'C4']:
+        name = 'curriculum-'+chapter.lower()+'-robin.json'
+        if (AUDIO / name).is_file():
+            for track in read_json(name).values():
+                if track.get('model') == MODEL and (AUDIO / track['file']).is_file():
+                    existing[(track['spoken'], track.get('synthesisText'))] = track
+
+    pending = {utterance(chapter,key)[1:] for chapter,key in jobs if not key.startswith('P:robin:')}
+    pending.difference_update(existing)
+    print(f'{len(jobs)} entrées sur {len(chapters)} chapitre(s) ; {len(pending)} énoncés nouveaux au maximum.', flush=True)
     if not args.generate:
         return
     api_key = load_key(args.env_file)
     args.cache.mkdir(parents=True, exist_ok=True)
-    target = AUDIO / 'curriculum-c1-robin'
-    target.mkdir(exist_ok=True)
-    stop = threading.Event()
-    guard = threading.Lock()
-    clip_locks = {}
 
-    def generate(key):
+    def generate(job):
+        chapter, key = job
         if stop.is_set():
             return None
         if key.startswith('P:robin:'):
@@ -156,54 +189,58 @@ def main():
             entry = {'file': file, 'text': text, 'speaker': 'robin', 'provider': 'elevenlabs',
                      'review': 'approved_existing_phoneme'}
         else:
-            text = chapter[key]['text']
-            spoken = SPOKEN.get(text, text) if key.startswith('C1:écrit:') else text
-            if not spoken.endswith(('?', '.', '!')):
-                spoken += '.'
-            fragment = spoken.removesuffix('.')
-            context = CONTEXTS.get(fragment)
-            digest = hashlib.sha256((MODEL+'\n'+VOICE+'\n'+(context or spoken)).encode()).hexdigest()[:20]
-            raw_path = args.cache / (digest + ('.json' if context else '.mp3'))
+            text, spoken, context = utterance(chapter, key)
             with guard:
-                clip_lock = clip_locks.setdefault(digest, threading.Lock())
+                clip_lock = clip_locks.setdefault((spoken, context), threading.Lock())
             with clip_lock:
-                if not raw_path.exists():
-                    if stop.is_set():
-                        return None
-                    raw_path.write_bytes(request(api_key, context or spoken, with_timing=bool(context)))
-                path = target / (digest + '.mp3')
-                raw = raw_path.read_bytes()
-                if context:
-                    raw = extract_initial_word(raw, fragment)
-                length = normalize(raw, path)
-            entry = {'file': str(path.relative_to(AUDIO)), 'text': text, 'spoken': spoken,
-                     'speaker': 'robin', 'provider': 'elevenlabs', 'model': MODEL,
-                     'language': 'fr', 'review': 'pending_human_review', 'speechSeconds': length}
-            if context:
-                entry['synthesisText'] = context
+                if (spoken, context) in existing:
+                    entry = {**existing[(spoken, context)], 'text': text}
+                else:
+                    digest = hashlib.sha256((MODEL+'\n'+VOICE+'\n'+(context or spoken)).encode()).hexdigest()[:20]
+                    raw_path = args.cache / (digest + ('.json' if context else '.mp3'))
+                    if not raw_path.exists():
+                        if stop.is_set():
+                            return None
+                        raw_path.write_bytes(request(api_key, context or spoken, with_timing=bool(context)))
+                    target = AUDIO / ('curriculum-' + chapter.lower() + '-robin')
+                    target.mkdir(exist_ok=True)
+                    path = target / (digest + '.mp3')
+                    raw = raw_path.read_bytes()
+                    if context:
+                        raw = extract_initial_word(raw, spoken.removesuffix('.'))
+                    length = normalize(raw, path)
+                    entry = {'file': str(path.relative_to(AUDIO)), 'text': text, 'spoken': spoken,
+                             'speaker': 'robin', 'provider': 'elevenlabs', 'model': MODEL,
+                             'language': 'fr', 'review': 'pending_human_review', 'speechSeconds': length}
+                    if context:
+                        entry['synthesisText'] = context
+                    existing[(spoken, context)] = entry
         entry['sha256'] = hashlib.sha256((AUDIO / entry['file']).read_bytes()).hexdigest()
-        return key, entry
+        return chapter, key, entry
 
     def checked(key):
         try:
             return generate(key)
         except (ValueError, OSError, subprocess.SubprocessError) as error:
             stop.set()
-            print(f'Arrêt à {key} : {error if isinstance(error, ValueError) else type(error).__name__}', flush=True)
+            print(f'Arrêt à {key[1]} : {error if isinstance(error, ValueError) else type(error).__name__}', flush=True)
             return None
 
-    entries = {}
+    entries = {chapter: {} for chapter in chapters}
+    count = 0
     with ThreadPoolExecutor(max_workers=3) as pool:
-        for result in pool.map(checked, keys):
+        for result in pool.map(checked, jobs):
             if result:
-                name, metadata = result
-                entries[name] = metadata
-                if len(entries) % 15 == 0 or len(entries) == len(keys):
-                    print(f'{len(entries)} / {len(keys)} pistes prêtes', flush=True)
-    if len(entries) != len(keys):
+                chapter, name, metadata = result
+                entries[chapter][name] = metadata
+                count += 1
+                if count % 25 == 0 or count == len(jobs):
+                    print(f'{count} / {len(jobs)} pistes prêtes', flush=True)
+    if count != len(jobs):
         raise SystemExit('Lot incomplet. Les réponses audio payées sont conservées en cache.')
-    manifest = AUDIO / 'curriculum-c1-robin.json'
-    manifest.write_text(json.dumps(entries, ensure_ascii=False, sort_keys=True, indent=2)+'\n', encoding='utf-8')
+    for chapter, tracks in entries.items():
+        manifest = AUDIO / ('curriculum-' + chapter.lower() + '-robin.json')
+        manifest.write_text(json.dumps(tracks, ensure_ascii=False, sort_keys=True, indent=2)+'\n', encoding='utf-8')
 
 if __name__ == '__main__':
     main()

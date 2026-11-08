@@ -91,7 +91,10 @@ try {
           await hear(promptLabels[item.type]);
         }
         if (item.order) {
+          const paper = controls.querySelector('.pilot-writing-paper');
+          if (!paper || paper.querySelector('button')) throw new Error(item.id + ' · support du mot absent');
           for (const tile of item.order) await press(tile, controls.querySelector('.pilot-word-tiles'));
+          await wait(() => controls.querySelector('.pilot-writing-line')?.textContent === item.word.toUpperCase(), 'mot écrit');
         } else if (item.choices.length) {
           if ([...controls.querySelectorAll('button')].filter(button => /^Choix [12]$/.test(button.textContent.trim()))
               .some(button => !button.disabled)) throw new Error('Choix activé avant écoute ' + item.id);

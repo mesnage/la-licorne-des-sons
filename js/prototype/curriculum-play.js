@@ -60,15 +60,9 @@ async function openPilot() {
   const nextUnit = allUnits[allUnits.indexOf(unit) + 1];
   const nextChapter = nextUnit && nextUnit.chapterId !== unit.chapterId;
   const worldIndex = WORLDS.findIndex(world => world.habitat === chapter.theme);
-  const robin = chapter.id === 'C1';
-  const [chapterAudio, simpleAudio, legacyAudio] = await Promise.all([
-    readJson(robin ? 'audio/curriculum-c1-robin.json' : 'audio/curriculum-' + chapter.id.toLowerCase() + '.json'),
-    robin ? {} : readJson('audio/curriculum-simple.json'),
-    playback.ready
-  ]);
-  const files = Object.fromEntries(Object.entries({ ...chapterAudio, ...simpleAudio }).map(([audioId, track]) => [audioId, track.file]));
-  await playback.registerClips(files);
-  const manifest = robin ? files : { ...legacyAudio, ...files };
+  const chapterAudio = await readJson('audio/curriculum-' + chapter.id.toLowerCase() + '-robin.json');
+  const manifest = Object.fromEntries(Object.entries(chapterAudio).map(([audioId, track]) => [audioId, track.file]));
+  await playback.registerClips(manifest);
   document.querySelectorAll('[data-chapter-return]').forEach(link => {
     link.href = chapterMapUrl(block ? unit.id : chapter.id, testMode);
   });
@@ -219,18 +213,33 @@ async function openPilot() {
     }
   }
 
-  function showWordTiles(question, placed) {
-    const slots = makeRow('pilot-word-slots');
-    slots.setAttribute('aria-label', 'Le mot se construit de gauche à droite');
-    for (const [position] of question.order.entries()) {
-      const slot = document.createElement('span');
-      slot.className = 'pilot-word-slot';
-      if (placed[position] !== undefined) slot.textContent = question.order[placed[position]];
-      else if (position === placed.length) slot.classList.add('pilot-next-slot');
-      slots.append(slot);
+  function showWrittenWord(question, placed) {
+    const paper = document.createElement('div');
+    paper.className = 'pilot-writing-paper';
+    const label = document.createElement('div');
+    label.className = 'pilot-writing-label';
+    label.textContent = 'Mon mot';
+    const line = makeRow('pilot-writing-line');
+    line.setAttribute('aria-live', 'polite');
+    if (placed.length === question.order.length) {
+      line.textContent = question.word.toUpperCase();
+    } else {
+      const writing = document.createElement('span');
+      writing.textContent = placed.map(index => question.order[index]).join('');
+      line.append(writing);
+      for (let position = placed.length; position < question.order.length; position++) {
+        const blank = document.createElement('span');
+        blank.className = position === placed.length ? 'pilot-writing-blank pilot-writing-next' : 'pilot-writing-blank';
+        blank.setAttribute('aria-hidden', 'true');
+        line.append(blank);
+      }
     }
-    controls.append(slots);
+    paper.append(label, line);
+    controls.append(paper);
+  }
 
+  function showWordTiles(question, placed) {
+    showWrittenWord(question, placed);
     const tray = makeRow('pilot-word-tiles');
     for (const tile of question.tiles) {
       const piece = question.order[tile];
@@ -382,6 +391,7 @@ async function openPilot() {
         render(true);
       }, 'pilot-primary'));
     } else if (session.solved) {
+      if (question.order) showWrittenWord(question, state.order);
       heading.textContent = question.position === 4 ? 'Bloc ' + (question.blockIndex + 1) + ' terminé !' : 'Un cristal de plus !';
       feedback.textContent = 'Paillette avance avec toi.';
       const label = state.answers.length === total ? (block ? 'Terminer le bloc' : 'Entrer dans le château')
