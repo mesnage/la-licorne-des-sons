@@ -1,0 +1,37 @@
+// Draft editorial corpus. A slash separates items; spaces separate graphemes.
+// A colon annotates a contextual value explicitly; '-' marks a silent grapheme.
+// Each unit has five oral stimuli, five training forms and five transfer forms.
+export const codeUnits = {
+  'C2-U01': ['ə','e','é','le/je/se/ce/de','l e/j e/s e/r e/f e','l e/j e/l e | f i l/l e | ch ou/l e | j ou r'],
+  'C2-U02': ['ə','e','é','vie/le/lire/je/vive','v i e:-/l i r e:-/s a l e:-/o l i v e:-/v i v e:-','r i r e:-/f i l e:-/j u r e:-/l a v e:-/r ou l e:-'],
+  'C2-U03': ['ø','eu','ou','feu/seul/deux/leur/peu','f eu/j eu/s eu/l eu/r eu','f eu/j eu/s eu:œ l/a v eu/l eu:œ r'],
+  'C2-U04': ['m','m','l','maison/moto/mouton/marin/malade','m a/m i/m o/m u/m é','m a m i e:-/m u l e:-/m a l/m ou/m a r i'],
+  'C2-U05': ['n','n','m','navire/nid/nuage/nuit/nougat','n a/n i/n o/n u/n é','n a n a/n u/u n e:-/n é/m i n e:-'],
+  'C2-U06': ['p','p','n','papa/pile/pomme/pull/papillon','p a/p i/p o/p u/p é','p a p a/p a p i/p i r e:-/p i l e:-/p a l e:-'],
+  'C2-U07': ['b','b','p','bébé/papa/bijou/pile/boue','b a/b i/b o/b u/b é','b é b é/b o b o/b a l/b i j ou/b u l e:-'],
+  'C2-U08': ['t','t','p','table/tigre/tortue/tulipe/toupie','t a/t i/t o/t u/t é','t a t a/t a p i/t u b e:-/t i r e:-/t ou r'],
+  'C2-U09': ['d','d','t','dame/tigre/dodo/toupie/douche','d a/d i/d o/d u/d é','d o d o/d a m e:-/d u r/d u r e:-/d i r e:-'],
+  'C2-U10': ['k','c','t','car/cabane/cou/cube/canard','c:k a/c:k o/c:k u/c:k ou/c:k l a','c:k a r/c:k u r e:-/c:k ou/c:k a b a n e:-/c:k a n a l'],
+  'C2-U11': ['k','qu','t','qui/quatre/kilo/kaki/karaté','qu i/qu e/qu a/qu o/k i','qu i/qu e/k i l o/k a r a t é/k a k i'],
+  'C2-U12': ['ɡ','g','c','gare/gomme/goût/gant/guitare','g:ɡ a/g:ɡ o/g:ɡ u/g:ɡ ou/g:ɡ r a','g:ɡ a l a/g:ɡ a r e:-/g:ɡ a l e:-/g:ɡ ou r d e:-/g:ɡ r a d e:-'],
+  'C2-U13': ['ɔ','o','a','bol/moto/vol/auto/porte','f i l/b o:ɔ l/s o:ɔ l/v o:ɔ l/m u r','r o:ɔ b e:-/p o:ɔ r t e:-/d o:ɔ r m e:-/n o:ɔ t e:-/v o:ɔ t e:-'],
+  'C2-U14': ['a','a','i','avion/image/été/eau/lune','b i/m a l/d u r/p a/t ou r','p a t e:-/l a m e:-/p a r l e:-/p a r c:k/l i v r e:-','t a l/v i p/m u f/n a v/r ou m'],
+  'C3-U01': ['ɔ̃','on','o','bon/mon/son/rond/pont','b on/m on/s on/r on/p on','b on/m on/s on/d on/n on'],
+  'C3-U02': ['ɑ̃','an','on','an/en/maman/panda/ruban','m an/p an/r an/v en/d en','an/en/m a m an/p an d a/r u b an'],
+  'C3-U03': ['ɛ̃','in','an','pin/pain/main/plein/rein','in/ain/ein/IN/AIN','p in/m ain/p l ein/r ein/f ain'],
+  'C3-U04': ['wa','oi','i','moi/toi/roi/voix/noix','m oi/t oi/v oi/l oi/r oi','m oi/t oi/r oi/l oi/n oi r'],
+  'C3-U05': ['o','au','oi','auto/beau/eau/veau/peau','au t o/b eau/eau/v eau/p eau','au t o/b eau/eau/v eau/p eau'],
+  'C3-U06': ['ɛ','è','é','mère/tête/maire/reine/père','m è r e:-/t ê t e:-/m ai r e:-/r ei n e:-/p è r e:-','m è r e:-/t ê t e:-/m ai r e:-/r ei n e:-/p è r e:-'],
+  'C3-U07': ['e','er','è','laver/nez/chez/jouer/saler','l a v er/n ez/ch ez/j ou er/s a l er','l a v er/n ez/ch ez/j ou er/s a l er'],
+  'C3-U08': ['z','s','f','rose/poisson/maison/soleil/zone','r o s:z e:-/p oi ss on/m ai s:z on/v a l i s:z e:-/z o n e:-','r o s:z e:-/p oi ss on/m ai s:z on/v a l i s:z e:-/z o n e:-'],
+  'C3-U09': ['s','ç','c','cire/car/citron/cube/cil','c:s i r e:-/l e ç on/c:s i t r on/f a ç a d e:-/c:s i l','c:s i r e:-/l e ç on/c:s i t r on/f a ç a d e:-/c:s i l'],
+  'C3-U10': ['ɡ','gu','j','gué/jardin/guitare/jus/guêpe','gu é/gu i d e:-/gu i t a r e:-/gu i m au v e:-/gu ê p e:-','gu é/gu i d e:-/gu i t a r e:-/gu i m au v e:-/gu ê p e:-'],
+  'C3-U11': ['ʒ','g','gu','gel/girafe/gilet/gêne/génie','g:ʒ e:ɛ l/g:ʒ i r a f e:-/g:ʒ e l é/g:ʒ ê n e:-/g:ʒ é n i e:-','g:ʒ e:ɛ l/g:ʒ i r a f e:-/g:ʒ ê n e:-/g:ʒ é n i e:-/g:ʒ è l e:-'],
+  'C3-U12': ['f','ph','v','photo/phare/phrase/phase/phone','ph o t o/ph a r e:-/ph r a s:z e:-/ph a s:z e:-/ph o:ɔ n e:-','ph o t o/ph a r e:-/ph r a s:z e:-/ph a s:z e:-/ph o:ɔ n e:-'],
+  'C3-U13': ['ɲ','gn','n','ligne/navire/vigne/nuit/agneau','gn a/gn e/gn i/gn o/gn ou','l i gn e:-/s i gn e:-/v i gn e:-/d i gn e:-/a gn eau'],
+  'C3-U14': ['j','ill','l','fille/bille/quille/ville/mille','f ill e:-/b ill e:-/qu ill e:-/v ill:il e:-/m ill:il e:-','f ill e:-/b ill e:-/qu ill e:-/v ill:il e:-/m ill:il e:-'],
+  'C3-U15': ['ɛj','eil','ai','soleil/réveil/conseil/pareil/vermeil','s o:ɔ l eil/r é v eil/c:k on s eil/p a r eil/v e:ɛ r m eil','s o:ɔ l eil/r é v eil/c:k on s eil/p a r eil/v e:ɛ r m eil'],
+  'C3-U16': ['aj','ail','a','rail/travail/détail/portail/bétail','r ail/t r a v ail/d é t ail/p o:ɔ r t ail/b é t ail','r ail/t r a v ail/d é t ail/p o:ɔ r t ail/b é t ail'],
+  'C3-U17': ['uj','ouil','euil','fenouil/fauteuil/écureuil/seuil/deuil','f e n ouil/f au t euil/é c:k u r euil/s euil/d euil','f e n ouil/f au t euil/é c:k u r euil/s euil/d euil'],
+  'C3-U18': ['ɔ̃','on','an','bon/maman/rein/noir/ligne','ph o t o/gu é/c:s i r e:-/r o s:z e:-/v ill:il e:-','b on v/l an f/p ain r/t oi m/v eil p','b on v/l an f/p ain r/t oi m/v eil p']
+};

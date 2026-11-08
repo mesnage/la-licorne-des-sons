@@ -391,15 +391,18 @@ export function createWorld(parent,{onReady,onBiome,onError,onGag=()=>{}}){
     if(finishMove){finishMove(false);finishMove=null;}
   }
   return {
-    reset(total,startWorld=0){
-      cancel();progress=0;crystals=0;if(!scene?.hero)return;
-      const reuse=scene.worldNumber===0&&scene.theme.id===WORLDS[startWorld%WORLDS.length].id&&scene.decor.length>0;
+    reset(total,startWorld=0,count=0){
+      cancel();progress=count/total;crystals=count;if(!scene?.hero)return;
+      const number=Math.min(Math.floor(count/10),Math.ceil(total/10)-1);
+      const local=count-number*10;
+      const reuse=scene.worldNumber===number&&scene.theme.id===WORLDS[(startWorld+number)%WORLDS.length].id&&scene.decor.length>0;
       scene.total=total;scene.startWorld=startWorld;
       if(reuse){
-        scene.birdSeconds=0;scene.travel.value=0;scene.setCrystals(0);scene.animals.forEach(a=>{a.greetingUntil=0;});
-        scene.castle.setVisible(total<=10);scene.portal.setVisible(total>10);
-        scene.pose();scene.cameraInitialized=false;scene.positionCamera();onBiome({...scene.theme,number:1});
-      }else scene.paintWorld(0,0);
+        scene.birdSeconds=0;scene.travel.value=local/10;scene.setCrystals(local);scene.animals.forEach(a=>{a.greetingUntil=0;});
+        scene.castle.setVisible(number===Math.ceil(total/10)-1);scene.portal.setVisible(!scene.castle.visible);
+        scene.pose();scene.cameraInitialized=false;scene.positionCamera();onBiome({...scene.theme,number:number+1});
+      }else scene.paintWorld(number,local);
+      if(count===total)onBiome({id:7,name:'Le château de cristal',icon:'castle',number:number+1});
     },
     setTheme(id){
       if(!scene?.hero||scene.moving||!Number.isInteger(id)||id<0||id>=WORLDS.length)return false;
@@ -408,13 +411,13 @@ export function createWorld(parent,{onReady,onBiome,onError,onGag=()=>{}}){
       return true;
     },
     quiet(value){if(scene){scene.quiet=value;scene.birds.forEach(bird=>{if(reduced||!bird.anims)return;if(value)bird.anims.pause();else if(bird.anims.isPlaying)bird.anims.resume();else bird.play('bird-flight');});}},
-    moveTo(count,{returning=false}={}){
+    moveTo(count,{returning=false,gentle=false}={}){
       cancel();if(!scene?.hero)return Promise.resolve(false);
       const my=serial;
       return new Promise(resolve=>{
         finishMove=resolve;scene.moving=true;scene.backwards=returning;scene.hero.setFlipX(returning);
         scene.motion={t:0};const from=scene.travel.value,to=(count-scene.worldNumber*10)/10;
-        scene.startGag(returning?'return':gagFor(count,scene.theme.habitat));
+        scene.startGag(gentle?null:returning?'return':gagFor(count,scene.theme.habitat));
         const settle=()=>{
           if(my!==serial)return;
           progress=count/scene.total;crystals=count;scene.moving=false;scene.gag=null;hideProps();
@@ -431,7 +434,7 @@ export function createWorld(parent,{onReady,onBiome,onError,onGag=()=>{}}){
           }else settle();
         };
         if(reduced){scene.travel.value=to;complete();}
-        else scene.tweens.add({targets:scene.motion,t:1,duration:returning?Math.max(1400,Math.abs(to-from)*6000):scene.gag==='rainbow'?3000:walkingPoint(to).onBridge||walkingPoint(from).onBridge?2400:1900,ease:'Sine.easeInOut',onUpdate:()=>{scene.travel.value=from+(to-from)*scene.motion.t;},onComplete:complete});
+        else scene.tweens.add({targets:scene.motion,t:1,duration:gentle?420:returning?Math.max(1400,Math.abs(to-from)*6000):scene.gag==='rainbow'?3000:walkingPoint(to).onBridge||walkingPoint(from).onBridge?2400:1900,ease:'Sine.easeInOut',onUpdate:()=>{scene.travel.value=from+(to-from)*scene.motion.t;},onComplete:complete});
       });
     },
     cancel,

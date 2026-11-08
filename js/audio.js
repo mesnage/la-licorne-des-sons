@@ -3,7 +3,7 @@ import { $, wait } from './utils.js';
 
 /* audio/manifest.json associe chaque clé de phrase (ex. "L:m", "w:moto") à son fichier MP3. */
 let manifest = {};
-const ready = fetch('audio/manifest.json', {cache:'no-cache'}).then(r => r.json()).then(m => { manifest = m; }).catch(() => {});
+const ready = fetch('audio/manifest.json', {cache:'no-cache'}).then(r => r.json()).then(m => { manifest = m; return manifest; }).catch(() => manifest);
 /** précharge des phrases à l'avance (ex. la prochaine question) */
 function preload(keys){ ready.then(() => keys.forEach(k => typeof k === 'string' && loadClip(k))); }
 
@@ -32,6 +32,7 @@ function loadClip(key){
       const p = a.decodeAudioData(buf, b => res(b), () => res(null));
       if(p && p.catch) p.catch(() => res(null));
     }))
+    .then(clip => { if(!clip) delete bufs[key]; return clip; })
     .catch(() => { delete bufs[key]; return null; });
   return bufs[key];
 }
@@ -39,7 +40,7 @@ let tok = 0, src = null;
 function hush(){
   tok++;
   if(src){ try{ src.stop(); }catch(e){} src = null; }
-  $('#listenBtn').classList.remove('talking');
+  $('#listenBtn')?.classList.remove('talking');
 }
 function playBuf(b){
   return new Promise(res => {
@@ -54,7 +55,7 @@ function playBuf(b){
 async function say(parts, talk=false){
   hush(); const my = tok;
   const loads = parts.map(p => typeof p === 'string' ? loadClip(p) : null);
-  if(talk) $('#listenBtn').classList.add('talking');
+  if(talk) $('#listenBtn')?.classList.add('talking');
   for(let i=0;i<parts.length;i++){
     if(my !== tok) return;
     if(typeof parts[i] === 'number'){ await wait(parts[i]); continue; }
@@ -62,7 +63,7 @@ async function say(parts, talk=false){
     if(my !== tok) return;
     await playBuf(b);
   }
-  if(my === tok) $('#listenBtn').classList.remove('talking');
+  if(my === tok) $('#listenBtn')?.classList.remove('talking');
 }
 /* petits effets sonores */
 function tone(f, t0, dur, type='sine', vol=.2, f2){
@@ -86,4 +87,9 @@ const sfx = {
   fanfare(){ [523,659,784,1047,784,1047].forEach((f,i)=>tone(f,i*.14,i===5?.7:.2,'square',.06)); },
 };
 
-export { ready, preload, audio, unlock, loadClip, hush, say, sfx };
+async function registerClips(clips){
+  await ready;
+  Object.assign(manifest, clips);
+}
+
+export { ready, registerClips, preload, audio, unlock, loadClip, hush, say, sfx };

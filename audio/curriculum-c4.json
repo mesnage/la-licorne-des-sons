@@ -1,0 +1,938 @@
+{
+  "C4:Après la pluie, la poule picore. Qu’est-ce qui se passe en premier ?": {
+    "file": "curriculum-c4/C4-Apres-la-pluie--la-poule-picore--Quest-ce-qui-se-passe-en-premier---e1b9dfe7.mp3",
+    "phonemes": "apʁˌɛ la- plyˈi, la- pˈul pikˈɔʁ. kɛs ki sə- pˈas ɑ̃ pʁəmjˈe?",
+    "review": "pending_human_review",
+    "sha256": "04107ff1a63bce05df1afeeb7fe3b97fc3cf86f7aebf0fea06cc3dd2bcff752c",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "Après la pluie, la poule picore. Qu’est-ce qui se passe en premier ?"
+  },
+  "C4:Avant de dormir, le chat boit. Qu’est-ce qui se passe en premier ?": {
+    "file": "curriculum-c4/C4-Avant-de-dormir--le-chat-boit--Quest-ce-qui-se-passe-en-premier---a502a30b.mp3",
+    "phonemes": "avˌɑ̃ də- dɔʁmˈiʁ, lə- ʃˈa bwˈa. kɛs ki sə- pˈas ɑ̃ pʁəmjˈe?",
+    "review": "pending_human_review",
+    "sha256": "d3d80b6bbbcd2c2ad59790b269649d9133a17e081a3672ccbd4e8f4a38aea00c",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "Avant de dormir, le chat boit. Qu’est-ce qui se passe en premier ?"
+  },
+  "C4:Des hiboux volent.": {
+    "file": "curriculum-c4/C4-Des-hiboux-volent--101fb689.mp3",
+    "phonemes": "de- ibˈu vˈol.",
+    "review": "pending_human_review",
+    "sha256": "70da80c59f36b9aa0f9c2ffbff5e48618e9da4c4458ca00cd7907256da63df5c",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "Des hiboux volent."
+  },
+  "C4:Des pandas dorment.": {
+    "file": "curriculum-c4/C4-Des-pandas-dorment--c61ad32e.mp3",
+    "phonemes": "de- pɑ̃dˈa dˈɔʁm.",
+    "review": "pending_human_review",
+    "sha256": "0de946ff072d33187144779ab1503a3f04375825c89e7deaaefe09200d8116f2",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "Des pandas dorment."
+  },
+  "C4:Des poules picorent.": {
+    "file": "curriculum-c4/C4-Des-poules-picorent--6147c1cf.mp3",
+    "phonemes": "de- pˈul pikˈoʁ.",
+    "review": "pending_human_review",
+    "sha256": "c32961453b82f2326c411ca5aa037ef13a8afef2f7bb296f377093b4dc538837",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "Des poules picorent."
+  },
+  "C4:Deux chats dorment.": {
+    "file": "curriculum-c4/C4-Deux-chats-dorment--41abac66.mp3",
+    "phonemes": "dˈø ʃˈa dˈɔʁm.",
+    "review": "pending_human_review",
+    "sha256": "455506678a3acace6fdf90bc570be094b2610b3d4ee9bd25a0560ce0e00099e4",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "Deux chats dorment."
+  },
+  "C4:La chatte dort.": {
+    "file": "curriculum-c4/C4-La-chatte-dort--cd368897.mp3",
+    "phonemes": "la- ʃˈat dˈɔʁ.",
+    "review": "pending_human_review",
+    "sha256": "56e1db0ebd2ee92bd7170f12097ca0c35b3e7c96e0251682027cb1acb923a4a4",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "La chatte dort."
+  },
+  "C4:La lapine saute.": {
+    "file": "curriculum-c4/C4-La-lapine-saute--f8e32c52.mp3",
+    "phonemes": "la- lapˈin sˈot.",
+    "review": "pending_human_review",
+    "sha256": "9a96a80787cf1b18dd6614085dc6928f232823a65842fbb8e792cd98a3896e44",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "La lapine saute."
+  },
+  "C4:La lionne chasse.": {
+    "file": "curriculum-c4/C4-La-lionne-chasse--87799fda.mp3",
+    "phonemes": "la- ljˈɔn ʃˈas.",
+    "review": "pending_human_review",
+    "sha256": "1ddfb68064dc91261c4a687e86a36c29dab7c8149c6bd2fedb9e461505151adb",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "La lionne chasse."
+  },
+  "C4:La louve file.": {
+    "file": "curriculum-c4/C4-La-louve-file--d75d465c.mp3",
+    "phonemes": "la- lˈuv fˈil.",
+    "review": "pending_human_review",
+    "sha256": "8847bbfa9f1cdb2e38aa76e62efa623e6bb18f7212a27e8cef9ce0a87fb86edf",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "La louve file."
+  },
+  "C4:La lune brille.": {
+    "file": "curriculum-c4/C4-La-lune-brille--93af4087.mp3",
+    "phonemes": "la- lˈyn bʁˈij.",
+    "review": "pending_human_review",
+    "sha256": "2de80e079cacba0598c734b2fe26d4a2c418818016076bd59b8f6d434f5c301c",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "La lune brille."
+  },
+  "C4:La poire est sur la table.": {
+    "file": "curriculum-c4/C4-La-poire-est-sur-la-table--5de81d19.mp3",
+    "phonemes": "la- pwˈaʁ ɛ syʁ la- tˈabl.",
+    "review": "pending_human_review",
+    "sha256": "7227021448e737ff4cb93d004288d96716dbdc539d8b5ff76a4a09acb5a4beae",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "La poire est sur la table."
+  },
+  "C4:La poule a faim, alors elle picore. Pourquoi la poule picore-t-elle ?": {
+    "file": "curriculum-c4/C4-La-poule-a-faim--alors-elle-picore--Pourquoi-la-poule-picore-t-elle-9c6c9076.mp3",
+    "phonemes": "la- pˈul a fˈɛ̃, alˌɔʁ ɛl pikˈɔʁ. puʁkwˌa la- pˈul pikˈɔʁtˈɛl?",
+    "review": "pending_human_review",
+    "sha256": "69e35bd9a5a8af8bfc9321aee4da17d47245fbe4f08b6baa7dfe926c08cb99ee",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "La poule a faim, alors elle picore. Pourquoi la poule picore-t-elle ?"
+  },
+  "C4:La poule a froid. Elle part vers le poulailler. Où va le personnage ?": {
+    "file": "curriculum-c4/C4-La-poule-a-froid--Elle-part-vers-le-poulailler--Ou-va-le-personnage-6f281e6e.mp3",
+    "phonemes": "la- pˈul a fʁwˈa. ɛl pˈaʁ vɛʁ lə- pulajˈe. u vˈa lə- pɛʁsɔnˈaʒ?",
+    "review": "pending_human_review",
+    "sha256": "cdd49439b2885a643d95107e06a28f7a1fea3ca15bac0afe984577c80a4fe468",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "La poule a froid. Elle part vers le poulailler. Où va le personnage ?"
+  },
+  "C4:La poule a froid. Elle part vers le poulailler. Pourquoi la poule part-elle ?": {
+    "file": "curriculum-c4/C4-La-poule-a-froid--Elle-part-vers-le-poulailler--Pourquoi-la-poule-p-97e3a927.mp3",
+    "phonemes": "la- pˈul a fʁwˈa. ɛl pˈaʁ vɛʁ lə- pulajˈe. puʁkwˌa la- pˈul pˈaʁˈɛl?",
+    "review": "pending_human_review",
+    "sha256": "d94eba28f5af65379f06936cb2ed2683018b834a596037a87d6752df0b0506f4",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "La poule a froid. Elle part vers le poulailler. Pourquoi la poule part-elle ?"
+  },
+  "C4:La poule a froid. Elle part vers le poulailler. Que se passe-t-il en premier ?": {
+    "file": "curriculum-c4/C4-La-poule-a-froid--Elle-part-vers-le-poulailler--Que-se-passe-t-il-e-7669d68b.mp3",
+    "phonemes": "la- pˈul a fʁwˈa. ɛl pˈaʁ vɛʁ lə- pulajˈe. kə sə- pˈastil ɑ̃ pʁəmjˈe?",
+    "review": "pending_human_review",
+    "sha256": "eb09b255ecab735bd690b30ce356328a126e55fa442c224ce79b58f5d4f80fd0",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "La poule a froid. Elle part vers le poulailler. Que se passe-t-il en premier ?"
+  },
+  "C4:La poule a froid. Elle part vers le poulailler. Qui est le personnage de cette histoire ?": {
+    "file": "curriculum-c4/C4-La-poule-a-froid--Elle-part-vers-le-poulailler--Qui-est-le-personna-ef38be40.mp3",
+    "phonemes": "la- pˈul a fʁwˈa. ɛl pˈaʁ vɛʁ lə- pulajˈe. kiʲ ɛ lə- pɛʁsɔnˈaʒ də- sɛt istwˈaʁ?",
+    "review": "pending_human_review",
+    "sha256": "3c293995163778db123957c49f3e58f6e761a64502ad4852f99c66b41000168a",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "La poule a froid. Elle part vers le poulailler. Qui est le personnage de cette histoire ?"
+  },
+  "C4:La poule picore après la pluie.": {
+    "file": "curriculum-c4/C4-La-poule-picore-apres-la-pluie--10e015a1.mp3",
+    "phonemes": "la- pˈul pikˈɔʁ apʁˌɛ la- plyˈi.",
+    "review": "pending_human_review",
+    "sha256": "7c11f821635de53471d8abe71fe21e2ff19b3781151e03e26680341990e9f62c",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "La poule picore après la pluie."
+  },
+  "C4:La poule regarde le renard. Il file.": {
+    "file": "curriculum-c4/C4-La-poule-regarde-le-renard--Il-file--ab6c32fc.mp3",
+    "phonemes": "la- pˈul ʁəɡˈaʁd lə- ʁənˈaʁ. il fˈil.",
+    "review": "pending_human_review",
+    "sha256": "e991856cbd2f9731233fb6b47d07f4ce11351e24c384f05c36cf0d0d3ba9bdef",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "La poule regarde le renard. Il file."
+  },
+  "C4:La poule regarde le renard. Il file. Qui agit dans la deuxième phrase ?": {
+    "file": "curriculum-c4/C4-La-poule-regarde-le-renard--Il-file--Qui-agit-dans-la-deuxieme-phra-b1abca37.mp3",
+    "phonemes": "la- pˈul ʁəɡˈaʁd lə- ʁənˈaʁ. il fˈil. kiʲ aʒˈi dɑ̃ la- døzjˈɛm fʁˈaz?",
+    "review": "pending_human_review",
+    "sha256": "2bee59daf3808f86853f3bdc2910ade0f55fd2833ad5cd6ee1a75cca2294a741",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "La poule regarde le renard. Il file. Qui agit dans la deuxième phrase ?"
+  },
+  "C4:La vache a chaud, alors elle va près de la mare. Pourquoi la vache cherche-t-elle la mare ?": {
+    "file": "curriculum-c4/C4-La-vache-a-chaud--alors-elle-va-pres-de-la-mare--Pourquoi-la-vache--80e294d0.mp3",
+    "phonemes": "la- vˈaʃ a ʃˈo, alˌɔʁ ɛl vˈa pʁɛ də- la- mˈaʁ. puʁkwˌa la- vˈaʃ ʃˈɛʁʃtɛl la- mˈaʁ?",
+    "review": "pending_human_review",
+    "sha256": "6cb130dcd76b791f58b5d63e010a7fba0da0dd24e18eb7b8e2b3badd0f76241f",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "La vache a chaud, alors elle va près de la mare. Pourquoi la vache cherche-t-elle la mare ?"
+  },
+  "C4:La vache broute.": {
+    "file": "curriculum-c4/C4-La-vache-broute--8bdb94d1.mp3",
+    "phonemes": "la- vˈaʃ bʁˈut.",
+    "review": "pending_human_review",
+    "sha256": "30bf5edbfd329c3eef7b691156b6120575845b3e330a5c097570adf0bfa582e9",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "La vache broute."
+  },
+  "C4:La vache est devant la porte.": {
+    "file": "curriculum-c4/C4-La-vache-est-devant-la-porte--4f5690d2.mp3",
+    "phonemes": "la- vˈaʃ ɛ dəvˈɑ̃ la- pˈɔʁt.",
+    "review": "pending_human_review",
+    "sha256": "9d368b5458c49d37782c421177b09c059c6bfac6e0be004b57eb5af5b4d140b6",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "La vache est devant la porte."
+  },
+  "C4:La vache longe la mare.": {
+    "file": "curriculum-c4/C4-La-vache-longe-la-mare--b78c4c62.mp3",
+    "phonemes": "la- vˈaʃ lˈɔ̃ʒ la- mˈaʁ.",
+    "review": "pending_human_review",
+    "sha256": "294a04d2d480f1521806f99d20d328510a6cdcf878d4511fc3be6cf1c6124d9e",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "La vache longe la mare."
+  },
+  "C4:La vache ne broute pas.": {
+    "file": "curriculum-c4/C4-La-vache-ne-broute-pas--67e1987b.mp3",
+    "phonemes": "la- vˈaʃ nə- bʁˈut pˈa.",
+    "review": "pending_human_review",
+    "sha256": "c4977748d65b640074cd969f36be772fc40b1aaaa5160442893a1a974f42719f",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "La vache ne broute pas."
+  },
+  "C4:La vache regarde le chat. Il dort.": {
+    "file": "curriculum-c4/C4-La-vache-regarde-le-chat--Il-dort--d80ded98.mp3",
+    "phonemes": "la- vˈaʃ ʁəɡˈaʁd lə- ʃˈa. il dˈɔʁ.",
+    "review": "pending_human_review",
+    "sha256": "42a462aac8b6ac607cdfa56dd5d7a13a103bd51373fc34302f85291bbb980204",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "La vache regarde le chat. Il dort."
+  },
+  "C4:La vache regarde le chat. Il dort. Qui agit dans la deuxième phrase ?": {
+    "file": "curriculum-c4/C4-La-vache-regarde-le-chat--Il-dort--Qui-agit-dans-la-deuxieme-phrase-67e90043.mp3",
+    "phonemes": "la- vˈaʃ ʁəɡˈaʁd lə- ʃˈa. il dˈɔʁ. kiʲ aʒˈi dɑ̃ la- døzjˈɛm fʁˈaz?",
+    "review": "pending_human_review",
+    "sha256": "b8a238bdaa7108d7abfe71d26678d030cd8e2ac8e61a86003f1e2fc456058714",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "La vache regarde le chat. Il dort. Qui agit dans la deuxième phrase ?"
+  },
+  "C4:La vache voit la pluie. Elle rentre dans la grange. Où va le personnage ?": {
+    "file": "curriculum-c4/C4-La-vache-voit-la-pluie--Elle-rentre-dans-la-grange--Ou-va-le-person-787d5394.mp3",
+    "phonemes": "la- vˈaʃ vwˈa la- plyˈi. ɛl ʁˈɑ̃tʁ dɑ̃ la- ɡʁˈɑ̃ʒ. u vˈa lə- pɛʁsɔnˈaʒ?",
+    "review": "pending_human_review",
+    "sha256": "691fefbcc18c916333db74cb3911e6053be8eec40eecb0ee7a74325d33238899",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "La vache voit la pluie. Elle rentre dans la grange. Où va le personnage ?"
+  },
+  "C4:La vache voit la pluie. Elle rentre dans la grange. Pourquoi la vache rentre-t-elle ?": {
+    "file": "curriculum-c4/C4-La-vache-voit-la-pluie--Elle-rentre-dans-la-grange--Pourquoi-la-vac-3b21b906.mp3",
+    "phonemes": "la- vˈaʃ vwˈa la- plyˈi. ɛl ʁˈɑ̃tʁ dɑ̃ la- ɡʁˈɑ̃ʒ. puʁkwˌa la- vˈaʃ ʁˈɑ̃tʁtˈɛl?",
+    "review": "pending_human_review",
+    "sha256": "baecfb4d01ec3fa04647e9095b30cd8182bef2117e2e666f650b9be954825f0d",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "La vache voit la pluie. Elle rentre dans la grange. Pourquoi la vache rentre-t-elle ?"
+  },
+  "C4:La vache voit la pluie. Elle rentre dans la grange. Que se passe-t-il en premier ?": {
+    "file": "curriculum-c4/C4-La-vache-voit-la-pluie--Elle-rentre-dans-la-grange--Que-se-passe-t--ae1a48f8.mp3",
+    "phonemes": "la- vˈaʃ vwˈa la- plyˈi. ɛl ʁˈɑ̃tʁ dɑ̃ la- ɡʁˈɑ̃ʒ. kə sə- pˈastil ɑ̃ pʁəmjˈe?",
+    "review": "pending_human_review",
+    "sha256": "73ff536dac504ac157b1ee6408ed19e58ee8d5a287827d527aee1085dadbb7ee",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "La vache voit la pluie. Elle rentre dans la grange. Que se passe-t-il en premier ?"
+  },
+  "C4:La vache voit la pluie. Elle rentre dans la grange. Qui est le personnage de cette histoire ?": {
+    "file": "curriculum-c4/C4-La-vache-voit-la-pluie--Elle-rentre-dans-la-grange--Qui-est-le-pers-918784ee.mp3",
+    "phonemes": "la- vˈaʃ vwˈa la- plyˈi. ɛl ʁˈɑ̃tʁ dɑ̃ la- ɡʁˈɑ̃ʒ. kiʲ ɛ lə- pɛʁsɔnˈaʒ də- sɛt istwˈaʁ?",
+    "review": "pending_human_review",
+    "sha256": "e1c46b44d1ef5b578fa2de673f6303aac8add39ed7ab6ea86f3cdf3a97e12f2c",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "La vache voit la pluie. Elle rentre dans la grange. Qui est le personnage de cette histoire ?"
+  },
+  "C4:La vache voit le lapin. Il saute.": {
+    "file": "curriculum-c4/C4-La-vache-voit-le-lapin--Il-saute--95db0a37.mp3",
+    "phonemes": "la- vˈaʃ vwˈa lə- lapˈɛ̃. il sˈot.",
+    "review": "pending_human_review",
+    "sha256": "4843bfac87790deb05c5a0fedb1b8efd6a4715ab71f2e4185d2d239ab9f5855d",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "La vache voit le lapin. Il saute."
+  },
+  "C4:La vache voit le lapin. Il saute. Qui agit dans la deuxième phrase ?": {
+    "file": "curriculum-c4/C4-La-vache-voit-le-lapin--Il-saute--Qui-agit-dans-la-deuxieme-phrase--7172806b.mp3",
+    "phonemes": "la- vˈaʃ vwˈa lə- lapˈɛ̃. il sˈot. kiʲ aʒˈi dɑ̃ la- døzjˈɛm fʁˈaz?",
+    "review": "pending_human_review",
+    "sha256": "1a457e10816ce846d4af7c0d84e3c8599a7411756b3203905a28793ab430d6b9",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "La vache voit le lapin. Il saute. Qui agit dans la deuxième phrase ?"
+  },
+  "C4:Le bol est sur la table.": {
+    "file": "curriculum-c4/C4-Le-bol-est-sur-la-table--818ca4bd.mp3",
+    "phonemes": "lə- bˈɔl ɛ syʁ la- tˈabl.",
+    "review": "pending_human_review",
+    "sha256": "f6c255f62d70f84f2c7791bfd1f604db25dd14a305f196792f66efd072161ffb",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "Le bol est sur la table."
+  },
+  "C4:Le canard est fatigué. Il quitte la mare et dort. D’où part le personnage ?": {
+    "file": "curriculum-c4/C4-Le-canard-est-fatigue--Il-quitte-la-mare-et-dort--Dou-part-le-perso-cb39a483.mp3",
+    "phonemes": "lə- kanˈaʁ ɛ fatiɡˈe. il kˈit la- mˈaʁ e dˈɔʁ. du pˈaʁ lə- pɛʁsɔnˈaʒ?",
+    "review": "pending_human_review",
+    "sha256": "a35296bd1caf89efaa80d9cd466e7a3ee9886eacdf3bcab32d2089f0fb1cf7f3",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "Le canard est fatigué. Il quitte la mare et dort. D’où part le personnage ?"
+  },
+  "C4:Le canard est fatigué. Il quitte la mare et dort. Pourquoi le canard quitte-t-il la mare ?": {
+    "file": "curriculum-c4/C4-Le-canard-est-fatigue--Il-quitte-la-mare-et-dort--Pourquoi-le-canar-58004bf4.mp3",
+    "phonemes": "lə- kanˈaʁ ɛ fatiɡˈe. il kˈit la- mˈaʁ e dˈɔʁ. puʁkwˌa lə- kanˈaʁ kˈittil la- mˈaʁ?",
+    "review": "pending_human_review",
+    "sha256": "67556d541c9f57e5419138a08ba4519904e6e2e1d887cec0c220146fcb2d306d",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "Le canard est fatigué. Il quitte la mare et dort. Pourquoi le canard quitte-t-il la mare ?"
+  },
+  "C4:Le canard est fatigué. Il quitte la mare et dort. Que se passe-t-il en premier ?": {
+    "file": "curriculum-c4/C4-Le-canard-est-fatigue--Il-quitte-la-mare-et-dort--Que-se-passe-t-il-c61a44f3.mp3",
+    "phonemes": "lə- kanˈaʁ ɛ fatiɡˈe. il kˈit la- mˈaʁ e dˈɔʁ. kə sə- pˈastil ɑ̃ pʁəmjˈe?",
+    "review": "pending_human_review",
+    "sha256": "e882d12218fe3e0100e5a7f4af2564212c56b09d9856fe785463b185ee63ecdc",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "Le canard est fatigué. Il quitte la mare et dort. Que se passe-t-il en premier ?"
+  },
+  "C4:Le canard est fatigué. Il quitte la mare et dort. Qui est le personnage de cette histoire ?": {
+    "file": "curriculum-c4/C4-Le-canard-est-fatigue--Il-quitte-la-mare-et-dort--Qui-est-le-person-5d028aed.mp3",
+    "phonemes": "lə- kanˈaʁ ɛ fatiɡˈe. il kˈit la- mˈaʁ e dˈɔʁ. kiʲ ɛ lə- pɛʁsɔnˈaʒ də- sɛt istwˈaʁ?",
+    "review": "pending_human_review",
+    "sha256": "aec64a7349273324700cfd7ce4d692950004d75a6a61dd709528b4c5338f4304",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "Le canard est fatigué. Il quitte la mare et dort. Qui est le personnage de cette histoire ?"
+  },
+  "C4:Le canard nage puis se repose. Qu’est-ce qui se passe en premier ?": {
+    "file": "curriculum-c4/C4-Le-canard-nage-puis-se-repose--Quest-ce-qui-se-passe-en-premier---84f3aaeb.mp3",
+    "phonemes": "lə- kanˈaʁ nˈaʒ pyˈi sə- ʁəpˈɔz. kɛs ki sə- pˈas ɑ̃ pʁəmjˈe?",
+    "review": "pending_human_review",
+    "sha256": "1ef1d2f79f66875ebb2e4d549537b9be2d0c2fabcf5838adfe718d3cc1c7c6c3",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "Le canard nage puis se repose. Qu’est-ce qui se passe en premier ?"
+  },
+  "C4:Le canard nage.": {
+    "file": "curriculum-c4/C4-Le-canard-nage--22aa029e.mp3",
+    "phonemes": "lə- kanˈaʁ nˈaʒ.",
+    "review": "pending_human_review",
+    "sha256": "cb99a3f6b5aa2e48d09b8b714ab3298333f9ec4659c1b6f5f8d0b5c4ef76af6e",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "Le canard nage."
+  },
+  "C4:Le chat a faim. Il va dans la cuisine et mange. Où va le personnage ?": {
+    "file": "curriculum-c4/C4-Le-chat-a-faim--Il-va-dans-la-cuisine-et-mange--Ou-va-le-personnage-e8e75368.mp3",
+    "phonemes": "lə- ʃˈa a fˈɛ̃. il vˈa dɑ̃ la- kyizˈin e mˈɑ̃ʒ. u vˈa lə- pɛʁsɔnˈaʒ?",
+    "review": "pending_human_review",
+    "sha256": "e3536fe2019bc6aa7b84aa1dedda81f41bc1298af0f78fe726b81d641a245c6a",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "Le chat a faim. Il va dans la cuisine et mange. Où va le personnage ?"
+  },
+  "C4:Le chat a faim. Il va dans la cuisine et mange. Pourquoi le chat va-t-il dans la cuisine ?": {
+    "file": "curriculum-c4/C4-Le-chat-a-faim--Il-va-dans-la-cuisine-et-mange--Pourquoi-le-chat-va-6be8886f.mp3",
+    "phonemes": "lə- ʃˈa a fˈɛ̃. il vˈa dɑ̃ la- kyizˈin e mˈɑ̃ʒ. puʁkwˌa lə- ʃˈa vˈatil dɑ̃ la- kyizˈin?",
+    "review": "pending_human_review",
+    "sha256": "b4e769ee26c96dc4db4687b3b692a9515af7ebc9e19d69925f511e0d9790a080",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "Le chat a faim. Il va dans la cuisine et mange. Pourquoi le chat va-t-il dans la cuisine ?"
+  },
+  "C4:Le chat a faim. Il va dans la cuisine et mange. Que se passe-t-il en premier ?": {
+    "file": "curriculum-c4/C4-Le-chat-a-faim--Il-va-dans-la-cuisine-et-mange--Que-se-passe-t-il-e-9d25db30.mp3",
+    "phonemes": "lə- ʃˈa a fˈɛ̃. il vˈa dɑ̃ la- kyizˈin e mˈɑ̃ʒ. kə sə- pˈastil ɑ̃ pʁəmjˈe?",
+    "review": "pending_human_review",
+    "sha256": "46eb14173ffaef1775ce12a9cd0697caf35c3d2ce763b9d0fe079c56bd0fbe55",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "Le chat a faim. Il va dans la cuisine et mange. Que se passe-t-il en premier ?"
+  },
+  "C4:Le chat a faim. Il va dans la cuisine et mange. Qui est le personnage de cette histoire ?": {
+    "file": "curriculum-c4/C4-Le-chat-a-faim--Il-va-dans-la-cuisine-et-mange--Qui-est-le-personna-22b39654.mp3",
+    "phonemes": "lə- ʃˈa a fˈɛ̃. il vˈa dɑ̃ la- kyizˈin e mˈɑ̃ʒ. kiʲ ɛ lə- pɛʁsɔnˈaʒ də- sɛt istwˈaʁ?",
+    "review": "pending_human_review",
+    "sha256": "e6b147523c4bee8ed977cfb561035afc3caf9621d484115e16cb94d6f67c54aa",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "Le chat a faim. Il va dans la cuisine et mange. Qui est le personnage de cette histoire ?"
+  },
+  "C4:Le chat a sommeil, alors il se couche. Pourquoi le chat se couche-t-il ?": {
+    "file": "curriculum-c4/C4-Le-chat-a-sommeil--alors-il-se-couche--Pourquoi-le-chat-se-couche-t-21ec42ba.mp3",
+    "phonemes": "lə- ʃˈa a sɔmˈɛj, alˌɔʁ il sə- kˈuʃ. puʁkwˌa lə- ʃˈa sə- kˈuʃtˈil?",
+    "review": "pending_human_review",
+    "sha256": "dae108e0df9da385341a934fe71d1234fe654af0234fafdf5766e74b5e346476",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "Le chat a sommeil, alors il se couche. Pourquoi le chat se couche-t-il ?"
+  },
+  "C4:Le chat boit parce qu’il a soif.": {
+    "file": "curriculum-c4/C4-Le-chat-boit-parce-quil-a-soif--e9dedf39.mp3",
+    "phonemes": "lə- ʃˈa bwˈa paʁskˌil a swˈaf.",
+    "review": "pending_human_review",
+    "sha256": "9c8d70cfa49309240940ff5da75f5c70ea1633b0ddcf3c2178d648843b42fbba",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "Le chat boit parce qu’il a soif."
+  },
+  "C4:Le chat dort sous le lit.": {
+    "file": "curriculum-c4/C4-Le-chat-dort-sous-le-lit--448cdc57.mp3",
+    "phonemes": "lə- ʃˈa dˈɔʁ su lə- lˈi.",
+    "review": "pending_human_review",
+    "sha256": "6f61e8393b9bd8b38a65d013bd8dbf4fee29a74427dfd31340b2488a495f43b9",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "Le chat dort sous le lit."
+  },
+  "C4:Le chat dort.": {
+    "file": "curriculum-c4/C4-Le-chat-dort--3140377b.mp3",
+    "phonemes": "lə- ʃˈa dˈɔʁ.",
+    "review": "pending_human_review",
+    "sha256": "10db15341a1f6b29bc55df6617ecf55d18a8c231ab43d3905ebe4e55886021ca",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "Le chat dort."
+  },
+  "C4:Le chat lèche le bol.": {
+    "file": "curriculum-c4/C4-Le-chat-leche-le-bol--0960d709.mp3",
+    "phonemes": "lə- ʃˈa lˈɛʃ lə- bˈɔl.",
+    "review": "pending_human_review",
+    "sha256": "268b5f9f8b654c57a0083e8c6ef329dfeb4d9e365dbbb59b461075f57cc41d8d",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "Le chat lèche le bol."
+  },
+  "C4:Le chat mange puis dort.": {
+    "file": "curriculum-c4/C4-Le-chat-mange-puis-dort--e81e4c12.mp3",
+    "phonemes": "lə- ʃˈa mˈɑ̃ʒ pyˈi dˈɔʁ.",
+    "review": "pending_human_review",
+    "sha256": "d9502fd0e5f67ac50cf25c5d2254dc4c94d7a5e4641a5dabff73d63b5e49d3cd",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "Le chat mange puis dort."
+  },
+  "C4:Le chat mange puis dort. Qu’est-ce qui se passe en premier ?": {
+    "file": "curriculum-c4/C4-Le-chat-mange-puis-dort--Quest-ce-qui-se-passe-en-premier---eda6d4b5.mp3",
+    "phonemes": "lə- ʃˈa mˈɑ̃ʒ pyˈi dˈɔʁ. kɛs ki sə- pˈas ɑ̃ pʁəmjˈe?",
+    "review": "pending_human_review",
+    "sha256": "1cae53dc1104a5155e5a2001a5b82b4ad1f245488a9f496bde146dc91bbba4c0",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "Le chat mange puis dort. Qu’est-ce qui se passe en premier ?"
+  },
+  "C4:Le chat ne dort pas.": {
+    "file": "curriculum-c4/C4-Le-chat-ne-dort-pas--a3ba20dd.mp3",
+    "phonemes": "lə- ʃˈa nə- dˈɔʁ pˈa.",
+    "review": "pending_human_review",
+    "sha256": "0750f437f6338eded847efa9b68b4f61701300ce92680d1dee38663d5a5e83a1",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "Le chat ne dort pas."
+  },
+  "C4:Le chat voit la vache. Elle mange.": {
+    "file": "curriculum-c4/C4-Le-chat-voit-la-vache--Elle-mange--c14465c6.mp3",
+    "phonemes": "lə- ʃˈa vwˈa la- vˈaʃ. ɛl mˈɑ̃ʒ.",
+    "review": "pending_human_review",
+    "sha256": "122cce8fbb312b2b9d7a9445531817ebd5961b4bcb605851eb157f0b32f8fe80",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "Le chat voit la vache. Elle mange."
+  },
+  "C4:Le chat voit la vache. Elle mange. Qui agit dans la deuxième phrase ?": {
+    "file": "curriculum-c4/C4-Le-chat-voit-la-vache--Elle-mange--Qui-agit-dans-la-deuxieme-phrase-05cf9fab.mp3",
+    "phonemes": "lə- ʃˈa vwˈa la- vˈaʃ. ɛl mˈɑ̃ʒ. kiʲ aʒˈi dɑ̃ la- døzjˈɛm fʁˈaz?",
+    "review": "pending_human_review",
+    "sha256": "0c895821ec76642c8e313f9f1003911ab7dba66c5cb5e45fd8829f720c6d7d74",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "Le chat voit la vache. Elle mange. Qui agit dans la deuxième phrase ?"
+  },
+  "C4:Le lapin boit avant de manger.": {
+    "file": "curriculum-c4/C4-Le-lapin-boit-avant-de-manger--a82ca418.mp3",
+    "phonemes": "lə- lapˈɛ̃ bwˈa avˌɑ̃ də- mɑ̃ʒˈe.",
+    "review": "pending_human_review",
+    "sha256": "750f5ea01ccecd388b1dff5e4ef8e3c1294684f34b1397f14c6af1b71a7e2eb7",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "Le lapin boit avant de manger."
+  },
+  "C4:Le lapin boit avant de manger. Qu’est-ce qui se passe en premier ?": {
+    "file": "curriculum-c4/C4-Le-lapin-boit-avant-de-manger--Quest-ce-qui-se-passe-en-premier---2057cf69.mp3",
+    "phonemes": "lə- lapˈɛ̃ bwˈa avˌɑ̃ də- mɑ̃ʒˈe. kɛs ki sə- pˈas ɑ̃ pʁəmjˈe?",
+    "review": "pending_human_review",
+    "sha256": "ec219912c797cfd0fb1fc95825739a77c7a55438265d21279839ab4c7c322635",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "Le lapin boit avant de manger. Qu’est-ce qui se passe en premier ?"
+  },
+  "C4:Le lapin est derrière le mur.": {
+    "file": "curriculum-c4/C4-Le-lapin-est-derriere-le-mur--8ac863b5.mp3",
+    "phonemes": "lə- lapˈɛ̃ ɛ dɛʁjˈɛʁ lə- mˈyʁ.",
+    "review": "pending_human_review",
+    "sha256": "3ee35bf53e6c3312addcec9a8be7cce528178af90eea867d34b7d48977e16ad4",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "Le lapin est derrière le mur."
+  },
+  "C4:Le lapin passe la porte.": {
+    "file": "curriculum-c4/C4-Le-lapin-passe-la-porte--020eaca6.mp3",
+    "phonemes": "lə- lapˈɛ̃ pˈas la- pˈɔʁt.",
+    "review": "pending_human_review",
+    "sha256": "98efdc4312d525f10c2f8d42515bcf35137bf75ed3d3cc26aea5004d2bbd335d",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "Le lapin passe la porte."
+  },
+  "C4:Le lapin saute.": {
+    "file": "curriculum-c4/C4-Le-lapin-saute--397be653.mp3",
+    "phonemes": "lə- lapˈɛ̃ sˈot.",
+    "review": "pending_human_review",
+    "sha256": "6b1846c5701a1b99edd6b55492415ac9433a9fe084ebcfd0c67d0e088741de8a",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "Le lapin saute."
+  },
+  "C4:Le loup a froid, alors il rentre dans son abri. Pourquoi le loup rentre-t-il dans son abri ?": {
+    "file": "curriculum-c4/C4-Le-loup-a-froid--alors-il-rentre-dans-son-abri--Pourquoi-le-loup-re-8c86b963.mp3",
+    "phonemes": "lə- lˈu a fʁwˈa, alˌɔʁ il ʁˈɑ̃tʁ dɑ̃ sɔ̃n abʁˈi. puʁkwˌa lə- lˈu ʁˈɑ̃tʁtil dɑ̃ sɔ̃n abʁˈi?",
+    "review": "pending_human_review",
+    "sha256": "1dfcc8fa318c6f435e5c0669e8b8cefeb9f7d4e7d2bba716bbd2d7323e500607",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "Le loup a froid, alors il rentre dans son abri. Pourquoi le loup rentre-t-il dans son abri ?"
+  },
+  "C4:Le loup ne file pas.": {
+    "file": "curriculum-c4/C4-Le-loup-ne-file-pas--f2501a08.mp3",
+    "phonemes": "lə- lˈu nə- fˈil pˈa.",
+    "review": "pending_human_review",
+    "sha256": "920ff04a63878f5bd35f1584f516c68c102be2dad711bc5e38c5a13589d62115",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "Le loup ne file pas."
+  },
+  "C4:Le loup regarde la poule. Elle picore.": {
+    "file": "curriculum-c4/C4-Le-loup-regarde-la-poule--Elle-picore--716eb8c1.mp3",
+    "phonemes": "lə- lˈu ʁəɡˈaʁd la- pˈul. ɛl pikˈɔʁ.",
+    "review": "pending_human_review",
+    "sha256": "33f8082b2919fce740bcb5970abe67bd1bc381cd909c3b5bc4991e99dfff0e75",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "Le loup regarde la poule. Elle picore."
+  },
+  "C4:Le loup regarde la poule. Elle picore. Qui agit dans la deuxième phrase ?": {
+    "file": "curriculum-c4/C4-Le-loup-regarde-la-poule--Elle-picore--Qui-agit-dans-la-deuxieme-ph-652b688b.mp3",
+    "phonemes": "lə- lˈu ʁəɡˈaʁd la- pˈul. ɛl pikˈɔʁ. kiʲ aʒˈi dɑ̃ la- døzjˈɛm fʁˈaz?",
+    "review": "pending_human_review",
+    "sha256": "1efeaf5db30df49dc72446d82d4b59e96a9919898340207969606cd6879c7a24",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "Le loup regarde la poule. Elle picore. Qui agit dans la deuxième phrase ?"
+  },
+  "C4:Le panda mange ?": {
+    "file": "curriculum-c4/C4-Le-panda-mange---655c2d8e.mp3",
+    "phonemes": "lə- pɑ̃dˈa mˈɑ̃ʒ?",
+    "review": "pending_human_review",
+    "sha256": "892cf4828f9402269110e78f3e68a2a6e867f6e169e93af5fd49e13de3c8d5f9",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "Le panda mange ?"
+  },
+  "C4:Le panda mange du bambou.": {
+    "file": "curriculum-c4/C4-Le-panda-mange-du-bambou--39b5e933.mp3",
+    "phonemes": "lə- pɑ̃dˈa mˈɑ̃ʒ dy- bɑ̃bˈu.",
+    "review": "pending_human_review",
+    "sha256": "cb25c86cce7aee584996e271c76fa56ae445ab225ca863f60667780a0f5a14f5",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "Le panda mange du bambou."
+  },
+  "C4:Le panda mange.": {
+    "file": "curriculum-c4/C4-Le-panda-mange--90c10ad0.mp3",
+    "phonemes": "lə- pɑ̃dˈa mˈɑ̃ʒ.",
+    "review": "pending_human_review",
+    "sha256": "4acb57ec53f585a9cff7060de8110d0e7a18c3f8a4f317fb3217121f837f0c82",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "Le panda mange."
+  },
+  "C4:Le panda se cache parce que la pluie tombe.": {
+    "file": "curriculum-c4/C4-Le-panda-se-cache-parce-que-la-pluie-tombe--13f0d77c.mp3",
+    "phonemes": "lə- pɑ̃dˈa sə- kˈaʃ paʁskˌə la- plyˈi tˈɔ̃b.",
+    "review": "pending_human_review",
+    "sha256": "c5d3da54056ae6f9e1ae3a24671ebf80055ef02c4785fb1c094377223b805fa2",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "Le panda se cache parce que la pluie tombe."
+  },
+  "C4:Le panda tourne.": {
+    "file": "curriculum-c4/C4-Le-panda-tourne--b88b5b37.mp3",
+    "phonemes": "lə- pɑ̃dˈa tˈuʁn.",
+    "review": "pending_human_review",
+    "sha256": "d3c73a44c72e226ba7701eaed5c01b5e588bd73e5d07e2c03e142201429fd88a",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "Le panda tourne."
+  },
+  "C4:Le rat a soif, alors il boit. Pourquoi le rat boit-il ?": {
+    "file": "curriculum-c4/C4-Le-rat-a-soif--alors-il-boit--Pourquoi-le-rat-boit-il---b4ba4dc7.mp3",
+    "phonemes": "lə- ʁˈa a swˈaf, alˌɔʁ il bwˈa. puʁkwˌa lə- ʁˈa bwˈatˈil?",
+    "review": "pending_human_review",
+    "sha256": "b2632f7239c90f276ef4fb17509bc127c8b3ea06bb64ccec50e161af72b64257",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "Le rat a soif, alors il boit. Pourquoi le rat boit-il ?"
+  },
+  "C4:Le rat file.": {
+    "file": "curriculum-c4/C4-Le-rat-file--076fbb61.mp3",
+    "phonemes": "lə- ʁˈa fˈil.",
+    "review": "pending_human_review",
+    "sha256": "e5b83682e909136e53f7658dc4c4825750529471bc81ace17833ee580c8d7595",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "Le rat file."
+  },
+  "C4:Le renard bondit.": {
+    "file": "curriculum-c4/C4-Le-renard-bondit--d1340676.mp3",
+    "phonemes": "lə- ʁənˈaʁ bɔ̃dˈi.",
+    "review": "pending_human_review",
+    "sha256": "7d7eed08235b9a310755f1c053ff04bbad7e3ebe3d69f5c74a15ee9371f8f284",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "Le renard bondit."
+  },
+  "C4:Les pandas mangent.": {
+    "file": "curriculum-c4/C4-Les-pandas-mangent--eb33e367.mp3",
+    "phonemes": "le- pɑ̃dˈa mˈɑ̃ʒ.",
+    "review": "pending_human_review",
+    "sha256": "83f10f1cd9d3093f92a3ef0ed7f634bc7bbf1756fd57511d458999f2a96e9628",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "Les pandas mangent."
+  },
+  "C4:Un cheval trotte.": {
+    "file": "curriculum-c4/C4-Un-cheval-trotte--1d779edc.mp3",
+    "phonemes": "œ̃ ʃəvˈal tʁˈɔt.",
+    "review": "pending_human_review",
+    "sha256": "1868bbe7fdd0be5e39a19725862767926ce88606b84f293d897adf194a4c4509",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "Un cheval trotte."
+  },
+  "C4:Un grand loup arrive.": {
+    "file": "curriculum-c4/C4-Un-grand-loup-arrive--6b6960b3.mp3",
+    "phonemes": "œ̃ ɡʁˈɑ̃ lˈu aʁˈiv.",
+    "review": "pending_human_review",
+    "sha256": "e7ed0c2f6185cd95f50cd8c1f290a7cad4ddfd087d6bb5c727ffcdd3f152f52f",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "Un grand loup arrive."
+  },
+  "C4:Un lapin a soif. Il saute vers la mare et boit. Où va le personnage ?": {
+    "file": "curriculum-c4/C4-Un-lapin-a-soif--Il-saute-vers-la-mare-et-boit--Ou-va-le-personnage-c62e8ca6.mp3",
+    "phonemes": "œ̃ lapˈɛ̃ a swˈaf. il sˈot vɛʁ la- mˈaʁ e bwˈa. u vˈa lə- pɛʁsɔnˈaʒ?",
+    "review": "pending_human_review",
+    "sha256": "2cd0aab54a9a1ecbf299880efae600e3359243825b894d196e6c7d7642fe7084",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "Un lapin a soif. Il saute vers la mare et boit. Où va le personnage ?"
+  },
+  "C4:Un lapin a soif. Il saute vers la mare et boit. Pourquoi le lapin va-t-il vers la mare ?": {
+    "file": "curriculum-c4/C4-Un-lapin-a-soif--Il-saute-vers-la-mare-et-boit--Pourquoi-le-lapin-v-0338aecd.mp3",
+    "phonemes": "œ̃ lapˈɛ̃ a swˈaf. il sˈot vɛʁ la- mˈaʁ e bwˈa. puʁkwˌa lə- lapˈɛ̃ vˈatil vɛʁ la- mˈaʁ?",
+    "review": "pending_human_review",
+    "sha256": "2819cfffbcef4be8948b85fadd78b483626c6b92c5c08a28540d2258ca76f2f4",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "Un lapin a soif. Il saute vers la mare et boit. Pourquoi le lapin va-t-il vers la mare ?"
+  },
+  "C4:Un lapin a soif. Il saute vers la mare et boit. Que se passe-t-il en premier ?": {
+    "file": "curriculum-c4/C4-Un-lapin-a-soif--Il-saute-vers-la-mare-et-boit--Que-se-passe-t-il-e-9a5369fd.mp3",
+    "phonemes": "œ̃ lapˈɛ̃ a swˈaf. il sˈot vɛʁ la- mˈaʁ e bwˈa. kə sə- pˈastil ɑ̃ pʁəmjˈe?",
+    "review": "pending_human_review",
+    "sha256": "312b250bbff95ef22d3f0a667968f3bf19797de9c3215054fb184b11180a7784",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "Un lapin a soif. Il saute vers la mare et boit. Que se passe-t-il en premier ?"
+  },
+  "C4:Un lapin a soif. Il saute vers la mare et boit. Qui est le personnage de cette histoire ?": {
+    "file": "curriculum-c4/C4-Un-lapin-a-soif--Il-saute-vers-la-mare-et-boit--Qui-est-le-personna-3821b701.mp3",
+    "phonemes": "œ̃ lapˈɛ̃ a swˈaf. il sˈot vɛʁ la- mˈaʁ e bwˈa. kiʲ ɛ lə- pɛʁsɔnˈaʒ də- sɛt istwˈaʁ?",
+    "review": "pending_human_review",
+    "sha256": "7dd66e1f3aa9b66a7e29e115d59ffecd6407f40c5f2be22a0ea24a1f26870ac7",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "Un lapin a soif. Il saute vers la mare et boit. Qui est le personnage de cette histoire ?"
+  },
+  "C4:Un lapin saute.": {
+    "file": "curriculum-c4/C4-Un-lapin-saute--689dfa7f.mp3",
+    "phonemes": "œ̃ lapˈɛ̃ sˈot.",
+    "review": "pending_human_review",
+    "sha256": "919f6726d7a2db59157fa634be50c36e7c2f2c0f40c3453759cabd59bbf604b4",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "Un lapin saute."
+  },
+  "C4:Un loup et une vache arrivent.": {
+    "file": "curriculum-c4/C4-Un-loup-et-une-vache-arrivent--e93304a0.mp3",
+    "phonemes": "œ̃ lˈu e yn vˈaʃ aʁˈiv.",
+    "review": "pending_human_review",
+    "sha256": "f1a316e457b9075c6ff42fbafdfcc309f0684bd668d119b4ddd3999a03e2bc3b",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "Un loup et une vache arrivent."
+  },
+  "C4:Un loup file la nuit.": {
+    "file": "curriculum-c4/C4-Un-loup-file-la-nuit--668e42c2.mp3",
+    "phonemes": "œ̃ lˈu fˈil la- nyˈi.",
+    "review": "pending_human_review",
+    "sha256": "da256c7ed08aaff9a7d02aa877d81d21f31dcd5ed81e85a9a8a5fa20d1f041de",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "Un loup file la nuit."
+  },
+  "C4:Un loup file.": {
+    "file": "curriculum-c4/C4-Un-loup-file--cb6c5c0f.mp3",
+    "phonemes": "œ̃ lˈu fˈil.",
+    "review": "pending_human_review",
+    "sha256": "0fb658a58e1e1d6f15e8e5c89ef4f3283514bc1f7249484e287d07829fe83183",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "Un loup file."
+  },
+  "C4:Une ourse nage.": {
+    "file": "curriculum-c4/C4-Une-ourse-nage--097224fa.mp3",
+    "phonemes": "yn ˈuʁs nˈaʒ.",
+    "review": "pending_human_review",
+    "sha256": "b48123df49a194c2484d33d3f7ee5890d1da8b16b1779db432e712e7f3aa290a",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "Une ourse nage."
+  },
+  "C4:Une vache rumine.": {
+    "file": "curriculum-c4/C4-Une-vache-rumine--e640c6ce.mp3",
+    "phonemes": "yn vˈaʃ ʁymˈin.",
+    "review": "pending_human_review",
+    "sha256": "dd6fb0325cd5682ad65ccaca32a3fb2967ff2308bca2ca5133a74845cd285353",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "Une vache rumine."
+  },
+  "C4:consigne:Choisis un mot de la même famille.": {
+    "file": "curriculum-c4/C4-consigne-Choisis-un-mot-de-la-meme-famille--61d92a31.mp3",
+    "phonemes": "ʃwazˈiʲ œ̃ mˈo də- la- mˈɛm famˈij.",
+    "review": "pending_human_review",
+    "sha256": "342cc2b7983b3d7c7befa943b235f90049538a0d3868beda34f0616affa19c3a",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "Choisis un mot de la même famille."
+  },
+  "C4:consigne:Lis la phrase, puis choisis la scène qui lui correspond.": {
+    "file": "curriculum-c4/C4-consigne-Lis-la-phrase--puis-choisis-la-scene-qui-lui-correspond--c55db2a9.mp3",
+    "phonemes": "lˈi la- fʁˈaz, pyˈi ʃwazˈi la- sˈɛn ki lyˌi koʁɛspˈɔ̃.",
+    "review": "pending_human_review",
+    "sha256": "d8fc563c7256cd365c6b0d0aa00fed9a378b60a50a3922315ef668965783c25c",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "Lis la phrase, puis choisis la scène qui lui correspond."
+  },
+  "C4:consigne:Lis le mot, puis écoute les options.": {
+    "file": "curriculum-c4/C4-consigne-Lis-le-mot--puis-ecoute-les-options--005a4894.mp3",
+    "phonemes": "lˈi lə- mˈo, pyˈiz ekˈut le-z ɔpsjˈɔ̃.",
+    "review": "pending_human_review",
+    "sha256": "eeaf3a125050d6aecf16e18d78bd7bf6e05dfe931c6d028cfaa0825cfeebc596",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "Lis le mot, puis écoute les options."
+  },
+  "C4:consigne:Lis le récit et la question, puis choisis la réponse.": {
+    "file": "curriculum-c4/C4-consigne-Lis-le-recit-et-la-question--puis-choisis-la-reponse--155a70a6.mp3",
+    "phonemes": "lˈi lə- ʁesˈiʲ e la- kɛstjˈɔ̃, pyˈi ʃwazˈi la- ʁepˈɔ̃s.",
+    "review": "pending_human_review",
+    "sha256": "795d7d19d837ac90b6ccfee6954cde609e24496d8cf62423ed200fa9d7527924",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "Lis le récit et la question, puis choisis la réponse."
+  },
+  "C4:consigne:Lis, puis choisis le personnage désigné par le pronom.": {
+    "file": "curriculum-c4/C4-consigne-Lis--puis-choisis-le-personnage-designe-par-le-pronom--fd3ac905.mp3",
+    "phonemes": "lˈi, pyˈi ʃwazˈi lə- pɛʁsɔnˈaʒ dezinjˈe paʁ lə- pʁonˈɔ̃.",
+    "review": "pending_human_review",
+    "sha256": "d8c82ac488a3642121077473b589622042c863eb63f04225eace6d9712b03b4e",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "Lis, puis choisis le personnage désigné par le pronom."
+  },
+  "C4:consigne:Observe la forme ou la scène, puis choisis.": {
+    "file": "curriculum-c4/C4-consigne-Observe-la-forme-ou-la-scene--puis-choisis--79700bf5.mp3",
+    "phonemes": "ɔbsˈɛʁv la- fˈɔʁm u la- sˈɛn, pyˈi ʃwazˈi.",
+    "review": "pending_human_review",
+    "sha256": "240c6d1719cd12c4b49589822ed8ae6571b4a6e15e2789085d3cf1d9e7c3a0be",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "Observe la forme ou la scène, puis choisis."
+  },
+  "C4:consigne:Quel groupe de lettres se prononce ensemble ?": {
+    "file": "curriculum-c4/C4-consigne-Quel-groupe-de-lettres-se-prononce-ensemble---ff3e46f3.mp3",
+    "phonemes": "kɛl ɡʁˈup də- lˈɛtʁ sə- pʁonˈɔ̃s ɑ̃sˈɑ̃bl?",
+    "review": "pending_human_review",
+    "sha256": "c8b17839b9e4eaf97198b9dde8e11e996fd3f2b118254ee55e145cc3743dccf1",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "Quel groupe de lettres se prononce ensemble ?"
+  },
+  "C4:consigne:Quel mot complète la phrase ?": {
+    "file": "curriculum-c4/C4-consigne-Quel-mot-complete-la-phrase---e648ad35.mp3",
+    "phonemes": "kɛl mˈo kɔ̃plˈɛt la- fʁˈaz?",
+    "review": "pending_human_review",
+    "sha256": "57fe3f81b03178fb905ec12cf6b4bbb6261c3dd149a58e667b2668cbde74b7be",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "Quel mot complète la phrase ?"
+  },
+  "C4:consigne:Quelle est la marque de pluriel de cette forme ?": {
+    "file": "curriculum-c4/C4-consigne-Quelle-est-la-marque-de-pluriel-de-cette-forme---f47c5b7b.mp3",
+    "phonemes": "kɛl ɛ la- mˈaʁk də- plyʁjˈɛl də- sɛt fˈɔʁm?",
+    "review": "pending_human_review",
+    "sha256": "1457ab797fc89a5c4d3f8c4428d75abf4101e7cb5332e1ab7958adfe1c28b09e",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "Quelle est la marque de pluriel de cette forme ?"
+  },
+  "C4:consigne:Quelle lettre donne la voyelle entendue ?": {
+    "file": "curriculum-c4/C4-consigne-Quelle-lettre-donne-la-voyelle-entendue---571530c5.mp3",
+    "phonemes": "kɛl lˈɛtʁ dˈɔn la- vwajˈɛl ɑ̃tɑ̃dˈy?",
+    "review": "pending_human_review",
+    "sha256": "760dfb7613abd8d9672befb2676823f1110418186c6e8a81edd03c3b2094955c",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "Quelle lettre donne la voyelle entendue ?"
+  },
+  "C4:consigne:Quelle lettre fait le son U dans ce mot ?": {
+    "file": "curriculum-c4/C4-consigne-Quelle-lettre-fait-le-son-U-dans-ce-mot---ec9a6834.mp3",
+    "phonemes": "kɛl lˈɛtʁ fˈɛ lə- sˈɔ̃ ˈy dɑ̃ sə- mˈo?",
+    "review": "pending_human_review",
+    "sha256": "3501bd647ca01fd16c1e3dfaa9ccc45c52f48ce251ffa9b50ed3b7c1cb5d8c68",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "Quelle lettre fait le son U dans ce mot ?"
+  },
+  "C4:consigne:Quelle lettre fait le son neutre à la fin ?": {
+    "file": "curriculum-c4/C4-consigne-Quelle-lettre-fait-le-son-neutre-a-la-fin---604eac62.mp3",
+    "phonemes": "kɛl lˈɛtʁ fˈɛ lə- sˈɔ̃ nˈøtʁ a la- fˈɛ̃?",
+    "review": "pending_human_review",
+    "sha256": "4b36002b7a5ed7c9b31e20cb72303f6af444f12335d19a05297f7245689c1be7",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "Quelle lettre fait le son neutre à la fin ?"
+  },
+  "C4:consigne:Quelle lettre finale reste muette ?": {
+    "file": "curriculum-c4/C4-consigne-Quelle-lettre-finale-reste-muette---db8ce900.mp3",
+    "phonemes": "kɛl lˈɛtʁ finˈal ʁˈɛst myˈɛt?",
+    "review": "pending_human_review",
+    "sha256": "64c0d9203b04c0cc6bc790b486415d3878ed0d06ac64ea54da38e06feacf96dc",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "Quelle lettre finale reste muette ?"
+  },
+  "C4:consigne:Qu’est-ce qui caractérise cette phrase ?": {
+    "file": "curriculum-c4/C4-consigne-Quest-ce-qui-caracterise-cette-phrase---78da321f.mp3",
+    "phonemes": "kɛs ki kaʁakteʁˈiz sɛt fʁˈaz?",
+    "review": "pending_human_review",
+    "sha256": "6a1dd5e53caad06fac83c4696dd0fdfe268e467c1b4bb10bfca4b4d532d20172",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "Qu’est-ce qui caractérise cette phrase ?"
+  },
+  "C4:consigne:Touche les mots dans l’ordre pour reconstruire la phrase que tu entends.": {
+    "file": "curriculum-c4/C4-consigne-Touche-les-mots-dans-lordre-pour-reconstruire-la-phrase-qu-a83d5367.mp3",
+    "phonemes": "tˈuʃ le- mˈo dɑ̃ lˈɔʁdʁ puʁ ʁəkɔ̃stʁyˈiʁ la- fʁˈaz kə ty ɑ̃tˈɑ̃.",
+    "review": "pending_human_review",
+    "sha256": "b4567a89b405a89ad4cf793da7c4e98b46d393896cfc646c76b2618b0db7dd4b",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "Touche les mots dans l’ordre pour reconstruire la phrase que tu entends."
+  },
+  "C4:consigne:Écoute la phrase, puis choisis la scène qui lui correspond.": {
+    "file": "curriculum-c4/C4-consigne-Ecoute-la-phrase--puis-choisis-la-scene-qui-lui-correspond-a5a0e179.mp3",
+    "phonemes": "ekˈut la- fʁˈaz, pyˈi ʃwazˈi la- sˈɛn ki lyˌi koʁɛspˈɔ̃.",
+    "review": "pending_human_review",
+    "sha256": "f39735a292579b714cae55b68af98d0f3b4e47d622d35f0624b1558b7cb294bc",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "Écoute la phrase, puis choisis la scène qui lui correspond."
+  },
+  "C4:consigne:Écoute le récit et la question, puis choisis la réponse.": {
+    "file": "curriculum-c4/C4-consigne-Ecoute-le-recit-et-la-question--puis-choisis-la-reponse--c9b7519a.mp3",
+    "phonemes": "ekˈut lə- ʁesˈiʲ e la- kɛstjˈɔ̃, pyˈi ʃwazˈi la- ʁepˈɔ̃s.",
+    "review": "pending_human_review",
+    "sha256": "a5eaa389da4572f4303a0a31295f374480f6dc952b83c0a437f73bd77b00a5d8",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "Écoute le récit et la question, puis choisis la réponse."
+  },
+  "C4:consigne:Écoute puis choisis la scène correspondante.": {
+    "file": "curriculum-c4/C4-consigne-Ecoute-puis-choisis-la-scene-correspondante--895a9d1a.mp3",
+    "phonemes": "ekˈut pyˈi ʃwazˈi la- sˈɛn koʁɛspɔ̃dˈɑ̃t.",
+    "review": "pending_human_review",
+    "sha256": "3a030426b3e6fc54ef5ef5fd4a57894cfa98269236dd6897ca5a729618d3947e",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "Écoute puis choisis la scène correspondante."
+  },
+  "C4:kanaʁ:canard": {
+    "file": "curriculum-c4/C4-kana-canard-85c3de39.mp3",
+    "phonemes": "kanaʁ",
+    "review": "pending_human_review",
+    "sha256": "9d29879dca8d4dc8ca48d455d23431e2d3cc1c1ea3bb8c13bc3be8623f093318",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "canard"
+  },
+  "C4:kanaʁd:canard": {
+    "file": "curriculum-c4/C4-kanad-canard-31c69792.mp3",
+    "phonemes": "kanaʁd",
+    "review": "pending_human_review",
+    "sha256": "e93d03639312d9d38869f6c1ff0ffc75db214e6f7aa02307524bb222c7e0e014",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "canard"
+  },
+  "C4:la:la": {
+    "file": "curriculum-c4/C4-la-la-3563b99b.mp3",
+    "phonemes": "la",
+    "review": "pending_human_review",
+    "sha256": "0431d9cb044f35e46d77b6bd8f996c47352465cdc46497728efc42a3416f5c6f",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "la"
+  },
+  "C4:le:les": {
+    "file": "curriculum-c4/C4-le-les-3353a1e8.mp3",
+    "phonemes": "le",
+    "review": "pending_human_review",
+    "sha256": "56f7211271de60f8561995719ee1d11892484c62517bdec4c01aa1e4ed0b22af",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "les"
+  },
+  "C4:lə:le": {
+    "file": "curriculum-c4/C4-l-le-30d24b98.mp3",
+    "phonemes": "lə",
+    "review": "pending_human_review",
+    "sha256": "acc4c087becea08e2d9e4231c5f92a0fa63943d75a16f12975bf423dd308260a",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "le"
+  },
+  "C4:yn:une": {
+    "file": "curriculum-c4/C4-yn-une-ef60a1cc.mp3",
+    "phonemes": "yn",
+    "review": "pending_human_review",
+    "sha256": "739e7c1b059b486cbe7d40c9c991c7e5cf96d92c012a7b53d8ba6a59234cd7c1",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "une"
+  },
+  "C4:œ̃:un": {
+    "file": "curriculum-c4/C4--un-ce14b2b8.mp3",
+    "phonemes": "œ̃",
+    "review": "pending_human_review",
+    "sha256": "538c09520461c93a62eaf5090f1da11bb7b90b411b6988a8806b7f7ae64c6e2c",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "un"
+  },
+  "C4:ɡʁɑ̃:grand": {
+    "file": "curriculum-c4/C4--grand-f125897b.mp3",
+    "phonemes": "ɡʁɑ̃",
+    "review": "pending_human_review",
+    "sha256": "3a0965ec853b07bf432cfb2a7ba53dff590df99c6c7bef58220894635c475b34",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "grand"
+  },
+  "C4:ɡʁɑ̃d:grand": {
+    "file": "curriculum-c4/C4-d-grand-ed036846.mp3",
+    "phonemes": "ɡʁɑ̃d",
+    "review": "pending_human_review",
+    "sha256": "6e84695c3d3047068ff89acded59fc3ebe145d3646d59d21829c84623d3cc3c9",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "grand"
+  },
+  "C4:ʁa:rat": {
+    "file": "curriculum-c4/C4-a-rat-58c62864.mp3",
+    "phonemes": "ʁa",
+    "review": "pending_human_review",
+    "sha256": "5e33a17f8e24f918f6f3e5082aa50074bd3fc6e200d8f7d8453ee8ddeb7f1be9",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "rat"
+  },
+  "C4:ʁat:rat": {
+    "file": "curriculum-c4/C4-at-rat-ed4ee293.mp3",
+    "phonemes": "ʁat",
+    "review": "pending_human_review",
+    "sha256": "c5e6b8a1ca2df65e285bc0bd911c61c30c0e263b34f9bf37b21a38369736e497",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "rat"
+  },
+  "C4:ʁənaʁ:renard": {
+    "file": "curriculum-c4/C4-na-renard-fc98fc9e.mp3",
+    "phonemes": "ʁənaʁ",
+    "review": "pending_human_review",
+    "sha256": "4e5642261e4731f31db926b301b69aaf38dd55a35d8096e4074a802fb5930458",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "renard"
+  },
+  "C4:ʁənaʁd:renard": {
+    "file": "curriculum-c4/C4-nad-renard-5dd22d35.mp3",
+    "phonemes": "ʁənaʁd",
+    "review": "pending_human_review",
+    "sha256": "93109bc5002d526cd92fe90de33c5a05205f89ff11c8094a1ad0e312a54371d3",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "renard"
+  },
+  "C4:ʃa:chat": {
+    "file": "curriculum-c4/C4-a-chat-054c6a95.mp3",
+    "phonemes": "ʃa",
+    "review": "pending_human_review",
+    "sha256": "ea0ae475c73ac90fce5527e6d2fc77376940a009234b76c2a0ba24883b7c97b8",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "chat"
+  },
+  "C4:ʃat:chat": {
+    "file": "curriculum-c4/C4-at-chat-04fdd11a.mp3",
+    "phonemes": "ʃat",
+    "review": "pending_human_review",
+    "sha256": "e80592180657fcda876cd780ad106486c82edb83fe15089d5ac054ecd1438552",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "chat"
+  }
+}

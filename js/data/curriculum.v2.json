@@ -1,0 +1,2681 @@
+{
+  "schemaVersion": "2.0-draft",
+  "title": "La Licorne des sons — Parcours de lecture structuré",
+  "status": "SPECIFICATION_DRAFT_NOT_VALIDATED_FOR_CHILDREN",
+  "created": "2026-11-07",
+  "source": "CSEN, Apprendre à lire : du décodage à la compréhension, synthèse d’octobre 2022",
+  "chapterCount": 4,
+  "unitCount": 56,
+  "blockCount": 224,
+  "questionSlotsPerPass": 1120,
+  "chapters": [
+    {
+      "id": "C1",
+      "title": "Les premiers sons",
+      "subtitle": "J’écoute les sons et je découvre les premières lettres",
+      "theme": "meadow",
+      "description": "Conscience phonologique, premières correspondances fréquentes et fusion de syllabes simples.",
+      "units": 12
+    },
+    {
+      "id": "C2",
+      "title": "Je fabrique des mots",
+      "subtitle": "Je combine des lettres et je décode",
+      "theme": "forest",
+      "description": "Voyelles en contexte, nouvelles consonnes, syllabes CVC et mots courts réellement décodables.",
+      "units": 14
+    },
+    {
+      "id": "C3",
+      "title": "Les secrets des sons",
+      "subtitle": "Je comprends les graphèmes du français",
+      "theme": "beach",
+      "description": "Graphèmes complexes, variantes, contexte et premières régularités orthographiques.",
+      "units": 18
+    },
+    {
+      "id": "C4",
+      "title": "Je lis et je comprends",
+      "subtitle": "Des mots aux phrases et aux histoires",
+      "theme": "clouds",
+      "description": "Mots-outils, morphologie, syntaxe, vocabulaire et compréhension orale puis écrite.",
+      "units": 12
+    }
+  ],
+  "exerciseTypeDefinitions": {
+    "oral_count": "Compter 1 à 4 syllabes entendues sans représentation écrite",
+    "oral_segment": "Segmenter un mot entendu en unités syllabiques",
+    "oral_syllable_match": "Sélectionner une syllabe entendue dans une autre occurrence",
+    "oral_initial": "Identifier un phonème initial dans un mot oral",
+    "oral_contrast": "Distinguer deux phonèmes proches ou cibles dans des enregistrements",
+    "oral_sound_position": "Situer un phonème dans un mot prononcé (début/milieu/fin) si pertinent",
+    "sound_to_grapheme": "Après écoute du phonème, sélectionner le graphème cible",
+    "grapheme_to_sound": "Voir un graphème et sélectionner sa prononciation parmi des audios",
+    "grapheme_highlight": "Identifier un graphème entier dans un mot écrit et expliqué",
+    "blend_cv": "Fusionner et décoder consonne-voyelle ou consonne-graphème vocalique",
+    "blend_cvc": "Fusionner et décoder des séquences consonne-voyelle-consonne régulières",
+    "blend_syllables": "Fusionner des syllabes en mots ou groupes orthographiques",
+    "decode_syllable_audio": "Lire une syllabe écrite puis choisir parmi plusieurs prononciations",
+    "decode_word_audio": "Lire un mot sans modèle audio puis choisir la bonne prononciation",
+    "decode_pseudoword_audio": "Lire un pseudo-mot régulier inédit et sélectionner sa prononciation",
+    "word_family": "Associer des mots écrits d’une même famille grâce à une explication morphologique",
+    "rule_context": "Appliquer une correspondance dépendant de l’environnement écrit",
+    "oral_vocabulary": "Comprendre le sens d’un mot oral dans une scène",
+    "oral_sentence": "Comprendre une phrase orale et identifier son sens",
+    "sentence_order": "Remettre des mots en ordre à partir d’un modèle ou d’un audio",
+    "sentence_picture": "Lire une phrase puis sélectionner l’image correspondante",
+    "morph_choice": "Choisir une forme écrite selon le sens ou la syntaxe",
+    "syntax_choice": "Choisir une forme grammaticale ou un connecteur dans une phrase",
+    "story_listen_question": "Écouter un micro-récit et répondre à une question de compréhension orale",
+    "story_read_question": "Lire un court récit adapté et répondre à une question de compréhension"
+  },
+  "units": [
+    {
+      "id": "C1-U01",
+      "chapterId": "C1",
+      "position": 1,
+      "title": "J'écoute les syllabes",
+      "skillTargets": [
+        "oral:syllabes"
+      ],
+      "prerequisiteUnitId": null,
+      "blocks": [
+        {
+          "id": "C1-U01-B1",
+          "position": 1,
+          "exerciseType": "oral_count",
+          "goal": "Compter les syllabes de mots entendus",
+          "questionCount": 5,
+          "isHomogeneous": true
+        },
+        {
+          "id": "C1-U01-B2",
+          "position": 2,
+          "exerciseType": "oral_segment",
+          "goal": "Marquer chaque syllabe dans un mot entendu",
+          "questionCount": 5,
+          "isHomogeneous": true
+        },
+        {
+          "id": "C1-U01-B3",
+          "position": 3,
+          "exerciseType": "oral_syllable_match",
+          "goal": "Reconnaître la première syllabe",
+          "questionCount": 5,
+          "isHomogeneous": true
+        },
+        {
+          "id": "C1-U01-B4",
+          "position": 4,
+          "exerciseType": "oral_count",
+          "goal": "Compter les syllabes de cinq nouveaux mots",
+          "questionCount": 5,
+          "isHomogeneous": true
+        }
+      ],
+      "status": "pedagogical_draft",
+      "auditRequired": true
+    },
+    {
+      "id": "C1-U02",
+      "chapterId": "C1",
+      "position": 2,
+      "title": "Les voyelles A et I",
+      "skillTargets": [
+        "a",
+        "i"
+      ],
+      "prerequisiteUnitId": "C1-U01",
+      "blocks": [
+        {
+          "id": "C1-U02-B1",
+          "position": 1,
+          "exerciseType": "oral_initial",
+          "goal": "Entendre /a/ ou /i/ au début de mots",
+          "questionCount": 5,
+          "isHomogeneous": true
+        },
+        {
+          "id": "C1-U02-B2",
+          "position": 2,
+          "exerciseType": "sound_to_grapheme",
+          "goal": "Associer /a/ à A et /i/ à I",
+          "questionCount": 5,
+          "isHomogeneous": true
+        },
+        {
+          "id": "C1-U02-B3",
+          "position": 3,
+          "exerciseType": "grapheme_to_sound",
+          "goal": "Choisir la bonne prononciation de A ou I",
+          "questionCount": 5,
+          "isHomogeneous": true
+        },
+        {
+          "id": "C1-U02-B4",
+          "position": 4,
+          "exerciseType": "sound_to_grapheme",
+          "goal": "Retrouver A et I dans de nouveaux contextes oraux",
+          "questionCount": 5,
+          "isHomogeneous": true
+        }
+      ],
+      "status": "pedagogical_draft",
+      "auditRequired": true
+    },
+    {
+      "id": "C1-U03",
+      "chapterId": "C1",
+      "position": 3,
+      "title": "Les voyelles É et O",
+      "skillTargets": [
+        "é",
+        "o"
+      ],
+      "prerequisiteUnitId": "C1-U02",
+      "blocks": [
+        {
+          "id": "C1-U03-B1",
+          "position": 1,
+          "exerciseType": "oral_initial",
+          "goal": "Entendre /e/ et /o/ en contexte clair",
+          "questionCount": 5,
+          "isHomogeneous": true
+        },
+        {
+          "id": "C1-U03-B2",
+          "position": 2,
+          "exerciseType": "sound_to_grapheme",
+          "goal": "Associer É et O à leur son modèle",
+          "questionCount": 5,
+          "isHomogeneous": true
+        },
+        {
+          "id": "C1-U03-B3",
+          "position": 3,
+          "exerciseType": "grapheme_to_sound",
+          "goal": "Discriminer les quatre voyelles déjà enseignées",
+          "questionCount": 5,
+          "isHomogeneous": true
+        },
+        {
+          "id": "C1-U03-B4",
+          "position": 4,
+          "exerciseType": "sound_to_grapheme",
+          "goal": "Reconnaître É et O avec une autre voix",
+          "questionCount": 5,
+          "isHomogeneous": true
+        }
+      ],
+      "status": "pedagogical_draft",
+      "auditRequired": true
+    },
+    {
+      "id": "C1-U04",
+      "chapterId": "C1",
+      "position": 4,
+      "title": "Deux sons très différents : U et OU",
+      "skillTargets": [
+        "u",
+        "ou"
+      ],
+      "prerequisiteUnitId": "C1-U03",
+      "blocks": [
+        {
+          "id": "C1-U04-B1",
+          "position": 1,
+          "exerciseType": "oral_contrast",
+          "goal": "Distinguer /y/ de /u/ à l'écoute",
+          "questionCount": 5,
+          "isHomogeneous": true
+        },
+        {
+          "id": "C1-U04-B2",
+          "position": 2,
+          "exerciseType": "sound_to_grapheme",
+          "goal": "Associer U et OU sans les confondre",
+          "questionCount": 5,
+          "isHomogeneous": true
+        },
+        {
+          "id": "C1-U04-B3",
+          "position": 3,
+          "exerciseType": "grapheme_to_sound",
+          "goal": "Reconnaître U et OU dans des cartes variées",
+          "questionCount": 5,
+          "isHomogeneous": true
+        },
+        {
+          "id": "C1-U04-B4",
+          "position": 4,
+          "exerciseType": "oral_sound_position",
+          "goal": "Repérer /y/ et /u/ dans des mots oraux nouveaux",
+          "questionCount": 5,
+          "isHomogeneous": true
+        }
+      ],
+      "status": "pedagogical_draft",
+      "auditRequired": true
+    },
+    {
+      "id": "C1-U05",
+      "chapterId": "C1",
+      "position": 5,
+      "title": "Le son /f/ : F",
+      "skillTargets": [
+        "f"
+      ],
+      "prerequisiteUnitId": "C1-U04",
+      "blocks": [
+        {
+          "id": "C1-U05-B1",
+          "position": 1,
+          "exerciseType": "oral_initial",
+          "goal": "Repérer /f/ au début de mots familiers",
+          "questionCount": 5,
+          "isHomogeneous": true
+        },
+        {
+          "id": "C1-U05-B2",
+          "position": 2,
+          "exerciseType": "sound_to_grapheme",
+          "goal": "Relier /f/ au graphème F",
+          "questionCount": 5,
+          "isHomogeneous": true
+        },
+        {
+          "id": "C1-U05-B3",
+          "position": 3,
+          "exerciseType": "blend_cv",
+          "goal": "Former FA, FI, FO, FU, FOU",
+          "questionCount": 5,
+          "isHomogeneous": true
+        },
+        {
+          "id": "C1-U05-B4",
+          "position": 4,
+          "exerciseType": "decode_syllable_audio",
+          "goal": "Lire des syllabes nouvelles avec F, sans audio préalable",
+          "questionCount": 5,
+          "isHomogeneous": true
+        }
+      ],
+      "status": "pedagogical_draft",
+      "auditRequired": true
+    },
+    {
+      "id": "C1-U06",
+      "chapterId": "C1",
+      "position": 6,
+      "title": "Le son /v/ : V",
+      "skillTargets": [
+        "v"
+      ],
+      "prerequisiteUnitId": "C1-U05",
+      "blocks": [
+        {
+          "id": "C1-U06-B1",
+          "position": 1,
+          "exerciseType": "oral_initial",
+          "goal": "Repérer /v/ en début de mot",
+          "questionCount": 5,
+          "isHomogeneous": true
+        },
+        {
+          "id": "C1-U06-B2",
+          "position": 2,
+          "exerciseType": "sound_to_grapheme",
+          "goal": "Relier /v/ à V, avec contraste progressif F/V",
+          "questionCount": 5,
+          "isHomogeneous": true
+        },
+        {
+          "id": "C1-U06-B3",
+          "position": 3,
+          "exerciseType": "blend_cv",
+          "goal": "Former VA, VI, VO, VU, VÉ",
+          "questionCount": 5,
+          "isHomogeneous": true
+        },
+        {
+          "id": "C1-U06-B4",
+          "position": 4,
+          "exerciseType": "decode_word_audio",
+          "goal": "Lire des mots courts possibles avec F, V et les voyelles connues",
+          "questionCount": 5,
+          "isHomogeneous": true
+        }
+      ],
+      "status": "pedagogical_draft",
+      "auditRequired": true
+    },
+    {
+      "id": "C1-U07",
+      "chapterId": "C1",
+      "position": 7,
+      "title": "Le son /s/ : S",
+      "skillTargets": [
+        "s"
+      ],
+      "prerequisiteUnitId": "C1-U06",
+      "blocks": [
+        {
+          "id": "C1-U07-B1",
+          "position": 1,
+          "exerciseType": "oral_initial",
+          "goal": "Repérer /s/ en début de mot",
+          "questionCount": 5,
+          "isHomogeneous": true
+        },
+        {
+          "id": "C1-U07-B2",
+          "position": 2,
+          "exerciseType": "sound_to_grapheme",
+          "goal": "Relier /s/ à S en début de mot",
+          "questionCount": 5,
+          "isHomogeneous": true
+        },
+        {
+          "id": "C1-U07-B3",
+          "position": 3,
+          "exerciseType": "blend_cv",
+          "goal": "Former SA, SI, SO, SU, SOU",
+          "questionCount": 5,
+          "isHomogeneous": true
+        },
+        {
+          "id": "C1-U07-B4",
+          "position": 4,
+          "exerciseType": "decode_syllable_audio",
+          "goal": "Décoder des syllabes de S et des acquis précédents",
+          "questionCount": 5,
+          "isHomogeneous": true
+        }
+      ],
+      "status": "pedagogical_draft",
+      "auditRequired": true
+    },
+    {
+      "id": "C1-U08",
+      "chapterId": "C1",
+      "position": 8,
+      "title": "Le son /l/ : L",
+      "skillTargets": [
+        "l"
+      ],
+      "prerequisiteUnitId": "C1-U07",
+      "blocks": [
+        {
+          "id": "C1-U08-B1",
+          "position": 1,
+          "exerciseType": "oral_initial",
+          "goal": "Repérer /l/ dans des mots prononcés",
+          "questionCount": 5,
+          "isHomogeneous": true
+        },
+        {
+          "id": "C1-U08-B2",
+          "position": 2,
+          "exerciseType": "sound_to_grapheme",
+          "goal": "Relier /l/ à L",
+          "questionCount": 5,
+          "isHomogeneous": true
+        },
+        {
+          "id": "C1-U08-B3",
+          "position": 3,
+          "exerciseType": "blend_cv",
+          "goal": "Former LA, LI, LO, LU, LÉ",
+          "questionCount": 5,
+          "isHomogeneous": true
+        },
+        {
+          "id": "C1-U08-B4",
+          "position": 4,
+          "exerciseType": "decode_word_audio",
+          "goal": "Lire FIL, SALÉ, LAVÉ, FOU et VU (validation linguistique requise)",
+          "questionCount": 5,
+          "isHomogeneous": true
+        }
+      ],
+      "status": "pedagogical_draft",
+      "auditRequired": true
+    },
+    {
+      "id": "C1-U09",
+      "chapterId": "C1",
+      "position": 9,
+      "title": "Le son /r/ : R",
+      "skillTargets": [
+        "r"
+      ],
+      "prerequisiteUnitId": "C1-U08",
+      "blocks": [
+        {
+          "id": "C1-U09-B1",
+          "position": 1,
+          "exerciseType": "oral_initial",
+          "goal": "Repérer /ʁ/ dans des mots oraux",
+          "questionCount": 5,
+          "isHomogeneous": true
+        },
+        {
+          "id": "C1-U09-B2",
+          "position": 2,
+          "exerciseType": "sound_to_grapheme",
+          "goal": "Relier /ʁ/ à R",
+          "questionCount": 5,
+          "isHomogeneous": true
+        },
+        {
+          "id": "C1-U09-B3",
+          "position": 3,
+          "exerciseType": "blend_cv",
+          "goal": "Former RA, RI, RO, RU, RÉ",
+          "questionCount": 5,
+          "isHomogeneous": true
+        },
+        {
+          "id": "C1-U09-B4",
+          "position": 4,
+          "exerciseType": "decode_word_audio",
+          "goal": "Lire des mots simples tels que RAVI, RIVAL et des items validés",
+          "questionCount": 5,
+          "isHomogeneous": true
+        }
+      ],
+      "status": "pedagogical_draft",
+      "auditRequired": true
+    },
+    {
+      "id": "C1-U10",
+      "chapterId": "C1",
+      "position": 10,
+      "title": "Le son /ʒ/ : J",
+      "skillTargets": [
+        "j"
+      ],
+      "prerequisiteUnitId": "C1-U09",
+      "blocks": [
+        {
+          "id": "C1-U10-B1",
+          "position": 1,
+          "exerciseType": "oral_initial",
+          "goal": "Repérer /ʒ/ en début de mot",
+          "questionCount": 5,
+          "isHomogeneous": true
+        },
+        {
+          "id": "C1-U10-B2",
+          "position": 2,
+          "exerciseType": "sound_to_grapheme",
+          "goal": "Relier /ʒ/ à J",
+          "questionCount": 5,
+          "isHomogeneous": true
+        },
+        {
+          "id": "C1-U10-B3",
+          "position": 3,
+          "exerciseType": "blend_cv",
+          "goal": "Former JA, JI, JO, JU, JOU",
+          "questionCount": 5,
+          "isHomogeneous": true
+        },
+        {
+          "id": "C1-U10-B4",
+          "position": 4,
+          "exerciseType": "decode_word_audio",
+          "goal": "Lire des mots possibles tels que JURA ou JURÉ, puis généraliser",
+          "questionCount": 5,
+          "isHomogeneous": true
+        }
+      ],
+      "status": "pedagogical_draft",
+      "auditRequired": true
+    },
+    {
+      "id": "C1-U11",
+      "chapterId": "C1",
+      "position": 11,
+      "title": "Le son /ʃ/ : CH",
+      "skillTargets": [
+        "ch"
+      ],
+      "prerequisiteUnitId": "C1-U10",
+      "blocks": [
+        {
+          "id": "C1-U11-B1",
+          "position": 1,
+          "exerciseType": "oral_initial",
+          "goal": "Repérer /ʃ/ dans des mots entendus",
+          "questionCount": 5,
+          "isHomogeneous": true
+        },
+        {
+          "id": "C1-U11-B2",
+          "position": 2,
+          "exerciseType": "sound_to_grapheme",
+          "goal": "Reconnaître CH comme un seul graphème",
+          "questionCount": 5,
+          "isHomogeneous": true
+        },
+        {
+          "id": "C1-U11-B3",
+          "position": 3,
+          "exerciseType": "blend_cv",
+          "goal": "Former CHA, CHI, CHO, CHU, CHOU",
+          "questionCount": 5,
+          "isHomogeneous": true
+        },
+        {
+          "id": "C1-U11-B4",
+          "position": 4,
+          "exerciseType": "decode_word_audio",
+          "goal": "Lire CHOU, CHÉRI et des items nouveaux validés",
+          "questionCount": 5,
+          "isHomogeneous": true
+        }
+      ],
+      "status": "pedagogical_draft",
+      "auditRequired": true
+    },
+    {
+      "id": "C1-U12",
+      "chapterId": "C1",
+      "position": 12,
+      "title": "Le château des premiers sons",
+      "skillTargets": [
+        "revision:C1"
+      ],
+      "prerequisiteUnitId": "C1-U11",
+      "blocks": [
+        {
+          "id": "C1-U12-B1",
+          "position": 1,
+          "exerciseType": "oral_contrast",
+          "goal": "Distinguer cinq sons appris dans des mots oraux",
+          "questionCount": 5,
+          "isHomogeneous": true
+        },
+        {
+          "id": "C1-U12-B2",
+          "position": 2,
+          "exerciseType": "sound_to_grapheme",
+          "goal": "Retrouver les graphèmes appris",
+          "questionCount": 5,
+          "isHomogeneous": true
+        },
+        {
+          "id": "C1-U12-B3",
+          "position": 3,
+          "exerciseType": "blend_cv",
+          "goal": "Fusionner cinq syllabes tirées du répertoire connu",
+          "questionCount": 5,
+          "isHomogeneous": true
+        },
+        {
+          "id": "C1-U12-B4",
+          "position": 4,
+          "exerciseType": "decode_word_audio",
+          "goal": "Lire cinq items nouveaux entièrement décodables",
+          "questionCount": 5,
+          "isHomogeneous": true
+        }
+      ],
+      "status": "pedagogical_draft",
+      "auditRequired": true
+    },
+    {
+      "id": "C2-U01",
+      "chapterId": "C2",
+      "position": 1,
+      "title": "Le E de LE et JE",
+      "skillTargets": [
+        "e_schwa"
+      ],
+      "prerequisiteUnitId": "C1-U12",
+      "blocks": [
+        {
+          "id": "C2-U01-B1",
+          "position": 1,
+          "exerciseType": "oral_contrast",
+          "goal": "Entendre la voyelle neutre des mots LE et JE",
+          "questionCount": 5,
+          "isHomogeneous": true
+        },
+        {
+          "id": "C2-U01-B2",
+          "position": 2,
+          "exerciseType": "sound_to_grapheme",
+          "goal": "Associer E prononcé /ə/ aux exemples ciblés",
+          "questionCount": 5,
+          "isHomogeneous": true
+        },
+        {
+          "id": "C2-U01-B3",
+          "position": 3,
+          "exerciseType": "blend_cv",
+          "goal": "Assembler LE, JE et autres combinaisons validées",
+          "questionCount": 5,
+          "isHomogeneous": true
+        },
+        {
+          "id": "C2-U01-B4",
+          "position": 4,
+          "exerciseType": "decode_word_audio",
+          "goal": "Reconnaître puis lire les mots-outils LE et JE en contexte contrôlé",
+          "questionCount": 5,
+          "isHomogeneous": true
+        }
+      ],
+      "status": "pedagogical_draft",
+      "auditRequired": true
+    },
+    {
+      "id": "C2-U02",
+      "chapterId": "C2",
+      "position": 2,
+      "title": "Le E final qui ne s'entend pas",
+      "skillTargets": [
+        "e_final_silent"
+      ],
+      "prerequisiteUnitId": "C2-U01",
+      "blocks": [
+        {
+          "id": "C2-U02-B1",
+          "position": 1,
+          "exerciseType": "oral_contrast",
+          "goal": "Comparer oralement des formes avec et sans E final",
+          "questionCount": 5,
+          "isHomogeneous": true
+        },
+        {
+          "id": "C2-U02-B2",
+          "position": 2,
+          "exerciseType": "grapheme_highlight",
+          "goal": "Repérer le E final non prononcé dans des mots",
+          "questionCount": 5,
+          "isHomogeneous": true
+        },
+        {
+          "id": "C2-U02-B3",
+          "position": 3,
+          "exerciseType": "decode_word_audio",
+          "goal": "Lire VIE, LIRE, SALE et autres mots conformes",
+          "questionCount": 5,
+          "isHomogeneous": true
+        },
+        {
+          "id": "C2-U02-B4",
+          "position": 4,
+          "exerciseType": "word_family",
+          "goal": "Relier graphies et mots simples sans mémoriser des silhouettes",
+          "questionCount": 5,
+          "isHomogeneous": true
+        }
+      ],
+      "status": "pedagogical_draft",
+      "auditRequired": true
+    },
+    {
+      "id": "C2-U03",
+      "chapterId": "C2",
+      "position": 3,
+      "title": "EU dans FEU et SEUL",
+      "skillTargets": [
+        "eu"
+      ],
+      "prerequisiteUnitId": "C2-U02",
+      "blocks": [
+        {
+          "id": "C2-U03-B1",
+          "position": 1,
+          "exerciseType": "oral_contrast",
+          "goal": "Distinguer /ø/ et /œ/ selon des exemples validés",
+          "questionCount": 5,
+          "isHomogeneous": true
+        },
+        {
+          "id": "C2-U03-B2",
+          "position": 2,
+          "exerciseType": "sound_to_grapheme",
+          "goal": "Reconnaître le graphème EU dans les deux cas",
+          "questionCount": 5,
+          "isHomogeneous": true
+        },
+        {
+          "id": "C2-U03-B3",
+          "position": 3,
+          "exerciseType": "blend_cv",
+          "goal": "Assembler des unités fréquentes comportant EU",
+          "questionCount": 5,
+          "isHomogeneous": true
+        },
+        {
+          "id": "C2-U03-B4",
+          "position": 4,
+          "exerciseType": "decode_word_audio",
+          "goal": "Lire FEU, JEU, SEUL et des items contrôlés",
+          "questionCount": 5,
+          "isHomogeneous": true
+        }
+      ],
+      "status": "pedagogical_draft",
+      "auditRequired": true
+    },
+    {
+      "id": "C2-U04",
+      "chapterId": "C2",
+      "position": 4,
+      "title": "Le son /m/ : M",
+      "skillTargets": [
+        "m"
+      ],
+      "prerequisiteUnitId": "C2-U03",
+      "blocks": [
+        {
+          "id": "C2-U04-B1",
+          "position": 1,
+          "exerciseType": "oral_initial",
+          "goal": "Repérer /m/ en début de mot",
+          "questionCount": 5,
+          "isHomogeneous": true
+        },
+        {
+          "id": "C2-U04-B2",
+          "position": 2,
+          "exerciseType": "sound_to_grapheme",
+          "goal": "Relier /m/ à M",
+          "questionCount": 5,
+          "isHomogeneous": true
+        },
+        {
+          "id": "C2-U04-B3",
+          "position": 3,
+          "exerciseType": "blend_cv",
+          "goal": "Former MA, MI, MO, MU, MÉ",
+          "questionCount": 5,
+          "isHomogeneous": true
+        },
+        {
+          "id": "C2-U04-B4",
+          "position": 4,
+          "exerciseType": "decode_word_audio",
+          "goal": "Lire MAMIE, MULE et des items connus phonologiquement",
+          "questionCount": 5,
+          "isHomogeneous": true
+        }
+      ],
+      "status": "pedagogical_draft",
+      "auditRequired": true
+    },
+    {
+      "id": "C2-U05",
+      "chapterId": "C2",
+      "position": 5,
+      "title": "Le son /n/ : N",
+      "skillTargets": [
+        "n"
+      ],
+      "prerequisiteUnitId": "C2-U04",
+      "blocks": [
+        {
+          "id": "C2-U05-B1",
+          "position": 1,
+          "exerciseType": "oral_initial",
+          "goal": "Repérer /n/ en début de mot",
+          "questionCount": 5,
+          "isHomogeneous": true
+        },
+        {
+          "id": "C2-U05-B2",
+          "position": 2,
+          "exerciseType": "sound_to_grapheme",
+          "goal": "Relier /n/ à N",
+          "questionCount": 5,
+          "isHomogeneous": true
+        },
+        {
+          "id": "C2-U05-B3",
+          "position": 3,
+          "exerciseType": "blend_cv",
+          "goal": "Former NA, NI, NO, NU, NÉ",
+          "questionCount": 5,
+          "isHomogeneous": true
+        },
+        {
+          "id": "C2-U05-B4",
+          "position": 4,
+          "exerciseType": "decode_word_audio",
+          "goal": "Lire NANA, NU, UNE et des items validés",
+          "questionCount": 5,
+          "isHomogeneous": true
+        }
+      ],
+      "status": "pedagogical_draft",
+      "auditRequired": true
+    },
+    {
+      "id": "C2-U06",
+      "chapterId": "C2",
+      "position": 6,
+      "title": "Le son /p/ : P",
+      "skillTargets": [
+        "p"
+      ],
+      "prerequisiteUnitId": "C2-U05",
+      "blocks": [
+        {
+          "id": "C2-U06-B1",
+          "position": 1,
+          "exerciseType": "oral_initial",
+          "goal": "Repérer /p/ sans ajouter de voyelle artificielle",
+          "questionCount": 5,
+          "isHomogeneous": true
+        },
+        {
+          "id": "C2-U06-B2",
+          "position": 2,
+          "exerciseType": "sound_to_grapheme",
+          "goal": "Relier /p/ à P",
+          "questionCount": 5,
+          "isHomogeneous": true
+        },
+        {
+          "id": "C2-U06-B3",
+          "position": 3,
+          "exerciseType": "blend_cv",
+          "goal": "Former PA, PI, PO, PU, PÉ",
+          "questionCount": 5,
+          "isHomogeneous": true
+        },
+        {
+          "id": "C2-U06-B4",
+          "position": 4,
+          "exerciseType": "decode_word_audio",
+          "goal": "Lire PAPA, PAPI, PIRE et des items possibles",
+          "questionCount": 5,
+          "isHomogeneous": true
+        }
+      ],
+      "status": "pedagogical_draft",
+      "auditRequired": true
+    },
+    {
+      "id": "C2-U07",
+      "chapterId": "C2",
+      "position": 7,
+      "title": "Le son /b/ : B",
+      "skillTargets": [
+        "b"
+      ],
+      "prerequisiteUnitId": "C2-U06",
+      "blocks": [
+        {
+          "id": "C2-U07-B1",
+          "position": 1,
+          "exerciseType": "oral_contrast",
+          "goal": "Discriminer /b/ et /p/ en contexte simple",
+          "questionCount": 5,
+          "isHomogeneous": true
+        },
+        {
+          "id": "C2-U07-B2",
+          "position": 2,
+          "exerciseType": "sound_to_grapheme",
+          "goal": "Relier /b/ à B",
+          "questionCount": 5,
+          "isHomogeneous": true
+        },
+        {
+          "id": "C2-U07-B3",
+          "position": 3,
+          "exerciseType": "blend_cv",
+          "goal": "Former BA, BI, BO, BU, BÉ",
+          "questionCount": 5,
+          "isHomogeneous": true
+        },
+        {
+          "id": "C2-U07-B4",
+          "position": 4,
+          "exerciseType": "decode_word_audio",
+          "goal": "Lire BÉBÉ, BOBO et des mots nouveaux validés",
+          "questionCount": 5,
+          "isHomogeneous": true
+        }
+      ],
+      "status": "pedagogical_draft",
+      "auditRequired": true
+    },
+    {
+      "id": "C2-U08",
+      "chapterId": "C2",
+      "position": 8,
+      "title": "Le son /t/ : T",
+      "skillTargets": [
+        "t"
+      ],
+      "prerequisiteUnitId": "C2-U07",
+      "blocks": [
+        {
+          "id": "C2-U08-B1",
+          "position": 1,
+          "exerciseType": "oral_initial",
+          "goal": "Reconnaître /t/ en début de mot",
+          "questionCount": 5,
+          "isHomogeneous": true
+        },
+        {
+          "id": "C2-U08-B2",
+          "position": 2,
+          "exerciseType": "sound_to_grapheme",
+          "goal": "Relier /t/ à T",
+          "questionCount": 5,
+          "isHomogeneous": true
+        },
+        {
+          "id": "C2-U08-B3",
+          "position": 3,
+          "exerciseType": "blend_cv",
+          "goal": "Former TA, TI, TO, TU, TÉ",
+          "questionCount": 5,
+          "isHomogeneous": true
+        },
+        {
+          "id": "C2-U08-B4",
+          "position": 4,
+          "exerciseType": "decode_word_audio",
+          "goal": "Lire TATA et d'autres mots validés",
+          "questionCount": 5,
+          "isHomogeneous": true
+        }
+      ],
+      "status": "pedagogical_draft",
+      "auditRequired": true
+    },
+    {
+      "id": "C2-U09",
+      "chapterId": "C2",
+      "position": 9,
+      "title": "Le son /d/ : D",
+      "skillTargets": [
+        "d"
+      ],
+      "prerequisiteUnitId": "C2-U08",
+      "blocks": [
+        {
+          "id": "C2-U09-B1",
+          "position": 1,
+          "exerciseType": "oral_contrast",
+          "goal": "Discriminer /d/ et /t/ en contexte simple",
+          "questionCount": 5,
+          "isHomogeneous": true
+        },
+        {
+          "id": "C2-U09-B2",
+          "position": 2,
+          "exerciseType": "sound_to_grapheme",
+          "goal": "Relier /d/ à D",
+          "questionCount": 5,
+          "isHomogeneous": true
+        },
+        {
+          "id": "C2-U09-B3",
+          "position": 3,
+          "exerciseType": "blend_cv",
+          "goal": "Former DA, DI, DO, DU, DÉ",
+          "questionCount": 5,
+          "isHomogeneous": true
+        },
+        {
+          "id": "C2-U09-B4",
+          "position": 4,
+          "exerciseType": "decode_word_audio",
+          "goal": "Lire DODO, DAME, DUR et des mots validés",
+          "questionCount": 5,
+          "isHomogeneous": true
+        }
+      ],
+      "status": "pedagogical_draft",
+      "auditRequired": true
+    },
+    {
+      "id": "C2-U10",
+      "chapterId": "C2",
+      "position": 10,
+      "title": "Le C qui fait /k/",
+      "skillTargets": [
+        "c_hard"
+      ],
+      "prerequisiteUnitId": "C2-U09",
+      "blocks": [
+        {
+          "id": "C2-U10-B1",
+          "position": 1,
+          "exerciseType": "oral_initial",
+          "goal": "Repérer /k/ au début de mots oraux",
+          "questionCount": 5,
+          "isHomogeneous": true
+        },
+        {
+          "id": "C2-U10-B2",
+          "position": 2,
+          "exerciseType": "sound_to_grapheme",
+          "goal": "Découvrir C devant A, O, U",
+          "questionCount": 5,
+          "isHomogeneous": true
+        },
+        {
+          "id": "C2-U10-B3",
+          "position": 3,
+          "exerciseType": "blend_cv",
+          "goal": "Assembler CA, CO, CU et des combinaisons connues",
+          "questionCount": 5,
+          "isHomogeneous": true
+        },
+        {
+          "id": "C2-U10-B4",
+          "position": 4,
+          "exerciseType": "decode_word_audio",
+          "goal": "Lire CAR, CURE et d’autres mots après contrôle des prérequis",
+          "questionCount": 5,
+          "isHomogeneous": true
+        }
+      ],
+      "status": "pedagogical_draft",
+      "auditRequired": true
+    },
+    {
+      "id": "C2-U11",
+      "chapterId": "C2",
+      "position": 11,
+      "title": "QU et K qui font /k/",
+      "skillTargets": [
+        "qu",
+        "k"
+      ],
+      "prerequisiteUnitId": "C2-U10",
+      "blocks": [
+        {
+          "id": "C2-U11-B1",
+          "position": 1,
+          "exerciseType": "oral_contrast",
+          "goal": "Reconnaître /k/ indépendamment du graphème",
+          "questionCount": 5,
+          "isHomogeneous": true
+        },
+        {
+          "id": "C2-U11-B2",
+          "position": 2,
+          "exerciseType": "sound_to_grapheme",
+          "goal": "Associer QU et K au même son en contexte ciblé",
+          "questionCount": 5,
+          "isHomogeneous": true
+        },
+        {
+          "id": "C2-U11-B3",
+          "position": 3,
+          "exerciseType": "blend_cv",
+          "goal": "Former QUI, QUE et des syllabes possibles",
+          "questionCount": 5,
+          "isHomogeneous": true
+        },
+        {
+          "id": "C2-U11-B4",
+          "position": 4,
+          "exerciseType": "decode_word_audio",
+          "goal": "Lire QUI, QUE et des items validés sans confusion avec UI",
+          "questionCount": 5,
+          "isHomogeneous": true
+        }
+      ],
+      "status": "pedagogical_draft",
+      "auditRequired": true
+    },
+    {
+      "id": "C2-U12",
+      "chapterId": "C2",
+      "position": 12,
+      "title": "Le G qui fait /g/",
+      "skillTargets": [
+        "g_hard"
+      ],
+      "prerequisiteUnitId": "C2-U11",
+      "blocks": [
+        {
+          "id": "C2-U12-B1",
+          "position": 1,
+          "exerciseType": "oral_initial",
+          "goal": "Repérer /g/ dans des mots prononcés",
+          "questionCount": 5,
+          "isHomogeneous": true
+        },
+        {
+          "id": "C2-U12-B2",
+          "position": 2,
+          "exerciseType": "sound_to_grapheme",
+          "goal": "Relier G à /g/ devant A, O et U",
+          "questionCount": 5,
+          "isHomogeneous": true
+        },
+        {
+          "id": "C2-U12-B3",
+          "position": 3,
+          "exerciseType": "blend_cv",
+          "goal": "Former GA, GO, GU avec distinction G/U",
+          "questionCount": 5,
+          "isHomogeneous": true
+        },
+        {
+          "id": "C2-U12-B4",
+          "position": 4,
+          "exerciseType": "decode_word_audio",
+          "goal": "Lire GALA, GARE et d'autres mots contrôlés",
+          "questionCount": 5,
+          "isHomogeneous": true
+        }
+      ],
+      "status": "pedagogical_draft",
+      "auditRequired": true
+    },
+    {
+      "id": "C2-U13",
+      "chapterId": "C2",
+      "position": 13,
+      "title": "Les syllabes se ferment : CVC",
+      "skillTargets": [
+        "o_open_cvc"
+      ],
+      "prerequisiteUnitId": "C2-U12",
+      "blocks": [
+        {
+          "id": "C2-U13-B1",
+          "position": 1,
+          "exerciseType": "oral_contrast",
+          "goal": "Distinguer /o/ et /ɔ/ dans des mots familiers",
+          "questionCount": 5,
+          "isHomogeneous": true
+        },
+        {
+          "id": "C2-U13-B2",
+          "position": 2,
+          "exerciseType": "grapheme_highlight",
+          "goal": "Découvrir O dans des syllabes fermées et les consonnes finales prononcées",
+          "questionCount": 5,
+          "isHomogeneous": true
+        },
+        {
+          "id": "C2-U13-B3",
+          "position": 3,
+          "exerciseType": "blend_cvc",
+          "goal": "Assembler FIL, BOL, SOL, VOL, MUR",
+          "questionCount": 5,
+          "isHomogeneous": true
+        },
+        {
+          "id": "C2-U13-B4",
+          "position": 4,
+          "exerciseType": "decode_word_audio",
+          "goal": "Lire cinq mots CVC inconnus mais réguliers et validés",
+          "questionCount": 5,
+          "isHomogeneous": true
+        }
+      ],
+      "status": "pedagogical_draft",
+      "auditRequired": true
+    },
+    {
+      "id": "C2-U14",
+      "chapterId": "C2",
+      "position": 14,
+      "title": "Je lis mes premiers mots seul",
+      "skillTargets": [
+        "revision:C2"
+      ],
+      "prerequisiteUnitId": "C2-U13",
+      "blocks": [
+        {
+          "id": "C2-U14-B1",
+          "position": 1,
+          "exerciseType": "grapheme_to_sound",
+          "goal": "Réviser cinq correspondances déjà enseignées",
+          "questionCount": 5,
+          "isHomogeneous": true
+        },
+        {
+          "id": "C2-U14-B2",
+          "position": 2,
+          "exerciseType": "blend_cvc",
+          "goal": "Lire cinq syllabes CV ou CVC",
+          "questionCount": 5,
+          "isHomogeneous": true
+        },
+        {
+          "id": "C2-U14-B3",
+          "position": 3,
+          "exerciseType": "decode_word_audio",
+          "goal": "Lire cinq mots sans modèle préalable",
+          "questionCount": 5,
+          "isHomogeneous": true
+        },
+        {
+          "id": "C2-U14-B4",
+          "position": 4,
+          "exerciseType": "decode_pseudoword_audio",
+          "goal": "Décoder cinq pseudo-mots phonotactiquement valides enregistrés",
+          "questionCount": 5,
+          "isHomogeneous": true
+        }
+      ],
+      "status": "pedagogical_draft",
+      "auditRequired": true
+    },
+    {
+      "id": "C3-U01",
+      "chapterId": "C3",
+      "position": 1,
+      "title": "Le son ON",
+      "skillTargets": [
+        "on"
+      ],
+      "prerequisiteUnitId": "C2-U14",
+      "blocks": [
+        {
+          "id": "C3-U01-B1",
+          "position": 1,
+          "exerciseType": "oral_contrast",
+          "goal": "Distinguer /ɔ̃/ des voyelles orales déjà connues",
+          "questionCount": 5,
+          "isHomogeneous": true
+        },
+        {
+          "id": "C3-U01-B2",
+          "position": 2,
+          "exerciseType": "sound_to_grapheme",
+          "goal": "Associer /ɔ̃/ au graphème ON",
+          "questionCount": 5,
+          "isHomogeneous": true
+        },
+        {
+          "id": "C3-U01-B3",
+          "position": 3,
+          "exerciseType": "blend_cv",
+          "goal": "Assembler des syllabes avec ON",
+          "questionCount": 5,
+          "isHomogeneous": true
+        },
+        {
+          "id": "C3-U01-B4",
+          "position": 4,
+          "exerciseType": "decode_word_audio",
+          "goal": "Lire BON, MON, SON et d'autres mots contrôlés",
+          "questionCount": 5,
+          "isHomogeneous": true
+        }
+      ],
+      "status": "pedagogical_draft",
+      "auditRequired": true
+    },
+    {
+      "id": "C3-U02",
+      "chapterId": "C3",
+      "position": 2,
+      "title": "Le son AN et EN",
+      "skillTargets": [
+        "an",
+        "en"
+      ],
+      "prerequisiteUnitId": "C3-U01",
+      "blocks": [
+        {
+          "id": "C3-U02-B1",
+          "position": 1,
+          "exerciseType": "oral_contrast",
+          "goal": "Reconnaître /ɑ̃/ parmi les voyelles nasales apprises",
+          "questionCount": 5,
+          "isHomogeneous": true
+        },
+        {
+          "id": "C3-U02-B2",
+          "position": 2,
+          "exerciseType": "sound_to_grapheme",
+          "goal": "Associer AN et EN à /ɑ̃/",
+          "questionCount": 5,
+          "isHomogeneous": true
+        },
+        {
+          "id": "C3-U02-B3",
+          "position": 3,
+          "exerciseType": "blend_cv",
+          "goal": "Former des syllabes avec AN et EN",
+          "questionCount": 5,
+          "isHomogeneous": true
+        },
+        {
+          "id": "C3-U02-B4",
+          "position": 4,
+          "exerciseType": "decode_word_audio",
+          "goal": "Lire AN, EN, MAMAN, PANDA et des exemples contrôlés",
+          "questionCount": 5,
+          "isHomogeneous": true
+        }
+      ],
+      "status": "pedagogical_draft",
+      "auditRequired": true
+    },
+    {
+      "id": "C3-U03",
+      "chapterId": "C3",
+      "position": 3,
+      "title": "Le son IN et ses écritures",
+      "skillTargets": [
+        "in",
+        "ain",
+        "ein",
+        "un_optional"
+      ],
+      "prerequisiteUnitId": "C3-U02",
+      "blocks": [
+        {
+          "id": "C3-U03-B1",
+          "position": 1,
+          "exerciseType": "oral_contrast",
+          "goal": "Distinguer /ɛ̃/ des autres nasales",
+          "questionCount": 5,
+          "isHomogeneous": true
+        },
+        {
+          "id": "C3-U03-B2",
+          "position": 2,
+          "exerciseType": "sound_to_grapheme",
+          "goal": "Associer IN, AIN et EIN dans des mots validés",
+          "questionCount": 5,
+          "isHomogeneous": true
+        },
+        {
+          "id": "C3-U03-B3",
+          "position": 3,
+          "exerciseType": "grapheme_to_sound",
+          "goal": "Reconnaître plusieurs écritures du même son",
+          "questionCount": 5,
+          "isHomogeneous": true
+        },
+        {
+          "id": "C3-U03-B4",
+          "position": 4,
+          "exerciseType": "decode_word_audio",
+          "goal": "Lire PIN, PAIN, MAIN et des exemples nouveaux",
+          "questionCount": 5,
+          "isHomogeneous": true
+        }
+      ],
+      "status": "pedagogical_draft",
+      "auditRequired": true
+    },
+    {
+      "id": "C3-U04",
+      "chapterId": "C3",
+      "position": 4,
+      "title": "Le graphème OI",
+      "skillTargets": [
+        "oi"
+      ],
+      "prerequisiteUnitId": "C3-U03",
+      "blocks": [
+        {
+          "id": "C3-U04-B1",
+          "position": 1,
+          "exerciseType": "oral_contrast",
+          "goal": "Repérer /wa/ dans des mots oraux",
+          "questionCount": 5,
+          "isHomogeneous": true
+        },
+        {
+          "id": "C3-U04-B2",
+          "position": 2,
+          "exerciseType": "sound_to_grapheme",
+          "goal": "Associer OI au son /wa/",
+          "questionCount": 5,
+          "isHomogeneous": true
+        },
+        {
+          "id": "C3-U04-B3",
+          "position": 3,
+          "exerciseType": "blend_cv",
+          "goal": "Assembler MOI, TOI, VOI et syllabes valides",
+          "questionCount": 5,
+          "isHomogeneous": true
+        },
+        {
+          "id": "C3-U04-B4",
+          "position": 4,
+          "exerciseType": "decode_word_audio",
+          "goal": "Lire MOI, TOI, ROI et des mots nouveaux contrôlés",
+          "questionCount": 5,
+          "isHomogeneous": true
+        }
+      ],
+      "status": "pedagogical_draft",
+      "auditRequired": true
+    },
+    {
+      "id": "C3-U05",
+      "chapterId": "C3",
+      "position": 5,
+      "title": "AU et EAU pour le son /o/",
+      "skillTargets": [
+        "au",
+        "eau"
+      ],
+      "prerequisiteUnitId": "C3-U04",
+      "blocks": [
+        {
+          "id": "C3-U05-B1",
+          "position": 1,
+          "exerciseType": "oral_contrast",
+          "goal": "Reconnaître /o/ dans des mots fréquents",
+          "questionCount": 5,
+          "isHomogeneous": true
+        },
+        {
+          "id": "C3-U05-B2",
+          "position": 2,
+          "exerciseType": "sound_to_grapheme",
+          "goal": "Comparer O, AU et EAU pour /o/",
+          "questionCount": 5,
+          "isHomogeneous": true
+        },
+        {
+          "id": "C3-U05-B3",
+          "position": 3,
+          "exerciseType": "grapheme_highlight",
+          "goal": "Repérer le graphème complet dans un mot",
+          "questionCount": 5,
+          "isHomogeneous": true
+        },
+        {
+          "id": "C3-U05-B4",
+          "position": 4,
+          "exerciseType": "decode_word_audio",
+          "goal": "Lire AUTO, BEAU, EAU et des mots conformes",
+          "questionCount": 5,
+          "isHomogeneous": true
+        }
+      ],
+      "status": "pedagogical_draft",
+      "auditRequired": true
+    },
+    {
+      "id": "C3-U06",
+      "chapterId": "C3",
+      "position": 6,
+      "title": "Le son /ɛ/ : È, Ê, AI, EI",
+      "skillTargets": [
+        "è",
+        "ê",
+        "ai",
+        "ei"
+      ],
+      "prerequisiteUnitId": "C3-U05",
+      "blocks": [
+        {
+          "id": "C3-U06-B1",
+          "position": 1,
+          "exerciseType": "oral_contrast",
+          "goal": "Distinguer /ɛ/ de /e/ en contexte contrôlé",
+          "questionCount": 5,
+          "isHomogeneous": true
+        },
+        {
+          "id": "C3-U06-B2",
+          "position": 2,
+          "exerciseType": "sound_to_grapheme",
+          "goal": "Relier È, Ê, AI, EI à /ɛ/ selon des mots validés",
+          "questionCount": 5,
+          "isHomogeneous": true
+        },
+        {
+          "id": "C3-U06-B3",
+          "position": 3,
+          "exerciseType": "grapheme_highlight",
+          "goal": "Repérer les graphèmes à deux lettres dans les mots",
+          "questionCount": 5,
+          "isHomogeneous": true
+        },
+        {
+          "id": "C3-U06-B4",
+          "position": 4,
+          "exerciseType": "decode_word_audio",
+          "goal": "Lire MÈRE, REINE et des mots possibles après audit",
+          "questionCount": 5,
+          "isHomogeneous": true
+        }
+      ],
+      "status": "pedagogical_draft",
+      "auditRequired": true
+    },
+    {
+      "id": "C3-U07",
+      "chapterId": "C3",
+      "position": 7,
+      "title": "ER et EZ qui se prononcent /e/",
+      "skillTargets": [
+        "er_final",
+        "ez_final"
+      ],
+      "prerequisiteUnitId": "C3-U06",
+      "blocks": [
+        {
+          "id": "C3-U07-B1",
+          "position": 1,
+          "exerciseType": "oral_contrast",
+          "goal": "Reconnaître /e/ final dans des mots entendus",
+          "questionCount": 5,
+          "isHomogeneous": true
+        },
+        {
+          "id": "C3-U07-B2",
+          "position": 2,
+          "exerciseType": "sound_to_grapheme",
+          "goal": "Repérer ER et EZ en fin de mot",
+          "questionCount": 5,
+          "isHomogeneous": true
+        },
+        {
+          "id": "C3-U07-B3",
+          "position": 3,
+          "exerciseType": "grapheme_highlight",
+          "goal": "Analyser les graphèmes finaux comme une unité",
+          "questionCount": 5,
+          "isHomogeneous": true
+        },
+        {
+          "id": "C3-U07-B4",
+          "position": 4,
+          "exerciseType": "decode_word_audio",
+          "goal": "Lire LAVER, NEZ, CHEZ et des formes validées",
+          "questionCount": 5,
+          "isHomogeneous": true
+        }
+      ],
+      "status": "pedagogical_draft",
+      "auditRequired": true
+    },
+    {
+      "id": "C3-U08",
+      "chapterId": "C3",
+      "position": 8,
+      "title": "S entre deux voyelles, SS et Z",
+      "skillTargets": [
+        "s_between_vowels",
+        "ss",
+        "z"
+      ],
+      "prerequisiteUnitId": "C3-U07",
+      "blocks": [
+        {
+          "id": "C3-U08-B1",
+          "position": 1,
+          "exerciseType": "oral_contrast",
+          "goal": "Distinguer /s/ et /z/ à l'écoute",
+          "questionCount": 5,
+          "isHomogeneous": true
+        },
+        {
+          "id": "C3-U08-B2",
+          "position": 2,
+          "exerciseType": "grapheme_highlight",
+          "goal": "Observer S entre deux voyelles, SS et Z",
+          "questionCount": 5,
+          "isHomogeneous": true
+        },
+        {
+          "id": "C3-U08-B3",
+          "position": 3,
+          "exerciseType": "rule_context",
+          "goal": "Choisir le son de S selon le contexte régulier",
+          "questionCount": 5,
+          "isHomogeneous": true
+        },
+        {
+          "id": "C3-U08-B4",
+          "position": 4,
+          "exerciseType": "decode_word_audio",
+          "goal": "Lire ROSE, POISSON et des mots contrôlés",
+          "questionCount": 5,
+          "isHomogeneous": true
+        }
+      ],
+      "status": "pedagogical_draft",
+      "auditRequired": true
+    },
+    {
+      "id": "C3-U09",
+      "chapterId": "C3",
+      "position": 9,
+      "title": "Le C doux et la cédille",
+      "skillTargets": [
+        "c_soft",
+        "ç"
+      ],
+      "prerequisiteUnitId": "C3-U08",
+      "blocks": [
+        {
+          "id": "C3-U09-B1",
+          "position": 1,
+          "exerciseType": "oral_contrast",
+          "goal": "Distinguer /s/ et /k/ à l'oral",
+          "questionCount": 5,
+          "isHomogeneous": true
+        },
+        {
+          "id": "C3-U09-B2",
+          "position": 2,
+          "exerciseType": "grapheme_highlight",
+          "goal": "Repérer CE, CI et Ç devant A, O, U",
+          "questionCount": 5,
+          "isHomogeneous": true
+        },
+        {
+          "id": "C3-U09-B3",
+          "position": 3,
+          "exerciseType": "rule_context",
+          "goal": "Choisir /s/ ou /k/ selon la lettre suivante",
+          "questionCount": 5,
+          "isHomogeneous": true
+        },
+        {
+          "id": "C3-U09-B4",
+          "position": 4,
+          "exerciseType": "decode_word_audio",
+          "goal": "Lire CIRE, LEÇON et des mots validés",
+          "questionCount": 5,
+          "isHomogeneous": true
+        }
+      ],
+      "status": "pedagogical_draft",
+      "auditRequired": true
+    },
+    {
+      "id": "C3-U10",
+      "chapterId": "C3",
+      "position": 10,
+      "title": "GU conserve le son /g/",
+      "skillTargets": [
+        "gu"
+      ],
+      "prerequisiteUnitId": "C3-U09",
+      "blocks": [
+        {
+          "id": "C3-U10-B1",
+          "position": 1,
+          "exerciseType": "oral_contrast",
+          "goal": "Reconnaître /g/ et non /ʒ/ dans les exemples",
+          "questionCount": 5,
+          "isHomogeneous": true
+        },
+        {
+          "id": "C3-U10-B2",
+          "position": 2,
+          "exerciseType": "grapheme_highlight",
+          "goal": "Observer GU devant E ou I",
+          "questionCount": 5,
+          "isHomogeneous": true
+        },
+        {
+          "id": "C3-U10-B3",
+          "position": 3,
+          "exerciseType": "rule_context",
+          "goal": "Choisir G ou GU en contexte",
+          "questionCount": 5,
+          "isHomogeneous": true
+        },
+        {
+          "id": "C3-U10-B4",
+          "position": 4,
+          "exerciseType": "decode_word_audio",
+          "goal": "Lire GUÉ, GUIDE et des mots validés",
+          "questionCount": 5,
+          "isHomogeneous": true
+        }
+      ],
+      "status": "pedagogical_draft",
+      "auditRequired": true
+    },
+    {
+      "id": "C3-U11",
+      "chapterId": "C3",
+      "position": 11,
+      "title": "GE et GI : le son /ʒ/",
+      "skillTargets": [
+        "g_soft"
+      ],
+      "prerequisiteUnitId": "C3-U10",
+      "blocks": [
+        {
+          "id": "C3-U11-B1",
+          "position": 1,
+          "exerciseType": "oral_contrast",
+          "goal": "Repérer /ʒ/ dans des exemples de G doux",
+          "questionCount": 5,
+          "isHomogeneous": true
+        },
+        {
+          "id": "C3-U11-B2",
+          "position": 2,
+          "exerciseType": "grapheme_highlight",
+          "goal": "Observer GE et GI",
+          "questionCount": 5,
+          "isHomogeneous": true
+        },
+        {
+          "id": "C3-U11-B3",
+          "position": 3,
+          "exerciseType": "rule_context",
+          "goal": "Choisir la valeur de G en fonction du contexte",
+          "questionCount": 5,
+          "isHomogeneous": true
+        },
+        {
+          "id": "C3-U11-B4",
+          "position": 4,
+          "exerciseType": "decode_word_audio",
+          "goal": "Lire GEL, GIRAFE et des items validés",
+          "questionCount": 5,
+          "isHomogeneous": true
+        }
+      ],
+      "status": "pedagogical_draft",
+      "auditRequired": true
+    },
+    {
+      "id": "C3-U12",
+      "chapterId": "C3",
+      "position": 12,
+      "title": "PH qui fait /f/",
+      "skillTargets": [
+        "ph"
+      ],
+      "prerequisiteUnitId": "C3-U11",
+      "blocks": [
+        {
+          "id": "C3-U12-B1",
+          "position": 1,
+          "exerciseType": "oral_contrast",
+          "goal": "Reconnaître /f/ quelle que soit son écriture",
+          "questionCount": 5,
+          "isHomogeneous": true
+        },
+        {
+          "id": "C3-U12-B2",
+          "position": 2,
+          "exerciseType": "sound_to_grapheme",
+          "goal": "Associer PH au son /f/",
+          "questionCount": 5,
+          "isHomogeneous": true
+        },
+        {
+          "id": "C3-U12-B3",
+          "position": 3,
+          "exerciseType": "grapheme_highlight",
+          "goal": "Repérer PH comme un seul graphème",
+          "questionCount": 5,
+          "isHomogeneous": true
+        },
+        {
+          "id": "C3-U12-B4",
+          "position": 4,
+          "exerciseType": "decode_word_audio",
+          "goal": "Lire PHOTO, PHARE et des mots audités",
+          "questionCount": 5,
+          "isHomogeneous": true
+        }
+      ],
+      "status": "pedagogical_draft",
+      "auditRequired": true
+    },
+    {
+      "id": "C3-U13",
+      "chapterId": "C3",
+      "position": 13,
+      "title": "Le son GN",
+      "skillTargets": [
+        "gn"
+      ],
+      "prerequisiteUnitId": "C3-U12",
+      "blocks": [
+        {
+          "id": "C3-U13-B1",
+          "position": 1,
+          "exerciseType": "oral_contrast",
+          "goal": "Distinguer /ɲ/ et /n/",
+          "questionCount": 5,
+          "isHomogeneous": true
+        },
+        {
+          "id": "C3-U13-B2",
+          "position": 2,
+          "exerciseType": "sound_to_grapheme",
+          "goal": "Associer GN au son /ɲ/",
+          "questionCount": 5,
+          "isHomogeneous": true
+        },
+        {
+          "id": "C3-U13-B3",
+          "position": 3,
+          "exerciseType": "blend_cv",
+          "goal": "Assembler GNA, GNE, GNI avec modèles validés",
+          "questionCount": 5,
+          "isHomogeneous": true
+        },
+        {
+          "id": "C3-U13-B4",
+          "position": 4,
+          "exerciseType": "decode_word_audio",
+          "goal": "Lire LIGNE, SIGNE et des mots audités",
+          "questionCount": 5,
+          "isHomogeneous": true
+        }
+      ],
+      "status": "pedagogical_draft",
+      "auditRequired": true
+    },
+    {
+      "id": "C3-U14",
+      "chapterId": "C3",
+      "position": 14,
+      "title": "ILL et le son /j/",
+      "skillTargets": [
+        "ill_context"
+      ],
+      "prerequisiteUnitId": "C3-U13",
+      "blocks": [
+        {
+          "id": "C3-U14-B1",
+          "position": 1,
+          "exerciseType": "oral_contrast",
+          "goal": "Repérer /j/ dans des mots pertinents",
+          "questionCount": 5,
+          "isHomogeneous": true
+        },
+        {
+          "id": "C3-U14-B2",
+          "position": 2,
+          "exerciseType": "grapheme_highlight",
+          "goal": "Découvrir les graphies ILL à valeur /j/",
+          "questionCount": 5,
+          "isHomogeneous": true
+        },
+        {
+          "id": "C3-U14-B3",
+          "position": 3,
+          "exerciseType": "rule_context",
+          "goal": "Comparer les emplois courants et leurs exceptions",
+          "questionCount": 5,
+          "isHomogeneous": true
+        },
+        {
+          "id": "C3-U14-B4",
+          "position": 4,
+          "exerciseType": "decode_word_audio",
+          "goal": "Lire FILLE, BILLE et des mots sans confusion avec VILLE",
+          "questionCount": 5,
+          "isHomogeneous": true
+        }
+      ],
+      "status": "pedagogical_draft",
+      "auditRequired": true
+    },
+    {
+      "id": "C3-U15",
+      "chapterId": "C3",
+      "position": 15,
+      "title": "Le groupe EIL",
+      "skillTargets": [
+        "eil"
+      ],
+      "prerequisiteUnitId": "C3-U14",
+      "blocks": [
+        {
+          "id": "C3-U15-B1",
+          "position": 1,
+          "exerciseType": "oral_contrast",
+          "goal": "Entendre la finale /ɛj/ dans des mots connus",
+          "questionCount": 5,
+          "isHomogeneous": true
+        },
+        {
+          "id": "C3-U15-B2",
+          "position": 2,
+          "exerciseType": "grapheme_highlight",
+          "goal": "Repérer EIL dans SOLEIL et RÉVEIL",
+          "questionCount": 5,
+          "isHomogeneous": true
+        },
+        {
+          "id": "C3-U15-B3",
+          "position": 3,
+          "exerciseType": "blend_syllables",
+          "goal": "Assembler des finales avec EIL",
+          "questionCount": 5,
+          "isHomogeneous": true
+        },
+        {
+          "id": "C3-U15-B4",
+          "position": 4,
+          "exerciseType": "decode_word_audio",
+          "goal": "Lire SOLEIL et autres items validés, sans indices préalables",
+          "questionCount": 5,
+          "isHomogeneous": true
+        }
+      ],
+      "status": "pedagogical_draft",
+      "auditRequired": true
+    },
+    {
+      "id": "C3-U16",
+      "chapterId": "C3",
+      "position": 16,
+      "title": "Le groupe AIL",
+      "skillTargets": [
+        "ail"
+      ],
+      "prerequisiteUnitId": "C3-U15",
+      "blocks": [
+        {
+          "id": "C3-U16-B1",
+          "position": 1,
+          "exerciseType": "oral_contrast",
+          "goal": "Entendre /aj/ dans des mots fréquents",
+          "questionCount": 5,
+          "isHomogeneous": true
+        },
+        {
+          "id": "C3-U16-B2",
+          "position": 2,
+          "exerciseType": "grapheme_highlight",
+          "goal": "Repérer AIL comme suite orthographique",
+          "questionCount": 5,
+          "isHomogeneous": true
+        },
+        {
+          "id": "C3-U16-B3",
+          "position": 3,
+          "exerciseType": "blend_syllables",
+          "goal": "Assembler des syllabes comportant AIL",
+          "questionCount": 5,
+          "isHomogeneous": true
+        },
+        {
+          "id": "C3-U16-B4",
+          "position": 4,
+          "exerciseType": "decode_word_audio",
+          "goal": "Lire RAIL, TRAVAIL et d'autres mots après vérification",
+          "questionCount": 5,
+          "isHomogeneous": true
+        }
+      ],
+      "status": "pedagogical_draft",
+      "auditRequired": true
+    },
+    {
+      "id": "C3-U17",
+      "chapterId": "C3",
+      "position": 17,
+      "title": "OUIL et EUIL",
+      "skillTargets": [
+        "ouil",
+        "euil"
+      ],
+      "prerequisiteUnitId": "C3-U16",
+      "blocks": [
+        {
+          "id": "C3-U17-B1",
+          "position": 1,
+          "exerciseType": "oral_contrast",
+          "goal": "Distinguer /uj/ et /œj/ en contexte",
+          "questionCount": 5,
+          "isHomogeneous": true
+        },
+        {
+          "id": "C3-U17-B2",
+          "position": 2,
+          "exerciseType": "grapheme_highlight",
+          "goal": "Repérer les séquences OUIL et EUIL",
+          "questionCount": 5,
+          "isHomogeneous": true
+        },
+        {
+          "id": "C3-U17-B3",
+          "position": 3,
+          "exerciseType": "blend_syllables",
+          "goal": "Construire des syllabes contenant chaque groupe",
+          "questionCount": 5,
+          "isHomogeneous": true
+        },
+        {
+          "id": "C3-U17-B4",
+          "position": 4,
+          "exerciseType": "decode_word_audio",
+          "goal": "Lire FENOUIL, FAUTEUIL et des formes validées",
+          "questionCount": 5,
+          "isHomogeneous": true
+        }
+      ],
+      "status": "pedagogical_draft",
+      "auditRequired": true
+    },
+    {
+      "id": "C3-U18",
+      "chapterId": "C3",
+      "position": 18,
+      "title": "Le château des graphèmes complexes",
+      "skillTargets": [
+        "revision:C3"
+      ],
+      "prerequisiteUnitId": "C3-U17",
+      "blocks": [
+        {
+          "id": "C3-U18-B1",
+          "position": 1,
+          "exerciseType": "oral_contrast",
+          "goal": "Réviser les sons complexes sans nouveaux graphèmes",
+          "questionCount": 5,
+          "isHomogeneous": true
+        },
+        {
+          "id": "C3-U18-B2",
+          "position": 2,
+          "exerciseType": "sound_to_grapheme",
+          "goal": "Identifier plusieurs graphies déjà enseignées",
+          "questionCount": 5,
+          "isHomogeneous": true
+        },
+        {
+          "id": "C3-U18-B3",
+          "position": 3,
+          "exerciseType": "rule_context",
+          "goal": "Appliquer cinq règles contextuelles",
+          "questionCount": 5,
+          "isHomogeneous": true
+        },
+        {
+          "id": "C3-U18-B4",
+          "position": 4,
+          "exerciseType": "decode_pseudoword_audio",
+          "goal": "Décoder cinq formes nouvelles construites à partir des acquis",
+          "questionCount": 5,
+          "isHomogeneous": true
+        }
+      ],
+      "status": "pedagogical_draft",
+      "auditRequired": true
+    },
+    {
+      "id": "C4-U01",
+      "chapterId": "C4",
+      "position": 1,
+      "title": "Les petits mots qui relient",
+      "skillTargets": [
+        "function_words"
+      ],
+      "prerequisiteUnitId": "C3-U18",
+      "blocks": [
+        {
+          "id": "C4-U01-B1",
+          "position": 1,
+          "exerciseType": "oral_vocabulary",
+          "goal": "Comprendre LE, LA, LES, UN, UNE, DES à l'oral",
+          "questionCount": 5,
+          "isHomogeneous": true
+        },
+        {
+          "id": "C4-U01-B2",
+          "position": 2,
+          "exerciseType": "grapheme_highlight",
+          "goal": "Analyser la lecture et les irrégularités des mots-outils",
+          "questionCount": 5,
+          "isHomogeneous": true
+        },
+        {
+          "id": "C4-U01-B3",
+          "position": 3,
+          "exerciseType": "sentence_order",
+          "goal": "Construire de très courtes phrases avec les mots-outils",
+          "questionCount": 5,
+          "isHomogeneous": true
+        },
+        {
+          "id": "C4-U01-B4",
+          "position": 4,
+          "exerciseType": "sentence_picture",
+          "goal": "Comprendre cinq phrases utilisant les mots-outils",
+          "questionCount": 5,
+          "isHomogeneous": true
+        }
+      ],
+      "status": "pedagogical_draft",
+      "auditRequired": true
+    },
+    {
+      "id": "C4-U02",
+      "chapterId": "C4",
+      "position": 2,
+      "title": "Les lettres silencieuses et les familles de mots",
+      "skillTargets": [
+        "silent_endings"
+      ],
+      "prerequisiteUnitId": "C4-U01",
+      "blocks": [
+        {
+          "id": "C4-U02-B1",
+          "position": 1,
+          "exerciseType": "oral_vocabulary",
+          "goal": "Comparer CHAT/CHATON, GRAND/GRANDE à l'oral",
+          "questionCount": 5,
+          "isHomogeneous": true
+        },
+        {
+          "id": "C4-U02-B2",
+          "position": 2,
+          "exerciseType": "grapheme_highlight",
+          "goal": "Observer les lettres finales non prononcées",
+          "questionCount": 5,
+          "isHomogeneous": true
+        },
+        {
+          "id": "C4-U02-B3",
+          "position": 3,
+          "exerciseType": "word_family",
+          "goal": "Relier les mots de la même famille",
+          "questionCount": 5,
+          "isHomogeneous": true
+        },
+        {
+          "id": "C4-U02-B4",
+          "position": 4,
+          "exerciseType": "decode_word_audio",
+          "goal": "Lire cinq mots contenant une marque expliquée",
+          "questionCount": 5,
+          "isHomogeneous": true
+        }
+      ],
+      "status": "pedagogical_draft",
+      "auditRequired": true
+    },
+    {
+      "id": "C4-U03",
+      "chapterId": "C4",
+      "position": 3,
+      "title": "Mes premières phrases",
+      "skillTargets": [
+        "sentence3"
+      ],
+      "prerequisiteUnitId": "C4-U02",
+      "blocks": [
+        {
+          "id": "C4-U03-B1",
+          "position": 1,
+          "exerciseType": "oral_sentence",
+          "goal": "Comprendre cinq phrases de trois mots à l'oral",
+          "questionCount": 5,
+          "isHomogeneous": true
+        },
+        {
+          "id": "C4-U03-B2",
+          "position": 2,
+          "exerciseType": "sentence_order",
+          "goal": "Remettre trois mots écrits en ordre",
+          "questionCount": 5,
+          "isHomogeneous": true
+        },
+        {
+          "id": "C4-U03-B3",
+          "position": 3,
+          "exerciseType": "sentence_picture",
+          "goal": "Lire puis choisir l'image qui correspond",
+          "questionCount": 5,
+          "isHomogeneous": true
+        },
+        {
+          "id": "C4-U03-B4",
+          "position": 4,
+          "exerciseType": "sentence_picture",
+          "goal": "Lire cinq nouvelles phrases entièrement décodables",
+          "questionCount": 5,
+          "isHomogeneous": true
+        }
+      ],
+      "status": "pedagogical_draft",
+      "auditRequired": true
+    },
+    {
+      "id": "C4-U04",
+      "chapterId": "C4",
+      "position": 4,
+      "title": "Les phrases s'allongent",
+      "skillTargets": [
+        "sentence5"
+      ],
+      "prerequisiteUnitId": "C4-U03",
+      "blocks": [
+        {
+          "id": "C4-U04-B1",
+          "position": 1,
+          "exerciseType": "oral_sentence",
+          "goal": "Comprendre cinq phrases de quatre à cinq mots",
+          "questionCount": 5,
+          "isHomogeneous": true
+        },
+        {
+          "id": "C4-U04-B2",
+          "position": 2,
+          "exerciseType": "sentence_order",
+          "goal": "Construire des phrases de quatre à cinq mots",
+          "questionCount": 5,
+          "isHomogeneous": true
+        },
+        {
+          "id": "C4-U04-B3",
+          "position": 3,
+          "exerciseType": "sentence_picture",
+          "goal": "Lire de courtes phrases et choisir une scène",
+          "questionCount": 5,
+          "isHomogeneous": true
+        },
+        {
+          "id": "C4-U04-B4",
+          "position": 4,
+          "exerciseType": "sentence_picture",
+          "goal": "Comprendre de nouvelles phrases sans audio préalable",
+          "questionCount": 5,
+          "isHomogeneous": true
+        }
+      ],
+      "status": "pedagogical_draft",
+      "auditRequired": true
+    },
+    {
+      "id": "C4-U05",
+      "chapterId": "C4",
+      "position": 5,
+      "title": "Un ou plusieurs : S et X",
+      "skillTargets": [
+        "plural"
+      ],
+      "prerequisiteUnitId": "C4-U04",
+      "blocks": [
+        {
+          "id": "C4-U05-B1",
+          "position": 1,
+          "exerciseType": "oral_vocabulary",
+          "goal": "Comprendre singulier et pluriel à partir d'images",
+          "questionCount": 5,
+          "isHomogeneous": true
+        },
+        {
+          "id": "C4-U05-B2",
+          "position": 2,
+          "exerciseType": "morph_choice",
+          "goal": "Identifier S et X dans des formes fréquentes",
+          "questionCount": 5,
+          "isHomogeneous": true
+        },
+        {
+          "id": "C4-U05-B3",
+          "position": 3,
+          "exerciseType": "sentence_picture",
+          "goal": "Comparer le sens de phrases singulier/pluriel",
+          "questionCount": 5,
+          "isHomogeneous": true
+        },
+        {
+          "id": "C4-U05-B4",
+          "position": 4,
+          "exerciseType": "morph_choice",
+          "goal": "Choisir l'écriture correspondant à la scène",
+          "questionCount": 5,
+          "isHomogeneous": true
+        }
+      ],
+      "status": "pedagogical_draft",
+      "auditRequired": true
+    },
+    {
+      "id": "C4-U06",
+      "chapterId": "C4",
+      "position": 6,
+      "title": "Le féminin et les mots qui changent",
+      "skillTargets": [
+        "feminine"
+      ],
+      "prerequisiteUnitId": "C4-U05",
+      "blocks": [
+        {
+          "id": "C4-U06-B1",
+          "position": 1,
+          "exerciseType": "oral_vocabulary",
+          "goal": "Comparer des mots masculins et féminins",
+          "questionCount": 5,
+          "isHomogeneous": true
+        },
+        {
+          "id": "C4-U06-B2",
+          "position": 2,
+          "exerciseType": "word_family",
+          "goal": "Repérer la marque E et les changements de forme",
+          "questionCount": 5,
+          "isHomogeneous": true
+        },
+        {
+          "id": "C4-U06-B3",
+          "position": 3,
+          "exerciseType": "morph_choice",
+          "goal": "Choisir une forme écrite adaptée au contexte",
+          "questionCount": 5,
+          "isHomogeneous": true
+        },
+        {
+          "id": "C4-U06-B4",
+          "position": 4,
+          "exerciseType": "sentence_picture",
+          "goal": "Comprendre des phrases avec accord simple",
+          "questionCount": 5,
+          "isHomogeneous": true
+        }
+      ],
+      "status": "pedagogical_draft",
+      "auditRequired": true
+    },
+    {
+      "id": "C4-U07",
+      "chapterId": "C4",
+      "position": 7,
+      "title": "Il, elle, ils, elles",
+      "skillTargets": [
+        "pronouns"
+      ],
+      "prerequisiteUnitId": "C4-U06",
+      "blocks": [
+        {
+          "id": "C4-U07-B1",
+          "position": 1,
+          "exerciseType": "oral_sentence",
+          "goal": "Comprendre les pronoms dans une histoire orale",
+          "questionCount": 5,
+          "isHomogeneous": true
+        },
+        {
+          "id": "C4-U07-B2",
+          "position": 2,
+          "exerciseType": "sentence_picture",
+          "goal": "Relier pronom et personnage désigné",
+          "questionCount": 5,
+          "isHomogeneous": true
+        },
+        {
+          "id": "C4-U07-B3",
+          "position": 3,
+          "exerciseType": "syntax_choice",
+          "goal": "Choisir un pronom adapté dans une phrase",
+          "questionCount": 5,
+          "isHomogeneous": true
+        },
+        {
+          "id": "C4-U07-B4",
+          "position": 4,
+          "exerciseType": "story_listen_question",
+          "goal": "Suivre qui fait quoi dans cinq mini-récits",
+          "questionCount": 5,
+          "isHomogeneous": true
+        }
+      ],
+      "status": "pedagogical_draft",
+      "auditRequired": true
+    },
+    {
+      "id": "C4-U08",
+      "chapterId": "C4",
+      "position": 8,
+      "title": "Je pose des questions et je dis non",
+      "skillTargets": [
+        "questions_negation"
+      ],
+      "prerequisiteUnitId": "C4-U07",
+      "blocks": [
+        {
+          "id": "C4-U08-B1",
+          "position": 1,
+          "exerciseType": "oral_sentence",
+          "goal": "Différencier affirmation, négation et question",
+          "questionCount": 5,
+          "isHomogeneous": true
+        },
+        {
+          "id": "C4-U08-B2",
+          "position": 2,
+          "exerciseType": "syntax_choice",
+          "goal": "Observer les mots et marques qui changent le sens",
+          "questionCount": 5,
+          "isHomogeneous": true
+        },
+        {
+          "id": "C4-U08-B3",
+          "position": 3,
+          "exerciseType": "sentence_picture",
+          "goal": "Comparer le sens de phrases proches",
+          "questionCount": 5,
+          "isHomogeneous": true
+        },
+        {
+          "id": "C4-U08-B4",
+          "position": 4,
+          "exerciseType": "sentence_picture",
+          "goal": "Comprendre cinq nouvelles phrases de types différents",
+          "questionCount": 5,
+          "isHomogeneous": true
+        }
+      ],
+      "status": "pedagogical_draft",
+      "auditRequired": true
+    },
+    {
+      "id": "C4-U09",
+      "chapterId": "C4",
+      "position": 9,
+      "title": "Où est Paillette ?",
+      "skillTargets": [
+        "spatial"
+      ],
+      "prerequisiteUnitId": "C4-U08",
+      "blocks": [
+        {
+          "id": "C4-U09-B1",
+          "position": 1,
+          "exerciseType": "oral_vocabulary",
+          "goal": "Comprendre SUR, SOUS, DEVANT, DERRIÈRE à l'oral",
+          "questionCount": 5,
+          "isHomogeneous": true
+        },
+        {
+          "id": "C4-U09-B2",
+          "position": 2,
+          "exerciseType": "sentence_picture",
+          "goal": "Choisir une scène correspondant à une phrase",
+          "questionCount": 5,
+          "isHomogeneous": true
+        },
+        {
+          "id": "C4-U09-B3",
+          "position": 3,
+          "exerciseType": "sentence_order",
+          "goal": "Remettre des phrases spatiales en ordre",
+          "questionCount": 5,
+          "isHomogeneous": true
+        },
+        {
+          "id": "C4-U09-B4",
+          "position": 4,
+          "exerciseType": "sentence_picture",
+          "goal": "Comprendre de nouvelles situations spatiales",
+          "questionCount": 5,
+          "isHomogeneous": true
+        }
+      ],
+      "status": "pedagogical_draft",
+      "auditRequired": true
+    },
+    {
+      "id": "C4-U10",
+      "chapterId": "C4",
+      "position": 10,
+      "title": "Avant, après, parce que",
+      "skillTargets": [
+        "time_cause"
+      ],
+      "prerequisiteUnitId": "C4-U09",
+      "blocks": [
+        {
+          "id": "C4-U10-B1",
+          "position": 1,
+          "exerciseType": "oral_sentence",
+          "goal": "Comprendre AVANT, APRÈS, PUIS et PARCE QUE à l'oral",
+          "questionCount": 5,
+          "isHomogeneous": true
+        },
+        {
+          "id": "C4-U10-B2",
+          "position": 2,
+          "exerciseType": "story_listen_question",
+          "goal": "Identifier l'ordre de deux événements",
+          "questionCount": 5,
+          "isHomogeneous": true
+        },
+        {
+          "id": "C4-U10-B3",
+          "position": 3,
+          "exerciseType": "syntax_choice",
+          "goal": "Choisir le connecteur qui correspond à la situation",
+          "questionCount": 5,
+          "isHomogeneous": true
+        },
+        {
+          "id": "C4-U10-B4",
+          "position": 4,
+          "exerciseType": "story_listen_question",
+          "goal": "Répondre à des questions causales sur cinq mini-récits",
+          "questionCount": 5,
+          "isHomogeneous": true
+        }
+      ],
+      "status": "pedagogical_draft",
+      "auditRequired": true
+    },
+    {
+      "id": "C4-U11",
+      "chapterId": "C4",
+      "position": 11,
+      "title": "J'écoute et je comprends une histoire",
+      "skillTargets": [
+        "oral_stories"
+      ],
+      "prerequisiteUnitId": "C4-U10",
+      "blocks": [
+        {
+          "id": "C4-U11-B1",
+          "position": 1,
+          "exerciseType": "story_listen_question",
+          "goal": "Identifier le personnage de cinq mini-récits",
+          "questionCount": 5,
+          "isHomogeneous": true
+        },
+        {
+          "id": "C4-U11-B2",
+          "position": 2,
+          "exerciseType": "story_listen_question",
+          "goal": "Identifier le lieu ou l'action principale",
+          "questionCount": 5,
+          "isHomogeneous": true
+        },
+        {
+          "id": "C4-U11-B3",
+          "position": 3,
+          "exerciseType": "story_listen_question",
+          "goal": "Retrouver l'ordre des événements",
+          "questionCount": 5,
+          "isHomogeneous": true
+        },
+        {
+          "id": "C4-U11-B4",
+          "position": 4,
+          "exerciseType": "story_listen_question",
+          "goal": "Inférer une cause ou une intention simple",
+          "questionCount": 5,
+          "isHomogeneous": true
+        }
+      ],
+      "status": "pedagogical_draft",
+      "auditRequired": true
+    },
+    {
+      "id": "C4-U12",
+      "chapterId": "C4",
+      "position": 12,
+      "title": "Je lis ma première histoire",
+      "skillTargets": [
+        "written_stories"
+      ],
+      "prerequisiteUnitId": "C4-U11",
+      "blocks": [
+        {
+          "id": "C4-U12-B1",
+          "position": 1,
+          "exerciseType": "sentence_picture",
+          "goal": "Lire cinq phrases et reconnaître la scène",
+          "questionCount": 5,
+          "isHomogeneous": true
+        },
+        {
+          "id": "C4-U12-B2",
+          "position": 2,
+          "exerciseType": "story_read_question",
+          "goal": "Lire cinq micro-récits et comprendre qui fait quoi",
+          "questionCount": 5,
+          "isHomogeneous": true
+        },
+        {
+          "id": "C4-U12-B3",
+          "position": 3,
+          "exerciseType": "story_read_question",
+          "goal": "Repérer un pronom ou un connecteur entre deux phrases",
+          "questionCount": 5,
+          "isHomogeneous": true
+        },
+        {
+          "id": "C4-U12-B4",
+          "position": 4,
+          "exerciseType": "story_read_question",
+          "goal": "Comprendre cinq nouveaux micro-récits sans modèle oral",
+          "questionCount": 5,
+          "isHomogeneous": true
+        }
+      ],
+      "status": "pedagogical_draft",
+      "auditRequired": true
+    }
+  ],
+  "rules": {
+    "questionsPerBlock": 5,
+    "blocksPerUnit": 4,
+    "unitCheckpoint": "at end of each block",
+    "firstAttemptScoring": true,
+    "unlockNextUnitOn": "completion of all blocks; soft reinforcement after difficult blocks",
+    "decodingRequiresKnownGraphemes": true,
+    "oralStimuliMayUseUnknownGraphemes": true,
+    "earlyOralComprehensionIndependentFromDecoding": true,
+    "noPunitiveRollback": true,
+    "voiceVariation": "fixed instructor for introduction; second voice in practice; third voice for oral generalization; silence before independent decoding",
+    "manualLinguisticAuditBeforeRelease": true,
+    "randomRewards": false
+  }
+}

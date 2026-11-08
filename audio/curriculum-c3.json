@@ -1,0 +1,1626 @@
+{
+  "C23:oral:an": {
+    "file": "curriculum-c3/C23-oral-an-f4fc0096.mp3",
+    "phonemes": "ˈɑ̃.",
+    "review": "pending_human_review",
+    "sha256": "7e3a80e8cc3cba53855a0183172adeb17b88ac355136eeec942a5ceca5d74c23",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "an"
+  },
+  "C23:oral:auto": {
+    "file": "curriculum-c3/C23-oral-auto-fecebd7c.mp3",
+    "phonemes": "otˈo.",
+    "review": "pending_human_review",
+    "sha256": "6bbedfdc99ceb15cc780f0799d673d0f98bc639c27a5e39e20457ed0a8ccd01c",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "auto"
+  },
+  "C23:oral:beau": {
+    "file": "curriculum-c3/C23-oral-beau-2ce67a67.mp3",
+    "phonemes": "bˈo.",
+    "review": "pending_human_review",
+    "sha256": "af76d6c7c95bbe16b913425fb7bab53a9b325a16bb21f34aeb2fde9d8960acb5",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "beau"
+  },
+  "C23:oral:bille": {
+    "file": "curriculum-c3/C23-oral-bille-a51ba657.mp3",
+    "phonemes": "bˈij.",
+    "review": "pending_human_review",
+    "sha256": "aa5ec3b1f8e340c37a490f2593e21fc385017aa6c4ebbde5040073b02aedc673",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "bille"
+  },
+  "C23:oral:bon": {
+    "file": "curriculum-c3/C23-oral-bon-ff50efe3.mp3",
+    "phonemes": "bˈɔ̃.",
+    "review": "pending_human_review",
+    "sha256": "1dc4c13f6f1653213e0c38a353745e5bb98b092089ce19281d74b3f7ca0e6cbf",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "bon"
+  },
+  "C23:oral:bétail": {
+    "file": "curriculum-c3/C23-oral-betail-7af90af0.mp3",
+    "phonemes": "betˈaj.",
+    "review": "pending_human_review",
+    "sha256": "edba0811e18689ffcf32494388b6e649bfaafd0f97fcb966b2283b20b2697aa0",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "bétail"
+  },
+  "C23:oral:car": {
+    "file": "curriculum-c3/C23-oral-car-0fd47fae.mp3",
+    "phonemes": "kaʁ.",
+    "review": "pending_human_review",
+    "sha256": "0b3943d799c5aa164c5459ee333c61cf7dc4b8b407cd315003d9c0a433351c39",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "car"
+  },
+  "C23:oral:chez": {
+    "file": "curriculum-c3/C23-oral-chez-65ad1a9a.mp3",
+    "phonemes": "ʃˈe.",
+    "review": "pending_human_review",
+    "sha256": "90e6c0c5a28db70835327d56892314e8ba19046b5826c252e95ebd3985d4ae86",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "chez"
+  },
+  "C23:oral:cil": {
+    "file": "curriculum-c3/C23-oral-cil-90237034.mp3",
+    "phonemes": "sˈil.",
+    "review": "pending_human_review",
+    "sha256": "9ed0a9a94a7ed8e8f9ec3614ffb4613e28845f7bbf4d9d7a00046c4d35407bd5",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "cil"
+  },
+  "C23:oral:cire": {
+    "file": "curriculum-c3/C23-oral-cire-66ce5496.mp3",
+    "phonemes": "sˈiʁ.",
+    "review": "pending_human_review",
+    "sha256": "a6e1839d321bb82c1ca0e7babcde1a917a8b25fb9ebebeaf5e71b0079f226d4c",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "cire"
+  },
+  "C23:oral:citron": {
+    "file": "curriculum-c3/C23-oral-citron-6675c23c.mp3",
+    "phonemes": "sitʁˈɔ̃.",
+    "review": "pending_human_review",
+    "sha256": "0cc12fe1598ec5042c71d36496eaab2dbba88e7b9ae58154bc6e81e662a02d8e",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "citron"
+  },
+  "C23:oral:conseil": {
+    "file": "curriculum-c3/C23-oral-conseil-bc5824d7.mp3",
+    "phonemes": "kɔ̃sˈɛj.",
+    "review": "pending_human_review",
+    "sha256": "6b160729694b5c997b3d32cc63cd608911120b587223eaaf7e4604ba7aa69bb6",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "conseil"
+  },
+  "C23:oral:cube": {
+    "file": "curriculum-c3/C23-oral-cube-8307ad63.mp3",
+    "phonemes": "kˈyb.",
+    "review": "pending_human_review",
+    "sha256": "eecd8b0cb9256f881ca165d2ef687c0f0191d08bd0c0fbf56d279d14c3d9d817",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "cube"
+  },
+  "C23:oral:deuil": {
+    "file": "curriculum-c3/C23-oral-deuil-6df535e1.mp3",
+    "phonemes": "dˈœj.",
+    "review": "pending_human_review",
+    "sha256": "84cab470299f73240a1fb8f240e93e9f0fcd7de973a9a02a21e7ff9e9ef5e978",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "deuil"
+  },
+  "C23:oral:détail": {
+    "file": "curriculum-c3/C23-oral-detail-0e91ac71.mp3",
+    "phonemes": "detˈaj.",
+    "review": "pending_human_review",
+    "sha256": "1bfd4a2f1f35e1e7f7ed99c3c0858aa7c0a651cb3ace76cc247520ae6df9a807",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "détail"
+  },
+  "C23:oral:eau": {
+    "file": "curriculum-c3/C23-oral-eau-854c2509.mp3",
+    "phonemes": "ˈo.",
+    "review": "pending_human_review",
+    "sha256": "966cf33708fe33f008355c4a4e512857187888c2da35e05436e7790ebfdaf514",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "eau"
+  },
+  "C23:oral:en": {
+    "file": "curriculum-c3/C23-oral-en-4a7eab6e.mp3",
+    "phonemes": "ˈɑ̃.",
+    "review": "pending_human_review",
+    "sha256": "686f544fc2f16dab818067bd82e0a7a84e18994d28fd0bb1e3264b2b85e44bae",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "en"
+  },
+  "C23:oral:fauteuil": {
+    "file": "curriculum-c3/C23-oral-fauteuil-fc8dfce0.mp3",
+    "phonemes": "fotˈœj.",
+    "review": "pending_human_review",
+    "sha256": "99fb4149b67ed6087e1eadea413d5b86c67447c559f110887d4e69925f7a1906",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "fauteuil"
+  },
+  "C23:oral:fille": {
+    "file": "curriculum-c3/C23-oral-fille-a07dc975.mp3",
+    "phonemes": "fˈij.",
+    "review": "pending_human_review",
+    "sha256": "4947caec78d96471596a964515a5e2e962e2245d70500cc4f5843d1b3cc3c8ca",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "fille"
+  },
+  "C23:oral:gel": {
+    "file": "curriculum-c3/C23-oral-gel-0edad879.mp3",
+    "phonemes": "ʒˈɛl.",
+    "review": "pending_human_review",
+    "sha256": "475dd655134a1cb9099a420305ae6cc3ab3efe3c73baae4cd99b35f77a773c7d",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "gel"
+  },
+  "C23:oral:gilet": {
+    "file": "curriculum-c3/C23-oral-gilet-44f38bc1.mp3",
+    "phonemes": "ʒilˈɛ.",
+    "review": "pending_human_review",
+    "sha256": "6d02446aaef747701116be6f852e3ba50c5d55ee7c85ca7afbfd04b285b42c3b",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "gilet"
+  },
+  "C23:oral:girafe": {
+    "file": "curriculum-c3/C23-oral-girafe-6957f0e0.mp3",
+    "phonemes": "ʒiʁˈaf.",
+    "review": "pending_human_review",
+    "sha256": "44f7b08ed362acde5d5ec57b162e089b6470120e699dac785ffdb5173e6df21b",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "girafe"
+  },
+  "C23:oral:guitare": {
+    "file": "curriculum-c3/C23-oral-guitare-ee117631.mp3",
+    "phonemes": "ɡitˈaʁ.",
+    "review": "pending_human_review",
+    "sha256": "e4b7cbff51692dc8b3c9b7c3b97944fe5b7ac832015f99705dbfb4dc2f589152",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "guitare"
+  },
+  "C23:oral:gué": {
+    "file": "curriculum-c3/C23-oral-gue-db494498.mp3",
+    "phonemes": "ɡˈe.",
+    "review": "pending_human_review",
+    "sha256": "a07ed56ac2938d744fe68fa9cec0998e283d2bedef9f0a7715efb755d36ac57a",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "gué"
+  },
+  "C23:oral:guêpe": {
+    "file": "curriculum-c3/C23-oral-guepe-66aa6cb2.mp3",
+    "phonemes": "ɡˈɛp.",
+    "review": "pending_human_review",
+    "sha256": "3d2d0ae7736c7fd4188337551244b575e8e5d3bd3465596f8c150d97fa7a915f",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "guêpe"
+  },
+  "C23:oral:génie": {
+    "file": "curriculum-c3/C23-oral-genie-eb28380f.mp3",
+    "phonemes": "ʒenˈi.",
+    "review": "pending_human_review",
+    "sha256": "daf9c5f13cc539a054244c012ff690c8c9ffc14f8b56640f44b1432f2b4d37e2",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "génie"
+  },
+  "C23:oral:gêne": {
+    "file": "curriculum-c3/C23-oral-gene-23fefa27.mp3",
+    "phonemes": "ʒˈɛn.",
+    "review": "pending_human_review",
+    "sha256": "46c96ec311a4034511dcac84c11e764e59962bd9c92c387cffeb2bf7ff13fb7e",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "gêne"
+  },
+  "C23:oral:jardin": {
+    "file": "curriculum-c3/C23-oral-jardin-8c1dfeb5.mp3",
+    "phonemes": "ʒaʁdˈɛ̃.",
+    "review": "pending_human_review",
+    "sha256": "0506fde3819b637d4c411bbdf7207af44cab49f76243d924232fab3807b7e7e0",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "jardin"
+  },
+  "C23:oral:jouer": {
+    "file": "curriculum-c3/C23-oral-jouer-7515cde6.mp3",
+    "phonemes": "ʒwˈe.",
+    "review": "pending_human_review",
+    "sha256": "85d03b9c4f1f29783a90f6e94208046ae2c8b6c0edcd443a78049adb5c2f1402",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "jouer"
+  },
+  "C23:oral:jus": {
+    "file": "curriculum-c3/C23-oral-jus-0ca964e8.mp3",
+    "phonemes": "ʒˈy.",
+    "review": "pending_human_review",
+    "sha256": "ba98cfaf607d9f35096e28a99dd96b7f33f18b4d3dbddbb439eea75d4c5f0569",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "jus"
+  },
+  "C23:oral:laver": {
+    "file": "curriculum-c3/C23-oral-laver-bc926d08.mp3",
+    "phonemes": "lavˈe.",
+    "review": "pending_human_review",
+    "sha256": "445612cc89ae29744c29eb21a8a054052dbed97556173721bebc07c85f27a55b",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "laver"
+  },
+  "C23:oral:ligne": {
+    "file": "curriculum-c3/C23-oral-ligne-b0b5e8de.mp3",
+    "phonemes": "lˈiɲ.",
+    "review": "pending_human_review",
+    "sha256": "62eb5afcff7501e6399f73a9899cc44847d248bb408524f658324a5e60ea599c",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "ligne"
+  },
+  "C23:oral:main": {
+    "file": "curriculum-c3/C23-oral-main-cf6d0b7b.mp3",
+    "phonemes": "mˈɛ̃.",
+    "review": "pending_human_review",
+    "sha256": "b0a5daca1aee7bc911ae7a762fc43962b850b13b5d274d0dba92be4fdbdeda52",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "main"
+  },
+  "C23:oral:maire": {
+    "file": "curriculum-c3/C23-oral-maire-79681243.mp3",
+    "phonemes": "mˈɛʁ.",
+    "review": "pending_human_review",
+    "sha256": "24f8935ad2e3df78ec2070fda0680519fe34aac1ebc5af5f2e945c811d8fbbd0",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "maire"
+  },
+  "C23:oral:maison": {
+    "file": "curriculum-c3/C23-oral-maison-699acea1.mp3",
+    "phonemes": "mɛzˈɔ̃.",
+    "review": "pending_human_review",
+    "sha256": "a203f905476272bb6c7830361890417df0e1c9c657150e68b5ff05d5e5321573",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "maison"
+  },
+  "C23:oral:maman": {
+    "file": "curriculum-c3/C23-oral-maman-151e2bc6.mp3",
+    "phonemes": "mamˈɑ̃.",
+    "review": "pending_human_review",
+    "sha256": "5b9178d1dabb8aba49d5e8ee8a5314ffbee202de16d9e655debabb2c4a152008",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "maman"
+  },
+  "C23:oral:mille": {
+    "file": "curriculum-c3/C23-oral-mille-2882115b.mp3",
+    "phonemes": "mˈil.",
+    "review": "pending_human_review",
+    "sha256": "f938edb912609fbb72e44f9be63c2c30d4b575cb078a3b436eb5ef274b38d628",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "mille"
+  },
+  "C23:oral:moi": {
+    "file": "curriculum-c3/C23-oral-moi-b4a56afc.mp3",
+    "phonemes": "mwˈa.",
+    "review": "pending_human_review",
+    "sha256": "75a0e95ba6f4b0aeb9c0f81d0b584d79a93d60388088e618dce87568a545a025",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "moi"
+  },
+  "C23:oral:mon": {
+    "file": "curriculum-c3/C23-oral-mon-6eb8a950.mp3",
+    "phonemes": "mɔ̃.",
+    "review": "pending_human_review",
+    "sha256": "44aa2ea6dc39a213d3095972a6a5b3a21735310932f00efb054733685887b560",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "mon"
+  },
+  "C23:oral:mère": {
+    "file": "curriculum-c3/C23-oral-mere-5bbfc832.mp3",
+    "phonemes": "mˈɛʁ.",
+    "review": "pending_human_review",
+    "sha256": "c8b30cc149886fadc0cc345b6b1a6b484b4f27963f21f4aaa1c839ecd850a781",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "mère"
+  },
+  "C23:oral:navire": {
+    "file": "curriculum-c3/C23-oral-navire-be8d510b.mp3",
+    "phonemes": "navˈiʁ.",
+    "review": "pending_human_review",
+    "sha256": "2d0e15afb0d0a7a96d53ebdb790773a1ee5d96bb747f4613e7923fc4eba8cde9",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "navire"
+  },
+  "C23:oral:nez": {
+    "file": "curriculum-c3/C23-oral-nez-d1d96542.mp3",
+    "phonemes": "nˈe.",
+    "review": "pending_human_review",
+    "sha256": "a68a26dcccc1d7909cf5b2497354687484182d0ffd15acd1efe1d5bb64ee9d56",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "nez"
+  },
+  "C23:oral:noir": {
+    "file": "curriculum-c3/C23-oral-noir-5972bf9d.mp3",
+    "phonemes": "nwˈaʁ.",
+    "review": "pending_human_review",
+    "sha256": "cba6b5c722f71721299d8ec5eb7b56795250a5472674309a697d684d43950b38",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "noir"
+  },
+  "C23:oral:noix": {
+    "file": "curriculum-c3/C23-oral-noix-5e47c491.mp3",
+    "phonemes": "nwˈa.",
+    "review": "pending_human_review",
+    "sha256": "14b87d02b740f3d56e21aff61a9ef196a10540bc44ca0cdadd288657d8e51cb2",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "noix"
+  },
+  "C23:oral:nuit": {
+    "file": "curriculum-c3/C23-oral-nuit-abdc8463.mp3",
+    "phonemes": "nyˈi.",
+    "review": "pending_human_review",
+    "sha256": "55d8c88330ea633a2a372aaab244a416b2cd6c54c8097ab6a03ac9989b1c52c7",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "nuit"
+  },
+  "C23:oral:pain": {
+    "file": "curriculum-c3/C23-oral-pain-09f9e63c.mp3",
+    "phonemes": "pˈɛ̃.",
+    "review": "pending_human_review",
+    "sha256": "83599251ede2049647b2c01502f875afb354bffb90a0ecb3c469671b67faaed2",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "pain"
+  },
+  "C23:oral:panda": {
+    "file": "curriculum-c3/C23-oral-panda-c42491b1.mp3",
+    "phonemes": "pɑ̃dˈa.",
+    "review": "pending_human_review",
+    "sha256": "2ae0cd52eb3b68b297142622bc8cb491151ce1c30c2309d8230f2d7aaa52c308",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "panda"
+  },
+  "C23:oral:pareil": {
+    "file": "curriculum-c3/C23-oral-pareil-7ee68bd9.mp3",
+    "phonemes": "paʁˈɛj.",
+    "review": "pending_human_review",
+    "sha256": "1fe07a0ca5f779ea3505b027875057d40ebef897905e69250d76acafab8ae169",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "pareil"
+  },
+  "C23:oral:peau": {
+    "file": "curriculum-c3/C23-oral-peau-3f5365fe.mp3",
+    "phonemes": "pˈo.",
+    "review": "pending_human_review",
+    "sha256": "f9a321d313d0465142737b780fd87c13a8c9d75218b7d585f20dab890e8cf480",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "peau"
+  },
+  "C23:oral:phare": {
+    "file": "curriculum-c3/C23-oral-phare-da1ec77c.mp3",
+    "phonemes": "fˈaʁ.",
+    "review": "pending_human_review",
+    "sha256": "b43f09dfe1221c7db792c6535952d1714476c8781c37107c957f447018af048f",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "phare"
+  },
+  "C23:oral:phase": {
+    "file": "curriculum-c3/C23-oral-phase-492d9151.mp3",
+    "phonemes": "fˈaz.",
+    "review": "pending_human_review",
+    "sha256": "a141a787217ea287585e98be4ae935e8c853be3dbffc661002f61f694ccacb54",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "phase"
+  },
+  "C23:oral:phone": {
+    "file": "curriculum-c3/C23-oral-phone-0bed86be.mp3",
+    "phonemes": "fˈɔn.",
+    "review": "pending_human_review",
+    "sha256": "28b238fe8ac7735c38570ee8e7bb1c319777037926e47fe14707d66c5e3ab946",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "phone"
+  },
+  "C23:oral:photo": {
+    "file": "curriculum-c3/C23-oral-photo-4d0f631e.mp3",
+    "phonemes": "fotˈo.",
+    "review": "pending_human_review",
+    "sha256": "edf3cd7f60582b45d30dfd9527dfb8c1609bf89dbd463db256eda5db387e5a84",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "photo"
+  },
+  "C23:oral:phrase": {
+    "file": "curriculum-c3/C23-oral-phrase-257ce27a.mp3",
+    "phonemes": "fʁˈaz.",
+    "review": "pending_human_review",
+    "sha256": "ec856f40937188beda21e861b6cbfef1057eef45ade14069f71197998da79d8b",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "phrase"
+  },
+  "C23:oral:pin": {
+    "file": "curriculum-c3/C23-oral-pin-c514647f.mp3",
+    "phonemes": "pˈɛ̃.",
+    "review": "pending_human_review",
+    "sha256": "2f004ff1799f2555519c195b048012b368ca72e1878a6edbb63b1efa9c6f185f",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "pin"
+  },
+  "C23:oral:plein": {
+    "file": "curriculum-c3/C23-oral-plein-0f2fe067.mp3",
+    "phonemes": "plˈɛ̃.",
+    "review": "pending_human_review",
+    "sha256": "0ef2e8ad2d629d44b5339c679eaab2a474bcba8c5a821273fc55b22920af01cf",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "plein"
+  },
+  "C23:oral:poisson": {
+    "file": "curriculum-c3/C23-oral-poisson-5099b4d8.mp3",
+    "phonemes": "pwasˈɔ̃.",
+    "review": "pending_human_review",
+    "sha256": "3211a897a67203d8c2eac7b150ad912cda94120041319aa569034ef8c87ea1f3",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "poisson"
+  },
+  "C23:oral:pont": {
+    "file": "curriculum-c3/C23-oral-pont-8e580d83.mp3",
+    "phonemes": "pˈɔ̃.",
+    "review": "pending_human_review",
+    "sha256": "97f0f533d27c2def60b7747bb0bdb0b8b36bfb237c284e20edc513ab05c8b9bf",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "pont"
+  },
+  "C23:oral:portail": {
+    "file": "curriculum-c3/C23-oral-portail-b9d21bdf.mp3",
+    "phonemes": "pɔʁtˈaj.",
+    "review": "pending_human_review",
+    "sha256": "ab022f32c84d2daf7c46d459cf0d4632b585895a74c7eda1feaf11ca65cd7085",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "portail"
+  },
+  "C23:oral:père": {
+    "file": "curriculum-c3/C23-oral-pere-42345b96.mp3",
+    "phonemes": "pˈɛʁ.",
+    "review": "pending_human_review",
+    "sha256": "b893ccb2c544e14c81cfbdb233c7540a54f6b8ee9dc81706496e963c336177ca",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "père"
+  },
+  "C23:oral:quille": {
+    "file": "curriculum-c3/C23-oral-quille-1e224944.mp3",
+    "phonemes": "kˈij.",
+    "review": "pending_human_review",
+    "sha256": "9126953db1168f1683de1e29d33d2b7d564fe42b5216ae65cc5a613bc76f8cb3",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "quille"
+  },
+  "C23:oral:rail": {
+    "file": "curriculum-c3/C23-oral-rail-7de9b85e.mp3",
+    "phonemes": "ʁˈaj.",
+    "review": "pending_human_review",
+    "sha256": "ddc507feabe20c5174365f93b4504dc0f620874416c03f41a067f4847d15a548",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "rail"
+  },
+  "C23:oral:rein": {
+    "file": "curriculum-c3/C23-oral-rein-5a27c4a0.mp3",
+    "phonemes": "ʁˈɛ̃.",
+    "review": "pending_human_review",
+    "sha256": "c1a3f28d6cf8c01eadae22772eb9a585120cf297fcb3fb1990a2c699001a4869",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "rein"
+  },
+  "C23:oral:reine": {
+    "file": "curriculum-c3/C23-oral-reine-ebcceeb0.mp3",
+    "phonemes": "ʁˈɛn.",
+    "review": "pending_human_review",
+    "sha256": "68b1137653ae7b4391c1a4be00c402acd41faa773f802ef73a2deb98b9f59769",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "reine"
+  },
+  "C23:oral:roi": {
+    "file": "curriculum-c3/C23-oral-roi-b5c24f69.mp3",
+    "phonemes": "ʁwˈa.",
+    "review": "pending_human_review",
+    "sha256": "db7517999fe6d8bcedaa9f16345468a7cf1ab6f0396dab76097d10a01835d9ec",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "roi"
+  },
+  "C23:oral:rond": {
+    "file": "curriculum-c3/C23-oral-rond-c33ef430.mp3",
+    "phonemes": "ʁˈɔ̃.",
+    "review": "pending_human_review",
+    "sha256": "154f5958df6067d97bab0a490263c9a9d4a8d8d2626fca7ee111cafce4ec06ce",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "rond"
+  },
+  "C23:oral:rose": {
+    "file": "curriculum-c3/C23-oral-rose-0930ff67.mp3",
+    "phonemes": "ʁˈɔz.",
+    "review": "pending_human_review",
+    "sha256": "7ceacfc126540d17c38a810be68e3450f6bcaf5a7098b37b1f36b2c9ed95e0d4",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "rose"
+  },
+  "C23:oral:ruban": {
+    "file": "curriculum-c3/C23-oral-ruban-cfdaf2da.mp3",
+    "phonemes": "ʁybˈɑ̃.",
+    "review": "pending_human_review",
+    "sha256": "6ae93d97e11e9568e15c91681b6be993beeb83266489973d519d48b513f12736",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "ruban"
+  },
+  "C23:oral:réveil": {
+    "file": "curriculum-c3/C23-oral-reveil-2f251a20.mp3",
+    "phonemes": "ʁevˈɛj.",
+    "review": "pending_human_review",
+    "sha256": "e27e726509a27262f29b11d98bf157bf82c02e9af91ffc8794ffd26e2bbcbabb",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "réveil"
+  },
+  "C23:oral:saler": {
+    "file": "curriculum-c3/C23-oral-saler-7a461007.mp3",
+    "phonemes": "salˈe.",
+    "review": "pending_human_review",
+    "sha256": "b5a44f47b70e020c85031e83b6bffcc23904112f0b474053b07b300938df5e11",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "saler"
+  },
+  "C23:oral:seuil": {
+    "file": "curriculum-c3/C23-oral-seuil-6a2f2067.mp3",
+    "phonemes": "sˈœj.",
+    "review": "pending_human_review",
+    "sha256": "e9c24779b87d028ee216a50107cb4d7279cad98d82a6aabe1a1ec565b771ae9c",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "seuil"
+  },
+  "C23:oral:soleil": {
+    "file": "curriculum-c3/C23-oral-soleil-82eef12e.mp3",
+    "phonemes": "solˈɛj.",
+    "review": "pending_human_review",
+    "sha256": "f865db8be541df41264952711872bf9db4bc66bbff10be28e0ff3bc50db22f98",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "soleil"
+  },
+  "C23:oral:son": {
+    "file": "curriculum-c3/C23-oral-son-5d0b6e9c.mp3",
+    "phonemes": "sˈɔ̃.",
+    "review": "pending_human_review",
+    "sha256": "a911fb6033e274ff0b6b7efcc9c14567e880469fffc76d73e12034faaa00fc06",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "son"
+  },
+  "C23:oral:toi": {
+    "file": "curriculum-c3/C23-oral-toi-40c66c4b.mp3",
+    "phonemes": "twˈa.",
+    "review": "pending_human_review",
+    "sha256": "0bfa903b63f48412b223509ee704ee64ab40512cad9c59d194a70f8404d96988",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "toi"
+  },
+  "C23:oral:travail": {
+    "file": "curriculum-c3/C23-oral-travail-19112e4f.mp3",
+    "phonemes": "tʁavˈaj.",
+    "review": "pending_human_review",
+    "sha256": "0a243eff9559e4e17f28ed6ced3b7f1a5208ba3a5901d8a60108dc6435c65ec7",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "travail"
+  },
+  "C23:oral:tête": {
+    "file": "curriculum-c3/C23-oral-tete-094fca6d.mp3",
+    "phonemes": "tˈɛt.",
+    "review": "pending_human_review",
+    "sha256": "53af69ccf88642ac1b0fc5b9448d9a00cd8b0e60b639a0e8bd19710d5cdc419c",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "tête"
+  },
+  "C23:oral:veau": {
+    "file": "curriculum-c3/C23-oral-veau-bafaf495.mp3",
+    "phonemes": "vˈo.",
+    "review": "pending_human_review",
+    "sha256": "117e0197acf749b88c70726b4dacac3da088bec9922f62660d875cf695a66274",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "veau"
+  },
+  "C23:oral:vermeil": {
+    "file": "curriculum-c3/C23-oral-vermeil-ff3dcaed.mp3",
+    "phonemes": "vɛʁmˈɛj.",
+    "review": "pending_human_review",
+    "sha256": "9d6adc9d3aacb26ae80cb3f0e40dfd9a595030a33eefa11db1c913a2262cb398",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "vermeil"
+  },
+  "C23:oral:vigne": {
+    "file": "curriculum-c3/C23-oral-vigne-bf288631.mp3",
+    "phonemes": "vˈiɲ.",
+    "review": "pending_human_review",
+    "sha256": "fd026ae444d2e83300e3ed49417296214ff82620c98acebe9642d2658f5ad3c6",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "vigne"
+  },
+  "C23:oral:ville": {
+    "file": "curriculum-c3/C23-oral-ville-1c5a2dc4.mp3",
+    "phonemes": "vˈil.",
+    "review": "pending_human_review",
+    "sha256": "688ca4cb4db969330ee4d11bcdfa2a700e17b7c1e6d2f2e40a11fdd7ae12aec3",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "ville"
+  },
+  "C23:oral:voix": {
+    "file": "curriculum-c3/C23-oral-voix-051816c2.mp3",
+    "phonemes": "vwˈa.",
+    "review": "pending_human_review",
+    "sha256": "af9243114167e7362367dbb2f0bf396fc90be7fcc1c365949b077caa0665a0c2",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "voix"
+  },
+  "C23:oral:zone": {
+    "file": "curriculum-c3/C23-oral-zone-8f7c9bac.mp3",
+    "phonemes": "zˈon.",
+    "review": "pending_human_review",
+    "sha256": "f450069d1699b780c72540f619059919fd040e663a778672ce1b259e3891fd2e",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "zone"
+  },
+  "C23:oral:écureuil": {
+    "file": "curriculum-c3/C23-oral-ecureuil-0c218de4.mp3",
+    "phonemes": "ekyʁˈœj.",
+    "review": "pending_human_review",
+    "sha256": "71e5e5acae6f2e620f91be71ae30779ffcfbbfeb7083a144c0b7ae70cb237128",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "écureuil"
+  },
+  "C23:écrit:aj:aj": {
+    "file": "curriculum-c3/C23-ecrit-aj-aj-fec2b2fa.mp3",
+    "phonemes": "aj",
+    "review": "pending_human_review",
+    "sha256": "5231e6c53f27931cb0db7352d53432643430d51abe6fa673bb29110b50496fba",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "aj"
+  },
+  "C23:écrit:aɲo:agneau": {
+    "file": "curriculum-c3/C23-ecrit-ao-agneau-f22fad55.mp3",
+    "phonemes": "aɲo",
+    "review": "pending_human_review",
+    "sha256": "87e28c09b706d40ae378c51338df81bc528cd266256fd6e5c032e4e5099bf966",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "agneau"
+  },
+  "C23:écrit:betaj:bétail": {
+    "file": "curriculum-c3/C23-ecrit-betaj-betail-f448010e.mp3",
+    "phonemes": "betaj",
+    "review": "pending_human_review",
+    "sha256": "b5bf4cc0bb06fcc4d6a146b6b6980c302ae6ce4b2f48ffdfbc1ec102c7403bef",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "bétail"
+  },
+  "C23:écrit:bij:bille": {
+    "file": "curriculum-c3/C23-ecrit-bij-bille-a20cc5c2.mp3",
+    "phonemes": "bij",
+    "review": "pending_human_review",
+    "sha256": "d568174905c4a00a3d9a517529c324fb3c3b3ca710b43ee9becbbb013fb78816",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "bille"
+  },
+  "C23:écrit:bo:beau": {
+    "file": "curriculum-c3/C23-ecrit-bo-beau-27158db2.mp3",
+    "phonemes": "bo",
+    "review": "pending_human_review",
+    "sha256": "16df54771a1d566dadeff1acb20a8fb3d36770f354b08a0362beee6152a603c6",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "beau"
+  },
+  "C23:écrit:bɔ̃:bon": {
+    "file": "curriculum-c3/C23-ecrit-b-bon-cf0f2d32.mp3",
+    "phonemes": "bɔ̃",
+    "review": "pending_human_review",
+    "sha256": "4ba84298bd839c68fe1426c0bfca7802f79fff5e99433d40a80c019932ac80ed",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "bon"
+  },
+  "C23:écrit:bɔ̃v:bonv": {
+    "file": "curriculum-c3/C23-ecrit-bv-bonv-4ed10bb9.mp3",
+    "phonemes": "bɔ̃v",
+    "review": "pending_human_review",
+    "sha256": "1d3116dc6f1a0c1e6110a692cedc2a6e8e3d6dd0cd3eee5b7f1c73e6dd0bc56b",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "bonv"
+  },
+  "C23:écrit:detaj:détail": {
+    "file": "curriculum-c3/C23-ecrit-detaj-detail-0bf45304.mp3",
+    "phonemes": "detaj",
+    "review": "pending_human_review",
+    "sha256": "a7c6bbdb1302acb97f2550f5ba8f2123e6eb4ab64fdaea6b93a8b37e57baf992",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "détail"
+  },
+  "C23:écrit:diɲ:digne": {
+    "file": "curriculum-c3/C23-ecrit-di-digne-3f747311.mp3",
+    "phonemes": "diɲ",
+    "review": "pending_human_review",
+    "sha256": "25435985621e890b34d6bc9b0741f8d2bf19a3782a1b09031e0f3e2305d3c6c0",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "digne"
+  },
+  "C23:écrit:dœj:deuil": {
+    "file": "curriculum-c3/C23-ecrit-dj-deuil-4fa5aebc.mp3",
+    "phonemes": "dœj",
+    "review": "pending_human_review",
+    "sha256": "4d725d7dd212b91c3d2d708f4ec4cd406d1540ff1c6a69edf022ea1e62195621",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "deuil"
+  },
+  "C23:écrit:dɑ̃:den": {
+    "file": "curriculum-c3/C23-ecrit-d-den-318d248d.mp3",
+    "phonemes": "dɑ̃",
+    "review": "pending_human_review",
+    "sha256": "d39cd7713fb4bda1b885352578d5a929139760ef92bff67f7cafa8593032b7fd",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "den"
+  },
+  "C23:écrit:dɔ̃:don": {
+    "file": "curriculum-c3/C23-ecrit-d-don-3401e940.mp3",
+    "phonemes": "dɔ̃",
+    "review": "pending_human_review",
+    "sha256": "325a59468d7797ba2d16182bc45d3f014e9022dfd0674cdbbe70caca71d2373e",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "don"
+  },
+  "C23:écrit:ekyʁœj:écureuil": {
+    "file": "curriculum-c3/C23-ecrit-ekyj-ecureuil-3d1b4fe6.mp3",
+    "phonemes": "ekyʁœj",
+    "review": "pending_human_review",
+    "sha256": "3ed791bf3418786b6808b8a67047b969d0bb14bdc3df453e19c763773f726d38",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "écureuil"
+  },
+  "C23:écrit:fasad:façade": {
+    "file": "curriculum-c3/C23-ecrit-fasad-facade-f6da3888.mp3",
+    "phonemes": "fasad",
+    "review": "pending_human_review",
+    "sha256": "94a0f8b3b36953893a72eff18698e157defc25a9e5b5ff4073b153080bebe77d",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "façade"
+  },
+  "C23:écrit:faz:phase": {
+    "file": "curriculum-c3/C23-ecrit-faz-phase-ec14470f.mp3",
+    "phonemes": "faz",
+    "review": "pending_human_review",
+    "sha256": "4a0708a4688cb0ea55f6f2201631f09374f053855655522939638f2a295585eb",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "phase"
+  },
+  "C23:écrit:faʁ:phare": {
+    "file": "curriculum-c3/C23-ecrit-fa-phare-59c96ad0.mp3",
+    "phonemes": "faʁ",
+    "review": "pending_human_review",
+    "sha256": "4db4eb37d7bf9816a0a0aaf642acad3c923764c9fac28eba609e8a996e72bf8f",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "phare"
+  },
+  "C23:écrit:fij:fille": {
+    "file": "curriculum-c3/C23-ecrit-fij-fille-513baabb.mp3",
+    "phonemes": "fij",
+    "review": "pending_human_review",
+    "sha256": "1537fbfeedf61a2b1a8453338a5f13e50dbf379dce18e5d72c52676a63ba6130",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "fille"
+  },
+  "C23:écrit:foto:photo": {
+    "file": "curriculum-c3/C23-ecrit-foto-photo-132a3922.mp3",
+    "phonemes": "foto",
+    "review": "pending_human_review",
+    "sha256": "c24986ba4ffb030d2a7943ed2a46798f5cf505640ab8065c2431f2586557a89c",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "photo"
+  },
+  "C23:écrit:fotœj:fauteuil": {
+    "file": "curriculum-c3/C23-ecrit-fotj-fauteuil-cb2ea8c3.mp3",
+    "phonemes": "fotœj",
+    "review": "pending_human_review",
+    "sha256": "4ad4e146601cdc7d60b4860b3e3a8717385f44b3302bf23890e0aec42b65fa26",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "fauteuil"
+  },
+  "C23:écrit:fɔn:phone": {
+    "file": "curriculum-c3/C23-ecrit-fn-phone-3eac2aae.mp3",
+    "phonemes": "fɔn",
+    "review": "pending_human_review",
+    "sha256": "d4b9e5f8af51541bcd70cd3258d5034f1ac2cff22b99e18482db6feeb475c855",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "phone"
+  },
+  "C23:écrit:fənuj:fenouil": {
+    "file": "curriculum-c3/C23-ecrit-fnuj-fenouil-4ec97715.mp3",
+    "phonemes": "fənuj",
+    "review": "pending_human_review",
+    "sha256": "be1eca61d733b78fc884230cd7d5c778ed61d064b0eee18ddba706a2bb01a32f",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "fenouil"
+  },
+  "C23:écrit:fɛ̃:fain": {
+    "file": "curriculum-c3/C23-ecrit-f-fain-8af2463c.mp3",
+    "phonemes": "fɛ̃",
+    "review": "pending_human_review",
+    "sha256": "cb9676bade0a5da8af279d637d48e00dacdfb77bc2f0e9926c256c51bf66455a",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "fain"
+  },
+  "C23:écrit:fʁaz:phrase": {
+    "file": "curriculum-c3/C23-ecrit-faz-phrase-4bd5863b.mp3",
+    "phonemes": "fʁaz",
+    "review": "pending_human_review",
+    "sha256": "d24c76754f6d2815c24e72ee334abfc0552f4b4d5d85751ddee2ca0d174f49a8",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "phrase"
+  },
+  "C23:écrit:ij:ij": {
+    "file": "curriculum-c3/C23-ecrit-ij-ij-5a0d2ca1.mp3",
+    "phonemes": "ij",
+    "review": "pending_human_review",
+    "sha256": "37612c7082bbc49595132c93117b6bad4691343c9b94a5c4e0623d3e9e791c58",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "ij"
+  },
+  "C23:écrit:il:il": {
+    "file": "curriculum-c3/C23-ecrit-il-il-b747e6ce.mp3",
+    "phonemes": "il",
+    "review": "pending_human_review",
+    "sha256": "07c719484b90f64fdba043a1c366e760741a41f87b44f34b476c5c25635646b4",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "il"
+  },
+  "C23:écrit:kij:quille": {
+    "file": "curriculum-c3/C23-ecrit-kij-quille-eb1de5ef.mp3",
+    "phonemes": "kij",
+    "review": "pending_human_review",
+    "sha256": "05adbfa78e475ba4457dfc8647769f318558ff52f27c9b373f831c1a989bc158",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "quille"
+  },
+  "C23:écrit:kɔ̃sɛj:conseil": {
+    "file": "curriculum-c3/C23-ecrit-ksj-conseil-8d0c7191.mp3",
+    "phonemes": "kɔ̃sɛj",
+    "review": "pending_human_review",
+    "sha256": "0739ea92e12efb376a31bc28cfc8a028621df1c4940973be1f51d86e47dfe90f",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "conseil"
+  },
+  "C23:écrit:lave:laver": {
+    "file": "curriculum-c3/C23-ecrit-lave-laver-9ce74cab.mp3",
+    "phonemes": "lave",
+    "review": "pending_human_review",
+    "sha256": "18cc4e305a8fbfb4c114f9d969d871cffab743da34312621f02dcbeb852061e1",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "laver"
+  },
+  "C23:écrit:liɲ:ligne": {
+    "file": "curriculum-c3/C23-ecrit-li-ligne-e0dc33cd.mp3",
+    "phonemes": "liɲ",
+    "review": "pending_human_review",
+    "sha256": "982ab96fc79b07a659c49820f30848e5f5e825c1c2ef99035907af5951b3666a",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "ligne"
+  },
+  "C23:écrit:lwa:loi": {
+    "file": "curriculum-c3/C23-ecrit-lwa-loi-c2f16944.mp3",
+    "phonemes": "lwa",
+    "review": "pending_human_review",
+    "sha256": "701d9a54c69f0f180a97d57bb2c2d3685639d7ebf8026990e6ef35524b775160",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "loi"
+  },
+  "C23:écrit:lɑ̃f:lanf": {
+    "file": "curriculum-c3/C23-ecrit-lf-lanf-e835dd93.mp3",
+    "phonemes": "lɑ̃f",
+    "review": "pending_human_review",
+    "sha256": "0b1f9400153aa7ea27b557eaf32f10474a539c1b7f5192c94588b8669e496ab4",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "lanf"
+  },
+  "C23:écrit:ləsɔ̃:leçon": {
+    "file": "curriculum-c3/C23-ecrit-ls-lecon-744bdf3f.mp3",
+    "phonemes": "ləsɔ̃",
+    "review": "pending_human_review",
+    "sha256": "21fa9bb351f91500dbbd4954a1d6d55df5ada1d6e9a82e8bacb18920ce0a1788",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "leçon"
+  },
+  "C23:écrit:mamɑ̃:maman": {
+    "file": "curriculum-c3/C23-ecrit-mam-maman-81e35358.mp3",
+    "phonemes": "mamɑ̃",
+    "review": "pending_human_review",
+    "sha256": "b3a9e110cdc97c9deb0b4521741c8e4a4f3bc87680d18f3bb2b1a5f7c2d76be0",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "maman"
+  },
+  "C23:écrit:mil:mille": {
+    "file": "curriculum-c3/C23-ecrit-mil-mille-f7a2ed64.mp3",
+    "phonemes": "mil",
+    "review": "pending_human_review",
+    "sha256": "dd2f03293da7249a2d408f9169ebffe3a1199fc770cd0a436dd8b339127cec34",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "mille"
+  },
+  "C23:écrit:mwa:moi": {
+    "file": "curriculum-c3/C23-ecrit-mwa-moi-d3dd7a0a.mp3",
+    "phonemes": "mwa",
+    "review": "pending_human_review",
+    "sha256": "bb6e765495ce55b2f206ca8b8f1fab7d46e16c2c20ad6512385c80c1fd7e0bd6",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "moi"
+  },
+  "C23:écrit:mɑ̃:man": {
+    "file": "curriculum-c3/C23-ecrit-m-man-ee34318d.mp3",
+    "phonemes": "mɑ̃",
+    "review": "pending_human_review",
+    "sha256": "cf6fad44244cf2b3fabea1f77a419cbde1b8ba5a60671715ec49b9ea4f8c3f8a",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "man"
+  },
+  "C23:écrit:mɔ̃:mon": {
+    "file": "curriculum-c3/C23-ecrit-m-mon-46cc5c87.mp3",
+    "phonemes": "mɔ̃",
+    "review": "pending_human_review",
+    "sha256": "cb923139c6ef0d1d98279ff93510de445e459db259982a6a8fb7d2ac7cf3e5ca",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "mon"
+  },
+  "C23:écrit:mɛzɔ̃:maison": {
+    "file": "curriculum-c3/C23-ecrit-mz-maison-7aaf3460.mp3",
+    "phonemes": "mɛzɔ̃",
+    "review": "pending_human_review",
+    "sha256": "0be55831d0bb2635cb6bb066a6acd704b209774aec2ea2f4de44a4b411253035",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "maison"
+  },
+  "C23:écrit:mɛʁ:maire": {
+    "file": "curriculum-c3/C23-ecrit-m-maire-e31b910c.mp3",
+    "phonemes": "mɛʁ",
+    "review": "pending_human_review",
+    "sha256": "3fbd90d93a0805b251661d3c1ba16c653554d5f1d687a273ad9c1f075b74544f",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "maire"
+  },
+  "C23:écrit:mɛʁ:mère": {
+    "file": "curriculum-c3/C23-ecrit-m-mere-0cada68e.mp3",
+    "phonemes": "mɛʁ",
+    "review": "pending_human_review",
+    "sha256": "2947ff9276befdcf80145ed697c7a6f45d1cd1d7c179796f1dd4d110055903d2",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "mère"
+  },
+  "C23:écrit:mɛ̃:main": {
+    "file": "curriculum-c3/C23-ecrit-m-main-b29acb94.mp3",
+    "phonemes": "mɛ̃",
+    "review": "pending_human_review",
+    "sha256": "f3fc6460f74f1b2a55c78dbd057fe83769e9a71578e2ff7657c44bc439d03422",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "main"
+  },
+  "C23:écrit:ne:nez": {
+    "file": "curriculum-c3/C23-ecrit-ne-nez-e35bcd83.mp3",
+    "phonemes": "ne",
+    "review": "pending_human_review",
+    "sha256": "eeade6b6a57671353dd6dc7f104fe7256f7c413bd2ecbd74fcc25578a30846c6",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "nez"
+  },
+  "C23:écrit:nwaʁ:noir": {
+    "file": "curriculum-c3/C23-ecrit-nwa-noir-6077f420.mp3",
+    "phonemes": "nwaʁ",
+    "review": "pending_human_review",
+    "sha256": "c9133a5d7e4f5d7d4289388458963fe6ff814feb5f97f2ef6f88cd6b98379403",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "noir"
+  },
+  "C23:écrit:nɔ̃:non": {
+    "file": "curriculum-c3/C23-ecrit-n-non-118adadd.mp3",
+    "phonemes": "nɔ̃",
+    "review": "pending_human_review",
+    "sha256": "b133cd6d13519ea8f79f3d90cbd035741f523dc595214d2f707920e85b2be8f2",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "non"
+  },
+  "C23:écrit:o:eau": {
+    "file": "curriculum-c3/C23-ecrit-o-eau-9cc3c22e.mp3",
+    "phonemes": "o",
+    "review": "pending_human_review",
+    "sha256": "cd9e4222a571d8eec87ed40ab15f03ad6ac517dad582054c3dc0fc19534c29c1",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "eau"
+  },
+  "C23:écrit:oto:auto": {
+    "file": "curriculum-c3/C23-ecrit-oto-auto-c611d10a.mp3",
+    "phonemes": "oto",
+    "review": "pending_human_review",
+    "sha256": "eb2b7bf643fadb3a494721d3ddc5c3c295d8f5d49e5871e470c379a94401361e",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "auto"
+  },
+  "C23:écrit:paʁɛj:pareil": {
+    "file": "curriculum-c3/C23-ecrit-paj-pareil-251cd264.mp3",
+    "phonemes": "paʁɛj",
+    "review": "pending_human_review",
+    "sha256": "c2189c2533e8e497e20ddc7c5d54456cb2a4fc03463de708531769b8737894ee",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "pareil"
+  },
+  "C23:écrit:plɛ̃:plein": {
+    "file": "curriculum-c3/C23-ecrit-pl-plein-8ca63938.mp3",
+    "phonemes": "plɛ̃",
+    "review": "pending_human_review",
+    "sha256": "bc721aa04580fcd57815a158ac4fe800964aa807b69590ea755fa7078534effa",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "plein"
+  },
+  "C23:écrit:po:peau": {
+    "file": "curriculum-c3/C23-ecrit-po-peau-ca1466b4.mp3",
+    "phonemes": "po",
+    "review": "pending_human_review",
+    "sha256": "79695bdea1270695e732dfac8f89b21147b5d7c8656b496083e1151d621437ea",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "peau"
+  },
+  "C23:écrit:pwasɔ̃:poisson": {
+    "file": "curriculum-c3/C23-ecrit-pwas-poisson-b304faef.mp3",
+    "phonemes": "pwasɔ̃",
+    "review": "pending_human_review",
+    "sha256": "58c8dd452f081604f0940413d53d8200280864d822f5c1205b2044ec1e18caef",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "poisson"
+  },
+  "C23:écrit:pɑ̃:pan": {
+    "file": "curriculum-c3/C23-ecrit-p-pan-eea2ceed.mp3",
+    "phonemes": "pɑ̃",
+    "review": "pending_human_review",
+    "sha256": "c72fccede97c87879be9da83f42d55b75a10e8f5300222718289a8f92b68bbab",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "pan"
+  },
+  "C23:écrit:pɑ̃da:panda": {
+    "file": "curriculum-c3/C23-ecrit-pda-panda-8554b73e.mp3",
+    "phonemes": "pɑ̃da",
+    "review": "pending_human_review",
+    "sha256": "c0f99ba4d906c48f07d203a343a13f67ef87d951aabc132b59cb9316c458e67f",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "panda"
+  },
+  "C23:écrit:pɔʁtaj:portail": {
+    "file": "curriculum-c3/C23-ecrit-ptaj-portail-4d5a0671.mp3",
+    "phonemes": "pɔʁtaj",
+    "review": "pending_human_review",
+    "sha256": "9eaa40a3e28a4d10f30a8d77284f9c6dd1cb9c66e0e620bd2ea1cc8142e56102",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "portail"
+  },
+  "C23:écrit:pɔ̃:pon": {
+    "file": "curriculum-c3/C23-ecrit-p-pon-95314408.mp3",
+    "phonemes": "pɔ̃",
+    "review": "pending_human_review",
+    "sha256": "610cd7661f8c803ae46c37bc1ec96c7c0957826070cf19950f6ff3dfce38aabf",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "pon"
+  },
+  "C23:écrit:pɛʁ:père": {
+    "file": "curriculum-c3/C23-ecrit-p-pere-aaddf905.mp3",
+    "phonemes": "pɛʁ",
+    "review": "pending_human_review",
+    "sha256": "45f8285e29d976c594f7186bac72008f8e30b9d316f9ad2e660a65625eaf30c3",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "père"
+  },
+  "C23:écrit:pɛ̃:pin": {
+    "file": "curriculum-c3/C23-ecrit-p-pin-c9cf8724.mp3",
+    "phonemes": "pɛ̃",
+    "review": "pending_human_review",
+    "sha256": "1041624e8a70f4eafd5588ed797a708aa8f23332fddfccc20f85cbbf74d0c3a2",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "pin"
+  },
+  "C23:écrit:pɛ̃ʁ:painr": {
+    "file": "curriculum-c3/C23-ecrit-p-painr-54c01141.mp3",
+    "phonemes": "pɛ̃ʁ",
+    "review": "pending_human_review",
+    "sha256": "cc109d36ef7c5524a2c0cde182d9c095bdcad7ef7f17d9d50ac2f23e31a0213c",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "painr"
+  },
+  "C23:écrit:sale:saler": {
+    "file": "curriculum-c3/C23-ecrit-sale-saler-ff6f4279.mp3",
+    "phonemes": "sale",
+    "review": "pending_human_review",
+    "sha256": "3305b3338ccd3f4b3c0a4db3207c0caa2edcf86d156965b69eeb005d273f4964",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "saler"
+  },
+  "C23:écrit:sil:cil": {
+    "file": "curriculum-c3/C23-ecrit-sil-cil-200e5a12.mp3",
+    "phonemes": "sil",
+    "review": "pending_human_review",
+    "sha256": "9b744bec7d9e343397ec899d414059c90a6d163c85dd47f58eac6cc643d3ece8",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "cil"
+  },
+  "C23:écrit:sitʁɔ̃:citron": {
+    "file": "curriculum-c3/C23-ecrit-sit-citron-9bbfe4ba.mp3",
+    "phonemes": "sitʁɔ̃",
+    "review": "pending_human_review",
+    "sha256": "7f3e8c8f2502f4cf9bb6087c44796f9440bbe4fa66bd37067f1f28ac22423c93",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "citron"
+  },
+  "C23:écrit:siɲ:signe": {
+    "file": "curriculum-c3/C23-ecrit-si-signe-cb1fc3fa.mp3",
+    "phonemes": "siɲ",
+    "review": "pending_human_review",
+    "sha256": "fae816f09360a4cda032242037f98b17bcb2f12c5fbc2af3846033ab8c3dc5a1",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "signe"
+  },
+  "C23:écrit:siʁ:cire": {
+    "file": "curriculum-c3/C23-ecrit-si-cire-eb3b432a.mp3",
+    "phonemes": "siʁ",
+    "review": "pending_human_review",
+    "sha256": "185da386be4e396542e77fe3b49f0da4e38b1b1ae438da29bb847ba6386fb4a0",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "cire"
+  },
+  "C23:écrit:sœj:seuil": {
+    "file": "curriculum-c3/C23-ecrit-sj-seuil-0b03f201.mp3",
+    "phonemes": "sœj",
+    "review": "pending_human_review",
+    "sha256": "f6c8ec38211cab1c1587cd9e6eeb12085b837521ae85bcb059d3d5bdc43618c6",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "seuil"
+  },
+  "C23:écrit:sɔlɛj:soleil": {
+    "file": "curriculum-c3/C23-ecrit-slj-soleil-e626ab6f.mp3",
+    "phonemes": "sɔlɛj",
+    "review": "pending_human_review",
+    "sha256": "f79ce7acf043a145635e10839c132ffb2f288e7007385036cd023e52fcb716a8",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "soleil"
+  },
+  "C23:écrit:sɔ̃:son": {
+    "file": "curriculum-c3/C23-ecrit-s-son-531c51e6.mp3",
+    "phonemes": "sɔ̃",
+    "review": "pending_human_review",
+    "sha256": "33574b939296adc42640ccad647c4c43652d4db5ff612e338d3645e3f28bac81",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "son"
+  },
+  "C23:écrit:twa:toi": {
+    "file": "curriculum-c3/C23-ecrit-twa-toi-3b8d0330.mp3",
+    "phonemes": "twa",
+    "review": "pending_human_review",
+    "sha256": "1cf02008631057ed9983a02660a9716b1c8179e756ff45141ae459a53eb36554",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "toi"
+  },
+  "C23:écrit:twam:toim": {
+    "file": "curriculum-c3/C23-ecrit-twam-toim-bc64f62e.mp3",
+    "phonemes": "twam",
+    "review": "pending_human_review",
+    "sha256": "0e700b4e1ae96ee82b36607babd3f80dd27a7a04d075f1c68a9e8d38841642e1",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "toim"
+  },
+  "C23:écrit:tɛt:tête": {
+    "file": "curriculum-c3/C23-ecrit-tt-tete-ed3418ea.mp3",
+    "phonemes": "tɛt",
+    "review": "pending_human_review",
+    "sha256": "5f80bdaa16fb595b597985b1cbff11f566e6616877caf30094fd99173335b740",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "tête"
+  },
+  "C23:écrit:tʁavaj:travail": {
+    "file": "curriculum-c3/C23-ecrit-tavaj-travail-bc9220c4.mp3",
+    "phonemes": "tʁavaj",
+    "review": "pending_human_review",
+    "sha256": "aa5de6dab3559280d02b3d18c8ca19c82c85e7b49684048e19996266de701755",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "travail"
+  },
+  "C23:écrit:uj:uj": {
+    "file": "curriculum-c3/C23-ecrit-uj-uj-67c6cd12.mp3",
+    "phonemes": "uj",
+    "review": "pending_human_review",
+    "sha256": "938bac5c86e918707b5d72752fda3f3fdd193421e95d083c3e26b31192167e58",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "uj"
+  },
+  "C23:écrit:valiz:valise": {
+    "file": "curriculum-c3/C23-ecrit-valiz-valise-4c7c8c2e.mp3",
+    "phonemes": "valiz",
+    "review": "pending_human_review",
+    "sha256": "a44c69296687c32ab18fc552571f30feee76e703ba6587762ddca737d15724e1",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "valise"
+  },
+  "C23:écrit:vil:ville": {
+    "file": "curriculum-c3/C23-ecrit-vil-ville-0cef6501.mp3",
+    "phonemes": "vil",
+    "review": "pending_human_review",
+    "sha256": "343abf812b95ebc010a8c9678fbde82e31f2517ecd3bbf1b1ee113748fd92543",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "ville"
+  },
+  "C23:écrit:viɲ:vigne": {
+    "file": "curriculum-c3/C23-ecrit-vi-vigne-712e71bb.mp3",
+    "phonemes": "viɲ",
+    "review": "pending_human_review",
+    "sha256": "a26edbf6f3ec19b8232d55e07e53e6bbc597847172b0b2340557c436e02a4531",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "vigne"
+  },
+  "C23:écrit:vo:veau": {
+    "file": "curriculum-c3/C23-ecrit-vo-veau-6180b4c7.mp3",
+    "phonemes": "vo",
+    "review": "pending_human_review",
+    "sha256": "3f4d28f51989c3d53f4c91a57cdfb0eea8b40104dc4a76d99e36861c5361c701",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "veau"
+  },
+  "C23:écrit:vwa:voi": {
+    "file": "curriculum-c3/C23-ecrit-vwa-voi-b25161fa.mp3",
+    "phonemes": "vwa",
+    "review": "pending_human_review",
+    "sha256": "e478dd739e4647677957a2430a41c5731668c1ee93dc2888e739272fda23fc01",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "voi"
+  },
+  "C23:écrit:vɑ̃:ven": {
+    "file": "curriculum-c3/C23-ecrit-v-ven-fb2401b0.mp3",
+    "phonemes": "vɑ̃",
+    "review": "pending_human_review",
+    "sha256": "2222c1ca4538bf9ae95ce7353217152f4cffd1c05b1aae15ec2541116dde3fd8",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "ven"
+  },
+  "C23:écrit:vɛjp:veilp": {
+    "file": "curriculum-c3/C23-ecrit-vjp-veilp-ac993891.mp3",
+    "phonemes": "vɛjp",
+    "review": "pending_human_review",
+    "sha256": "98b153143b21ef218a5fcee519ab1d273baf77cb214023a90700065185e99f8a",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "veilp"
+  },
+  "C23:écrit:vɛʁmɛj:vermeil": {
+    "file": "curriculum-c3/C23-ecrit-vmj-vermeil-aa1797c7.mp3",
+    "phonemes": "vɛʁmɛj",
+    "review": "pending_human_review",
+    "sha256": "71db9cdc07991cc70eb2148a6b113063d72f7f4a0394dc1c81bef401473615f3",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "vermeil"
+  },
+  "C23:écrit:wa:wa": {
+    "file": "curriculum-c3/C23-ecrit-wa-wa-97a4a9e0.mp3",
+    "phonemes": "wa",
+    "review": "pending_human_review",
+    "sha256": "e74946a0a7f4d8ddabe66144b3f1fb232bb911b4ebffa2e48e2236079bb6ed48",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "wa"
+  },
+  "C23:écrit:zon:zone": {
+    "file": "curriculum-c3/C23-ecrit-zon-zone-27bf491c.mp3",
+    "phonemes": "zon",
+    "review": "pending_human_review",
+    "sha256": "d4557bbaeaa49f698a7702152dd2548a6b5aeebffeda98c444053ccacb6f2fff",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "zone"
+  },
+  "C23:écrit:œj:œj": {
+    "file": "curriculum-c3/C23-ecrit-j-j-62610602.mp3",
+    "phonemes": "œj",
+    "review": "pending_human_review",
+    "sha256": "34d598a9f99f571cb82d46a068c869a714fe43defe8b54bb2aec73b8b2609391",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "œj"
+  },
+  "C23:écrit:ɑ̃:an": {
+    "file": "curriculum-c3/C23-ecrit--an-6084e6a7.mp3",
+    "phonemes": "ɑ̃",
+    "review": "pending_human_review",
+    "sha256": "f7c946b0feff5bdde66149a116256fffc3e56ed84f4c5dd5930801daee3f1590",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "an"
+  },
+  "C23:écrit:ɑ̃:en": {
+    "file": "curriculum-c3/C23-ecrit--en-eff88c6b.mp3",
+    "phonemes": "ɑ̃",
+    "review": "pending_human_review",
+    "sha256": "771b5e9da7f8966006e9aec8a5530ef0924aecc477f0771e46786da137bab2c4",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "en"
+  },
+  "C23:écrit:ɛj:ɛj": {
+    "file": "curriculum-c3/C23-ecrit-j-j-232fa821.mp3",
+    "phonemes": "ɛj",
+    "review": "pending_human_review",
+    "sha256": "71a601da1f89cbd82ea07d48ddf5cc9a8830828684e0b7a29f0d14a94006aecd",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "ɛj"
+  },
+  "C23:écrit:ɡe:gué": {
+    "file": "curriculum-c3/C23-ecrit-e-gue-12469b14.mp3",
+    "phonemes": "ɡe",
+    "review": "pending_human_review",
+    "sha256": "0cc8e276215ad20de62a5761ea3f745da8fdb70ba97cc50a9a19732111905836",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "gué"
+  },
+  "C23:écrit:ɡid:guide": {
+    "file": "curriculum-c3/C23-ecrit-id-guide-f694424c.mp3",
+    "phonemes": "ɡid",
+    "review": "pending_human_review",
+    "sha256": "aa09f1188c2d6645c165625d85267c6d4d50fdb7976b29e550907c27668eefef",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "guide"
+  },
+  "C23:écrit:ɡimov:guimauve": {
+    "file": "curriculum-c3/C23-ecrit-imov-guimauve-8810a798.mp3",
+    "phonemes": "ɡimov",
+    "review": "pending_human_review",
+    "sha256": "8bcd88552fdcc6c4ffe6856d7a34f7565cfc024a97af2cdad2a906a63d4770f5",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "guimauve"
+  },
+  "C23:écrit:ɡitaʁ:guitare": {
+    "file": "curriculum-c3/C23-ecrit-ita-guitare-ba78c915.mp3",
+    "phonemes": "ɡitaʁ",
+    "review": "pending_human_review",
+    "sha256": "d512d7b464c37e3d5018465b3f2e91277be3eea8c86b7b9aec2f5985a4e60d93",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "guitare"
+  },
+  "C23:écrit:ɡɛp:guêpe": {
+    "file": "curriculum-c3/C23-ecrit-p-guepe-61cb5895.mp3",
+    "phonemes": "ɡɛp",
+    "review": "pending_human_review",
+    "sha256": "a8d0f8c507d40ba650468e5f995ca5c8b4b55261576db7b1c9ebcf694f6a6796",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "guêpe"
+  },
+  "C23:écrit:ɲa:gna": {
+    "file": "curriculum-c3/C23-ecrit-a-gna-2df1e7ec.mp3",
+    "phonemes": "ɲa",
+    "review": "pending_human_review",
+    "sha256": "6a8474acfc6bd9592756cd3b424e339a3adc147b3b86d2c7187b31ea1b1b4e82",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "gna"
+  },
+  "C23:écrit:ɲi:gni": {
+    "file": "curriculum-c3/C23-ecrit-i-gni-d6425fc9.mp3",
+    "phonemes": "ɲi",
+    "review": "pending_human_review",
+    "sha256": "742640b4ff675922d583611ce6d3c2d071d2a51378385644ee52838240dd9d06",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "gni"
+  },
+  "C23:écrit:ɲo:gno": {
+    "file": "curriculum-c3/C23-ecrit-o-gno-3c364a14.mp3",
+    "phonemes": "ɲo",
+    "review": "pending_human_review",
+    "sha256": "d60a79d4ea63b54ed92f8549bcaef257fe3f547e3fcae8e7f7a132570ba9de3e",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "gno"
+  },
+  "C23:écrit:ɲu:gnou": {
+    "file": "curriculum-c3/C23-ecrit-u-gnou-d49f8648.mp3",
+    "phonemes": "ɲu",
+    "review": "pending_human_review",
+    "sha256": "a9a70ca6426d84bb6b92a08be89f8592abfadc6abad0337b05bbb1db583ba8e3",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "gnou"
+  },
+  "C23:écrit:ɲə:gne": {
+    "file": "curriculum-c3/C23-ecrit--gne-4902dc14.mp3",
+    "phonemes": "ɲə",
+    "review": "pending_human_review",
+    "sha256": "55043eab090e9c92683453e7ebee77639ed8d19e5191b566887c7ff136ab3255",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "gne"
+  },
+  "C23:écrit:ʁaj:rail": {
+    "file": "curriculum-c3/C23-ecrit-aj-rail-552160d8.mp3",
+    "phonemes": "ʁaj",
+    "review": "pending_human_review",
+    "sha256": "ef16416a074750999eb5d53cedf6f45c72010e1e49858236f82d25a66a01eadb",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "rail"
+  },
+  "C23:écrit:ʁevɛj:réveil": {
+    "file": "curriculum-c3/C23-ecrit-evj-reveil-e6525fee.mp3",
+    "phonemes": "ʁevɛj",
+    "review": "pending_human_review",
+    "sha256": "eb1d583fa231d2fabb1fa22938a6294539855ccbc66fecaf8b1e2f41d84dc824",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "réveil"
+  },
+  "C23:écrit:ʁoz:rose": {
+    "file": "curriculum-c3/C23-ecrit-oz-rose-7504d405.mp3",
+    "phonemes": "ʁoz",
+    "review": "pending_human_review",
+    "sha256": "0a54fe90707d34bdc08b7b08795a4b65c502a668e7956e86b0206234d22532f4",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "rose"
+  },
+  "C23:écrit:ʁwa:roi": {
+    "file": "curriculum-c3/C23-ecrit-wa-roi-f20d0dd3.mp3",
+    "phonemes": "ʁwa",
+    "review": "pending_human_review",
+    "sha256": "6f66e79612b0ab1bd11b132fa519124a363d2639114a0ddd938bcf06eab407be",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "roi"
+  },
+  "C23:écrit:ʁybɑ̃:ruban": {
+    "file": "curriculum-c3/C23-ecrit-yb-ruban-06d7997f.mp3",
+    "phonemes": "ʁybɑ̃",
+    "review": "pending_human_review",
+    "sha256": "ef366cb2e0f326e550c3801949edbe1ffb9fa7e0fe206ee124228b21a522fbce",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "ruban"
+  },
+  "C23:écrit:ʁɑ̃:ran": {
+    "file": "curriculum-c3/C23-ecrit--ran-694ce32d.mp3",
+    "phonemes": "ʁɑ̃",
+    "review": "pending_human_review",
+    "sha256": "ac0bd812e6b38a9f5520c2584fec50662fbd5a81ae1089e58478def833974915",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "ran"
+  },
+  "C23:écrit:ʁɔ̃:ron": {
+    "file": "curriculum-c3/C23-ecrit--ron-753ec737.mp3",
+    "phonemes": "ʁɔ̃",
+    "review": "pending_human_review",
+    "sha256": "34b27eb74cbe386c0821ea98c8c52d79473eba7baa6f8f21128e53d2b56e64a7",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "ron"
+  },
+  "C23:écrit:ʁɛn:reine": {
+    "file": "curriculum-c3/C23-ecrit-n-reine-e4243cb7.mp3",
+    "phonemes": "ʁɛn",
+    "review": "pending_human_review",
+    "sha256": "85efd7cbe7605b4399d3e47929ebbcabdc763e02bb8ebb5b44ca5c01dcfde66b",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "reine"
+  },
+  "C23:écrit:ʁɛ̃:rein": {
+    "file": "curriculum-c3/C23-ecrit--rein-f692a3ce.mp3",
+    "phonemes": "ʁɛ̃",
+    "review": "pending_human_review",
+    "sha256": "1fa9d4d3f89672b4b521eb5d5c97d092f2c2ca491243ee37c7e99391c986ff28",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "rein"
+  },
+  "C23:écrit:ʃe:chez": {
+    "file": "curriculum-c3/C23-ecrit-e-chez-19690eef.mp3",
+    "phonemes": "ʃe",
+    "review": "pending_human_review",
+    "sha256": "4d5f5a85fea3da3f819209b7f2a3f26cd3e34dec66c41ece9ac498382f41e6bb",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "chez"
+  },
+  "C23:écrit:ʒeni:génie": {
+    "file": "curriculum-c3/C23-ecrit-eni-genie-414bd1af.mp3",
+    "phonemes": "ʒeni",
+    "review": "pending_human_review",
+    "sha256": "1084d343b36f4d3cf056bf0b572a39ae18170f50bfeaa312ba585d54176d46fc",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "génie"
+  },
+  "C23:écrit:ʒiʁaf:girafe": {
+    "file": "curriculum-c3/C23-ecrit-iaf-girafe-e1493e12.mp3",
+    "phonemes": "ʒiʁaf",
+    "review": "pending_human_review",
+    "sha256": "48862419cf427af0ef6bdad4e59fb5a8c8d9311971f065d8c889dfec65b6d719",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "girafe"
+  },
+  "C23:écrit:ʒue:jouer": {
+    "file": "curriculum-c3/C23-ecrit-ue-jouer-d89d5108.mp3",
+    "phonemes": "ʒue",
+    "review": "pending_human_review",
+    "sha256": "eed5bf0be35c55b7b5a916bcb70b7865d72ca0136f858eed3f301818f2f1303a",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "jouer"
+  },
+  "C23:écrit:ʒəle:gelé": {
+    "file": "curriculum-c3/C23-ecrit-le-gele-a383285b.mp3",
+    "phonemes": "ʒəle",
+    "review": "pending_human_review",
+    "sha256": "b1f6eb43c36d163966b11fda86051b9ab9aceed0ef1d22bc79e60918f77014a2",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "gelé"
+  },
+  "C23:écrit:ʒɛl:gel": {
+    "file": "curriculum-c3/C23-ecrit-l-gel-04ae4ce2.mp3",
+    "phonemes": "ʒɛl",
+    "review": "pending_human_review",
+    "sha256": "5310da86abb315df539555aad566429f515775bdeb62d2e61c138172cc0478ed",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "gel"
+  },
+  "C23:écrit:ʒɛl:gèle": {
+    "file": "curriculum-c3/C23-ecrit-l-gele-d62dfc9e.mp3",
+    "phonemes": "ʒɛl",
+    "review": "pending_human_review",
+    "sha256": "d0323a5da1aef5930e0f4a11fb2445679438bc03adb7a5d979698530d9d42e64",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "gèle"
+  },
+  "C23:écrit:ʒɛn:gêne": {
+    "file": "curriculum-c3/C23-ecrit-n-gene-0752f2b2.mp3",
+    "phonemes": "ʒɛn",
+    "review": "pending_human_review",
+    "sha256": "3225b22239ea5ef7807175d53c555d6f2b9a7264ec702b319c370f44e0fa4188",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "gêne"
+  },
+  "C3:consigne:Assemble les graphèmes et choisis la syllabe que tu obtiens.": {
+    "file": "curriculum-c3/C3-consigne-Assemble-les-graphemes-et-choisis-la-syllabe-que-tu-obtien-e2f3ac43.mp3",
+    "phonemes": "asˈɑ̃bl le- ɡʁafˈɛmz e ʃwazˈi la- silˈab kə ty ɔbtjˈɛ̃.",
+    "review": "pending_human_review",
+    "sha256": "20818c762a9fe74f09ece904c725d719e8aa208fa07bae4f2273347f45cea2cd",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "Assemble les graphèmes et choisis la syllabe que tu obtiens."
+  },
+  "C3:consigne:Assemble les parties et choisis le mot que tu obtiens.": {
+    "file": "curriculum-c3/C3-consigne-Assemble-les-parties-et-choisis-le-mot-que-tu-obtiens--4e5015e7.mp3",
+    "phonemes": "asˈɑ̃bl le- paʁtˈiz e ʃwazˈi lə- mˈo kə ty ɔbtjˈɛ̃.",
+    "review": "pending_human_review",
+    "sha256": "54ac05bc8eb7e888f66f864ec686449d30432e6edaefc3a032a7f6b92ac28a99",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "Assemble les parties et choisis le mot que tu obtiens."
+  },
+  "C3:consigne:Dans le mot, repère le groupe de lettres étudié.": {
+    "file": "curriculum-c3/C3-consigne-Dans-le-mot--repere-le-groupe-de-lettres-etudie--1af719e4.mp3",
+    "phonemes": "dɑ̃ lə- mˈo, ʁəpˈɛʁ lə- ɡʁˈup də- lˈɛtʁz etydjˈe.",
+    "review": "pending_human_review",
+    "sha256": "3437c2be295e51432c530958e43fe66d3af5657b94232da56acc852545a0206f",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "Dans le mot, repère le groupe de lettres étudié."
+  },
+  "C3:consigne:Lis ce mot inventé, puis choisis ce que tu as lu.": {
+    "file": "curriculum-c3/C3-consigne-Lis-ce-mot-invente--puis-choisis-ce-que-tu-as-lu--2e400631.mp3",
+    "phonemes": "lˈi sə- mˈo ɛ̃vɑ̃tˈe, pyˈi ʃwazˈi sə- kə ty a lˈy.",
+    "review": "pending_human_review",
+    "sha256": "5781e534156c39001545d9efe098d78d396a66fd76a0752963f7c6b2d551ff54",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "Lis ce mot inventé, puis choisis ce que tu as lu."
+  },
+  "C3:consigne:Lis la forme écrite, puis choisis ce que tu as lu.": {
+    "file": "curriculum-c3/C3-consigne-Lis-la-forme-ecrite--puis-choisis-ce-que-tu-as-lu--a4df44ec.mp3",
+    "phonemes": "lˈi la- fˈɔʁm ekʁˈit, pyˈi ʃwazˈi sə- kə ty a lˈy.",
+    "review": "pending_human_review",
+    "sha256": "d7bc354545f5944b0c98933b8629015978779c50705ddd8322ff5eb5a17bc8de",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "Lis la forme écrite, puis choisis ce que tu as lu."
+  },
+  "C3:consigne:Regarde le graphème, puis choisis le son qui correspond.": {
+    "file": "curriculum-c3/C3-consigne-Regarde-le-grapheme--puis-choisis-le-son-qui-correspond--06a4ec9d.mp3",
+    "phonemes": "ʁəɡˈaʁd lə- ɡʁafˈɛm, pyˈi ʃwazˈi lə- sˈɔ̃ ki koʁɛspˈɔ̃.",
+    "review": "pending_human_review",
+    "sha256": "9bb32d08c0ef3d1564db41ea43e6678dc68730d15de2399779478812b737c326",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "Regarde le graphème, puis choisis le son qui correspond."
+  },
+  "C3:consigne:Regarde les lettres voisines et choisis le son du groupe encadré.": {
+    "file": "curriculum-c3/C3-consigne-Regarde-les-lettres-voisines-et-choisis-le-son-du-groupe-e-5f11afbb.mp3",
+    "phonemes": "ʁəɡˈaʁd le- lˈɛtʁ vwazˈinz e ʃwazˈi lə- sˈɔ̃ dy- ɡʁˈup ɑ̃kadʁˈe.",
+    "review": "pending_human_review",
+    "sha256": "0963c9d3185769c3749a74e99c991a1c7a82dcc67dccaa72566ba7548761f296",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "Regarde les lettres voisines et choisis le son du groupe encadré."
+  },
+  "C3:consigne:Écoute le mot et repère le son. Choisis le graphème qui lui correspond.": {
+    "file": "curriculum-c3/C3-consigne-Ecoute-le-mot-et-repere-le-son--Choisis-le-grapheme-qui-lu-125d98c8.mp3",
+    "phonemes": "ekˈut lə- mˈo e ʁəpˈɛʁ lə- sˈɔ̃. ʃwazˈi lə- ɡʁafˈɛm ki lyˌi koʁɛspˈɔ̃.",
+    "review": "pending_human_review",
+    "sha256": "988608da79d71438378d362afaccdc9ed16b4d58f0af7f1ff0469de73cc7e96c",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "Écoute le mot et repère le son. Choisis le graphème qui lui correspond."
+  },
+  "C3:consigne:Écoute le mot. Lequel de ces sons entends-tu ?": {
+    "file": "curriculum-c3/C3-consigne-Ecoute-le-mot--Lequel-de-ces-sons-entends-tu---8b6fe4b9.mp3",
+    "phonemes": "ekˈut lə- mˈo. ləkˈɛl də- se sˈɔ̃z ɑ̃tˈɑ̃tˈy?",
+    "review": "pending_human_review",
+    "sha256": "71b4331c11fa36307a7e2cc871e1b75e6b9399b3fc3941b034c72d5718269bda",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "Écoute le mot. Lequel de ces sons entends-tu ?"
+  }
+}

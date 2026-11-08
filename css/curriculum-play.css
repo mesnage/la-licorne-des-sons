@@ -1,0 +1,60 @@
+[hidden] { display:none !important; }
+.pilot-main { max-width:780px; }
+.pilot-main h1 { font-size:clamp(1.75rem,5vw,2.65rem); }
+.pilot-world {
+  position:relative;
+  width:100%;
+  height:clamp(140px,25vh,245px);
+  overflow:hidden;
+  border:1px solid #e4d6e5;
+  border-radius:20px;
+  background:center/cover url('../assets/storybook/prairie-cotiere.jpg');
+}
+.pilot-world canvas { display:block; }
+.pilot-progress { margin:10px 0; }
+.pilot-progress label { display:flex; justify-content:space-between; gap:12px; }
+.pilot-progress progress { width:100%; accent-color:#567e6a; }
+.pilot-panel { margin-top:10px; }
+.pilot-panel h2 { font-size:clamp(1.3rem,4vw,1.9rem); }
+.pilot-panel p { margin:8px 0 12px; }
+.pilot-button {
+  min-height:44px;
+  padding:8px 14px;
+  border:1px solid #b89cc5;
+  border-radius:12px;
+  color:#483450;
+  background:#f3e9fa;
+  font:inherit;
+  font-weight:650;
+}
+.pilot-button:focus-visible { outline:3px solid #8760a6; outline-offset:3px; }
+.pilot-button:disabled { cursor:default; opacity:.6; }
+.pilot-primary { color:#fff; background:#6e487c; border-color:#6e487c; }
+.pilot-row { display:flex; flex-wrap:wrap; gap:8px; align-items:center; margin:8px 0; }
+.pilot-listen { display:inline-flex; align-items:center; gap:6px; }
+.pilot-listen svg { width:23px; height:23px; }
+.pilot-counts { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:7px; margin-top:12px; }
+.pilot-counts button { padding-inline:4px; min-height:54px; font-size:1.3rem; }
+.pilot-marks { min-width:4ch; color:#563c66; font-size:1.2rem; letter-spacing:.12em; }
+.pilot-match { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:10px; margin-top:12px; }
+.pilot-match div { display:grid; gap:6px; }
+.pilot-match .pilot-button { padding-inline:5px; }
+.pilot-match .pilot-listen { justify-content:center; }
+.pilot-feedback { color:#4c3b54; font-weight:650; }
+.pilot-audio-status { color:#783e50; }
+.pilot-panel p:empty { margin:0; }
+.pilot-dialog { width:min(360px,calc(100% - 28px)); color:inherit; }
+.pilot-dialog::backdrop { background:#392d4866; }
+.pilot-castle-art { display:block; width:86px; height:86px; object-fit:contain; }
+.pilot-world-static canvas { visibility:hidden; }
+
+.pilot-glyph { font-size:clamp(2rem,10vw,4rem); text-align:center; letter-spacing:.06em; }
+.pilot-script { font-family:"Comic Sans MS","Chalkboard SE",cursive; }
+#pilotActions { display:flex; flex-wrap:wrap; gap:8px; }
+#pilotActions .curriculum-play-link { margin-top:0; }
+
+.pilot-text { font-size:clamp(1.2rem,4vw,1.7rem); line-height:1.55; }
+.pilot-reading-question { font-weight:650; }
+.pilot-tile-tray { min-height:52px; padding:6px; border:1px dashed #b89cc5; border-radius:12px; }
+.pilot-scene-options { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:8px; margin-top:12px; }
+.pilot-scene-options .pilot-button { min-height:64px; font-size:clamp(1.2rem,5vw,1.85rem); }
