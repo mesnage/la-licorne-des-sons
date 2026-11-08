@@ -15,7 +15,7 @@ export const codeUnits = {
   'C2-U11': ['k','qu','t','qui/quatre/kilo/kaki/karaté','qu i/qu e/qu a/qu o/k i','qu i/qu e/k i l o/k a r a t é/k a k i'],
   'C2-U12': ['ɡ','g','c','gare/gomme/goût/gant/guitare','g:ɡ a/g:ɡ o/g:ɡ u/g:ɡ ou/g:ɡ r a','g:ɡ a l a/g:ɡ a r e:-/g:ɡ a l e:-/g:ɡ ou r d e:-/g:ɡ r a d e:-'],
   'C2-U13': ['ɔ','o','a','bol/moto/vol/auto/porte','f i l/b o:ɔ l/s o:ɔ l/v o:ɔ l/m u r','r o:ɔ b e:-/p o:ɔ r t e:-/d o:ɔ r m e:-/n o:ɔ t e:-/v o:ɔ t e:-'],
-  'C2-U14': ['a','a','i','avion/image/été/eau/lune','b i/m a l/d u r/p a/t ou r','p a t e:-/l a m e:-/p a r l e:-/p a r c:k/l i v r e:-','t a l/v i p/m u f/n a v/r ou m'],
+  'C2-U14': ['a','a','i','avion/image/été/eau/lune','b i/m a l/d u r/p a/t ou r','t a r t e:-/l a m e:-/p a r l e:-/p a r c:k/l i v r e:-','t a l/v i p/m u f/n a v/r ou m'],
   'C3-U01': ['ɔ̃','on','o','bon/mon/son/rond/pont','b on/m on/s on/r on/p on','b on/m on/s on/d on/n on'],
   'C3-U02': ['ɑ̃','an','on','an/en/maman/panda/ruban','m an/p an/r an/v en/d en','an/en/m a m an/p an d a/r u b an'],
   'C3-U03': ['ɛ̃','in','an','pin/pain/main/plein/rein','in/ain/ein/IN/AIN','p in/m ain/p l ein/r ein/f ain'],

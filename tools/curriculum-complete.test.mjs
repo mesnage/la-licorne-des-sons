@@ -4,7 +4,7 @@ import { readFileSync } from 'node:fs';
 import { test } from 'node:test';
 import { URL } from 'node:url';
 import { createCurriculum } from '../js/learning/curriculum.js';
-import { createUnitQuestions, curriculumAudioSources } from '../js/learning/curriculum-questions.js';
+import { createSourceQuestions, curriculumAudioSources } from '../js/learning/curriculum-questions.js';
 import { parseCodeForm } from '../js/learning/curriculum-code.js';
 import { createPilotSession, newPilotState, restorePilotState } from '../js/learning/pilot-session.js';
 
@@ -12,7 +12,7 @@ const read = path => JSON.parse(readFileSync(new URL(path, import.meta.url), 'ut
 const curriculum = createCurriculum(read('../js/data/curriculum.v2.json'));
 const legacy = read('../audio/manifest.json');
 
-test('the four chapters resolve 1,120 questions and all generated recordings match their manifests', () => {
+test('the source corpus resolves 1,120 questions and all generated recordings match their manifests', () => {
   const ids = new Set();
   const completed = new Set();
   for (const chapter of curriculum.chapters) {
@@ -30,7 +30,7 @@ test('the four chapters resolve 1,120 questions and all generated recordings mat
     }
     for (const unit of chapter.units) {
       assert.equal(curriculum.getUnitStatus(unit.id, completed), 'available');
-      const questions = createUnitQuestions(chapter, unit, { ...legacy, ...files }, 0);
+      const questions = createSourceQuestions(chapter, unit, { ...legacy, ...files }, 0);
       const session = createPilotSession(questions, newPilotState(0));
       assert.equal(questions.length, 20);
       for (const block of unit.blocks) {

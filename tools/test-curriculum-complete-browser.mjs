@@ -4,7 +4,7 @@ import { createRequire } from 'node:module';
 import { readFileSync } from 'node:fs';
 import { URL } from 'node:url';
 import { createCurriculum } from '../js/learning/curriculum.js';
-import { createUnitQuestions } from '../js/learning/curriculum-questions.js';
+import { createSimpleQuestions } from '../js/learning/curriculum-simple.js';
 import { chapterPlayUrl } from '../js/learning/chapter-one.js';
 import { unitProgressKey } from '../js/learning/pilot-session.js';
 
@@ -32,10 +32,12 @@ try {
     for (const key of chapterKeys) {
       if (!localStorage.getItem(key)) {
         localStorage.setItem(key, JSON.stringify({
-          version: 1, completed: false, session: { seed: 0, cursor: 0, answers: [], wrong: 0, marks: 0 }
+          version: 2, completed: false, session: { seed: 0, cursor: 0, answers: [], wrong: 0, marks: 0 }
         }));
       }
     }
+    const wait = window.setTimeout.bind(window);
+    window.setTimeout = (callback, delay, ...args) => wait(callback, delay === 650 ? 25 : delay, ...args);
     const start = window.AudioBufferSourceNode.prototype.start;
     window.AudioBufferSourceNode.prototype.start = function (...args) {
       this.playbackRate.value = 12;
@@ -54,7 +56,7 @@ try {
     await page.locator('#pilotUnitName').filter({ hasText: unit.title }).waitFor();
     await controls.getByRole('button', { name: 'Écouter la consigne' }).click();
     await page.locator('#pilotControls[aria-busy="false"]').waitFor();
-    const questions = createUnitQuestions(chapter, unit, null, 0);
+    const questions = createSimpleQuestions(chapter, unit, null, 0);
     for (const [index, question] of questions.entries()) {
       await page.evaluate(async ({ item, count }) => {
         const controls = document.getElementById('pilotControls');
@@ -79,29 +81,22 @@ try {
           if (document.getElementById('pilotAudioStatus').textContent) throw new Error(item.id + ' · audio ' + label);
         };
         await wait(() => displayed.textContent.includes('Question ' + (item.position + 1) + ' sur 5'), 'question');
-        if (item.readFirst) {
-          if (controls.querySelector('.pilot-match')) throw new Error('Audio affiché avant lecture ' + item.id);
-          await press('J’ai lu, écouter les options');
-        }
-        if (item.reference) await hear('Écouter le son');
         if (item.prompt) {
-          const label = item.type === 'story_listen_question' ? 'Écouter le récit'
-            : ['oral_sentence','sentence_order','oral_vocabulary'].includes(item.type) ? 'Écouter la phrase' : 'Écouter le mot';
-          await hear(label);
+          const promptLabels = {
+            oral_count: 'Écouter le mot', sound_to_grapheme: 'Écouter le son',
+            oral_vocabulary: 'Écouter la phrase', story_listen_question: 'Écouter l’histoire'
+          };
+          await hear(promptLabels[item.type]);
         }
         if (item.choices.length) {
-          await hear('Écouter 1');
-          await hear('Écouter 2');
-          await press('Choisir ' + (item.answer + 1));
-        } else if (item.order) {
-          for (const word of item.order) await press(word, controls.querySelector('.pilot-row:last-of-type'));
-          await press('Vérifier');
+          if ([...controls.querySelectorAll('button')].filter(button => /^Choix [12]$/.test(button.textContent.trim()))
+              .some(button => !button.disabled)) throw new Error('Choix activé avant écoute ' + item.id);
+          await hear('Écouter les deux choix');
+          await press('Choix ' + (item.answer + 1));
         } else if (item.labels) {
           await press(item.labels[item.answer]);
-        } else if (item.type === 'oral_segment') {
-          for (let marks = 0; marks < item.answer; marks++) await press('Ajouter un point');
-          await press('Vérifier');
         } else {
+          if (controls.querySelectorAll('.pilot-counts button').length !== 2) throw new Error(item.id + ' · deux choix attendus');
           await press(String(item.answer));
         }
         await wait(() => document.getElementById('pilotCrystals').value === count, 'cristal');

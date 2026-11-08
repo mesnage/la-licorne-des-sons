@@ -1,12 +1,12 @@
+import { simpleExercise } from '../data/curriculum-simple.js';
 import { illustration } from '../illustrations.js';
 import { createCurriculum } from '../learning/curriculum.js';
 import { chapterPlayUrl } from '../learning/chapter-one.js';
-import { pilotProgressKey, pilotQuestionCount, readPilotProgress } from '../learning/pilot-session.js';
+import { pilotProgressKey, pilotQuestionCount, readPilotProgress, restoreProgrammeState } from '../learning/pilot-session.js';
 import { WORLDS, worldPanorama } from './model.js';
 
 const content = document.getElementById('curriculumContent');
 const statusLabels = { completed: 'Terminée', available: 'Prochaine étape', upcoming: 'À venir' };
-const blockIcons = ['sound', 'letters', 'gem', 'book'];
 
 function element(tag, className, text = '') {
   const node = document.createElement(tag);
@@ -73,17 +73,15 @@ function unitDetail(unit, status, pilot) {
   const heading = element('h2', '', unit.title);
   heading.id = 'curriculumUnitTitle';
   detail.setAttribute('aria-labelledby', heading.id);
+  const exercise = simpleExercise(unit);
   const blocks = element('ol', 'curriculum-blocks');
   for (const block of unit.blocks) {
     const item = element('li', 'curriculum-block');
     item.dataset.blockId = block.id;
     const icon = element('span', 'curriculum-block-icon');
-    icon.innerHTML = illustration(blockIcons[block.position - 1]);
+    icon.innerHTML = illustration(exercise.icon);
     const copy = element('div', '');
-    copy.append(
-      element('small', 'curriculum-label', 'Bloc ' + block.position + ' · ' + block.questionCount + ' questions'),
-      element('p', '', block.goal)
-    );
+    copy.append(element('small', 'curriculum-label', 'Bloc ' + block.position + ' · ' + block.questionCount + ' questions'));
     item.append(icon, copy);
     blocks.append(item);
   }
@@ -93,6 +91,8 @@ function unitDetail(unit, status, pilot) {
     link('#' + unit.chapterId, '← Les unités', 'curriculum-link curriculum-unit-back'),
     element('p', 'curriculum-label', 'Unité ' + unit.position + ' · ' + statusLabels[status]),
     heading,
+    element('p', '', exercise.instruction),
+    element('p', '', 'Même exercice pendant les quatre blocs.'),
     blocks,
     castle
   );
@@ -100,7 +100,8 @@ function unitDetail(unit, status, pilot) {
   if (status === 'upcoming') {
     detail.append(element('p', '', 'Termine l’unité précédente pour jouer à celle-ci.'));
   } else {
-    const label = progress?.session && progress.session.cursor < pilotQuestionCount
+    const active = restoreProgrammeState(progress, pilotQuestionCount);
+    const label = active && active.cursor < pilotQuestionCount
       ? 'Reprendre l’unité' : progress?.completed ? 'Voir le château' : 'Jouer cette unité';
     detail.append(link(chapterPlayUrl(unit.id), label, 'curriculum-link curriculum-play-link'));
   }

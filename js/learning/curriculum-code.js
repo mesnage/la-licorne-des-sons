@@ -94,10 +94,11 @@ function otherGrapheme(form, target, backup) {
 }
 
 export function createCodeQuestions(unit, seed) {
-  const [focus, graph, alternative, oral, training, transfer] = codeUnits[unit.id];
+  const [focus, graph, alternative, oral, training, transfer, pseudowords] = codeUnits[unit.id];
   const words = oral.split('/');
   const forms = training.split('/').map(row => parseCodeForm(row.toLowerCase(), unit.id));
   const reads = transfer.split('/').map(row => parseCodeForm(row, unit.id));
+  const pseudo = pseudowords?.split('/').map(row => parseCodeForm(row, unit.id));
   return unit.blocks.flatMap((block, blockIndex) => {
     const type = block.exerciseType;
     if ([words, forms, reads].some(pool => pool.length !== block.questionCount)) throw new Error(block.id);
@@ -176,7 +177,8 @@ export function createCodeQuestions(unit, seed) {
         case 'decode_word_audio':
         case 'decode_pseudoword_audio': {
           const reading = type.startsWith('decode_');
-          const pool = reading ? (unit.id === 'C2-U14' && blockIndex === 2 || unit.id === 'C2-U02' ? forms : reads) : forms;
+          const pool = type === 'decode_pseudoword_audio' && pseudo ? pseudo
+            : reading && unit.id !== 'C2-U02' ? reads : forms;
           const answer = pool[position];
           const distractor = pool.find((candidate, index) => index > position && candidate.ipa !== answer.ipa) ??
             pool.find(candidate => candidate.ipa !== answer.ipa);

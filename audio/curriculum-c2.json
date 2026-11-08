@@ -959,6 +959,14 @@
     "speaker": "piper-fr_FR-siwis-medium",
     "text": "mu"
   },
+  "C23:écrit:myf:muf": {
+    "file": "curriculum-c2/C23-ecrit-myf-muf-300cfa40.mp3",
+    "phonemes": "myf",
+    "review": "pending_human_review",
+    "sha256": "74418732bb8d199a1ae75914eabf0ae3b2b1c7f7529d2b98ee66782525b99c5d",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "muf"
+  },
   "C23:écrit:myl:mule": {
     "file": "curriculum-c2/C23-ecrit-myl-mule-ae7b51a3.mp3",
     "phonemes": "myl",
@@ -990,6 +998,14 @@
     "sha256": "0744cad7e306a0394026d0793fe0f4af02e6a0c044cb0f27b2d95c01fb90afb7",
     "speaker": "piper-fr_FR-siwis-medium",
     "text": "nana"
+  },
+  "C23:écrit:nav:nav": {
+    "file": "curriculum-c2/C23-ecrit-nav-nav-0da67a39.mp3",
+    "phonemes": "nav",
+    "review": "pending_human_review",
+    "sha256": "83a02977eee80e66d9fe15c999e1820ac3aa0f8f7996dac32ed0e440bb807313",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "nav"
   },
   "C23:écrit:ne:né": {
     "file": "curriculum-c2/C23-ecrit-ne-ne-0802c2fc.mp3",
@@ -1070,14 +1086,6 @@
     "sha256": "6a2f898506aaa4a60f306e8a1f660a4f0af15f288b583d5472ced65a590d1e17",
     "speaker": "piper-fr_FR-siwis-medium",
     "text": "papi"
-  },
-  "C23:écrit:pat:pate": {
-    "file": "curriculum-c2/C23-ecrit-pat-pate-13617be6.mp3",
-    "phonemes": "pat",
-    "review": "pending_human_review",
-    "sha256": "67e7784cbe0e73a28ce9f6e2902dec8ccb22d8eb92a6f951d2d4200c1bac9338",
-    "speaker": "piper-fr_FR-siwis-medium",
-    "text": "pate"
   },
   "C23:écrit:paʁk:parc": {
     "file": "curriculum-c2/C23-ecrit-pak-parc-75295149.mp3",
@@ -1199,6 +1207,14 @@
     "speaker": "piper-fr_FR-siwis-medium",
     "text": "ta"
   },
+  "C23:écrit:tal:tal": {
+    "file": "curriculum-c2/C23-ecrit-tal-tal-2b08bcc9.mp3",
+    "phonemes": "tal",
+    "review": "pending_human_review",
+    "sha256": "c904371b7573edf696256d9df8e72182d64f0eca203c806daa254af147e22ae4",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "tal"
+  },
   "C23:écrit:tapi:tapi": {
     "file": "curriculum-c2/C23-ecrit-tapi-tapi-c0f4521d.mp3",
     "phonemes": "tapi",
@@ -1214,6 +1230,14 @@
     "sha256": "05acd245111ed0d3f83c3684d16ea6bec9165eea28c2f48bb4743e6338b20ed6",
     "speaker": "piper-fr_FR-siwis-medium",
     "text": "tata"
+  },
+  "C23:écrit:taʁt:tarte": {
+    "file": "curriculum-c2/C23-ecrit-tat-tarte-521744b3.mp3",
+    "phonemes": "taʁt",
+    "review": "pending_human_review",
+    "sha256": "5ba94d7ca0ac18d11ec893dbdde0766cef512abe6e8618e16ef12ee120203cc9",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "tarte"
   },
   "C23:écrit:te:té": {
     "file": "curriculum-c2/C23-ecrit-te-te-b3072468.mp3",
@@ -1278,6 +1302,14 @@
     "sha256": "54e7fa823497ec389a29a383755f7692d06c96764c35a1ddb57be0278aa2a7be",
     "speaker": "piper-fr_FR-siwis-medium",
     "text": "vie"
+  },
+  "C23:écrit:vip:vip": {
+    "file": "curriculum-c2/C23-ecrit-vip-vip-e6d327a0.mp3",
+    "phonemes": "vip",
+    "review": "pending_human_review",
+    "sha256": "697d74778e66b61518a37782a7fb3741ee365f9ebb8b65b8a4a981bb6efe809b",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "vip"
   },
   "C23:écrit:viv:vive": {
     "file": "curriculum-c2/C23-ecrit-viv-vive-bce5c38c.mp3",
@@ -1390,6 +1422,14 @@
     "sha256": "efe2a775c9abec917d0bbbcff0ddd3956bb9cf4eab7fc58f741e2db01234c697",
     "speaker": "piper-fr_FR-siwis-medium",
     "text": "grade"
+  },
+  "C23:écrit:ʁum:roum": {
+    "file": "curriculum-c2/C23-ecrit-um-roum-3ef69dbd.mp3",
+    "phonemes": "ʁum",
+    "review": "pending_human_review",
+    "sha256": "9c00c2cac153597c49f7ae8ed44aaf659c15a8b699ddb9c145aa7381730fad69",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "roum"
   },
   "C23:écrit:ʁø:reu": {
     "file": "curriculum-c2/C23-ecrit--reu-d902a5ba.mp3",

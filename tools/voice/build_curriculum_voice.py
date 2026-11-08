@@ -14,13 +14,21 @@ PROGRAM = """
 import {readFileSync} from 'node:fs';
 import {createCurriculum} from './js/learning/curriculum.js';
 import {curriculumAudioSources} from './js/learning/curriculum-questions.js';
+import {simpleExercise, simpleInstructionKey} from './js/data/curriculum-simple.js';
 const curriculum = createCurriculum(JSON.parse(readFileSync('js/data/curriculum.v2.json')));
-console.log(JSON.stringify(curriculumAudioSources(curriculum.getChapter(process.argv[1]))));
+const selection = process.argv[1];
+const sources = selection === 'simple'
+    ? Object.fromEntries(curriculum.chapters.flatMap(chapter => chapter.units).map(unit => {
+        const text = simpleExercise(unit).instruction;
+        return [simpleInstructionKey(text), { text }];
+    }))
+    : curriculumAudioSources(curriculum.getChapter(selection));
+console.log(JSON.stringify(sources));
 """
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('chapter', nargs='?', default='C1', choices=['C1', 'C2', 'C3', 'C4'])
+    parser.add_argument('chapter', nargs='?', default='C1', choices=['C1', 'C2', 'C3', 'C4', 'simple'])
     chapter = parser.parse_args().chapter
     sources = json.loads(subprocess.check_output(
         ['node', '--input-type=module', '-e', PROGRAM, chapter], cwd=ROOT, text=True))

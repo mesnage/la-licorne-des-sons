@@ -24,7 +24,7 @@ npm run dev                 # avec Node.js, puis ouvrir http://localhost:8080
 python3 -m http.server 8080
 ```
 
-Sur la branche `feature/curriculum-v2`, choisis la tuile « Parcours d’aventure » depuis l’accueil. Les quatre chapitres du parcours pilote sont jouables dans l’ordre, avec 56 unités de quatre blocs de cinq questions. Le jeu utilise des audios locaux et mémorise chaque unité dans le navigateur.
+Sur la branche `feature/curriculum-v2`, choisis la tuile « Parcours d’aventure » depuis l’accueil. Les quatre chapitres du parcours pilote sont jouables dans l’ordre, avec 56 unités de quatre blocs de cinq questions. Dans chaque unité, les quatre blocs gardent le même type d’exercice et la même consigne. Le jeu utilise des audios locaux et mémorise chaque unité dans le navigateur.
 
 ## Mettre en ligne
 
@@ -154,7 +154,7 @@ git push -u origin main
 
 ## Crédits
 
-- Pour générer les pistes d’un chapitre, exécuter `python3 tools/voice/build_curriculum_voice.py C2` avec les dépendances vocales et le modèle déjà installés. Remplacer `C2` par le chapitre souhaité. La provenance et le statut de revue figurent dans les registres `audio/curriculum-c1.json` à `audio/curriculum-c4.json`.
+- Pour générer les pistes d’un chapitre, exécuter `python3 tools/voice/build_curriculum_voice.py C2` avec les dépendances vocales et le modèle déjà installés. Remplacer `C2` par le chapitre souhaité, ou utiliser `simple` pour les consignes du parcours simplifié. La provenance et le statut de revue figurent dans les registres `audio/curriculum-c1.json` à `audio/curriculum-c4.json`.
 - Voix : modèle [piper](https://github.com/rhasspy/piper) `fr_FR-siwis-medium`, entraîné sur le corpus
   **SIWIS French Speech Synthesis** (licence [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/)).
 - Vérification des voix : Whisper (OpenAI, licence MIT) via [sherpa-onnx](https://github.com/k2-fsa/sherpa-onnx) (Apache 2.0).

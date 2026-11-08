@@ -97,3 +97,10 @@ Les quatre chapitres sont reliés dans l’ordre du catalogue. Les 56 unités co
 Les chapitres 2 et 3 utilisent des formes écrites segmentées à la main. Les exercices vérifient les correspondances disponibles et les principaux contextes de C, G, GU et des finales. Les distracteurs des exercices de lecture audio sont distincts par leur prononciation. Les blocs de compréhension du chapitre 4 utilisent des scènes en pictogrammes, des phrases à ordonner et des questions sur les récits. Certains textes servent à plusieurs tâches d’une même unité et les blocs de transfert ciblés utilisent un second corpus. Les cinq phrases de transfert de C4-U03 sont explicitement segmentées. Les phrases avancées et la lisibilité des pictogrammes restent à revoir avec un enseignant.
 
 Les audios des quatre chapitres sont locaux. Les registres par chapitre identifient les pistes Piper et leur statut de revue. Les phonèmes isolés de Robin servent toujours de référence lorsqu’ils existent. Les validations automatisées couvrent la structure, les enregistrements référencés, le déverrouillage et la jouabilité. L’écoute humaine, la validation pédagogique, la variation à trois voix et les essais Safari iOS restent nécessaires pour une publication.
+
+
+## Composition simplifiée
+
+Les 56 unités, leurs prérequis et les quatre blocs de cinq questions sont conservés. Chaque unité utilise un seul type d’exercice et une consigne identique sur ses quatre blocs. La première unité propose vingt mots distincts et deux nombres au choix à chaque question. Les autres unités puisent dans leur corpus et certains exemples reviennent entre les blocs. Les exercices de décodage présentent une seule carte avec un bouton pour écouter les deux choix de prononciation.
+
+Le catalogue d’origine reste la référence des objectifs et du corpus source. Les types et les consignes du parcours joué sont définis dans `js/data/curriculum-simple.js`. Les unités déjà terminées sont conservées. Une ancienne partie interrompue reprend au début de son unité, car ses réponses ne correspondent plus aux nouvelles questions.

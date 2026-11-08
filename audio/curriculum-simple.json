@@ -1,0 +1,98 @@
+{
+  "simple:consigne:Lis la carte. Écoute les deux choix, puis touche ta réponse.": {
+    "file": "curriculum-simple/simple-consigne-Lis-la-carte--Ecoute-les-deux-choix--puis-touche-ta-re-aad54328.mp3",
+    "phonemes": "lˈi la- kˈaʁt. ekˈut le- dˈø ʃwˈa, pyˈi tˈuʃ ta- ʁepˈɔ̃s.",
+    "review": "pending_human_review",
+    "sha256": "c7ea72fb12d00f8f3c681687061bfd57fea2e07e6d21af078aee56a9b375e0d6",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "Lis la carte. Écoute les deux choix, puis touche ta réponse."
+  },
+  "simple:consigne:Lis la phrase. Touche la bonne image.": {
+    "file": "curriculum-simple/simple-consigne-Lis-la-phrase--Touche-la-bonne-image--c13549da.mp3",
+    "phonemes": "lˈi la- fʁˈaz. tˈuʃ la- bˈɔn imˈaʒ.",
+    "review": "pending_human_review",
+    "sha256": "28066e2e5cb9b42e5f2a62ff5a136e84ed56c7796d4fba737cd3c10cb5685f1c",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "Lis la phrase. Touche la bonne image."
+  },
+  "simple:consigne:Lis le petit mot. Touche la forme qui va avec.": {
+    "file": "curriculum-simple/simple-consigne-Lis-le-petit-mot--Touche-la-forme-qui-va-avec--9cbe7617.mp3",
+    "phonemes": "lˈi lə- pətˈi mˈo. tˈuʃ la- fˈɔʁm ki vˈa avˈɛk.",
+    "review": "pending_human_review",
+    "sha256": "6e3d1bbec84015503d22f06b281a4c21b8499ed064e0abcbda39ce9307e27531",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "Lis le petit mot. Touche la forme qui va avec."
+  },
+  "simple:consigne:Lis l’histoire. Qui fait l’action dans la deuxième phrase ?": {
+    "file": "curriculum-simple/simple-consigne-Lis-lhistoire--Qui-fait-laction-dans-la-deuxieme-phras-8d3b57f5.mp3",
+    "phonemes": "lˈi listwˈaʁ. ki fˈɛ laksjˈɔ̃ dɑ̃ la- døzjˈɛm fʁˈaz?",
+    "review": "pending_human_review",
+    "sha256": "ea4529cd7b30120916dcb33d003467b69862a1e5afb9d0e297ee31bc835ecf82",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "Lis l’histoire. Qui fait l’action dans la deuxième phrase ?"
+  },
+  "simple:consigne:Lis. La phrase dit oui, dit non ou pose une question ?": {
+    "file": "curriculum-simple/simple-consigne-Lis--La-phrase-dit-oui--dit-non-ou-pose-une-question---46f72e01.mp3",
+    "phonemes": "lˈi. la- fʁˈaz dˈi wˈi, dˈi nɔ̃ u pˈɔz yn kɛstjˈɔ̃?",
+    "review": "pending_human_review",
+    "sha256": "ae2338d9ad14ed8bcec9a824724ed8d24c4ac574836df293e5b4a50dccbd3293",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "Lis. La phrase dit oui, dit non ou pose une question ?"
+  },
+  "simple:consigne:Lis. Qui fait l’action dans la deuxième phrase ?": {
+    "file": "curriculum-simple/simple-consigne-Lis--Qui-fait-laction-dans-la-deuxieme-phrase---ad3b1ace.mp3",
+    "phonemes": "lˈi. ki fˈɛ laksjˈɔ̃ dɑ̃ la- døzjˈɛm fʁˈaz?",
+    "review": "pending_human_review",
+    "sha256": "3f6baf3215158506b4e767b6925c922211c3422b1fd92335f477bf146d18661a",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "Lis. Qui fait l’action dans la deuxième phrase ?"
+  },
+  "simple:consigne:Quelle lettre reste muette à la fin du mot ?": {
+    "file": "curriculum-simple/simple-consigne-Quelle-lettre-reste-muette-a-la-fin-du-mot---a982ff14.mp3",
+    "phonemes": "kɛl lˈɛtʁ ʁˈɛst myˈɛt a la- fˈɛ̃ dy- mˈo?",
+    "review": "pending_human_review",
+    "sha256": "edde0c5d37fbfc260e0d4627cd078c55ae38533f79a9ff0bb323028e18980c3b",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "Quelle lettre reste muette à la fin du mot ?"
+  },
+  "simple:consigne:Touche le mot qui va avec l’image.": {
+    "file": "curriculum-simple/simple-consigne-Touche-le-mot-qui-va-avec-limage--e3183f4d.mp3",
+    "phonemes": "tˈuʃ lə- mˈo ki vˈa avˌɛk limˈaʒ.",
+    "review": "pending_human_review",
+    "sha256": "f37ee939226512330bcee9cb3787787e9001333e7187df997962c39a64d1ec45",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "Touche le mot qui va avec l’image."
+  },
+  "simple:consigne:Écoute la phrase. Touche la bonne image.": {
+    "file": "curriculum-simple/simple-consigne-Ecoute-la-phrase--Touche-la-bonne-image--253ad902.mp3",
+    "phonemes": "ekˈut la- fʁˈaz. tˈuʃ la- bˈɔn imˈaʒ.",
+    "review": "pending_human_review",
+    "sha256": "8b7f35b40220fc67fdbbf57732714d43478dc784f12079e464b17a8f64cd4c7b",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "Écoute la phrase. Touche la bonne image."
+  },
+  "simple:consigne:Écoute le mot. Combien de syllabes entends-tu ?": {
+    "file": "curriculum-simple/simple-consigne-Ecoute-le-mot--Combien-de-syllabes-entends-tu---e0dc1c4d.mp3",
+    "phonemes": "ekˈut lə- mˈo. kɔ̃bjˈɛ̃ də- silˈabz ɑ̃tˈɑ̃tˈy?",
+    "review": "pending_human_review",
+    "sha256": "4d35ab5195f533e7415c665e14fee02643096f5ce00ce1e82e520b2d20f525db",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "Écoute le mot. Combien de syllabes entends-tu ?"
+  },
+  "simple:consigne:Écoute le son. Touche la lettre ou les lettres qui vont avec.": {
+    "file": "curriculum-simple/simple-consigne-Ecoute-le-son--Touche-la-lettre-ou-les-lettres-qui-von-5a695c80.mp3",
+    "phonemes": "ekˈut lə- sˈɔ̃. tˈuʃ la- lˈɛtʁ u le- lˈɛtʁ ki vˈɔ̃t avˈɛk.",
+    "review": "pending_human_review",
+    "sha256": "4521e9c9c0a3693f2a2cf2580e8ce2d780cbfca069ab5a421dff123edb5786dd",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "Écoute le son. Touche la lettre ou les lettres qui vont avec."
+  },
+  "simple:consigne:Écoute l’histoire. Qui est le personnage principal ?": {
+    "file": "curriculum-simple/simple-consigne-Ecoute-lhistoire--Qui-est-le-personnage-principal---f99e9740.mp3",
+    "phonemes": "ekˈut listwˈaʁ. kiʲ ɛ lə- pɛʁsɔnˈaʒ pʁɛ̃sipˈal?",
+    "review": "pending_human_review",
+    "sha256": "91ce97ef2574e90ebe72b2c3b6927af2077d3fa73822ad63e9bdb4d79d32c12d",
+    "speaker": "piper-fr_FR-siwis-medium",
+    "text": "Écoute l’histoire. Qui est le personnage principal ?"
+  }
+}

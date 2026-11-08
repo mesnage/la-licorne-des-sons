@@ -1,3 +1,4 @@
+import { simpleProgrammeVersion } from '../data/curriculum-simple.js';
 import { oralBlocks, oralWords, pilotUnitId } from '../data/curriculum-pilot.js';
 
 export const pilotProgressKey = 'licorne.curriculum.pilot.v1';
@@ -71,11 +72,17 @@ export function unitProgressKey(id) {
 export function readPilotProgress(storage, id = pilotUnitId) {
   try {
     const value = JSON.parse(storage.getItem(unitProgressKey(id)));
-    if (value?.version === 1) return value;
+    if (value?.version === 1 || value?.version === simpleProgrammeVersion) return value;
   } catch {
     // The pilot also works when browser storage is unavailable.
   }
   return null;
+}
+
+export function restoreProgrammeState(progress, length) {
+  const state = restorePilotState(progress?.session, length);
+  return progress?.version === simpleProgrammeVersion || (progress?.completed && state?.cursor === length)
+    ? state : null;
 }
 
 export function createPilotSession(questions, state) {
@@ -108,7 +115,7 @@ export function createPilotSession(questions, state) {
       const options = question.labels ?? question.choices;
       const valid = options.length
         ? Number.isInteger(value) && value >= 0 && value < options.length
-        : Number.isInteger(value) && value >= 1 && value <= 4;
+        : question.counts ? question.counts.includes(value) : Number.isInteger(value) && value >= 1 && value <= 4;
       if (!valid) return null;
       if (value !== question.answer) {
         state.wrong++;

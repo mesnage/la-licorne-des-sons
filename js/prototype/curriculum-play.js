@@ -1,11 +1,12 @@
 import * as playback from '../audio.js?v=curriculum-chapter-1';
 import { chapterPlayUrl } from '../learning/chapter-one.js';
-import { createUnitQuestions } from '../learning/curriculum-questions.js';
+import { createSimpleQuestions } from '../learning/curriculum-simple.js';
+import { simpleProgrammeVersion } from '../data/curriculum-simple.js';
 import { WORLDS } from './model.js';
 import { illustration } from '../illustrations.js';
 import { createCurriculum } from '../learning/curriculum.js';
 import {
-  createPilotSession, newPilotState, readPilotProgress, restorePilotState, unitProgressKey
+  createPilotSession, newPilotState, readPilotProgress, restoreProgrammeState, unitProgressKey
 } from '../learning/pilot-session.js';
 import { pilotUnitId } from '../data/curriculum-pilot.js';
 
@@ -55,10 +56,10 @@ async function openPilot() {
   const nextUnit = allUnits[allUnits.indexOf(unit) + 1];
   const nextChapter = nextUnit && nextUnit.chapterId !== unit.chapterId;
   const worldIndex = WORLDS.findIndex(world => world.habitat === chapter.theme);
-  const [chapterAudio, legacyAudio] = await Promise.all([
-    readJson('audio/curriculum-' + chapter.id.toLowerCase() + '.json'), playback.ready
+  const [chapterAudio, simpleAudio, legacyAudio] = await Promise.all([
+    readJson('audio/curriculum-' + chapter.id.toLowerCase() + '.json'), readJson('audio/curriculum-simple.json'), playback.ready
   ]);
-  const files = Object.fromEntries(Object.entries(chapterAudio).map(([audioId, track]) => [audioId, track.file]));
+  const files = Object.fromEntries(Object.entries({ ...chapterAudio, ...simpleAudio }).map(([audioId, track]) => [audioId, track.file]));
   await playback.registerClips(files);
   const manifest = { ...legacyAudio, ...files };
   document.querySelectorAll('[data-chapter-return]').forEach(link => { link.href = 'curriculum.html#' + chapter.id; });
@@ -74,12 +75,11 @@ async function openPilot() {
   let session, world, lastQuestion, conflict = false;
   let worldReady = false;
   let heard = new Set();
-  let showOptions = false;
   let audioToken = 0;
   const readyAnswers = [];
 
   function restart(state) {
-    session = createPilotSession(createUnitQuestions(chapter, unit, manifest, state.seed), state);
+    session = createPilotSession(createSimpleQuestions(chapter, unit, manifest, state.seed), state);
     lastQuestion = null;
   }
 
@@ -93,7 +93,7 @@ async function openPilot() {
         showConflict();
         return;
       }
-      const value = JSON.stringify({ version: 1, completed, session: session.snapshot() });
+      const value = JSON.stringify({ version: simpleProgrammeVersion, completed, session: session.snapshot() });
       storage.setItem(key, value);
       lastSaved = value;
     } catch {
@@ -122,12 +122,11 @@ async function openPilot() {
 
   function refreshAnswers() {
     const question = session.question;
-    const canAnswer = (!question.prompt || heard.has(question.prompt)) &&
-      (!question.reference || heard.has(question.reference)) && question.choices.every(key => heard.has(key));
-    for (const entry of readyAnswers) entry.node.disabled = !canAnswer || !entry.extra();
+    const canAnswer = (!question.prompt || heard.has(question.prompt)) && question.choices.every(key => heard.has(key));
+    for (const node of readyAnswers) node.disabled = !canAnswer;
   }
 
-  async function play(key, after = () => {}) {
+  async function play(keys) {
     stopAudio();
     const token = audioToken;
     controls.setAttribute('aria-busy', 'true');
@@ -135,14 +134,13 @@ async function openPilot() {
     try {
       await playback.ready;
       if (token !== audioToken) return;
-      const clip = await playback.loadClip(key);
+      const clips = await Promise.all(keys.map(key => playback.loadClip(key)));
       if (token !== audioToken) return;
-      if (!clip) throw new Error('Enregistrement indisponible');
-      await playback.say([key]);
+      if (clips.some(clip => !clip)) throw new Error('Enregistrement indisponible');
+      await playback.say(keys.flatMap((key, index) => index ? [650, key] : [key]));
       if (token !== audioToken || conflict) return;
-      heard.add(key);
+      keys.forEach(key => heard.add(key));
       refreshAnswers();
-      after();
     } catch {
       if (token === audioToken) audioStatus.textContent = 'Le son est indisponible. Touche Écouter pour réessayer.';
     } finally {
@@ -150,37 +148,30 @@ async function openPilot() {
     }
   }
 
-  function listen(label, key) {
-    const node = button(label, () => play(key), 'pilot-listen');
+  function listen(label, keys, className = '') {
+    const node = button(label, () => play(keys), 'pilot-listen ' + className);
     node.insertAdjacentHTML('afterbegin', illustration('sound'));
     return node;
   }
 
-  function answerButton(label, value, extra = () => true) {
-    const node = button(label, () => answer(typeof value === 'function' ? value() : value));
-    readyAnswers.push({ node, extra });
+  function answerButton(label, value) {
+    const node = button(label, () => answer(value));
+    readyAnswers.push(node);
     return node;
   }
 
   function showCorrection(question) {
-    const previous = actions.querySelector('.pilot-hint');
-    previous?.remove();
-    const hint = button('Écouter avec un indice', () => {
+    actions.querySelector('.pilot-hint')?.remove();
+    const hint = button('Un indice', () => {
       if (question.choices.length) {
-        feedback.textContent = question.type === 'oral_syllable_match'
-          ? 'Le mot ' + (question.answer + 1) + ' commence par la même syllabe.'
-          : 'Écoute à nouveau la bonne option, le son ' + (question.answer + 1) + '.';
-        play(question.choices[question.answer]);
-      } else if (question.order) {
-        feedback.textContent = 'Écoute à nouveau la phrase. Touche un mot placé pour le retirer.';
-        play(question.prompt);
+        feedback.textContent = 'Écoute le choix ' + (question.answer + 1) + '.';
+        play([question.choices[question.answer]]);
       } else if (question.labels) {
         feedback.textContent = 'Essaie avec « ' + question.labels[question.answer] + ' ».';
-        if (question.reference) play(question.reference, () => play(question.prompt));
-        else play(question.prompt);
+        if (question.prompt) play([question.prompt, question.context].filter(Boolean));
       } else {
         feedback.textContent = 'Ce mot a ' + question.answer + ' syllabe' + (question.answer === 1 ? '.' : 's.');
-        play(question.prompt);
+        play([question.prompt]);
       }
     }, 'pilot-hint');
     actions.append(hint);
@@ -210,116 +201,40 @@ async function openPilot() {
     }
   }
 
-  function showTiles(question) {
-    const picked = makeRow('pilot-tile-tray');
-    const available = makeRow();
-    const result = document.createElement('output');
-    result.setAttribute('aria-live', 'polite');
-    const check = answerButton('Vérifier', () => session.orderIsCorrect() ? 1 : 2,
-      () => session.snapshot().order?.length === question.tiles.length);
-    function move(tile) {
-      session.toggleTile(tile);
-      save();
-      if (!conflict) {
-        displayTiles();
-        (available.querySelector('button:not(:disabled)') ?? check).focus();
-      }
-    }
-    function displayTiles() {
-      const order = session.snapshot().order ?? [];
-      const tilesByIndex = new Map(question.tiles.map(tile => [tile.index, tile.word]));
-      picked.replaceChildren(...order.map(index => button(tilesByIndex.get(index), () => move(index))));
-      readyAnswers.splice(1);
-      available.replaceChildren(...question.tiles.map(({ word, index }) => {
-        const tile = button(word, () => move(index));
-        readyAnswers.push({ node: tile, extra: () => !order.includes(index) });
-        return tile;
-      }));
-      result.textContent = order.length ? order.map(index => tilesByIndex.get(index)).join(' ') : 'Choisis le premier mot.';
-      refreshAnswers();
-    }
-    controls.append(result, picked, available, check);
-    displayTiles();
-  }
-
   function showQuestion(question, state) {
     instructions.textContent = question.instruction;
     const audioControls = makeRow();
-    audioControls.append(listen('Écouter la consigne', question.instructionAudio));
-    if (question.reference) audioControls.append(listen('Écouter le son', question.reference));
-    if (question.prompt) {
-      const promptLabel = question.type === 'story_listen_question' ? 'Écouter le récit'
-        : ['oral_sentence', 'sentence_order', 'oral_vocabulary'].includes(question.type) ? 'Écouter la phrase' : 'Écouter le mot';
-      audioControls.append(listen(promptLabel, question.prompt));
-    }
-    controls.append(audioControls);
+    const promptLabels = {
+      oral_count: 'Écouter le mot',
+      sound_to_grapheme: 'Écouter le son',
+      oral_vocabulary: 'Écouter la phrase',
+      story_listen_question: 'Écouter l’histoire'
+    };
     if (question.display) {
       const display = document.createElement('p');
-      display.className = (question.display.includes(' ') && !question.parts ? 'pilot-text' : 'pilot-glyph') +
-        (question.script ? ' pilot-script' : '');
+      display.className = question.display.includes(' ') ? 'pilot-text' : 'pilot-glyph';
       display.textContent = question.display;
       controls.append(display);
     }
-    if (question.question && !question.prompt) {
-      const task = document.createElement('p');
-      task.className = 'pilot-reading-question';
-      task.textContent = question.question;
-      controls.append(task);
+    if (question.prompt) {
+      audioControls.append(listen(promptLabels[question.type], [question.prompt, question.context].filter(Boolean), 'pilot-primary'));
     }
-    if (question.parts) {
-      const parts = makeRow();
-      for (const [index, part] of question.parts.entries()) {
-        parts.append(listen('Écouter le son ' + (index + 1), part));
-      }
-      controls.append(parts);
+    if (question.choices.length) {
+      audioControls.append(listen('Écouter les deux choix', question.choices, 'pilot-primary'));
     }
-    if (question.readFirst && !showOptions) {
-      controls.append(button('J’ai lu, écouter les options', () => {
-        showOptions = true;
-        render();
-        controls.querySelector('.pilot-match button').focus();
-      }, 'pilot-primary'));
-      return;
-    }
-    if (question.type === 'oral_segment') {
-      const row = makeRow();
-      const marks = document.createElement('output');
-      marks.className = 'pilot-marks';
-      marks.setAttribute('aria-live', 'polite');
-      const remove = button('Retirer un point', () => mark(-1));
-      const add = button('Ajouter un point', () => mark(1));
-      const check = answerButton('Vérifier', () => session.snapshot().marks, () => session.snapshot().marks > 0);
-      function displayMarks(count) {
-        marks.textContent = count ? '●'.repeat(count) : '0';
-        marks.setAttribute('aria-label', count + ' point' + (count === 1 ? '' : 's'));
-        remove.disabled = count === 0;
-        add.disabled = count === 4;
-        refreshAnswers();
-      }
-      function mark(delta) {
-        displayMarks(session.mark(delta));
-        save();
-      }
-      row.append(add, marks, remove, check);
-      controls.append(row);
-      displayMarks(state.marks);
-    } else if (question.order) {
-      showTiles(question);
-    } else if (question.labels) {
-      const row = makeRow(question.scene ? 'pilot-scene-options' : 'pilot-row');
+    audioControls.append(listen('Écouter la consigne', [question.instructionAudio], 'pilot-instruction'));
+    controls.append(audioControls);
+    if (question.labels) {
+      const row = makeRow(question.scene ? 'pilot-scene-options' : 'pilot-answer-pair');
       question.labels.forEach((label, index) => row.append(answerButton(label, index)));
       controls.append(row);
     } else if (question.choices.length) {
-      const row = makeRow('pilot-match');
-      for (const [index, key] of question.choices.entries()) {
-        const group = document.createElement('div');
-        group.append(listen('Écouter ' + (index + 1), key), answerButton('Choisir ' + (index + 1), index));
-        row.append(group);
-      }
+      const row = makeRow('pilot-answer-pair');
+      question.choices.forEach((_, index) => row.append(answerButton('Choix ' + (index + 1), index)));
       controls.append(row);
     } else {
-      const row = makeRow('pilot-counts');
-      for (let count = 1; count <= 4; count++) {
+      const row = makeRow('pilot-answer-pair pilot-counts');
+      for (const count of question.counts) {
         const choice = answerButton(String(count), count);
         choice.setAttribute('aria-label', count + ' syllabe' + (count === 1 ? '' : 's'));
         row.append(choice);
@@ -327,7 +242,7 @@ async function openPilot() {
       controls.append(row);
     }
     refreshAnswers();
-    if (state.wrong) feedback.textContent = 'Tu peux réécouter et essayer encore.';
+    if (state.wrong) feedback.textContent = 'Tu peux réessayer.';
     if (state.wrong >= 2) showCorrection(question);
   }
 
@@ -336,7 +251,6 @@ async function openPilot() {
     const question = session.question;
     if (question?.id !== lastQuestion) {
       heard = new Set();
-      showOptions = false;
       lastQuestion = question?.id;
     }
     controls.replaceChildren();
@@ -388,7 +302,9 @@ async function openPilot() {
     if (focus) heading.focus({ preventScroll: true });
   }
 
-  restart(restorePilotState(saved?.session, total) ?? newPilotState(Math.floor(Math.random() * 1000000)));
+  const restored = restoreProgrammeState(saved, total);
+  if (!restored && saved?.session) get('pilotMigration').hidden = false;
+  restart(restored ?? newPilotState(Math.floor(Math.random() * 1000000)));
   get('pilotPanel').hidden = false;
   get('pilotProgress').hidden = false;
   pauseButton.hidden = false;

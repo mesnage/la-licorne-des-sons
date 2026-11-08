@@ -3,7 +3,7 @@ import { chapterInstructions } from '../data/curriculum-chapter-one.js';
 import { createCodeQuestions } from './curriculum-code.js';
 import { createComprehensionQuestions } from './curriculum-comprehension.js';
 
-export function createUnitQuestions(chapter, unit, manifest, seed) {
+export function createSourceQuestions(chapter, unit, manifest, seed) {
   const firstChapter = chapter.id === 'C1';
   const raw = firstChapter ? createChapterQuestions(chapter, unit.id, manifest, seed)
     : chapter.id === 'C4' ? createComprehensionQuestions(unit, seed) : createCodeQuestions(unit, seed);
@@ -28,7 +28,7 @@ export function curriculumAudioSources(chapter) {
   if (chapter.id === 'C1') return chapterAudioSources(chapter);
   const sources = {};
   for (const unit of chapter.units) {
-    for (const question of createUnitQuestions(chapter, unit, null, 0)) Object.assign(sources, question.audio);
+    for (const question of createSourceQuestions(chapter, unit, null, 0)) Object.assign(sources, question.audio);
   }
   return sources;
 }
