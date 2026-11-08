@@ -60,12 +60,15 @@ async function openPilot() {
   const nextUnit = allUnits[allUnits.indexOf(unit) + 1];
   const nextChapter = nextUnit && nextUnit.chapterId !== unit.chapterId;
   const worldIndex = WORLDS.findIndex(world => world.habitat === chapter.theme);
+  const robin = chapter.id === 'C1';
   const [chapterAudio, simpleAudio, legacyAudio] = await Promise.all([
-    readJson('audio/curriculum-' + chapter.id.toLowerCase() + '.json'), readJson('audio/curriculum-simple.json'), playback.ready
+    readJson(robin ? 'audio/curriculum-c1-robin.json' : 'audio/curriculum-' + chapter.id.toLowerCase() + '.json'),
+    robin ? {} : readJson('audio/curriculum-simple.json'),
+    playback.ready
   ]);
   const files = Object.fromEntries(Object.entries({ ...chapterAudio, ...simpleAudio }).map(([audioId, track]) => [audioId, track.file]));
   await playback.registerClips(files);
-  const manifest = { ...legacyAudio, ...files };
+  const manifest = robin ? files : { ...legacyAudio, ...files };
   document.querySelectorAll('[data-chapter-return]').forEach(link => {
     link.href = chapterMapUrl(block ? unit.id : chapter.id, testMode);
   });

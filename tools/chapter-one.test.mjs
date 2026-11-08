@@ -5,6 +5,7 @@ import { test } from 'node:test';
 import { URL } from 'node:url';
 import { sounds, units } from '../js/data/curriculum-chapter-one.js';
 import { chapterAudioSources, createChapterQuestions, instructionKey } from '../js/learning/chapter-one.js';
+import { createSimpleQuestions } from '../js/learning/curriculum-simple.js';
 import { createCurriculum } from '../js/learning/curriculum.js';
 import { createPilotSession, newPilotState, readPilotProgress, unitProgressKey } from '../js/learning/pilot-session.js';
 
@@ -78,4 +79,36 @@ test('the existing first-unit save is reused and later units store progress sepa
   assert.equal(readPilotProgress(storage, 'C1-U01').completed, true);
   assert.equal(readPilotProgress(storage, 'C1-U02').session.cursor, 4);
   assert.equal(readPilotProgress(storage, 'C1-U03'), null);
+});
+
+
+test('all audible Chapter 1 questions and instructions use only Robin audio from ElevenLabs', () => {
+  const robin = read('../audio/curriculum-c1-robin.json');
+  const playable = Object.fromEntries(Object.entries(robin).map(([key, track]) => [key, track.file]));
+  const used = new Set();
+  for (const unit of chapter.units) {
+    for (const seed of [0, 1, 7, 24, 137]) {
+      const questions = createSimpleQuestions(chapter, unit, playable, seed);
+      for (const question of questions) {
+        for (const key of [question.instructionAudio, question.prompt, question.context, ...question.choices].filter(Boolean)) {
+          used.add(key);
+        }
+      }
+    }
+  }
+  assert.deepEqual([...used].sort(), Object.keys(robin).sort());
+  for (const [key, track] of Object.entries(robin)) {
+    assert.equal(track.speaker, 'robin');
+    assert.equal(track.provider, 'elevenlabs');
+    const data = readFileSync(new URL('../audio/' + track.file, import.meta.url));
+    assert.equal(createHash('sha256').update(data).digest('hex'), track.sha256);
+    if (key.startsWith('P:robin:')) {
+      assert.equal(track.file, manifest[key]);
+      assert.equal(track.review, 'approved_existing_phoneme');
+    } else {
+      assert.ok(track.file.startsWith('curriculum-c1-robin/'));
+      assert.equal(track.language, 'fr');
+      assert.equal(track.review, 'pending_human_review');
+    }
+  }
 });

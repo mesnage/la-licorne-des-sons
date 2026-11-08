@@ -8,7 +8,7 @@ import { pilotProgressKey } from '../js/learning/pilot-session.js';
 const { chromium } = createRequire(import.meta.url)('playwright');
 const base = process.env.LICORNE_TEST_URL ?? 'http://127.0.0.1:8080/';
 const read = path => JSON.parse(readFileSync(new URL(path, import.meta.url), 'utf8'));
-const manifest = read('../audio/curriculum-c1.json');
+const manifest = read('../audio/curriculum-c1-robin.json');
 const browser = await chromium.launch({ executablePath: process.env.LICORNE_CHROME_PATH });
 try {
   const page = await browser.newPage({ viewport: { width: 320, height: 568 }, hasTouch: true, reducedMotion: 'reduce' });

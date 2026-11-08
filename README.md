@@ -470,3 +470,5 @@ Vérification : `npm test`, `npm run check`, puis
 avec Playwright et Chrome installés. L'écoute sur iPad/Safari reste à vérifier sur appareil.
 
 Le [catalogue d’écoute](ecoute.html) permet de rechercher et écouter les 919 enregistrements avec Robin.
+
+Dans le chapitre 1 du parcours d’aventure, les mots et les consignes utilisent aussi la voix Robin sur ElevenLabs. Les pistes sont locales et recensées dans `audio/curriculum-c1-robin.json`. Le script `tools/voice/build_curriculum_robin.py` présente le lot à produire sans appel réseau par défaut.
