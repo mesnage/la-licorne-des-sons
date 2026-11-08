@@ -876,15 +876,16 @@
     "text": "guide"
   },
   "C23:écrit:ɡimov:guimauve": {
-    "file": "curriculum-c3-robin/b56e5030b33c38b6405d.mp3",
+    "file": "curriculum-c3-robin/2481eb5faa7bfac95fee.mp3",
     "language": "fr",
     "model": "eleven_v4",
     "provider": "elevenlabs",
     "review": "pending_human_review",
-    "sha256": "acc17b5e5645344f2d0c29c4031405b6899770e50807217cb55f4cf943491313",
+    "sha256": "056a078e617f7b6acf3e5b2b721d1be1fc40af64fe25bd338875bc7013294de2",
     "speaker": "robin",
-    "speechSeconds": 0.699,
+    "speechSeconds": 0.616,
     "spoken": "guimauve.",
+    "synthesisText": "Guimauve, comme une confiserie.",
     "text": "guimauve"
   },
   "C23:écrit:ɡitaʁ:guitare": {

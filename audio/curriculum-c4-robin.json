@@ -72,15 +72,16 @@
     "text": "Le chat a faim. Il va dans la cuisine et mange. Qui est le personnage de cette histoire ?"
   },
   "C4:Le lapin saute.": {
-    "file": "curriculum-c4-robin/389ef522f09828cfab76.mp3",
+    "file": "curriculum-c4-robin/2c0b8f2cc9530d3607f9.mp3",
     "language": "fr",
     "model": "eleven_v4",
     "provider": "elevenlabs",
     "review": "pending_human_review",
-    "sha256": "1394a5b090499050ff392c88f6f639af5a4ca567d8924555398a2b3755848176",
+    "sha256": "c3e9ea7c5939e8348830ed295e5175cb353d8e8441d359193cef13ea95c62b36",
     "speaker": "robin",
-    "speechSeconds": 1.087,
+    "speechSeconds": 0.898,
     "spoken": "Le lapin saute.",
+    "synthesisText": "Le lapin saute, puis il se repose.",
     "text": "Le lapin saute."
   },
   "C4:Les pandas mangent.": {
@@ -1188,15 +1189,16 @@
     "text": "Le lapin dort"
   },
   "simple:réponse:Le lapin saute": {
-    "file": "curriculum-c4-robin/389ef522f09828cfab76.mp3",
+    "file": "curriculum-c4-robin/2c0b8f2cc9530d3607f9.mp3",
     "language": "fr",
     "model": "eleven_v4",
     "provider": "elevenlabs",
     "review": "pending_human_review",
-    "sha256": "1394a5b090499050ff392c88f6f639af5a4ca567d8924555398a2b3755848176",
+    "sha256": "c3e9ea7c5939e8348830ed295e5175cb353d8e8441d359193cef13ea95c62b36",
     "speaker": "robin",
-    "speechSeconds": 1.087,
+    "speechSeconds": 0.898,
     "spoken": "Le lapin saute.",
+    "synthesisText": "Le lapin saute, puis il se repose.",
     "text": "Le lapin saute"
   },
   "simple:réponse:Le loup": {

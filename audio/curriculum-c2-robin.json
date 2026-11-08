@@ -890,15 +890,16 @@
     "text": "pale"
   },
   "C23:écrit:papa:papa": {
-    "file": "curriculum-c2-robin/b3521267f34bafd9fd36.mp3",
+    "file": "curriculum-c2-robin/441b17c6bd73a47074b2.mp3",
     "language": "fr",
     "model": "eleven_v4",
     "provider": "elevenlabs",
     "review": "pending_human_review",
-    "sha256": "bea5766df284df2874370b50a374694c3aad131296acc5fb77d28952dfb7beee",
+    "sha256": "f00a7c575def0daf5f24b908d5019ee77cff062bb079a715c4ad2a9b4d2b7896",
     "speaker": "robin",
-    "speechSeconds": 0.372,
+    "speechSeconds": 0.365,
     "spoken": "papa.",
+    "synthesisText": "Papa, comme le papa de Léo.",
     "text": "papa"
   },
   "C23:écrit:papi:papi": {
