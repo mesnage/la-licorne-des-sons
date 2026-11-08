@@ -19,7 +19,7 @@ import {createSimpleQuestions} from './js/learning/curriculum-simple.js';
 const curriculum = createCurriculum(JSON.parse(readFileSync('js/data/curriculum.v2.json')));
 const selection = process.argv[1];
 const sources = selection === 'simple'
-    ? Object.fromEntries(curriculum.chapters.flatMap(chapter => chapter.units).map(unit => {
+    ? Object.fromEntries(curriculum.chapters.slice(0, 4).flatMap(chapter => chapter.units).map(unit => {
         const text = simpleExercise(unit).instruction;
         return [simpleInstructionKey(text), { text }];
     }))

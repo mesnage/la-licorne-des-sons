@@ -7,17 +7,19 @@ import { createCurriculum } from '../js/learning/curriculum.js';
 const source = readFileSync(new URL('../js/data/curriculum.v2.json', import.meta.url), 'utf8');
 const data = JSON.parse(source);
 
-test('all 56 draft units and their 224 blocks retain stable IDs and order', () => {
+test('all 68 draft units and their 272 blocks retain stable IDs and order', () => {
   const curriculum = createCurriculum(data);
-  assert.deepEqual(curriculum.chapters.map(chapter => chapter.units.length), [12, 14, 18, 12]);
+  assert.deepEqual(curriculum.chapters.map(chapter => chapter.units.length), [12, 14, 18, 12, 6, 6]);
   const units = curriculum.chapters.flatMap(chapter => chapter.units);
   const blocks = units.flatMap(unit => unit.blocks);
-  assert.equal(new Set(units.map(unit => unit.id)).size, 56);
-  assert.equal(new Set(blocks.map(block => block.id)).size, 224);
-  assert.equal(blocks.reduce((total, block) => total + block.questionCount, 0), 1120);
+  assert.equal(new Set(units.map(unit => unit.id)).size, 68);
+  assert.equal(new Set(blocks.map(block => block.id)).size, 272);
+  assert.equal(blocks.reduce((total, block) => total + block.questionCount, 0), 1360);
   assert.ok(units.every(unit => unit.status === 'pedagogical_draft' && unit.auditRequired === true));
   assert.equal(curriculum.getUnit('C1-U08').blocks[3].id, 'C1-U08-B4');
   assert.equal(curriculum.getChapter('C4').units.at(-1).id, 'C4-U12');
+  assert.equal(curriculum.getUnit('C5-U01').prerequisiteUnitId, 'C4-U12');
+  assert.equal(curriculum.getUnit('C6-U01').prerequisiteUnitId, 'C5-U06');
 });
 
 test('completion unlocks the next unit across chapter boundaries', () => {

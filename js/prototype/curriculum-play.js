@@ -1,13 +1,14 @@
 import * as playback from '../audio.js?v=curriculum-chapter-1';
 import { chapterMapUrl, chapterPlayUrl } from '../learning/chapter-one.js';
-import { createSimpleQuestions } from '../learning/curriculum-simple.js';
-import { exerciseVersion } from '../data/curriculum-simple.js';
+import { createSimpleQuestions } from '../learning/curriculum-simple.js?v=lecture-aventure-1';
+import { exerciseVersion } from '../data/curriculum-simple.js?v=lecture-aventure-1';
 import { WORLDS } from './model.js';
 import { illustration } from '../illustrations.js';
-import { createCurriculum } from '../learning/curriculum.js';
+import { createCurriculum } from '../learning/curriculum.js?v=lecture-aventure-1';
 import {
   createPilotSession, newPilotState, readPilotProgress, restoreProgrammeState, unitProgressKey
-} from '../learning/pilot-session.js';
+} from '../learning/pilot-session.js?v=lecture-aventure-1';
+import { pictureLabel, pictureSVG } from './curriculum-pictures.js';
 import { pilotUnitId } from '../data/curriculum-pilot.js';
 
 const get = id => document.getElementById(id);
@@ -42,7 +43,7 @@ async function readJson(path) {
 }
 
 async function openPilot() {
-  const catalogue = createCurriculum(await readJson('js/data/curriculum.v2.json'));
+  const catalogue = createCurriculum(await readJson('js/data/curriculum.v2.json?v=lecture-aventure-1'));
   const params = new window.URLSearchParams(location.search);
   const testMode = params.get('test') === '1';
   const id = params.get('unite') ?? pilotUnitId;
@@ -170,7 +171,10 @@ async function openPilot() {
   function showCorrection(question) {
     actions.querySelector('.pilot-hint')?.remove();
     const hint = button('Un indice', () => {
-      if (question.order) {
+      if (question.pictures) {
+        readyAnswers[question.answer].classList.add('pilot-picture-hint');
+        feedback.textContent = 'Regarde le dessin entouré.';
+      } else if (question.order) {
         feedback.textContent = 'Touche « ' + question.order[session.snapshot().order.length] + ' » pour continuer.';
         play([question.prompt]);
       } else if (question.choices.length) {
@@ -194,7 +198,8 @@ async function openPilot() {
     save();
     if (conflict) return;
     if (!result) {
-      feedback.textContent = 'Tu peux réécouter et essayer encore.';
+      feedback.textContent = session.question.pictures ? 'Relis la phrase et essaie encore.'
+        : 'Tu peux réécouter et essayer encore.';
       if (session.snapshot().wrong >= 2) showCorrection(session.question);
       return;
     }
@@ -291,6 +296,26 @@ async function openPilot() {
     controls.append(row);
   }
 
+  function showReadingText(question) {
+    const display = document.createElement('p');
+    display.className = question.modelAudio ? 'pilot-reading-text'
+      : question.display.includes(' ') ? 'pilot-text' : 'pilot-glyph';
+    display.textContent = question.display;
+    controls.append(display);
+  }
+
+  function showPictureCards(question) {
+    const row = makeRow('pilot-picture-pair');
+    for (const [index, picture] of question.pictures.entries()) {
+      const card = answerButton('', index);
+      card.classList.add('pilot-picture-card');
+      card.setAttribute('aria-label', pictureLabel(picture));
+      card.innerHTML = pictureSVG(picture);
+      row.append(card);
+    }
+    controls.append(row);
+  }
+
   function showQuestion(question, state) {
     instructions.textContent = question.instruction;
     const audioControls = makeRow();
@@ -303,12 +328,7 @@ async function openPilot() {
       oral_vocabulary: 'Écouter la phrase',
       story_listen_question: 'Écouter l’histoire'
     };
-    if (question.display) {
-      const display = document.createElement('p');
-      display.className = question.display.includes(' ') ? 'pilot-text' : 'pilot-glyph';
-      display.textContent = question.display;
-      controls.append(display);
-    }
+    if (question.display) showReadingText(question);
     if (question.question) {
       const task = document.createElement('p');
       task.className = 'pilot-reading-question';
@@ -316,6 +336,9 @@ async function openPilot() {
       controls.append(task);
     }
     if (question.blank) showMissingLetters(question.blank);
+    if (question.type === 'reread_text') {
+      audioControls.append(listen('Écouter Robin', [question.modelAudio], 'pilot-primary'));
+    }
     if (question.prompt) {
       audioControls.append(listen(promptLabels[question.type], [question.prompt, question.context].filter(Boolean), 'pilot-primary'));
     }
@@ -326,7 +349,11 @@ async function openPilot() {
       ? listen('Écouter la question', [question.questionAudio], 'pilot-instruction')
       : listen('Écouter la consigne', [question.instructionAudio], 'pilot-instruction'));
     controls.append(audioControls);
-    if (question.order) {
+    if (question.type === 'reread_text') {
+      actions.append(button('J’ai lu', () => answer(1), 'pilot-primary'));
+    } else if (question.pictures) {
+      showPictureCards(question);
+    } else if (question.order) {
       showWordTiles(question, state.order);
     } else if (question.labels) {
       showAnswerCards(question);
@@ -372,7 +399,8 @@ async function openPilot() {
       castle.alt = '';
       castle.className = 'pilot-castle-art';
       if (!block) controls.append(castle);
-      feedback.textContent = state.answers.filter(wrong => wrong === 0).length + ' réponses justes du premier coup sur ' + total + '.';
+      feedback.textContent = chapter.id === 'C5' ? total + ' lectures faites.'
+        : state.answers.filter(wrong => wrong === 0).length + ' réponses justes du premier coup sur ' + total + '.';
       if (block || nextUnit) {
         const next = document.createElement('a');
         next.className = 'curriculum-link curriculum-play-link';
@@ -392,12 +420,23 @@ async function openPilot() {
       }, 'pilot-primary'));
     } else if (session.solved) {
       if (question.order) showWrittenWord(question, state.order);
+      if (question.modelAudio) {
+        showReadingText(question);
+        if (question.pictures) {
+          const picture = makeRow('pilot-picture-solution');
+          picture.innerHTML = pictureSVG(question.pictures[question.answer]);
+          controls.append(picture);
+        }
+        controls.append(listen(question.pictures ? 'Écouter la phrase avec Robin' : 'Réécouter Robin',
+          [question.modelAudio], 'pilot-instruction'));
+      }
       heading.textContent = question.position === 4 ? 'Bloc ' + (question.blockIndex + 1) + ' terminé !' : 'Un cristal de plus !';
       feedback.textContent = 'Paillette avance avec toi.';
       const label = state.answers.length === total ? (block ? 'Terminer le bloc' : 'Entrer dans le château')
         : question.position === 4 ? 'Commencer le bloc suivant' : 'Question suivante';
       actions.append(button(label, () => {
         if (!session.advance()) return;
+        stopAudio();
         if (session.finished) completed = true;
         save();
         if (!conflict) render(true);

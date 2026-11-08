@@ -1,8 +1,8 @@
-import { exerciseVersion, simpleExercise } from '../data/curriculum-simple.js';
+import { exerciseVersion, simpleExercise } from '../data/curriculum-simple.js?v=lecture-aventure-1';
 import { illustration } from '../illustrations.js';
-import { createCurriculum } from '../learning/curriculum.js';
+import { createCurriculum } from '../learning/curriculum.js?v=lecture-aventure-1';
 import { chapterMapUrl, chapterPlayUrl } from '../learning/chapter-one.js';
-import { pilotProgressKey, pilotQuestionCount, readPilotProgress, restoreProgrammeState } from '../learning/pilot-session.js';
+import { pilotProgressKey, pilotQuestionCount, readPilotProgress, restoreProgrammeState } from '../learning/pilot-session.js?v=lecture-aventure-1';
 import { WORLDS, worldPanorama } from './model.js';
 
 const testMode = new window.URLSearchParams(location.search).get('test') === '1';
@@ -30,7 +30,7 @@ function art(src, className = '') {
 }
 
 function chapterCard(chapter, index, completedUnits) {
-  const card = link('#' + chapter.id, '', 'curriculum-card tone-' + ['rose', 'mint', 'sky', 'lavender'][index]);
+  const card = link('#' + chapter.id, '', 'curriculum-card tone-' + ['rose', 'mint', 'sky', 'lavender', 'peach', 'gold'][index]);
   const world = WORLDS.find(world => world.habitat === chapter.theme);
   if (world) card.append(art(worldPanorama(world), 'curriculum-panorama'));
 
@@ -52,7 +52,7 @@ function chapterHome(curriculum, completedUnits, pilot) {
   intro.append(
     element('p', 'curriculum-label', 'Le livre de Paillette'),
     element('h1', '', 'Mon parcours de lecture'),
-    element('p', '', 'Des premiers sons aux premières histoires. Ouvre un chapitre pour découvrir le voyage.')
+    element('p', '', 'Des premiers sons aux consignes à lire. Ouvre un chapitre pour découvrir le voyage.')
   );
   const allUnits = curriculum.chapters.flatMap(chapter => chapter.units);
   const next = allUnits.find(unit => !completedUnits.has(unit.id));

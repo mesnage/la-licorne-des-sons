@@ -12,10 +12,10 @@ const read = path => JSON.parse(readFileSync(new URL(path, import.meta.url), 'ut
 const curriculum = createCurriculum(read('../js/data/curriculum.v2.json'));
 const legacy = read('../audio/manifest.json');
 
-test('the source corpus resolves 1,120 questions and all generated recordings match their manifests', () => {
+test('the original four chapters’ source corpus resolves 1,120 questions and all generated recordings match their manifests', () => {
   const ids = new Set();
   const completed = new Set();
-  for (const chapter of curriculum.chapters) {
+  for (const chapter of curriculum.chapters.slice(0, 4)) {
     const entries = read('../audio/curriculum-' + chapter.id.toLowerCase() + '.json');
     const files = Object.fromEntries(Object.entries(entries).map(([key, track]) => [key, track.file]));
     const sources = curriculumAudioSources(chapter);

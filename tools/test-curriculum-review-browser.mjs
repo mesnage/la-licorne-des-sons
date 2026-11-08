@@ -24,7 +24,7 @@ try {
     };
   });
 
-  await page.goto(new URL('curriculum-play.html?unite=C4-U12&bloc=4', base).href);
+  await page.goto(new URL('curriculum-play.html?unite=C6-U06&bloc=4', base).href);
   await page.getByText('Termine l’unité précédente', { exact: false }).waitFor();
   await page.goto(new URL('curriculum.html?test=1', base).href);
   await page.getByText('Toutes les unités et tous les blocs', { exact: false }).waitFor();
@@ -44,6 +44,8 @@ try {
     }
   }
 
+  await page.evaluate(() => { location.hash = 'C4-U12'; });
+  await page.getByRole('heading', { level: 2, name: 'Je lis ma première histoire' }).waitFor();
   await page.getByRole('link', { name: 'Tester le bloc 4' }).click();
   await page.getByRole('heading', { level: 1, name: 'Je lis ma première histoire' }).waitFor();
   await page.getByRole('heading', { name: 'Bloc 4 sur 4 · Question 1 sur 5' }).waitFor();
@@ -71,7 +73,7 @@ try {
   assert.equal(records[0].completed, true);
   assert.deepEqual(records.slice(1), [null, null]);
   assert.deepEqual(errors, []);
-  console.log('56 unités et 224 liens de blocs vérifiés. Un bloc joué jusqu’au bout, avec sauvegarde séparée.');
+  console.log('68 unités et 272 liens de blocs vérifiés. Un bloc joué jusqu’au bout, avec sauvegarde séparée.');
 } finally {
   await browser.close();
 }

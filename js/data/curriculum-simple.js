@@ -5,6 +5,8 @@ const decode = ['decode_word_audio', 'book', 'Lis la carte. Écoute les deux cho
 const listen = ['oral_vocabulary', 'sound', 'Écoute la phrase. Choisis ce que tu as entendu.'];
 const picture = ['sentence_picture', 'book', 'Lis la phrase. Choisis la bonne réponse.'];
 const assemble = ['assemble_word', 'letters', 'Écoute. Touche les deux morceaux dans l’ordre.'];
+const reread = ['reread_text', 'book', 'Lis à ton rythme. Puis écoute Robin et relis.'];
+const act = ['read_and_act', 'flag', 'Lis la consigne. Touche le bon dessin.'];
 const fill = ['fill_grapheme', 'letters', 'Écoute le mot. Touche les lettres qui manquent.'];
 
 const comprehension = [
@@ -28,7 +30,8 @@ export const exerciseVersion = unit => unit.chapterId === 'C1' ? 2 : simpleProgr
 export function simpleExercise(unit) {
   const [type, icon, instruction] = unit.chapterId === 'C1'
     ? (unit.position === 1 ? count : unit.position < 12 ? letters : decode)
-    : unit.chapterId === 'C2' ? assemble : unit.chapterId === 'C3' ? fill : comprehension[unit.position - 1];
+    : unit.chapterId === 'C2' ? assemble : unit.chapterId === 'C3' ? fill
+    : unit.chapterId === 'C5' ? reread : unit.chapterId === 'C6' ? act : comprehension[unit.position - 1];
   return { type, icon, instruction };
 }
 

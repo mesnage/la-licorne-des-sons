@@ -90,7 +90,25 @@ try {
           };
           await hear(promptLabels[item.type]);
         }
-        if (item.order) {
+        if (item.type === 'reread_text') {
+          if (controls.querySelector('.pilot-reading-text')?.textContent !== item.display) throw new Error(item.id + ' · texte absent');
+          if (item.position % 2 === 0) await hear('Écouter Robin');
+          await press('J’ai lu', actions);
+        } else if (item.pictures) {
+          const cards = controls.querySelectorAll('.pilot-picture-card');
+          if (cards.length !== 2 || [...cards].some(card => !card.querySelector('svg') || card.disabled)) {
+            throw new Error(item.id + ' · deux dessins attendus');
+          }
+          if (controls.textContent.includes('Écouter la phrase avec Robin')) throw new Error(item.id + ' · lecture avant réponse');
+          if (count === 1) {
+            cards[1 - item.answer].click();
+            cards[1 - item.answer].click();
+            await press('Un indice', actions);
+            if (!cards[item.answer].classList.contains('pilot-picture-hint')) throw new Error(item.id + ' · indice absent');
+          }
+          cards[item.answer].click();
+          await hear('Écouter la phrase avec Robin');
+        } else if (item.order) {
           const paper = controls.querySelector('.pilot-writing-paper');
           if (!paper || paper.querySelector('button')) throw new Error(item.id + ' · support du mot absent');
           for (const tile of item.order) await press(tile, controls.querySelector('.pilot-word-tiles'));
@@ -113,7 +131,7 @@ try {
     }
     const saved = await page.evaluate(key => JSON.parse(localStorage.getItem(key)), unitProgressKey(unit.id));
     assert.equal(saved.completed, true);
-    assert.equal(saved.session.answers.filter(attempts => attempts === 0).length, 20);
+    assert.equal(saved.session.answers.filter(attempts => attempts === 0).length, chapter.id === 'C6' ? 19 : 20);
     console.log(unit.id + ' · 20 questions');
     if (unit.position < chapter.units.length) {
       await page.getByRole('link', { name: 'Unité suivante', exact: true }).click();

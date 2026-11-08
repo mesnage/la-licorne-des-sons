@@ -50,15 +50,18 @@ CONTEXTS = {
 SOURCE = """
 import {readFileSync} from 'node:fs';
 import {createCurriculum} from './js/learning/curriculum.js';
-import {createSimpleQuestions} from './js/learning/curriculum-simple.js';
+import {audibleKeys, createSimpleQuestions} from './js/learning/curriculum-simple.js';
 const curriculum = createCurriculum(JSON.parse(readFileSync('js/data/curriculum.v2.json')));
 const requested = process.argv.slice(1);
 const result = {};
 for (const id of requested) {
     const chapter = curriculum.getChapter(id);
-    const keys = chapter.units.flatMap(unit => createSimpleQuestions(chapter, unit, null, 0))
-      .flatMap(q => [q.instructionAudio, q.prompt, q.context, q.questionAudio, ...q.choices, ...(q.optionAudio ?? [])].filter(Boolean));
-    result[id] = [...new Set(keys)].sort();
+    const questions = chapter.units.flatMap(unit => createSimpleQuestions(chapter, unit, null, 0));
+    const texts = Object.fromEntries(questions.filter(q => q.modelAudio).flatMap(q => [
+      [q.instructionAudio, { text: q.instruction }],
+      [q.modelAudio, { text: q.display }]
+    ]));
+    result[id] = { keys: [...new Set(questions.flatMap(audibleKeys))].sort(), texts };
 }
 console.log(JSON.stringify(result));
 """
@@ -146,17 +149,19 @@ def main():
     parser.add_argument('--generate', action='store_true', help='Submit paid audio-generation requests.')
     parser.add_argument('--env-file', type=Path, default=ROOT / '.env.local')
     parser.add_argument('--cache', type=Path, required=True, help='Directory for paid raw audio, outside the repository.')
-    parser.add_argument('--chapters', nargs='+', choices=['C1', 'C2', 'C3', 'C4'], default=['C1'])
+    parser.add_argument('--chapters', nargs='+', choices=['C1', 'C2', 'C3', 'C4', 'C5', 'C6'], default=['C1'])
     args = parser.parse_args()
     chapters = list(dict.fromkeys(args.chapters))
-    keys = json.loads(subprocess.check_output(['node','--input-type=module','-e',SOURCE,*chapters], cwd=ROOT))
+    specs = json.loads(subprocess.check_output(['node','--input-type=module','-e',SOURCE,*chapters], cwd=ROOT))
     shared = read_json('curriculum-simple.json')
-    sources = {chapter: {**read_json('curriculum-'+chapter.lower()+'.json'), **shared} for chapter in chapters}
+    sources = {chapter: specs[chapter]['texts'] or {
+        **read_json('curriculum-'+chapter.lower()+'.json'), **shared
+    } for chapter in chapters}
     legacy = read_json('manifest.json')
     stop = threading.Event()
     guard = threading.Lock()
     clip_locks = {}
-    jobs = [(chapter, key) for chapter in chapters for key in keys[chapter]]
+    jobs = [(chapter, key) for chapter in chapters for key in specs[chapter]['keys']]
 
     def utterance(chapter, key):
         text = sources[chapter][key]['text']
@@ -167,7 +172,7 @@ def main():
         return text, spoken, CONTEXTS.get(spoken.removesuffix('.'))
 
     existing = {}
-    for chapter in ['C1', 'C2', 'C3', 'C4']:
+    for chapter in ['C1', 'C2', 'C3', 'C4', 'C5', 'C6']:
         name = 'curriculum-'+chapter.lower()+'-robin.json'
         if (AUDIO / name).is_file():
             for track in read_json(name).values():

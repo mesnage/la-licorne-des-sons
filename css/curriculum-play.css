@@ -111,3 +111,26 @@
 .pilot-writing-next { border-color:#795493; }
 .pilot-word-tiles button { background:#e8d8f4; box-shadow:0 3px 0 #b998ce; }
 .pilot-word-tiles button:disabled { box-shadow:none; }
+
+.pilot-reading-text {
+  padding:clamp(12px,4vw,24px);
+  border:1px solid #eadac6;
+  border-radius:10px;
+  background:#fffbf1;
+  color:#382b43;
+  text-align:center;
+  font-size:clamp(1.55rem,5vw,2.3rem);
+  line-height:1.35;
+}
+.pilot-picture-pair {
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:clamp(8px,3vw,18px);
+  max-width:500px;
+  margin:12px auto;
+}
+.pilot-picture-card { padding:4px; background:#fffbf1; }
+.pilot-picture-card svg { display:block; width:100%; height:auto; }
+.pilot-picture-hint { outline:3px solid #795493; outline-offset:2px; }
+.pilot-picture-solution { width:min(100%,185px); margin:8px auto; }
+.pilot-picture-solution svg { display:block; width:100%; }

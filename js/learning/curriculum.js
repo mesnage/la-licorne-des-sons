@@ -1,4 +1,4 @@
-const chapterSizes = [12, 14, 18, 12];
+const chapterSizes = [12, 14, 18, 12, 6, 6];
 const blocksPerUnit = 4;
 const questionsPerBlock = 5;
 const unitCount = chapterSizes.reduce((total, size) => total + size, 0);

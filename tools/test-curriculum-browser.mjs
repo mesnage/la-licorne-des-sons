@@ -30,7 +30,7 @@ try {
   await adventureTile.focus();
   await page.keyboard.press('Enter');
   await page.getByRole('heading', { name: 'Mon parcours de lecture' }).waitFor();
-  assert.equal(await page.locator('.curriculum-card').count(), 4);
+  assert.equal(await page.locator('.curriculum-card').count(), 6);
   assert.ok(await page.getByText('Version pilote', { exact: false }).isVisible());
 
   for (const [width, height] of [[320, 568], [375, 812], [430, 932], [768, 1024], [1024, 768], [844, 390]]) {
@@ -75,7 +75,7 @@ try {
 
   assert.deepEqual(errors, []);
   assert.ok(requests.every(request => new URL(request).origin === new URL(base).origin));
-  console.log('Aperçu V2 : 56 unités, six formats, clavier, liens directs et retour au jeu Phaser.');
+  console.log('Aperçu V2 : 68 unités, six chapitres, clavier, liens directs et retour au jeu Phaser.');
 } finally {
   await browser.close();
 }

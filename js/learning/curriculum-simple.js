@@ -1,8 +1,9 @@
+import { actionPool, rereading } from '../data/curriculum-next.js';
 import { sounds } from '../data/curriculum-chapter-one.js';
 import { oralWords } from '../data/curriculum-pilot.js';
 import { answerCards, answerAudioKey, questionAudioKey } from '../data/curriculum-answer-cards.js';
 import { languagePairs, scenes, transferScenes } from '../data/curriculum-comprehension.js';
-import { simpleExercise, simpleInstructionKey } from '../data/curriculum-simple.js';
+import { simpleExercise, simpleInstructionKey } from '../data/curriculum-simple.js?v=lecture-aventure-1';
 import { createSourceQuestions } from './curriculum-questions.js';
 
 const syllableBlocks = [
@@ -146,6 +147,16 @@ function comprehensionPool(unit, source) {
 }
 
 function getPool(chapter, unit, seed) {
+  if (chapter.id === 'C5') {
+    return rereading[unit.position - 1].map(display => ({
+      display, choices: [], answer: 1, modelAudio: 'lecture:modèle:' + display
+    }));
+  }
+  if (chapter.id === 'C6') {
+    return actionPool(unit.position).map(({ text, pictures }) => ({
+      display: text, choices: [], pictures, answer: 0, modelAudio: 'lecture:modèle:' + text
+    }));
+  }
   if (unit.id === 'C1-U01') return countPool();
   const source = createSourceQuestions(chapter, unit, null, seed);
   if (chapter.id === 'C2') return assemblePool(unit, source);
@@ -176,8 +187,10 @@ export function createSimpleQuestions(chapter, unit, manifest, seed) {
       : (seed % pool.length + blockIndex * (pool.length === 5 ? 1 : 5)) % pool.length;
     return Array.from({ length: block.questionCount }, (_, position) => {
       const item = pool[(start + position) % pool.length];
-      const reverse = (seed + blockIndex + position) % 2 !== 0;
-      const options = item.labels ?? item.choices;
+      // On the second pass, the same instruction appears with its pictures exchanged.
+      const pass = item.pictures ? Math.floor(blockIndex / 2) : 0;
+      const reverse = (seed + blockIndex + position + pass) % 2 !== 0;
+      const options = item.pictures ?? item.labels ?? item.choices;
       const answerIndex = options.length ? options.length === 3
         ? (item.answer + blockIndex + position) % 3 : reverse ? 1 : 0 : item.answer;
       const ordered = [...options];
@@ -189,17 +202,21 @@ export function createSimpleQuestions(chapter, unit, manifest, seed) {
       const rivalCount = counts ? (answer === 1 ? 2 : answer === 4 ? 3 : reverse ? answer - 1 : answer + 1) : null;
       const question = {
         ...item, id: block.id + '-Q' + (position + 1), blockIndex, position, type, instruction, instructionAudio, answer,
-        ...(item.labels ? { labels: ordered } : { choices: ordered }),
+        ...(item.pictures ? { pictures: ordered } : item.labels ? { labels: ordered } : { choices: ordered }),
         ...(item.order ? { tiles: reverse ? [1, 0] : [0, 1] } : {}),
         ...(item.spokenCards ? { optionAudio: ordered.map(answerAudioKey) } : {}),
         ...(item.question ? { questionAudio: questionAudioKey(item.question) } : {}),
         ...(counts ? { counts: [answer, rivalCount].sort((a, b) => a - b) } : {})
       };
-      if (manifest && [instructionAudio, question.prompt, question.context, question.questionAudio, ...question.choices, ...(question.optionAudio ?? [])]
-        .filter(Boolean).some(key => typeof manifest[key] !== 'string')) {
+      if (manifest && audibleKeys(question).some(key => typeof manifest[key] !== 'string')) {
         throw new Error('Audio absent : ' + question.id);
       }
       return question;
     });
   });
+}
+
+export function audibleKeys(q) {
+  return [q.instructionAudio, q.prompt, q.context, q.questionAudio, q.modelAudio,
+    ...q.choices, ...(q.optionAudio ?? [])].filter(Boolean);
 }

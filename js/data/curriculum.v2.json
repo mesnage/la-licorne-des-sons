@@ -4,10 +4,10 @@
   "status": "SPECIFICATION_DRAFT_NOT_VALIDATED_FOR_CHILDREN",
   "created": "2026-11-07",
   "source": "CSEN, Apprendre à lire : du décodage à la compréhension, synthèse d’octobre 2022",
-  "chapterCount": 4,
-  "unitCount": 56,
-  "blockCount": 224,
-  "questionSlotsPerPass": 1120,
+  "chapterCount": 6,
+  "unitCount": 68,
+  "blockCount": 272,
+  "questionSlotsPerPass": 1360,
   "chapters": [
     {
       "id": "C1",
@@ -40,6 +40,22 @@
       "theme": "clouds",
       "description": "Mots-outils, morphologie, syntaxe, vocabulaire et compréhension orale puis écrite.",
       "units": 12
+    },
+    {
+      "id": "C5",
+      "title": "Je lis et je relis",
+      "subtitle": "Je lis à mon rythme avec Robin",
+      "theme": "jungle",
+      "description": "Lire seul des mots familiers puis des phrases courtes. Écouter le modèle après la lecture et relire à son rythme.",
+      "units": 6
+    },
+    {
+      "id": "C6",
+      "title": "Je lis pour jouer",
+      "subtitle": "Je lis une consigne et je touche le bon dessin",
+      "theme": "ice",
+      "description": "Agir après avoir lu une consigne courte. Reconnaître un animal, un objet, une couleur, une quantité ou un endroit.",
+      "units": 6
     }
   ],
   "exerciseTypeDefinitions": {
@@ -67,7 +83,9 @@
     "morph_choice": "Choisir une forme écrite selon le sens ou la syntaxe",
     "syntax_choice": "Choisir une forme grammaticale ou un connecteur dans une phrase",
     "story_listen_question": "Écouter un micro-récit et répondre à une question de compréhension orale",
-    "story_read_question": "Lire un court récit adapté et répondre à une question de compréhension"
+    "story_read_question": "Lire un court récit adapté et répondre à une question de compréhension",
+    "reread_text": "Lire à son rythme, écouter le modèle puis relire",
+    "read_and_act": "Lire une consigne et toucher le dessin qui correspond"
   },
   "units": [
     {
@@ -2656,6 +2674,558 @@
           "position": 4,
           "exerciseType": "story_read_question",
           "goal": "Comprendre cinq nouveaux micro-récits sans modèle oral",
+          "questionCount": 5,
+          "isHomogeneous": true
+        }
+      ],
+      "status": "pedagogical_draft",
+      "auditRequired": true
+    },
+    {
+      "id": "C5-U01",
+      "chapterId": "C5",
+      "position": 1,
+      "title": "Les petits mots familiers",
+      "skillTargets": [
+        "reread_text:1"
+      ],
+      "prerequisiteUnitId": "C4-U12",
+      "blocks": [
+        {
+          "id": "C5-U01-B1",
+          "position": 1,
+          "exerciseType": "reread_text",
+          "goal": "Relire les petits mots qui reviennent souvent",
+          "questionCount": 5,
+          "isHomogeneous": true
+        },
+        {
+          "id": "C5-U01-B2",
+          "position": 2,
+          "exerciseType": "reread_text",
+          "goal": "Relire les petits mots qui reviennent souvent",
+          "questionCount": 5,
+          "isHomogeneous": true
+        },
+        {
+          "id": "C5-U01-B3",
+          "position": 3,
+          "exerciseType": "reread_text",
+          "goal": "Relire les petits mots qui reviennent souvent",
+          "questionCount": 5,
+          "isHomogeneous": true
+        },
+        {
+          "id": "C5-U01-B4",
+          "position": 4,
+          "exerciseType": "reread_text",
+          "goal": "Relire les petits mots qui reviennent souvent",
+          "questionCount": 5,
+          "isHomogeneous": true
+        }
+      ],
+      "status": "pedagogical_draft",
+      "auditRequired": true
+    },
+    {
+      "id": "C5-U02",
+      "chapterId": "C5",
+      "position": 2,
+      "title": "Les noms des animaux",
+      "skillTargets": [
+        "reread_text:2"
+      ],
+      "prerequisiteUnitId": "C5-U01",
+      "blocks": [
+        {
+          "id": "C5-U02-B1",
+          "position": 1,
+          "exerciseType": "reread_text",
+          "goal": "Relire des noms d’animaux connus",
+          "questionCount": 5,
+          "isHomogeneous": true
+        },
+        {
+          "id": "C5-U02-B2",
+          "position": 2,
+          "exerciseType": "reread_text",
+          "goal": "Relire des noms d’animaux connus",
+          "questionCount": 5,
+          "isHomogeneous": true
+        },
+        {
+          "id": "C5-U02-B3",
+          "position": 3,
+          "exerciseType": "reread_text",
+          "goal": "Relire des noms d’animaux connus",
+          "questionCount": 5,
+          "isHomogeneous": true
+        },
+        {
+          "id": "C5-U02-B4",
+          "position": 4,
+          "exerciseType": "reread_text",
+          "goal": "Relire des noms d’animaux connus",
+          "questionCount": 5,
+          "isHomogeneous": true
+        }
+      ],
+      "status": "pedagogical_draft",
+      "auditRequired": true
+    },
+    {
+      "id": "C5-U03",
+      "chapterId": "C5",
+      "position": 3,
+      "title": "Les mots de tous les jours",
+      "skillTargets": [
+        "reread_text:3"
+      ],
+      "prerequisiteUnitId": "C5-U02",
+      "blocks": [
+        {
+          "id": "C5-U03-B1",
+          "position": 1,
+          "exerciseType": "reread_text",
+          "goal": "Relire les mots des objets, des lieux et de la nature",
+          "questionCount": 5,
+          "isHomogeneous": true
+        },
+        {
+          "id": "C5-U03-B2",
+          "position": 2,
+          "exerciseType": "reread_text",
+          "goal": "Relire les mots des objets, des lieux et de la nature",
+          "questionCount": 5,
+          "isHomogeneous": true
+        },
+        {
+          "id": "C5-U03-B3",
+          "position": 3,
+          "exerciseType": "reread_text",
+          "goal": "Relire les mots des objets, des lieux et de la nature",
+          "questionCount": 5,
+          "isHomogeneous": true
+        },
+        {
+          "id": "C5-U03-B4",
+          "position": 4,
+          "exerciseType": "reread_text",
+          "goal": "Relire les mots des objets, des lieux et de la nature",
+          "questionCount": 5,
+          "isHomogeneous": true
+        }
+      ],
+      "status": "pedagogical_draft",
+      "auditRequired": true
+    },
+    {
+      "id": "C5-U04",
+      "chapterId": "C5",
+      "position": 4,
+      "title": "Je relis une phrase courte",
+      "skillTargets": [
+        "reread_text:4"
+      ],
+      "prerequisiteUnitId": "C5-U03",
+      "blocks": [
+        {
+          "id": "C5-U04-B1",
+          "position": 1,
+          "exerciseType": "reread_text",
+          "goal": "Relire de petites phrases de trois mots",
+          "questionCount": 5,
+          "isHomogeneous": true
+        },
+        {
+          "id": "C5-U04-B2",
+          "position": 2,
+          "exerciseType": "reread_text",
+          "goal": "Relire de petites phrases de trois mots",
+          "questionCount": 5,
+          "isHomogeneous": true
+        },
+        {
+          "id": "C5-U04-B3",
+          "position": 3,
+          "exerciseType": "reread_text",
+          "goal": "Relire de petites phrases de trois mots",
+          "questionCount": 5,
+          "isHomogeneous": true
+        },
+        {
+          "id": "C5-U04-B4",
+          "position": 4,
+          "exerciseType": "reread_text",
+          "goal": "Relire de petites phrases de trois mots",
+          "questionCount": 5,
+          "isHomogeneous": true
+        }
+      ],
+      "status": "pedagogical_draft",
+      "auditRequired": true
+    },
+    {
+      "id": "C5-U05",
+      "chapterId": "C5",
+      "position": 5,
+      "title": "Je relis une phrase un peu plus longue",
+      "skillTargets": [
+        "reread_text:5"
+      ],
+      "prerequisiteUnitId": "C5-U04",
+      "blocks": [
+        {
+          "id": "C5-U05-B1",
+          "position": 1,
+          "exerciseType": "reread_text",
+          "goal": "Relire une phrase courte avec un détail",
+          "questionCount": 5,
+          "isHomogeneous": true
+        },
+        {
+          "id": "C5-U05-B2",
+          "position": 2,
+          "exerciseType": "reread_text",
+          "goal": "Relire une phrase courte avec un détail",
+          "questionCount": 5,
+          "isHomogeneous": true
+        },
+        {
+          "id": "C5-U05-B3",
+          "position": 3,
+          "exerciseType": "reread_text",
+          "goal": "Relire une phrase courte avec un détail",
+          "questionCount": 5,
+          "isHomogeneous": true
+        },
+        {
+          "id": "C5-U05-B4",
+          "position": 4,
+          "exerciseType": "reread_text",
+          "goal": "Relire une phrase courte avec un détail",
+          "questionCount": 5,
+          "isHomogeneous": true
+        }
+      ],
+      "status": "pedagogical_draft",
+      "auditRequired": true
+    },
+    {
+      "id": "C5-U06",
+      "chapterId": "C5",
+      "position": 6,
+      "title": "Je relis deux petites actions",
+      "skillTargets": [
+        "reread_text:6"
+      ],
+      "prerequisiteUnitId": "C5-U05",
+      "blocks": [
+        {
+          "id": "C5-U06-B1",
+          "position": 1,
+          "exerciseType": "reread_text",
+          "goal": "Relire deux actions liées par une ponctuation ou un mot simple",
+          "questionCount": 5,
+          "isHomogeneous": true
+        },
+        {
+          "id": "C5-U06-B2",
+          "position": 2,
+          "exerciseType": "reread_text",
+          "goal": "Relire deux actions liées par une ponctuation ou un mot simple",
+          "questionCount": 5,
+          "isHomogeneous": true
+        },
+        {
+          "id": "C5-U06-B3",
+          "position": 3,
+          "exerciseType": "reread_text",
+          "goal": "Relire deux actions liées par une ponctuation ou un mot simple",
+          "questionCount": 5,
+          "isHomogeneous": true
+        },
+        {
+          "id": "C5-U06-B4",
+          "position": 4,
+          "exerciseType": "reread_text",
+          "goal": "Relire deux actions liées par une ponctuation ou un mot simple",
+          "questionCount": 5,
+          "isHomogeneous": true
+        }
+      ],
+      "status": "pedagogical_draft",
+      "auditRequired": true
+    },
+    {
+      "id": "C6-U01",
+      "chapterId": "C6",
+      "position": 1,
+      "title": "Je touche le bon animal",
+      "skillTargets": [
+        "read_and_act:1"
+      ],
+      "prerequisiteUnitId": "C5-U06",
+      "blocks": [
+        {
+          "id": "C6-U01-B1",
+          "position": 1,
+          "exerciseType": "read_and_act",
+          "goal": "Lire une consigne et toucher le dessin de l’animal",
+          "questionCount": 5,
+          "isHomogeneous": true
+        },
+        {
+          "id": "C6-U01-B2",
+          "position": 2,
+          "exerciseType": "read_and_act",
+          "goal": "Lire une consigne et toucher le dessin de l’animal",
+          "questionCount": 5,
+          "isHomogeneous": true
+        },
+        {
+          "id": "C6-U01-B3",
+          "position": 3,
+          "exerciseType": "read_and_act",
+          "goal": "Lire une consigne et toucher le dessin de l’animal",
+          "questionCount": 5,
+          "isHomogeneous": true
+        },
+        {
+          "id": "C6-U01-B4",
+          "position": 4,
+          "exerciseType": "read_and_act",
+          "goal": "Lire une consigne et toucher le dessin de l’animal",
+          "questionCount": 5,
+          "isHomogeneous": true
+        }
+      ],
+      "status": "pedagogical_draft",
+      "auditRequired": true
+    },
+    {
+      "id": "C6-U02",
+      "chapterId": "C6",
+      "position": 2,
+      "title": "Je touche le bon objet",
+      "skillTargets": [
+        "read_and_act:2"
+      ],
+      "prerequisiteUnitId": "C6-U01",
+      "blocks": [
+        {
+          "id": "C6-U02-B1",
+          "position": 1,
+          "exerciseType": "read_and_act",
+          "goal": "Lire une consigne et toucher le dessin de l’objet",
+          "questionCount": 5,
+          "isHomogeneous": true
+        },
+        {
+          "id": "C6-U02-B2",
+          "position": 2,
+          "exerciseType": "read_and_act",
+          "goal": "Lire une consigne et toucher le dessin de l’objet",
+          "questionCount": 5,
+          "isHomogeneous": true
+        },
+        {
+          "id": "C6-U02-B3",
+          "position": 3,
+          "exerciseType": "read_and_act",
+          "goal": "Lire une consigne et toucher le dessin de l’objet",
+          "questionCount": 5,
+          "isHomogeneous": true
+        },
+        {
+          "id": "C6-U02-B4",
+          "position": 4,
+          "exerciseType": "read_and_act",
+          "goal": "Lire une consigne et toucher le dessin de l’objet",
+          "questionCount": 5,
+          "isHomogeneous": true
+        }
+      ],
+      "status": "pedagogical_draft",
+      "auditRequired": true
+    },
+    {
+      "id": "C6-U03",
+      "chapterId": "C6",
+      "position": 3,
+      "title": "Je choisis la bonne couleur",
+      "skillTargets": [
+        "read_and_act:3"
+      ],
+      "prerequisiteUnitId": "C6-U02",
+      "blocks": [
+        {
+          "id": "C6-U03-B1",
+          "position": 1,
+          "exerciseType": "read_and_act",
+          "goal": "Lire une consigne et choisir la couleur demandée",
+          "questionCount": 5,
+          "isHomogeneous": true
+        },
+        {
+          "id": "C6-U03-B2",
+          "position": 2,
+          "exerciseType": "read_and_act",
+          "goal": "Lire une consigne et choisir la couleur demandée",
+          "questionCount": 5,
+          "isHomogeneous": true
+        },
+        {
+          "id": "C6-U03-B3",
+          "position": 3,
+          "exerciseType": "read_and_act",
+          "goal": "Lire une consigne et choisir la couleur demandée",
+          "questionCount": 5,
+          "isHomogeneous": true
+        },
+        {
+          "id": "C6-U03-B4",
+          "position": 4,
+          "exerciseType": "read_and_act",
+          "goal": "Lire une consigne et choisir la couleur demandée",
+          "questionCount": 5,
+          "isHomogeneous": true
+        }
+      ],
+      "status": "pedagogical_draft",
+      "auditRequired": true
+    },
+    {
+      "id": "C6-U04",
+      "chapterId": "C6",
+      "position": 4,
+      "title": "Un ou deux ?",
+      "skillTargets": [
+        "read_and_act:4"
+      ],
+      "prerequisiteUnitId": "C6-U03",
+      "blocks": [
+        {
+          "id": "C6-U04-B1",
+          "position": 1,
+          "exerciseType": "read_and_act",
+          "goal": "Lire la quantité et choisir le bon dessin",
+          "questionCount": 5,
+          "isHomogeneous": true
+        },
+        {
+          "id": "C6-U04-B2",
+          "position": 2,
+          "exerciseType": "read_and_act",
+          "goal": "Lire la quantité et choisir le bon dessin",
+          "questionCount": 5,
+          "isHomogeneous": true
+        },
+        {
+          "id": "C6-U04-B3",
+          "position": 3,
+          "exerciseType": "read_and_act",
+          "goal": "Lire la quantité et choisir le bon dessin",
+          "questionCount": 5,
+          "isHomogeneous": true
+        },
+        {
+          "id": "C6-U04-B4",
+          "position": 4,
+          "exerciseType": "read_and_act",
+          "goal": "Lire la quantité et choisir le bon dessin",
+          "questionCount": 5,
+          "isHomogeneous": true
+        }
+      ],
+      "status": "pedagogical_draft",
+      "auditRequired": true
+    },
+    {
+      "id": "C6-U05",
+      "chapterId": "C6",
+      "position": 5,
+      "title": "Sur ou sous ?",
+      "skillTargets": [
+        "read_and_act:5"
+      ],
+      "prerequisiteUnitId": "C6-U04",
+      "blocks": [
+        {
+          "id": "C6-U05-B1",
+          "position": 1,
+          "exerciseType": "read_and_act",
+          "goal": "Lire la position et choisir la scène correspondante",
+          "questionCount": 5,
+          "isHomogeneous": true
+        },
+        {
+          "id": "C6-U05-B2",
+          "position": 2,
+          "exerciseType": "read_and_act",
+          "goal": "Lire la position et choisir la scène correspondante",
+          "questionCount": 5,
+          "isHomogeneous": true
+        },
+        {
+          "id": "C6-U05-B3",
+          "position": 3,
+          "exerciseType": "read_and_act",
+          "goal": "Lire la position et choisir la scène correspondante",
+          "questionCount": 5,
+          "isHomogeneous": true
+        },
+        {
+          "id": "C6-U05-B4",
+          "position": 4,
+          "exerciseType": "read_and_act",
+          "goal": "Lire la position et choisir la scène correspondante",
+          "questionCount": 5,
+          "isHomogeneous": true
+        }
+      ],
+      "status": "pedagogical_draft",
+      "auditRequired": true
+    },
+    {
+      "id": "C6-U06",
+      "chapterId": "C6",
+      "position": 6,
+      "title": "Près de l’arbre ou de la mare ?",
+      "skillTargets": [
+        "read_and_act:6"
+      ],
+      "prerequisiteUnitId": "C6-U05",
+      "blocks": [
+        {
+          "id": "C6-U06-B1",
+          "position": 1,
+          "exerciseType": "read_and_act",
+          "goal": "Lire une consigne et choisir le bon endroit",
+          "questionCount": 5,
+          "isHomogeneous": true
+        },
+        {
+          "id": "C6-U06-B2",
+          "position": 2,
+          "exerciseType": "read_and_act",
+          "goal": "Lire une consigne et choisir le bon endroit",
+          "questionCount": 5,
+          "isHomogeneous": true
+        },
+        {
+          "id": "C6-U06-B3",
+          "position": 3,
+          "exerciseType": "read_and_act",
+          "goal": "Lire une consigne et choisir le bon endroit",
+          "questionCount": 5,
+          "isHomogeneous": true
+        },
+        {
+          "id": "C6-U06-B4",
+          "position": 4,
+          "exerciseType": "read_and_act",
+          "goal": "Lire une consigne et choisir le bon endroit",
           "questionCount": 5,
           "isHomogeneous": true
         }

@@ -5,22 +5,18 @@ import { test } from 'node:test';
 import { URL } from 'node:url';
 import { exerciseVersion, simpleExercise, simpleProgrammeVersion } from '../js/data/curriculum-simple.js';
 import { createCurriculum } from '../js/learning/curriculum.js';
-import { createSimpleQuestions } from '../js/learning/curriculum-simple.js';
+import { audibleKeys, createSimpleQuestions } from '../js/learning/curriculum-simple.js';
 import { createPilotSession, newPilotState, restoreProgrammeState } from '../js/learning/pilot-session.js';
 
 const read = path => JSON.parse(readFileSync(new URL(path, import.meta.url), 'utf8'));
 const curriculum = createCurriculum(read('../js/data/curriculum.v2.json'));
-const manifest = chapter => ({
-  ...read('../audio/manifest.json'),
-  ...Object.fromEntries(Object.entries({
-    ...read('../audio/curriculum-' + chapter.id.toLowerCase() + '.json'),
-    ...read('../audio/curriculum-simple.json')
-  }).map(([key, track]) => [key, track.file]))
-});
+const tracksFor = chapter => read('../audio/curriculum-' + chapter.id.toLowerCase() + '-robin.json');
+const manifest = chapter => Object.fromEntries(Object.entries(tracksFor(chapter)).map(([key, track]) => [key, track.file]));
 
-test('all 56 units use the same exercise and instruction for four blocks of five', () => {
+test('all 68 units use the same exercise and instruction for four blocks of five', () => {
   for (const chapter of curriculum.chapters) {
     const files = manifest(chapter);
+    const tracks = tracksFor(chapter);
     for (const unit of chapter.units) {
       for (const seed of [0, 1, 211]) {
         const questions = createSimpleQuestions(chapter, unit, files, seed);
@@ -30,6 +26,14 @@ test('all 56 units use the same exercise and instruction for four blocks of five
         assert.deepEqual(new Set(questions.map(q => q.instruction)), new Set([exercise.instruction]));
         assert.deepEqual(new Set(questions.map(q => q.instructionAudio)).size, 1);
         const session = createPilotSession(questions, newPilotState(seed));
+        if (chapter.id === 'C5') assert.equal(new Set(questions.map(q => q.display)).size, 20);
+        if (chapter.id === 'C6') {
+          assert.equal(new Set(questions.map(q => q.display)).size, 10);
+          for (const [index, q] of questions.slice(0, 10).entries()) {
+            assert.equal(q.display, questions[index + 10].display);
+            assert.equal(q.answer, 1 - questions[index + 10].answer);
+          }
+        }
         for (const block of unit.blocks) {
           const items = questions.filter(q => q.id.startsWith(block.id + '-'));
           assert.equal(items.length, 5, block.id);
@@ -51,6 +55,12 @@ test('all 56 units use the same exercise and instruction for four blocks of five
             }
             if (chapter.id === 'C4') {
               assert.ok(!/\p{Extended_Pictographic}/u.test([q.display, ...q.labels].join(' ')), q.id);
+            }
+            if (q.modelAudio) assert.equal(tracks[q.modelAudio].text, q.display);
+            if (chapter.id === 'C6') {
+              assert.equal(q.pictures.length, 2);
+              assert.notDeepEqual(q.pictures[0], q.pictures[1]);
+              assert.equal(session.answer(2), null);
             }
             assert.equal(session.answer(q.answer), true);
             assert.equal(session.advance(), true);
@@ -86,16 +96,15 @@ test('the new sequence restarts old partial sessions and retains completed units
 });
 
 
-test('chapters 2 through 4 have a complete local Robin manifest, including optional spoken answers', () => {
+test('chapters 2 through 6 have a complete local Robin manifest, including optional spoken answers', () => {
   for (const chapter of curriculum.chapters.slice(1)) {
-    const tracks = read('../audio/curriculum-' + chapter.id.toLowerCase() + '-robin.json');
+    const tracks = tracksFor(chapter);
     const files = Object.fromEntries(Object.entries(tracks).map(([key, track]) => [key, track.file]));
     const used = new Set();
     for (const unit of chapter.units) {
       for (const seed of [0, 1, 27]) {
         for (const q of createSimpleQuestions(chapter, unit, files, seed)) {
-          [q.instructionAudio, q.prompt, q.context, q.questionAudio, ...q.choices, ...(q.optionAudio ?? [])]
-            .filter(Boolean).forEach(key => used.add(key));
+          audibleKeys(q).forEach(key => used.add(key));
         }
       }
     }

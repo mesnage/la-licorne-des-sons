@@ -113,7 +113,7 @@ export function createPilotSession(questions, state) {
     answer(value) {
       const question = questions[state.cursor];
       if (!question || solved()) return null;
-      const options = question.labels ?? question.choices;
+      const options = question.pictures ?? question.labels ?? question.choices;
       const valid = options.length
         ? Number.isInteger(value) && value >= 0 && value < options.length
         : question.counts ? question.counts.includes(value) : Number.isInteger(value) && value >= 1 && value <= 4;

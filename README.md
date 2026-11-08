@@ -24,7 +24,7 @@ npm run dev                 # avec Node.js, puis ouvrir http://localhost:8080
 python3 -m http.server 8080
 ```
 
-Sur la branche `feature/curriculum-v2`, choisis la tuile « Parcours d’aventure » depuis l’accueil. Les quatre chapitres du parcours pilote sont jouables dans l’ordre, avec 56 unités de quatre blocs de cinq questions. Dans chaque unité, les quatre blocs gardent le même type d’exercice et la même consigne. Le jeu utilise des audios locaux et mémorise chaque unité dans le navigateur.
+Sur la branche `feature/curriculum-v2`, choisis la tuile « Parcours d’aventure » depuis l’accueil. Les six chapitres du parcours pilote sont jouables dans l’ordre, avec 68 unités de quatre blocs de cinq questions. Dans chaque unité, les quatre blocs gardent le même type d’exercice et la même consigne. Le chapitre 5 propose de lire puis de relire des mots et des phrases avec un modèle audio au choix. Le chapitre 6 propose de lire une consigne et de toucher l’un des deux dessins. Le jeu utilise des audios locaux et mémorise chaque unité dans le navigateur.
 
 ## Mettre en ligne
 
@@ -471,4 +471,4 @@ avec Playwright et Chrome installés. L'écoute sur iPad/Safari reste à vérifi
 
 Le [catalogue d’écoute](ecoute.html) permet de rechercher et écouter les 919 enregistrements avec Robin.
 
-Dans le parcours d’aventure, les mots, les consignes et les réponses à écouter utilisent la voix Robin sur ElevenLabs. Les pistes sont locales et recensées dans les registres `audio/curriculum-c1-robin.json` à `audio/curriculum-c4-robin.json`. Le script `tools/voice/build_curriculum_robin.py` présente le lot à produire sans appel réseau par défaut. Utiliser `--chapters C2 C3 C4` pour sélectionner plusieurs chapitres.
+Dans le parcours d’aventure, les mots, les consignes et les réponses à écouter utilisent la voix Robin sur ElevenLabs. Les pistes sont locales et recensées dans les registres `audio/curriculum-c1-robin.json` à `audio/curriculum-c6-robin.json`. Le script `tools/voice/build_curriculum_robin.py` présente le lot à produire sans appel réseau par défaut. Utiliser `--chapters C5 C6` pour sélectionner plusieurs chapitres.
