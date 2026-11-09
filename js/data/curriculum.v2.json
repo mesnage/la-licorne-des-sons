@@ -4,10 +4,10 @@
   "status": "SPECIFICATION_DRAFT_NOT_VALIDATED_FOR_CHILDREN",
   "created": "2026-11-07",
   "source": "CSEN, Apprendre à lire : du décodage à la compréhension, synthèse d’octobre 2022",
-  "chapterCount": 6,
-  "unitCount": 68,
-  "blockCount": 272,
-  "questionSlotsPerPass": 1360,
+  "chapterCount": 7,
+  "unitCount": 74,
+  "blockCount": 296,
+  "questionSlotsPerPass": 1480,
   "chapters": [
     {
       "id": "C1",
@@ -56,6 +56,14 @@
       "theme": "ice",
       "description": "Agir après avoir lu une consigne courte. Reconnaître un animal, un objet, une couleur, une quantité ou un endroit.",
       "units": 6
+    },
+    {
+      "id": "C7",
+      "title": "Je remets les mots en ordre",
+      "subtitle": "Je touche les mots pour construire une phrase",
+      "theme": "moon",
+      "description": "Reconstituer des phrases de trois à cinq mots, d’abord avec un modèle visible, puis en écoutant Robin.",
+      "units": 6
     }
   ],
   "exerciseTypeDefinitions": {
@@ -85,7 +93,8 @@
     "story_listen_question": "Écouter un micro-récit et répondre à une question de compréhension orale",
     "story_read_question": "Lire un court récit adapté et répondre à une question de compréhension",
     "reread_text": "Lire à son rythme, écouter le modèle puis relire",
-    "read_and_act": "Lire une consigne et toucher le dessin qui correspond"
+    "read_and_act": "Lire une consigne et toucher le dessin qui correspond",
+    "order_sentence": "Toucher les mots mélangés dans l’ordre du modèle écrit ou entendu"
   },
   "units": [
     {
@@ -3226,6 +3235,282 @@
           "position": 4,
           "exerciseType": "read_and_act",
           "goal": "Lire une consigne et choisir le bon endroit",
+          "questionCount": 5,
+          "isHomogeneous": true
+        }
+      ],
+      "status": "pedagogical_draft",
+      "auditRequired": true
+    },
+    {
+      "id": "C7-U01",
+      "chapterId": "C7",
+      "position": 1,
+      "title": "Avec le modèle · 3 mots",
+      "skillTargets": [
+        "order_sentence:1"
+      ],
+      "prerequisiteUnitId": "C6-U06",
+      "blocks": [
+        {
+          "id": "C7-U01-B1",
+          "position": 1,
+          "exerciseType": "order_sentence",
+          "goal": "Remettre 3 mots en ordre avec un modèle visible",
+          "questionCount": 5,
+          "isHomogeneous": true
+        },
+        {
+          "id": "C7-U01-B2",
+          "position": 2,
+          "exerciseType": "order_sentence",
+          "goal": "Remettre 3 mots en ordre avec un modèle visible",
+          "questionCount": 5,
+          "isHomogeneous": true
+        },
+        {
+          "id": "C7-U01-B3",
+          "position": 3,
+          "exerciseType": "order_sentence",
+          "goal": "Remettre 3 mots en ordre avec un modèle visible",
+          "questionCount": 5,
+          "isHomogeneous": true
+        },
+        {
+          "id": "C7-U01-B4",
+          "position": 4,
+          "exerciseType": "order_sentence",
+          "goal": "Remettre 3 mots en ordre avec un modèle visible",
+          "questionCount": 5,
+          "isHomogeneous": true
+        }
+      ],
+      "status": "pedagogical_draft",
+      "auditRequired": true
+    },
+    {
+      "id": "C7-U02",
+      "chapterId": "C7",
+      "position": 2,
+      "title": "Avec le modèle · 4 mots",
+      "skillTargets": [
+        "order_sentence:2"
+      ],
+      "prerequisiteUnitId": "C7-U01",
+      "blocks": [
+        {
+          "id": "C7-U02-B1",
+          "position": 1,
+          "exerciseType": "order_sentence",
+          "goal": "Remettre 4 mots en ordre avec un modèle visible",
+          "questionCount": 5,
+          "isHomogeneous": true
+        },
+        {
+          "id": "C7-U02-B2",
+          "position": 2,
+          "exerciseType": "order_sentence",
+          "goal": "Remettre 4 mots en ordre avec un modèle visible",
+          "questionCount": 5,
+          "isHomogeneous": true
+        },
+        {
+          "id": "C7-U02-B3",
+          "position": 3,
+          "exerciseType": "order_sentence",
+          "goal": "Remettre 4 mots en ordre avec un modèle visible",
+          "questionCount": 5,
+          "isHomogeneous": true
+        },
+        {
+          "id": "C7-U02-B4",
+          "position": 4,
+          "exerciseType": "order_sentence",
+          "goal": "Remettre 4 mots en ordre avec un modèle visible",
+          "questionCount": 5,
+          "isHomogeneous": true
+        }
+      ],
+      "status": "pedagogical_draft",
+      "auditRequired": true
+    },
+    {
+      "id": "C7-U03",
+      "chapterId": "C7",
+      "position": 3,
+      "title": "Avec le modèle · 5 mots",
+      "skillTargets": [
+        "order_sentence:3"
+      ],
+      "prerequisiteUnitId": "C7-U02",
+      "blocks": [
+        {
+          "id": "C7-U03-B1",
+          "position": 1,
+          "exerciseType": "order_sentence",
+          "goal": "Remettre 5 mots en ordre avec un modèle visible",
+          "questionCount": 5,
+          "isHomogeneous": true
+        },
+        {
+          "id": "C7-U03-B2",
+          "position": 2,
+          "exerciseType": "order_sentence",
+          "goal": "Remettre 5 mots en ordre avec un modèle visible",
+          "questionCount": 5,
+          "isHomogeneous": true
+        },
+        {
+          "id": "C7-U03-B3",
+          "position": 3,
+          "exerciseType": "order_sentence",
+          "goal": "Remettre 5 mots en ordre avec un modèle visible",
+          "questionCount": 5,
+          "isHomogeneous": true
+        },
+        {
+          "id": "C7-U03-B4",
+          "position": 4,
+          "exerciseType": "order_sentence",
+          "goal": "Remettre 5 mots en ordre avec un modèle visible",
+          "questionCount": 5,
+          "isHomogeneous": true
+        }
+      ],
+      "status": "pedagogical_draft",
+      "auditRequired": true
+    },
+    {
+      "id": "C7-U04",
+      "chapterId": "C7",
+      "position": 4,
+      "title": "À l’écoute · 3 mots",
+      "skillTargets": [
+        "order_sentence:4"
+      ],
+      "prerequisiteUnitId": "C7-U03",
+      "blocks": [
+        {
+          "id": "C7-U04-B1",
+          "position": 1,
+          "exerciseType": "order_sentence",
+          "goal": "Remettre 3 mots en ordre en écoutant la phrase",
+          "questionCount": 5,
+          "isHomogeneous": true
+        },
+        {
+          "id": "C7-U04-B2",
+          "position": 2,
+          "exerciseType": "order_sentence",
+          "goal": "Remettre 3 mots en ordre en écoutant la phrase",
+          "questionCount": 5,
+          "isHomogeneous": true
+        },
+        {
+          "id": "C7-U04-B3",
+          "position": 3,
+          "exerciseType": "order_sentence",
+          "goal": "Remettre 3 mots en ordre en écoutant la phrase",
+          "questionCount": 5,
+          "isHomogeneous": true
+        },
+        {
+          "id": "C7-U04-B4",
+          "position": 4,
+          "exerciseType": "order_sentence",
+          "goal": "Remettre 3 mots en ordre en écoutant la phrase",
+          "questionCount": 5,
+          "isHomogeneous": true
+        }
+      ],
+      "status": "pedagogical_draft",
+      "auditRequired": true
+    },
+    {
+      "id": "C7-U05",
+      "chapterId": "C7",
+      "position": 5,
+      "title": "À l’écoute · 4 mots",
+      "skillTargets": [
+        "order_sentence:5"
+      ],
+      "prerequisiteUnitId": "C7-U04",
+      "blocks": [
+        {
+          "id": "C7-U05-B1",
+          "position": 1,
+          "exerciseType": "order_sentence",
+          "goal": "Remettre 4 mots en ordre en écoutant la phrase",
+          "questionCount": 5,
+          "isHomogeneous": true
+        },
+        {
+          "id": "C7-U05-B2",
+          "position": 2,
+          "exerciseType": "order_sentence",
+          "goal": "Remettre 4 mots en ordre en écoutant la phrase",
+          "questionCount": 5,
+          "isHomogeneous": true
+        },
+        {
+          "id": "C7-U05-B3",
+          "position": 3,
+          "exerciseType": "order_sentence",
+          "goal": "Remettre 4 mots en ordre en écoutant la phrase",
+          "questionCount": 5,
+          "isHomogeneous": true
+        },
+        {
+          "id": "C7-U05-B4",
+          "position": 4,
+          "exerciseType": "order_sentence",
+          "goal": "Remettre 4 mots en ordre en écoutant la phrase",
+          "questionCount": 5,
+          "isHomogeneous": true
+        }
+      ],
+      "status": "pedagogical_draft",
+      "auditRequired": true
+    },
+    {
+      "id": "C7-U06",
+      "chapterId": "C7",
+      "position": 6,
+      "title": "À l’écoute · 5 mots",
+      "skillTargets": [
+        "order_sentence:6"
+      ],
+      "prerequisiteUnitId": "C7-U05",
+      "blocks": [
+        {
+          "id": "C7-U06-B1",
+          "position": 1,
+          "exerciseType": "order_sentence",
+          "goal": "Remettre 5 mots en ordre en écoutant la phrase",
+          "questionCount": 5,
+          "isHomogeneous": true
+        },
+        {
+          "id": "C7-U06-B2",
+          "position": 2,
+          "exerciseType": "order_sentence",
+          "goal": "Remettre 5 mots en ordre en écoutant la phrase",
+          "questionCount": 5,
+          "isHomogeneous": true
+        },
+        {
+          "id": "C7-U06-B3",
+          "position": 3,
+          "exerciseType": "order_sentence",
+          "goal": "Remettre 5 mots en ordre en écoutant la phrase",
+          "questionCount": 5,
+          "isHomogeneous": true
+        },
+        {
+          "id": "C7-U06-B4",
+          "position": 4,
+          "exerciseType": "order_sentence",
+          "goal": "Remettre 5 mots en ordre en écoutant la phrase",
           "questionCount": 5,
           "isHomogeneous": true
         }

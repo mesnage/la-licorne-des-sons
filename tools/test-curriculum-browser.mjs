@@ -18,7 +18,7 @@ try {
 
   await page.goto(new URL('index.html?debug', base).href);
   await page.waitForFunction(() => window.__adventure?.state().ready);
-  const adventureTile = page.getByRole('link', { name: /Parcours d’aventure/ });
+  const adventureTile = page.locator('.curriculum-menu-tile');
   for (const [width, height] of [[320, 568], [375, 812], [430, 932], [844, 390], [1024, 768]]) {
     await page.setViewportSize({ width, height });
     const [tile, chapters] = await Promise.all([adventureTile.boundingBox(), page.locator('#chapterTiles').boundingBox()]);
@@ -30,7 +30,7 @@ try {
   await adventureTile.focus();
   await page.keyboard.press('Enter');
   await page.getByRole('heading', { name: 'Mon parcours de lecture' }).waitFor();
-  assert.equal(await page.locator('.curriculum-card').count(), 6);
+  assert.equal(await page.locator('.curriculum-card').count(), 7);
   assert.ok(await page.getByText('Version pilote', { exact: false }).isVisible());
 
   for (const [width, height] of [[320, 568], [375, 812], [430, 932], [768, 1024], [1024, 768], [844, 390]]) {
@@ -41,6 +41,9 @@ try {
     assert.equal(await page.locator('h1').evaluate(node => node === document.activeElement), true);
     assert.equal(await page.locator('[data-status="available"]').count(), 1);
     assert.equal(await page.locator('[data-status="upcoming"]').count(), 11);
+    assert.equal(await page.locator('.curriculum-trail-step').count(), 13);
+    assert.equal(await page.locator('.curriculum-traveler').locator('..').getByRole('link').getAttribute('data-unit-id'), 'C1-U01');
+    assert.ok(await page.getByText('Château du chapitre', { exact: true }).isVisible());
     assert.ok(await page.locator('[data-unit-id="C1-U08"]').evaluate(node => node.getBoundingClientRect().height >= 44));
     await page.locator('[data-unit-id="C1-U08"]').click();
     await page.getByRole('heading', { name: 'Le son /l/ : L' }).waitFor();
@@ -67,15 +70,19 @@ try {
   await page.getByRole('heading', { name: catalogue.units.at(-1).title, exact: true }).waitFor();
   await page.evaluate(() => { location.hash = 'inconnu'; });
   await page.getByRole('heading', { name: 'Mon parcours de lecture' }).waitFor();
-  await page.getByRole('link', { name: 'Jouer aux activités actuelles' }).click();
-  await page.locator('[data-chapter="letters"]').click();
-  assert.equal(await adventureTile.isVisible(), false);
+  await page.getByRole('link', { name: 'Ateliers de révision' }).click();
+  await page.waitForFunction(() => !document.getElementById('worldName')?.disabled);
+  const letters = page.locator('[data-chapter="letters"]');
+  await letters.focus();
+  await page.keyboard.press('Enter');
+  await adventureTile.waitFor({ state: 'hidden' });
+  assert.ok(await page.locator('#chapterActivities').getByRole('link', { name: 'Parcours d’aventure' }).isVisible());
   await page.locator('[data-activity-id="voyelles"]').click();
   await page.locator('#adventureQuestion').waitFor();
 
   assert.deepEqual(errors, []);
   assert.ok(requests.every(request => new URL(request).origin === new URL(base).origin));
-  console.log('Aperçu V2 : 68 unités, six chapitres, clavier, liens directs et retour au jeu Phaser.');
+  console.log('Aperçu V2 : 74 unités, sept chapitres, clavier, liens directs et retour au jeu Phaser.');
 } finally {
   await browser.close();
 }

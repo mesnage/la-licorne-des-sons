@@ -1,9 +1,10 @@
+import { sentenceOrderPool } from '../data/curriculum-sentences.js';
 import { actionPool, rereading } from '../data/curriculum-next.js';
 import { sounds } from '../data/curriculum-chapter-one.js';
 import { oralWords } from '../data/curriculum-pilot.js';
 import { answerCards, answerAudioKey, questionAudioKey } from '../data/curriculum-answer-cards.js';
 import { languagePairs, scenes, transferScenes } from '../data/curriculum-comprehension.js';
-import { simpleExercise, simpleInstructionKey } from '../data/curriculum-simple.js?v=lecture-aventure-1';
+import { simpleExercise, simpleInstructionKey } from '../data/curriculum-simple.js?v=sentier-1';
 import { createSourceQuestions } from './curriculum-questions.js';
 
 const syllableBlocks = [
@@ -147,6 +148,7 @@ function comprehensionPool(unit, source) {
 }
 
 function getPool(chapter, unit, seed) {
+  if (chapter.id === 'C7') return sentenceOrderPool(unit.position);
   if (chapter.id === 'C5') {
     return rereading[unit.position - 1].map(display => ({
       display, choices: [], answer: 1, modelAudio: 'lecture:modèle:' + display
@@ -168,12 +170,25 @@ function getPool(chapter, unit, seed) {
 function distinct(pool) {
   const seen = new Set();
   return pool.filter(question => {
-    const key = question.word ?? question.context ?? (question.prompt && question.display === undefined ? question.prompt
+    const key = question.sentence ?? question.word ?? question.context ?? (question.prompt && question.display === undefined ? question.prompt
       : question.display + '\n' + (question.labels ?? []).join('|'));
     if (seen.has(key)) return false;
     seen.add(key);
     return true;
   });
+}
+
+function sentenceTiles(order, seed) {
+  const tiles = order.map((_, index) => index);
+  let random = seed >>> 0;
+  for (let index = tiles.length - 1; index > 0; index--) {
+    random = (Math.imul(random, 1664525) + 1013904223) >>> 0;
+    const other = (random >>> 12) % (index + 1);
+    [tiles[index], tiles[other]] = [tiles[other], tiles[index]];
+  }
+  // A duplicate word can make shuffled indices look like an already solved sentence.
+  if (tiles.every((tile, index) => order[tile] === order[index])) tiles.push(tiles.shift());
+  return tiles;
 }
 
 export function createSimpleQuestions(chapter, unit, manifest, seed) {
@@ -203,7 +218,8 @@ export function createSimpleQuestions(chapter, unit, manifest, seed) {
       const question = {
         ...item, id: block.id + '-Q' + (position + 1), blockIndex, position, type, instruction, instructionAudio, answer,
         ...(item.pictures ? { pictures: ordered } : item.labels ? { labels: ordered } : { choices: ordered }),
-        ...(item.order ? { tiles: reverse ? [1, 0] : [0, 1] } : {}),
+        ...(item.order ? { tiles: item.sentence ? sentenceTiles(item.order, seed + blockIndex * 5 + position)
+          : reverse ? [1, 0] : [0, 1] } : {}),
         ...(item.spokenCards ? { optionAudio: ordered.map(answerAudioKey) } : {}),
         ...(item.question ? { questionAudio: questionAudioKey(item.question) } : {}),
         ...(counts ? { counts: [answer, rivalCount].sort((a, b) => a - b) } : {})

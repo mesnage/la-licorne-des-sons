@@ -1,5 +1,5 @@
 import { animals, objects } from '../data/curriculum-next.js';
-import { animalSVG } from './animals.js';
+import { curriculumAnimal as animal } from './curriculum-animals.js';
 
 const props = {
   apple: ['#d74c57', '<path d="M80 45c-31-21-52 4-42 34 6 18 19 27 42 20 23 7 36-2 42-20 10-30-11-55-42-34Z" fill="currentColor"/><path d="M80 45q-3-16 5-22"/><path d="M83 34q8-18 26-14-6 17-26 14Z" fill="#71a65c"/>'],
@@ -20,11 +20,6 @@ const scenery = {
   pond: '<ellipse cx="117" cy="96" rx="37" ry="16" fill="#89c9dc" stroke="#4f8fa3" stroke-width="3"/><path d="M92 96h12m5 8h15m-5-15h13" stroke="#e7f8fa" stroke-width="3"/>'
 };
 
-function animal(id, x, y, size) {
-  const uri = encodeURIComponent(animalSVG(id));
-  return `<image href="data:image/svg+xml,${uri}" x="${x}" y="${y}" width="${size}" height="${size}"/>`;
-}
-
 export function pictureLabel({ id, color, count, place, near }) {
   const [name, detail] = animals[id] ?? objects[id];
   if (color) return name + (color === 'red' ? ' rouge' : detail ? ' bleue' : ' bleu');
@@ -42,7 +37,7 @@ export function pictureSVG({ id, color, count, place, near }) {
     const fill = { red: '#d64956', blue: '#437fc5' }[color] ?? base;
     drawing = `<g color="${fill}" fill="none" stroke="#4e3c4c" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">${paths}</g>`;
   } else if (place) {
-    drawing = table + (place === 'on' ? animal(id, 48, 0, 64) : animal(id, 52, 67, 56));
+    drawing = table + (place === 'on' ? animal(id, 45, -3, 70) : animal(id, 50, 64, 60));
   } else if (near) {
     drawing = scenery[near] + animal(id, 4, 35, 82);
   } else if (count === 2) {

@@ -24,7 +24,7 @@ try {
     };
   });
 
-  await page.goto(new URL('curriculum-play.html?unite=C6-U06&bloc=4', base).href);
+  await page.goto(new URL('curriculum-play.html?unite=C7-U06&bloc=4', base).href);
   await page.getByText('Termine l’unité précédente', { exact: false }).waitFor();
   await page.goto(new URL('curriculum.html?test=1', base).href);
   await page.getByText('Toutes les unités et tous les blocs', { exact: false }).waitFor();
@@ -43,6 +43,16 @@ try {
       }
     }
   }
+
+  await page.getByRole('link', { name: 'Construire d’autres phrases' }).click();
+  await page.getByText('Atelier conseillé', { exact: true }).waitFor();
+  const activity = page.locator('[data-activity-id="sentence-listen-5"]');
+  await activity.click();
+  await page.locator('#adventureQuestion').waitFor();
+  await page.locator('#adventureHome').click();
+  await page.getByRole('link', { name: 'Retour à mon étape' }).click();
+  await page.getByRole('heading', { name: 'À l’écoute · 5 mots' }).waitFor();
+  assert.ok(new URL(page.url()).searchParams.has('test'));
 
   await page.evaluate(() => { location.hash = 'C4-U12'; });
   await page.getByRole('heading', { level: 2, name: 'Je lis ma première histoire' }).waitFor();
@@ -73,7 +83,7 @@ try {
   assert.equal(records[0].completed, true);
   assert.deepEqual(records.slice(1), [null, null]);
   assert.deepEqual(errors, []);
-  console.log('68 unités et 272 liens de blocs vérifiés. Un bloc joué jusqu’au bout, avec sauvegarde séparée.');
+  console.log('74 unités et 296 liens de blocs vérifiés. Un bloc joué jusqu’au bout, avec sauvegarde séparée.');
 } finally {
   await browser.close();
 }

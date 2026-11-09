@@ -7,6 +7,8 @@ const picture = ['sentence_picture', 'book', 'Lis la phrase. Choisis la bonne r�
 const assemble = ['assemble_word', 'letters', 'Écoute. Touche les deux morceaux dans l’ordre.'];
 const reread = ['reread_text', 'book', 'Lis à ton rythme. Puis écoute Robin et relis.'];
 const act = ['read_and_act', 'flag', 'Lis la consigne. Touche le bon dessin.'];
+const copySentence = ['order_sentence', 'sentence', 'Lis la phrase. Touche les mots dans le bon ordre.'];
+const listenSentence = ['order_sentence', 'sentence', 'Écoute la phrase. Touche les mots dans le bon ordre.'];
 const fill = ['fill_grapheme', 'letters', 'Écoute le mot. Touche les lettres qui manquent.'];
 
 const comprehension = [
@@ -31,7 +33,8 @@ export function simpleExercise(unit) {
   const [type, icon, instruction] = unit.chapterId === 'C1'
     ? (unit.position === 1 ? count : unit.position < 12 ? letters : decode)
     : unit.chapterId === 'C2' ? assemble : unit.chapterId === 'C3' ? fill
-    : unit.chapterId === 'C5' ? reread : unit.chapterId === 'C6' ? act : comprehension[unit.position - 1];
+    : unit.chapterId === 'C5' ? reread : unit.chapterId === 'C6' ? act
+    : unit.chapterId === 'C7' ? (unit.position <= 3 ? copySentence : listenSentence) : comprehension[unit.position - 1];
   return { type, icon, instruction };
 }
 

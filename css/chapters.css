@@ -58,3 +58,26 @@
  #chapterTiles .chapter-icon { margin-bottom:3px; }
  #chapterTiles .chapter-icon .illustration { width:28px; height:28px; }
 }
+
+.revision-title {
+  margin:12px 0 6px;
+  color:#51435c;
+  font-size:1rem;
+  font-weight:700;
+}
+.revision-return {
+  display:inline-flex;
+  align-items:center;
+  min-height:44px;
+  color:#67466f;
+  font-weight:650;
+  text-underline-offset:3px;
+}
+.revision-return[hidden] { display:none; }
+.revision-badge {
+  display:block;
+  margin-top:4px;
+  color:#5b3c65;
+  font-size:.75rem;
+  font-weight:700;
+}

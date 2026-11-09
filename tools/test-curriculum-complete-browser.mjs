@@ -85,7 +85,7 @@ try {
         if (item.prompt) {
           const promptLabels = {
             oral_count: 'Écouter le mot', sound_to_grapheme: 'Écouter le son',
-            assemble_word: 'Écouter', fill_grapheme: 'Écouter le mot', morph_choice: 'Écouter le nombre',
+            assemble_word: 'Écouter', order_sentence: 'Écouter la phrase', fill_grapheme: 'Écouter le mot', morph_choice: 'Écouter le nombre',
             oral_vocabulary: 'Écouter la phrase', story_listen_question: 'Écouter l’histoire'
           };
           await hear(promptLabels[item.type]);
@@ -110,9 +110,15 @@ try {
           await hear('Écouter la phrase avec Robin');
         } else if (item.order) {
           const paper = controls.querySelector('.pilot-writing-paper');
+          if (item.sentence && !item.prompt && controls.querySelector('.pilot-reading-text')?.textContent !== item.sentence) {
+            throw new Error(item.id + ' · modèle écrit absent');
+          }
+          if (item.sentence && item.prompt && controls.querySelector('.pilot-reading-text')) {
+            throw new Error(item.id + ' · modèle visible en mode écoute');
+          }
           if (!paper || paper.querySelector('button')) throw new Error(item.id + ' · support du mot absent');
           for (const tile of item.order) await press(tile, controls.querySelector('.pilot-word-tiles'));
-          await wait(() => controls.querySelector('.pilot-writing-line')?.textContent === item.word.toUpperCase(), 'mot écrit');
+          await wait(() => controls.querySelector('.pilot-writing-line')?.textContent === (item.sentence ?? item.word.toUpperCase()), 'texte écrit');
         } else if (item.choices.length) {
           if ([...controls.querySelectorAll('button')].filter(button => /^Choix [12]$/.test(button.textContent.trim()))
               .some(button => !button.disabled)) throw new Error('Choix activé avant écoute ' + item.id);

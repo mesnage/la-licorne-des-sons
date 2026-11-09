@@ -59,7 +59,7 @@ for (const id of requested) {
     const questions = chapter.units.flatMap(unit => createSimpleQuestions(chapter, unit, null, 0));
     const texts = Object.fromEntries(questions.filter(q => q.modelAudio).flatMap(q => [
       [q.instructionAudio, { text: q.instruction }],
-      [q.modelAudio, { text: q.display }]
+      [q.modelAudio, { text: q.sentence ?? q.display }]
     ]));
     result[id] = { keys: [...new Set(questions.flatMap(audibleKeys))].sort(), texts };
 }
@@ -149,7 +149,7 @@ def main():
     parser.add_argument('--generate', action='store_true', help='Submit paid audio-generation requests.')
     parser.add_argument('--env-file', type=Path, default=ROOT / '.env.local')
     parser.add_argument('--cache', type=Path, required=True, help='Directory for paid raw audio, outside the repository.')
-    parser.add_argument('--chapters', nargs='+', choices=['C1', 'C2', 'C3', 'C4', 'C5', 'C6'], default=['C1'])
+    parser.add_argument('--chapters', nargs='+', choices=['C1', 'C2', 'C3', 'C4', 'C5', 'C6', 'C7'], default=['C1'])
     args = parser.parse_args()
     chapters = list(dict.fromkeys(args.chapters))
     specs = json.loads(subprocess.check_output(['node','--input-type=module','-e',SOURCE,*chapters], cwd=ROOT))
@@ -172,7 +172,7 @@ def main():
         return text, spoken, CONTEXTS.get(spoken.removesuffix('.'))
 
     existing = {}
-    for chapter in ['C1', 'C2', 'C3', 'C4', 'C5', 'C6']:
+    for chapter in ['C1', 'C2', 'C3', 'C4', 'C5', 'C6', 'C7']:
         name = 'curriculum-'+chapter.lower()+'-robin.json'
         if (AUDIO / name).is_file():
             for track in read_json(name).values():

@@ -13,7 +13,7 @@ const curriculum = createCurriculum(read('../js/data/curriculum.v2.json'));
 const tracksFor = chapter => read('../audio/curriculum-' + chapter.id.toLowerCase() + '-robin.json');
 const manifest = chapter => Object.fromEntries(Object.entries(tracksFor(chapter)).map(([key, track]) => [key, track.file]));
 
-test('all 68 units use the same exercise and instruction for four blocks of five', () => {
+test('all 74 units use the same exercise and instruction for four blocks of five', () => {
   for (const chapter of curriculum.chapters) {
     const files = manifest(chapter);
     const tracks = tracksFor(chapter);
@@ -56,7 +56,16 @@ test('all 68 units use the same exercise and instruction for four blocks of five
             if (chapter.id === 'C4') {
               assert.ok(!/\p{Extended_Pictographic}/u.test([q.display, ...q.labels].join(' ')), q.id);
             }
-            if (q.modelAudio) assert.equal(tracks[q.modelAudio].text, q.display);
+            if (q.modelAudio) assert.equal(tracks[q.modelAudio].text, q.sentence ?? q.display);
+            if (chapter.id === 'C7') {
+              assert.equal(q.order.length, 3 + (unit.position - 1) % 3);
+              assert.equal(q.display, unit.position <= 3 ? q.sentence : undefined);
+              assert.equal(q.prompt, unit.position > 3 ? q.modelAudio : undefined);
+              assert.deepEqual([...q.tiles].sort(), [...q.order.keys()]);
+              assert.notDeepEqual(q.tiles.map(index => q.order[index]), q.order);
+              for (const index of q.order.keys()) session.toggleTile(index);
+              assert.equal(session.orderIsCorrect(), true);
+            }
             if (chapter.id === 'C6') {
               assert.equal(q.pictures.length, 2);
               assert.notDeepEqual(q.pictures[0], q.pictures[1]);
@@ -96,7 +105,7 @@ test('the new sequence restarts old partial sessions and retains completed units
 });
 
 
-test('chapters 2 through 6 have a complete local Robin manifest, including optional spoken answers', () => {
+test('chapters 2 through 7 have a complete local Robin manifest, including optional spoken answers', () => {
   for (const chapter of curriculum.chapters.slice(1)) {
     const tracks = tracksFor(chapter);
     const files = Object.fromEntries(Object.entries(tracks).map(([key, track]) => [key, track.file]));

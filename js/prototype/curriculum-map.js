@@ -1,8 +1,9 @@
-import { exerciseVersion, simpleExercise } from '../data/curriculum-simple.js?v=lecture-aventure-1';
+import { revisionFor, revisionUrl } from './curriculum-revision.js';
+import { exerciseVersion, simpleExercise } from '../data/curriculum-simple.js?v=sentier-1';
 import { illustration } from '../illustrations.js';
-import { createCurriculum } from '../learning/curriculum.js?v=lecture-aventure-1';
+import { createCurriculum } from '../learning/curriculum.js?v=sentier-1';
 import { chapterMapUrl, chapterPlayUrl } from '../learning/chapter-one.js';
-import { pilotProgressKey, pilotQuestionCount, readPilotProgress, restoreProgrammeState } from '../learning/pilot-session.js?v=lecture-aventure-1';
+import { pilotProgressKey, pilotQuestionCount, readPilotProgress, restoreProgrammeState } from '../learning/pilot-session.js?v=sentier-1';
 import { WORLDS, worldPanorama } from './model.js';
 
 const testMode = new window.URLSearchParams(location.search).get('test') === '1';
@@ -30,7 +31,7 @@ function art(src, className = '') {
 }
 
 function chapterCard(chapter, index, completedUnits) {
-  const card = link('#' + chapter.id, '', 'curriculum-card tone-' + ['rose', 'mint', 'sky', 'lavender', 'peach', 'gold'][index]);
+  const card = link('#' + chapter.id, '', 'curriculum-card tone-' + ['rose', 'mint', 'sky', 'lavender', 'peach', 'gold', 'lavender'][index]);
   const world = WORLDS.find(world => world.habitat === chapter.theme);
   if (world) card.append(art(worldPanorama(world), 'curriculum-panorama'));
 
@@ -52,7 +53,7 @@ function chapterHome(curriculum, completedUnits, pilot) {
   intro.append(
     element('p', 'curriculum-label', 'Le livre de Paillette'),
     element('h1', '', 'Mon parcours de lecture'),
-    element('p', '', 'Des premiers sons aux consignes à lire. Ouvre un chapitre pour découvrir le voyage.')
+    element('p', '', 'Des premiers sons aux phrases à construire. Suis Paillette vers le château.')
   );
   const allUnits = curriculum.chapters.flatMap(chapter => chapter.units);
   const next = allUnits.find(unit => !completedUnits.has(unit.id));
@@ -109,6 +110,11 @@ function unitDetail(unit, status, pilot) {
       ? 'Reprendre l’unité' : progress?.completed ? 'Voir le château' : 'Jouer cette unité';
     detail.append(link(chapterPlayUrl(unit.id, testMode), label, 'curriculum-link curriculum-play-link'));
   }
+  const [, revisionLabel] = revisionFor(unit);
+  const practice = element('aside', 'curriculum-revision');
+  practice.append(element('p', 'curriculum-label', 'Pour t’entraîner'),
+    link(revisionUrl(unit, testMode), revisionLabel + ' →'));
+  detail.append(practice);
   return detail;
 }
 
@@ -120,24 +126,85 @@ function chapterView(curriculum, chapter, selectedUnit, completedUnits, pilot) {
   header.append(link('#chapitres', '← Les chapitres'), heading, element('p', '', chapter.description));
 
   const map = element('div', selectedUnit ? 'curriculum-map has-unit' : 'curriculum-map');
+  const path = element('div', 'curriculum-trail');
+  const world = WORLDS.find(world => world.habitat === chapter.theme);
+  if (world) path.style.setProperty('--trail-panorama', 'url("' + worldPanorama(world) + '")');
   const units = element('ol', 'curriculum-units');
   units.setAttribute('aria-label', 'Unités du chapitre');
-  for (const unit of chapter.units) {
+  const firstUnfinished = chapter.units.find(unit => !completedUnits.has(unit.id));
+  const active = firstUnfinished?.position ?? chapter.units.length + 1;
+  const stops = [22, 32, 24, 15];
+  const stopAt = index => stops[index % stops.length];
+  const paillette = element('span', 'curriculum-traveler');
+  paillette.setAttribute('aria-hidden', 'true');
+  const castleStop = 25;
+  function placeTraveler(item) {
+    item.append(paillette);
+    if (selectedUnit) return;
+    // Animate only on a later visit after actual progress in this chapter.
+    const key = 'licorne.trail.' + chapter.id + (testMode ? '.test' : '');
+    try {
+      const previous = Number(window.sessionStorage.getItem(key));
+      window.sessionStorage.setItem(key, String(active));
+      if (previous > 0 && previous < active
+          && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        requestAnimationFrame(() => {
+          const from = units.children[previous - 1]?.querySelector('.curriculum-stop');
+          const to = item.querySelector('.curriculum-stop');
+          if (!from || !to || !paillette.offsetWidth) return;
+          const here = to.getBoundingClientRect();
+          const steps = [...units.children].slice(previous - 1, active).map(step => {
+            const point = step.querySelector('.curriculum-stop').getBoundingClientRect();
+            return { transform: 'translate(' + (point.left - here.left) + 'px,' + (point.top - here.top) + 'px)' };
+          });
+          paillette.classList.add('is-walking');
+          const walking = paillette.animate(steps, { duration: Math.min(1400, 520 * (active - previous)), easing: 'ease-in-out' });
+          const stop = () => paillette.classList.remove('is-walking');
+          walking.finished.then(stop, stop);
+        });
+      }
+    } catch { /* The map still shows the current stop without session storage. */ }
+  }
+  for (const [index, unit] of chapter.units.entries()) {
     const status = getStatus(unit.id);
-    const item = element('li', '');
+    const item = element('li', 'curriculum-trail-step');
+    const stop = stopAt(index);
+    const next = index === chapter.units.length - 1 ? castleStop : stopAt(index + 1);
+    const pathShape = 'M ' + stop + ' 0 C ' + stop + ' 52 ' + next + ' 48 ' + next + ' 100';
+    const road = element('div', 'curriculum-road');
+    road.setAttribute('aria-hidden', 'true');
+    road.innerHTML = '<svg viewBox="0 0 100 100" preserveAspectRatio="none"><path d="' + pathShape + '"/><path d="' + pathShape + '"/></svg>';
+    if (status === 'completed') road.classList.add('is-traveled');
+    item.style.setProperty('--stop', stop + '%');
     const anchor = link('#' + unit.id, '', 'curriculum-unit');
     anchor.dataset.unitId = unit.id;
     anchor.dataset.status = status;
     if (unit === selectedUnit) anchor.setAttribute('aria-current', 'page');
-    const number = element('span', 'curriculum-unit-number', String(unit.position));
+    const number = element('span', 'curriculum-unit-number curriculum-stop', String(unit.position));
     number.setAttribute('aria-hidden', 'true');
     const copy = element('div', '');
-    copy.append(element('strong', '', unit.title), element('small', '', statusLabels[status]));
+    copy.append(element('strong', '', unit.title), element('small', '', active === unit.position
+      ? (testMode ? 'Paillette est ici · À tester' : status === 'upcoming' ? 'Paillette attend ici' : 'Paillette est ici')
+      : statusLabels[status]));
     anchor.append(number, copy);
-    item.append(anchor);
+    item.append(road, anchor);
+    if (unit.position === active) placeTraveler(item);
     units.append(item);
   }
-  map.append(units);
+  const destination = element('li', 'curriculum-trail-step curriculum-trail-end');
+  destination.style.setProperty('--stop', castleStop + '%');
+  const castle = art('assets/storybook/chateau-etoile.webp', 'curriculum-stop');
+  const nextChapter = curriculum.chapters[curriculum.chapters.indexOf(chapter) + 1];
+  const title = element('strong', '', nextChapter ? 'Château du chapitre' : 'Château final');
+  const arrival = element('div', 'curriculum-arrival');
+  arrival.append(title);
+  if (!firstUnfinished && nextChapter) arrival.append(link('#' + nextChapter.id, 'Chapitre suivant →'));
+  else arrival.append(element('small', '', firstUnfinished ? 'Au bout du sentier' : 'Parcours terminé !'));
+  destination.append(castle, arrival);
+  if (!firstUnfinished) placeTraveler(destination);
+  units.append(destination);
+  path.append(units);
+  map.append(path);
 
   if (selectedUnit) {
     map.append(unitDetail(selectedUnit, getStatus(selectedUnit.id), pilot));
@@ -147,7 +214,7 @@ function chapterView(curriculum, chapter, selectedUnit, completedUnits, pilot) {
 }
 
 async function openCatalogue() {
-  const response = await fetch(new window.URL('../data/curriculum.v2.json', import.meta.url));
+  const response = await fetch(new window.URL('../data/curriculum.v2.json?v=sentier-1', import.meta.url));
   if (!response.ok) throw new Error('Chargement du catalogue V2 : ' + response.status);
   const curriculum = createCurriculum(await response.json());
   if (testMode) {

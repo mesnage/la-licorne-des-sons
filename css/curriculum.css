@@ -136,9 +136,6 @@ body.curriculum {
 @media (min-width:600px) {
   .curriculum-chapters { grid-template-columns:repeat(2,minmax(0,1fr)); }
 }
-@media (max-width:767px) {
-  .curriculum-map.has-unit .curriculum-units { display:none; }
-}
 @media (min-width:768px) {
   .curriculum-map.has-unit { grid-template-columns:minmax(0,2fr) minmax(0,3fr); }
   .curriculum-unit-back { display:none; }
@@ -151,4 +148,90 @@ body.curriculum {
   color:#fff;
   background:#6e487c;
   font-weight:650;
+}
+
+.curriculum-trail {
+  position:relative;
+  isolation:isolate;
+  overflow:hidden;
+  border:1px solid #b9c7ae;
+  border-radius:24px;
+  background:
+    linear-gradient(180deg,#edf1dc88,#e5efd4ee 240px,#edf2dc 65%,#e0ead1),
+    var(--trail-panorama) center top / auto 350px no-repeat,
+    #e6edd2;
+  padding:36px clamp(8px,2.4vw,22px) 20px;
+}
+.curriculum-trail .curriculum-units { gap:0; }
+.curriculum-trail-step {
+  position:relative;
+  display:grid;
+  align-items:center;
+  min-height:clamp(88px,13vw,110px);
+}
+.curriculum-road {
+  position:absolute;
+  inset:50% 0 -50%;
+  pointer-events:none;
+}
+.curriculum-road svg { width:100%; height:100%; overflow:visible; }
+.curriculum-road path { fill:none; stroke:#a98b67; stroke-width:22px; vector-effect:non-scaling-stroke; }
+.curriculum-road path + path { stroke:#f2d6a2; stroke-width:18px; }
+.curriculum-road.is-traveled path + path { stroke:#ffe8a4; }
+.curriculum-trail .curriculum-unit,.curriculum-arrival {
+  position:relative;
+  min-height:56px;
+  width:60%;
+  margin-left:39%;
+  border-radius:12px;
+  background:#fffcf4;
+  box-shadow:0 2px 3px #3c542717;
+}
+.curriculum-trail .curriculum-unit { position:static; padding:8px 10px; }
+.curriculum-trail .curriculum-unit[data-status="completed"] { background:#f9fce9; }
+.curriculum-trail .curriculum-unit[data-status="upcoming"] { background:#fffaf1; }
+.curriculum-trail .curriculum-unit[data-status="available"] { border-color:#7b9361; }
+.curriculum-trail .curriculum-stop {
+  position:absolute;
+  z-index:1;
+  left:var(--stop);
+  top:50%;
+  transform:translate(-50%,-50%);
+  width:36px;
+  height:36px;
+  background:#fff9de;
+  border:2px solid #8f7357;
+  color:#4b3c59;
+  font-weight:750;
+}
+.curriculum-trail [data-status="completed"] .curriculum-stop { background:#f8d87d; }
+.curriculum-trail [data-status="upcoming"] .curriculum-stop { border-style:dashed; }
+.curriculum-traveler {
+  position:absolute;
+  z-index:2;
+  left:calc(var(--stop) - 29px);
+  top:calc(50% - 67px);
+  width:58px;
+  height:58px;
+  background:url('../assets/storybook/paillette-etoilee.webp') 0 0 / 232px 174px no-repeat;
+  filter:drop-shadow(0 2px 2px #76524955);
+  pointer-events:none;
+}
+.curriculum-traveler.is-walking { animation:curriculum-walk .4s steps(4,end) infinite; }
+@keyframes curriculum-walk {
+  from { background-position:0 -58px; }
+  to { background-position:-232px -58px; }
+}
+.curriculum-trail-end .curriculum-stop { width:76px; height:76px; border:0; background:none; object-fit:contain; }
+.curriculum-trail-end .curriculum-traveler { top:calc(50% - 78px); }
+.curriculum-arrival { display:grid; align-content:center; gap:3px; padding:8px 10px; }
+.curriculum-revision {
+  margin-top:18px;
+  padding-top:12px;
+  border-top:1px solid #e4d6e5;
+}
+.curriculum-revision a { margin-top:3px; }
+.curriculum-header nav { display:flex; gap:4px 16px; flex-wrap:wrap; }
+@media (max-width:767px) {
+  .curriculum-map.has-unit .curriculum-trail { display:none; }
 }

@@ -7,7 +7,7 @@
 <link rel="stylesheet" href="css/style.css"><link rel="stylesheet" href="css/prototype.css?v=phoneme-red-2">
 <link rel="stylesheet" href="css/storybook.css">
 <link rel="stylesheet" href="css/sentences.css?v=chapters-wheel-1">
-<link rel="stylesheet" href="css/chapters.css?v=curriculum-menu-2">
+<link rel="stylesheet" href="css/chapters.css?v=sentier-1">
 </head>
 <body class="prototype" data-screen="menu">
 <div class="storybook-vista" aria-hidden="true"><span class="storybook-caption">Un peu de magie.<br>Beaucoup de découvertes.</span></div>
@@ -25,19 +25,22 @@
   <p class="adventure-intro">Choisis comment accompagner Paillette jusqu’au château.</p>
   <a class="chapter-tile curriculum-menu-tile tone-gold" href="curriculum.html">
    <img src="assets/storybook/chateau-etoile.webp" width="56" height="56" alt="">
-   <span><strong>Parcours d’aventure</strong><small>De l’écoute des sons à la lecture</small></span>
+   <span><strong>Parcours d’aventure</strong><small>Suis le sentier de lecture de Paillette</small></span>
    <span class="curriculum-menu-arrow" aria-hidden="true">→</span>
   </a>
-  <div id="chapterTiles" class="chapter-tiles" role="group" aria-label="Les quatre chapitres"></div>
+  <a class="revision-return" href="curriculum.html" data-revision-return hidden>Retour à mon étape</a>
+  <h2 id="revisionTitle" class="revision-title">Ateliers de révision</h2>
+  <div id="chapterTiles" class="chapter-tiles" role="group" aria-labelledby="revisionTitle"></div>
   </div>
   <div id="chapterActivities" hidden>
-   <button id="chapterBack" class="chapter-back" type="button" aria-label="Revenir aux quatre chapitres">← Les chapitres</button>
+   <button id="chapterBack" class="chapter-back" type="button" aria-label="Revenir aux ateliers de révision">← Tous les ateliers</button>
    <h2 id="chapterTitle" class="chapter-title" tabindex="-1"></h2>
-   <p class="chapter-hint">Choisis ton activité.</p>
+   <p class="chapter-hint" id="revisionHint">Choisis ton activité.</p>
+   <a class="revision-return" href="curriculum.html" data-revision-return>Parcours d’aventure →</a>
    <div id="adventureModules" class="adventure-modules"></div>
   </div>
   <div class="adventure-menu-footer"><button id="rewardPending" class="adventure-text-button">Mes cadeaux du jour</button><span>10 cristaux par monde · un refuge à mi-chemin</span></div>
-  <details class="adventure-help"><summary>Pour les parents · Comment jouer ?</summary><p>Chaque bonne réponse fait avancer Paillette. Un monde compte 10 cristaux ; le refuge à 5 protège la première moitié du chemin. Une erreur ramène au dernier refuge, puis on réessaie tranquillement.</p><p>Une aventure terminée donne un tour de roue. Les progrès et les cadeaux restent sur cet appareil, sans compte. Choisis un des quatre chapitres : Les lettres, Les sons, Les mots ou Les phrases. Le bouton « Les chapitres » permet de revenir au choix des chapitres. Dans « Trouve la faute ! », touche le mot mal écrit dans la phrase de trois mots. Pour les phrases à construire, touche les mots dans le bon ordre : avec un modèle visible ou seulement en écoutant, avec 3 ou 5 mots. « Quel son entends-tu ? » propose les 36 sons avec la voix de Robin et trois choix bien distincts. La voix de Robin accompagne aussi toutes les autres activités. Vérifiez le volume.</p><p>Le bouton ⏸ permet de faire une pause ou de changer d’activité. Invitez votre enfant à regarder toutes les lettres, sans se presser.</p></details>
+  <details class="adventure-help"><summary>Pour les parents · Comment jouer ?</summary><p>Chaque bonne réponse fait avancer Paillette. Un monde compte 10 cristaux ; le refuge à 5 protège la première moitié du chemin. Une erreur ramène au dernier refuge, puis on réessaie tranquillement.</p><p>Une aventure terminée donne un tour de roue. Les progrès et les cadeaux restent sur cet appareil, sans compte. Le Parcours d’aventure propose une progression guidée. Les ateliers permettent de revoir les lettres, les sons, les mots et les phrases à tout moment. Dans « Trouve la faute ! », touche le mot mal écrit dans la phrase de trois mots. Pour les phrases à construire, touche les mots dans le bon ordre : avec un modèle visible ou seulement en écoutant, avec 3 ou 5 mots. « Quel son entends-tu ? » propose les 36 sons avec la voix de Robin et trois choix bien distincts. La voix de Robin accompagne aussi toutes les autres activités. Vérifiez le volume.</p><p>Le bouton ⏸ permet de faire une pause ou de changer d’activité. Invitez votre enfant à regarder toutes les lettres, sans se presser.</p></details>
   <a id="legacyFallback" href="classic.html" hidden>Ouvrir les activités de secours →</a>
   <p id="engineStatus" class="adventure-status" role="status">Paillette prépare son voyage…</p>
  </section>
@@ -68,6 +71,7 @@
   <button id="winReward" class="adventure-primary">Tourner la roue des cadeaux</button>
   <button id="adventureAgain" class="adventure-secondary">Rejouer cette aventure</button>
   <button id="adventureChoose" class="adventure-text-button">Choisir une autre activité</button>
+  <a class="revision-return" href="curriculum.html" data-revision-return>Parcours d’aventure →</a>
  </section>
  <p id="adventureStorage" class="adventure-storage"></p>
 </main>
@@ -83,6 +87,7 @@
  <p>Paillette t’attend ici. Tu peux reprendre exactement où tu en étais.</p>
  <button id="adventureResume" class="adventure-primary" autofocus>Reprendre l’aventure</button>
  <button id="adventureLeave" class="adventure-text-button">Choisir une autre activité</button>
+ <a class="revision-return" href="curriculum.html" data-revision-return>Parcours d’aventure →</a>
  <small>Changer d’activité recommence le voyage. Les progrès et les cadeaux sont conservés.</small>
 </dialog>
 <!-- Shared reward wheel and local gift counts. -->
@@ -103,5 +108,5 @@
   <ul id="dailyPrizes" class="daily-prizes"></ul>
   <p class="reward-storage-note"></p>
 </dialog>
-<script type="module" src="js/prototype/boot.js?v=phoneme-red-3"></script>
+<script type="module" src="js/prototype/boot.js?v=sentier-1"></script>
 </body></html>

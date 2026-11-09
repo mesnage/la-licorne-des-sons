@@ -1,3 +1,4 @@
+import { returnFromRevision } from './curriculum-revision.js';
 import { PHONEME_ACTIVITY } from '../phonemes/model.js?v=phoneme-red-3';
 import { createWorld } from './world.js';
 import { WORLDS, worldPanorama, MODULES, MENU_ITEMS, CHAPTERS, createAdventure, createJourneyMemory, journeyState } from './model.js?v=phoneme-red-3';
@@ -30,6 +31,16 @@ let session=null, mode='voyelles', level=1, token=0, promptToken=0, ready=false,
 const resumeWaiters=new Set();
 let selectedChapter=null;
 const activityButtons=new Map();
+const menuParams=new window.URLSearchParams(location.search);
+const suggestedActivity=menuParams.get('revision');
+const returnUrl=returnFromRevision(menuParams);
+if(returnUrl){
+  for(const link of document.querySelectorAll('[data-revision-return]')){
+    link.href=returnUrl;
+    link.hidden=false;
+    link.textContent='← Retour à mon étape';
+  }
+}
 initRewards();
 for(const el of document.querySelectorAll('[data-art]'))el.innerHTML=illustration(el.dataset.art);
 function stopAudio(){promptToken++;hush();voice.stop();}
@@ -253,6 +264,8 @@ function openChapter(id){
   $('chapterTitle').textContent=chapter.title;$('adventureMenu').setAttribute('aria-labelledby','chapterTitle');
   for(const [activityId,button] of activityButtons)button.hidden=!chapter.activities.includes(activityId);
   for(const activityId of chapter.activities)$('adventureModules').appendChild(activityButtons.get(activityId));
+  $('revisionHint').textContent=chapter.activities.includes(suggestedActivity)
+    ? 'L’atelier conseillé est indiqué ci-dessous.' : 'Choisis ton activité.';
   $('adventureMenu').scrollTop=0;$('chapterTitle').focus({preventScroll:true});
 }
 for(const chapter of CHAPTERS){
@@ -261,6 +274,14 @@ for(const chapter of CHAPTERS){
   const title=document.createElement('strong');title.textContent=chapter.title;
   const detail=document.createElement('small');detail.textContent=chapter.detail;
   button.append(icon,title,detail);button.addEventListener('click',()=>openChapter(chapter.id));$('chapterTiles').appendChild(button);
+}
+const suggestedButton=activityButtons.get(suggestedActivity);
+if(suggestedButton){
+  const badge=document.createElement('span');
+  badge.className='revision-badge';
+  badge.textContent='Atelier conseillé';
+  suggestedButton.append(badge);
+  openChapter(suggestedButton.dataset.chapterId);
 }
 $('chapterBack').addEventListener('click',()=>showChapters(selectedChapter));
 function openWorldPicker(){

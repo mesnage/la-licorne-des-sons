@@ -1,14 +1,15 @@
+import { revisionFor, revisionUrl } from './curriculum-revision.js';
 import * as playback from '../audio.js?v=curriculum-chapter-1';
 import { chapterMapUrl, chapterPlayUrl } from '../learning/chapter-one.js';
-import { createSimpleQuestions } from '../learning/curriculum-simple.js?v=lecture-aventure-1';
-import { exerciseVersion } from '../data/curriculum-simple.js?v=lecture-aventure-1';
+import { createSimpleQuestions } from '../learning/curriculum-simple.js?v=sentier-1';
+import { exerciseVersion } from '../data/curriculum-simple.js?v=sentier-1';
 import { WORLDS } from './model.js';
 import { illustration } from '../illustrations.js';
-import { createCurriculum } from '../learning/curriculum.js?v=lecture-aventure-1';
+import { createCurriculum } from '../learning/curriculum.js?v=sentier-1';
 import {
   createPilotSession, newPilotState, readPilotProgress, restoreProgrammeState, unitProgressKey
-} from '../learning/pilot-session.js?v=lecture-aventure-1';
-import { pictureLabel, pictureSVG } from './curriculum-pictures.js';
+} from '../learning/pilot-session.js?v=sentier-1';
+import { pictureLabel, pictureSVG } from './curriculum-pictures.js?v=sentier-1';
 import { pilotUnitId } from '../data/curriculum-pilot.js';
 
 const get = id => document.getElementById(id);
@@ -43,7 +44,7 @@ async function readJson(path) {
 }
 
 async function openPilot() {
-  const catalogue = createCurriculum(await readJson('js/data/curriculum.v2.json?v=lecture-aventure-1'));
+  const catalogue = createCurriculum(await readJson('js/data/curriculum.v2.json?v=sentier-1'));
   const params = new window.URLSearchParams(location.search);
   const testMode = params.get('test') === '1';
   const id = params.get('unite') ?? pilotUnitId;
@@ -57,6 +58,10 @@ async function openPilot() {
   const chapter = catalogue.getChapter(unit.chapterId);
   const block = testMode && unit.blocks.find(item => String(item.position) === params.get('bloc'));
   get('pilotTestMode').hidden = !testMode;
+  const [, revisionLabel] = revisionFor(unit);
+  const revision = get('pilotRevision');
+  revision.href = revisionUrl(unit, testMode);
+  revision.textContent = revisionLabel + ' →';
   const allUnits = catalogue.chapters.flatMap(item => item.units);
   const nextUnit = allUnits[allUnits.indexOf(unit) + 1];
   const nextChapter = nextUnit && nextUnit.chapterId !== unit.chapterId;
@@ -176,7 +181,7 @@ async function openPilot() {
         feedback.textContent = 'Regarde le dessin entouré.';
       } else if (question.order) {
         feedback.textContent = 'Touche « ' + question.order[session.snapshot().order.length] + ' » pour continuer.';
-        play([question.prompt]);
+        if (question.prompt) play([question.prompt]);
       } else if (question.choices.length) {
         feedback.textContent = 'Écoute le choix ' + (question.answer + 1) + '.';
         play([question.choices[question.answer]]);
@@ -198,7 +203,8 @@ async function openPilot() {
     save();
     if (conflict) return;
     if (!result) {
-      feedback.textContent = session.question.pictures ? 'Relis la phrase et essaie encore.'
+      feedback.textContent = session.question.sentence ? 'Essaie avec un autre mot.'
+        : session.question.pictures ? 'Relis la phrase et essaie encore.'
         : 'Tu peux réécouter et essayer encore.';
       if (session.snapshot().wrong >= 2) showCorrection(session.question);
       return;
@@ -223,14 +229,16 @@ async function openPilot() {
     paper.className = 'pilot-writing-paper';
     const label = document.createElement('div');
     label.className = 'pilot-writing-label';
-    label.textContent = 'Mon mot';
+    label.textContent = question.sentence ? 'Ma phrase' : 'Mon mot';
     const line = makeRow('pilot-writing-line');
+    if (question.sentence) line.classList.add('pilot-sentence-line');
     line.setAttribute('aria-live', 'polite');
     if (placed.length === question.order.length) {
-      line.textContent = question.word.toUpperCase();
+      line.textContent = question.sentence ?? question.word.toUpperCase();
     } else {
       const writing = document.createElement('span');
-      writing.textContent = placed.map(index => question.order[index]).join('');
+      const text = placed.map(index => question.order[index]).join(question.sentence ? ' ' : '');
+      writing.textContent = question.sentence && text ? text[0].toLocaleUpperCase('fr') + text.slice(1) : text;
       line.append(writing);
       for (let position = placed.length; position < question.order.length; position++) {
         const blank = document.createElement('span');
@@ -245,10 +253,11 @@ async function openPilot() {
 
   function showWordTiles(question, placed) {
     showWrittenWord(question, placed);
-    const tray = makeRow('pilot-word-tiles');
+    const tray = makeRow('pilot-word-tiles' + (question.sentence ? ' pilot-sentence-tiles' : ''));
     for (const tile of question.tiles) {
       const piece = question.order[tile];
       const node = button(piece, () => {
+        if (conflict || pauseDialog.open || document.hidden) return;
         if (piece !== question.order[session.snapshot().order.length]) {
           answer(2);
           return;
@@ -322,6 +331,7 @@ async function openPilot() {
     const promptLabels = {
       oral_count: 'Écouter le mot',
       assemble_word: 'Écouter',
+      order_sentence: 'Écouter la phrase',
       fill_grapheme: 'Écouter le mot',
       morph_choice: 'Écouter le nombre',
       sound_to_grapheme: 'Écouter le son',
@@ -389,6 +399,7 @@ async function openPilot() {
     instructions.textContent = '';
     get('pilotCount').textContent = state.answers.length + ' / ' + total;
     get('pilotCrystals').value = state.answers.length;
+    get('pilotRevision').hidden = !session.finished;
     if (session.finished) {
       heading.textContent = block ? 'Bloc ' + block.position + ' testé !' : !nextUnit ? 'Le parcours est terminé !'
         : nextChapter ? 'Chapitre terminé !' : 'Bienvenue au château !';
@@ -421,13 +432,13 @@ async function openPilot() {
     } else if (session.solved) {
       if (question.order) showWrittenWord(question, state.order);
       if (question.modelAudio) {
-        showReadingText(question);
+        if (!question.sentence) showReadingText(question);
         if (question.pictures) {
           const picture = makeRow('pilot-picture-solution');
           picture.innerHTML = pictureSVG(question.pictures[question.answer]);
           controls.append(picture);
         }
-        controls.append(listen(question.pictures ? 'Écouter la phrase avec Robin' : 'Réécouter Robin',
+        controls.append(listen(question.pictures || question.sentence ? 'Écouter la phrase avec Robin' : 'Réécouter Robin',
           [question.modelAudio], 'pilot-instruction'));
       }
       heading.textContent = question.position === 4 ? 'Bloc ' + (question.blockIndex + 1) + ' terminé !' : 'Un cristal de plus !';
