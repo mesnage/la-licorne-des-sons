@@ -4,28 +4,25 @@
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#f6e6d9"><title>L’aventure de Paillette · La Licorne des Sons</title>
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
-<link rel="stylesheet" href="css/style.css"><link rel="stylesheet" href="css/prototype.css?v=phoneme-red-2">
-<link rel="stylesheet" href="css/storybook.css">
-<link rel="stylesheet" href="css/sentences.css?v=chapters-wheel-1">
-<link rel="stylesheet" href="css/chapters.css?v=storybook-2">
+<link rel="stylesheet" href="css/style.css"><link rel="stylesheet" href="css/prototype.css?v=accueil-1">
+<link rel="stylesheet" href="css/storybook.css?v=accueil-1">
+<link rel="stylesheet" href="css/sentences.css?v=accueil-1">
+<link rel="stylesheet" href="css/chapters.css?v=accueil-1">
 </head>
 <body class="prototype" data-screen="menu">
-<div class="storybook-vista" aria-hidden="true"><span class="storybook-caption">Un peu de magie.<br>Beaucoup de découvertes.</span></div>
 <div id="adventureWorld" role="img" aria-label="Paillette suit un sentier à travers la prairie et la forêt vers le château"></div>
 <header class="adventure-header">
  <a href="index.html" class="adventure-brand"><span aria-hidden="true">✦</span> La Licorne des Sons</a>
- <button id="worldName" class="world-name" type="button" aria-haspopup="dialog" aria-controls="worldDialog" aria-expanded="false" aria-label="Choisir un monde" disabled><span data-art="flower"></span><span class="world-name-label">La prairie des fleurs</span><span class="world-chevron" aria-hidden="true">⌄</span></button>
+ <button id="worldName" class="world-name" type="button" aria-haspopup="dialog" aria-controls="worldDialog" aria-expanded="false" aria-label="Choisir un monde" disabled><span data-art="flower"></span><span class="world-name-label">La prairie des fleurs</span><span class="world-name-short" aria-hidden="true">Décor</span><span class="world-chevron" aria-hidden="true">⌄</span></button>
  <button id="adventureHome" class="adventure-icon" hidden aria-label="Faire une pause ou choisir une activité"><svg width="16" height="20" viewBox="0 0 16 20" aria-hidden="true"><rect width="5" height="20" rx="2" fill="currentColor"/><rect x="11" width="5" height="20" rx="2" fill="currentColor"/></svg></button>
 </header>
 <main>
  <section id="adventureMenu" class="adventure-menu" aria-labelledby="menuTitle">
   <div id="chapterHome">
-  <p class="adventure-eyebrow">UN PETIT PAS, UNE GRANDE AVENTURE</p>
-  <h1 id="menuTitle">Le château<br> <em>nous attend.</em></h1>
-  <p class="adventure-intro">Choisis comment accompagner Paillette jusqu’au château.</p>
+  <h1 id="menuTitle" class="menu-heading">Joue avec Paillette</h1>
   <a class="chapter-tile curriculum-menu-tile tone-gold" href="curriculum.html">
    <img src="assets/storybook/chateau-etoile.webp" width="56" height="56" alt="">
-   <span><strong>Parcours d’aventure</strong><small>Suis le sentier de lecture de Paillette</small></span>
+   <span><strong>Parcours d’aventure</strong><small>Apprends à lire</small></span>
    <span class="curriculum-menu-arrow" aria-hidden="true">→</span>
   </a>
   <a class="revision-return" href="curriculum.html" data-revision-return hidden>Retour à mon étape</a>
@@ -33,14 +30,15 @@
   <div id="chapterTiles" class="chapter-tiles" role="group" aria-labelledby="revisionTitle"></div>
   </div>
   <div id="chapterActivities" hidden>
-   <button id="chapterBack" class="chapter-back" type="button" aria-label="Revenir aux ateliers de révision">← Tous les ateliers</button>
+   <nav class="workshop-nav" aria-label="Navigation des ateliers">
+    <button id="chapterBack" class="chapter-back" type="button" aria-label="Revenir aux ateliers de révision">← Tous les ateliers</button>
+    <a class="revision-return" href="curriculum.html" data-revision-return>Parcours d’aventure →</a>
+   </nav>
    <h2 id="chapterTitle" class="chapter-title" tabindex="-1"></h2>
-   <p class="chapter-hint" id="revisionHint">Choisis ton activité.</p>
-   <a class="revision-return" href="curriculum.html" data-revision-return>Parcours d’aventure →</a>
    <div id="adventureModules" class="adventure-modules"></div>
   </div>
-  <div class="adventure-menu-footer"><button id="rewardPending" class="adventure-text-button">Mes cadeaux du jour</button><span>10 cristaux par monde · un refuge à mi-chemin</span></div>
-  <details class="adventure-help"><summary>Pour les parents · Comment jouer ?</summary><p>Chaque bonne réponse fait avancer Paillette. Un monde compte 10 cristaux ; le refuge à 5 protège la première moitié du chemin. Une erreur ramène au dernier refuge, puis on réessaie tranquillement.</p><p>Une aventure terminée donne un tour de roue. Les progrès et les cadeaux restent sur cet appareil, sans compte. Le Parcours d’aventure propose une progression guidée. Les ateliers permettent de revoir les lettres, les sons, les mots et les phrases à tout moment. Dans « Trouve la faute ! », touche le mot mal écrit dans la phrase de trois mots. Pour les phrases à construire, touche les mots dans le bon ordre : avec un modèle visible ou seulement en écoutant, avec 3 ou 5 mots. « Quel son entends-tu ? » propose les 36 sons avec la voix de Robin et trois choix bien distincts. La voix de Robin accompagne aussi toutes les autres activités. Vérifiez le volume.</p><p>Le bouton ⏸ permet de faire une pause ou de changer d’activité. Invitez votre enfant à regarder toutes les lettres, sans se presser.</p></details>
+  <div class="adventure-menu-footer"><button id="rewardPending" class="adventure-text-button">Mes cadeaux du jour</button></div>
+  <details class="adventure-help"><summary>Aide aux parents</summary><p>Le parcours avance étape par étape. Les ateliers sont en accès libre. La progression et les cadeaux restent sur cet appareil.</p></details>
   <a id="legacyFallback" href="classic.html" hidden>Ouvrir les activités de secours →</a>
   <p id="engineStatus" class="adventure-status" role="status">Paillette prépare son voyage…</p>
  </section>
@@ -108,5 +106,5 @@
   <ul id="dailyPrizes" class="daily-prizes"></ul>
   <p class="reward-storage-note"></p>
 </dialog>
-<script type="module" src="js/prototype/boot.js?v=storybook-2"></script>
+<script type="module" src="js/prototype/boot.js?v=accueil-1"></script>
 </body></html>

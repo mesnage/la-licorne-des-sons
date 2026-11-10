@@ -27,6 +27,40 @@ try {
     assert.ok(tile.x >= 0 && tile.x + tile.width <= width && tile.y + tile.height <= height);
     assert.equal(await page.locator('#chapterTiles [data-chapter]:visible').count(), 4);
   }
+  await page.setViewportSize({ width: 320, height: 460 });
+  const help = page.getByText('Aide aux parents', { exact: true });
+  await help.click();
+  await page.locator('.adventure-help[open] p').waitFor();
+  const scroll = await page.locator('#adventureMenu').evaluate(menu => ({
+    overflow: window.getComputedStyle(menu).overflowY,
+    background: window.getComputedStyle(menu).backgroundImage,
+    documentTop: window.scrollY,
+    menuTop: menu.scrollTop,
+    documentWidth: document.documentElement.scrollWidth
+  }));
+  assert.equal(scroll.overflow, 'visible');
+  assert.equal(scroll.background, 'none');
+  assert.ok(scroll.documentTop > 0);
+  assert.equal(scroll.menuTop, 0);
+  assert.ok(scroll.documentWidth <= 320);
+
+  const contrast = await page.evaluate(() => {
+    const luminance = rgb => rgb.map(value => value / 255)
+      .map(value => value <= .04045 ? value / 12.92 : ((value + .055) / 1.055) ** 2.4)
+      .reduce((total, value, index) => total + value * [.2126, .7152, .0722][index], 0);
+    const channels = value => [...value.matchAll(/rgb\((\d+), (\d+), (\d+)\)/g)].map(match => match.slice(1).map(Number));
+    const tiles = [...document.querySelectorAll('#chapterHome .chapter-tile')];
+    return tiles.flatMap(tile => {
+      const stops = channels(window.getComputedStyle(tile).backgroundImage);
+      if (stops.length !== 2) throw new Error('Chaque tuile doit avoir deux couleurs opaques.');
+      return [...tile.querySelectorAll('strong, small')].flatMap(label => {
+        const ink = luminance(channels(window.getComputedStyle(label).color)[0]);
+        return stops.map(stop => (luminance(stop) + .05) / (ink + .05));
+      });
+    });
+  });
+  assert.ok(Math.min(...contrast) >= 4.5, 'Contraste des libellés des tuiles');
+  await page.setViewportSize({ width: 390, height: 844 });
   await adventureTile.focus();
   await page.keyboard.press('Enter');
   await page.getByRole('heading', { name: 'Mon parcours de lecture' }).waitFor();
@@ -78,6 +112,11 @@ try {
   await page.keyboard.press('Enter');
   await adventureTile.waitFor({ state: 'hidden' });
   assert.ok(await page.locator('#chapterActivities').getByRole('link', { name: 'Parcours d’aventure' }).isVisible());
+  assert.equal(await page.evaluate(() => document.activeElement.id), 'chapterTitle');
+  await page.locator('#chapterBack').focus();
+  await page.keyboard.press('Enter');
+  assert.equal(await letters.evaluate(node => node === document.activeElement), true);
+  await page.keyboard.press('Enter');
   await page.locator('[data-activity-id="voyelles"]').click();
   await page.locator('#adventureQuestion').waitFor();
 

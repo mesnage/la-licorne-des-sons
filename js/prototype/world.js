@@ -263,14 +263,17 @@ export function createWorld(parent,{onReady,onBiome,onError,onGag=()=>{}}){
     positionCamera(){
       const density=profile.ratio,w=this.scale.width/density,h=this.scale.height/density,base=w<600?.72:w<1000?.85:1;
       const focus=bridgeFocus(this.travel.value),fit=Math.max(.42,Math.min(base,w/850));
-      const target=base+(fit-base)*focus;
+      const ground=pathPoint(this.travel.value),lift=ground.y-this.hero.y;
+      const portraitMenu=document.body.dataset.screen==='menu'&&w<600&&h>w;
+      const vertical = portraitMenu ? .25 : h < 500 ? -.1 : .09;
+      // Keep the bottom of the portrait menu inside the painted landscape.
+      const menuZoom = portraitMenu ? h * (.5 + vertical) / (WORLD_HEIGHT - ground.y) : 0;
+      const target=Math.max(base+(fit-base)*focus,menuZoom);
       const smoothing=1-Math.exp(-8.5*(this.frameSeconds||1/60));
       const zoom=this.cameraInitialized&&!reduced?this.cameras.main.zoom/density+(target-this.cameras.main.zoom/density)*smoothing:target;
       this.cameraInitialized=true;this.cameras.main.setZoom(zoom*density);
-      const ground=pathPoint(this.travel.value),lift=ground.y-this.hero.y;
       // The camera gives the climb room while leaving the arch and landing visible.
       const follow= h<700?.75:.42;
-      const menu=document.body.dataset.screen==='menu',vertical=menu&&w<600&&h>w?.29:h<500?-.1:.09;
       this.cameras.main.centerOn(this.hero.x+w*.14/zoom,ground.y-lift*follow+h*vertical/zoom);
 
     }

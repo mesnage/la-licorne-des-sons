@@ -57,19 +57,6 @@
  .sentence-question .adventure-feedback{min-height:18px;margin-top:6px;font-size:12px}
 }
 
-/* The four sentence tiles come first and fit above the fold on short phones. */
-@media(max-width:600px) and (max-height:650px) and (orientation:portrait){
- .adventure-menu{margin-top:100px;max-height:calc(100dvh - 116px)}
- .adventure-menu h1{font-size:30px;margin:6px 0 8px}
- .adventure-menu .adventure-eyebrow{margin-bottom:8px}
- .adventure-intro{margin-bottom:12px}
-}
-@media(orientation:landscape) and (max-height:600px){
- .adventure-menu{padding:14px 16px}
- .adventure-menu h1{font-size:28px;margin:6px 0 8px}
- .adventure-menu .adventure-eyebrow{margin-bottom:6px}
- .adventure-intro{font-size:12px;line-height:1.4;margin-bottom:10px}
-}
 /* Read the three words as a sentence; all choices look alike until feedback. */
 .typo-instruction{font-size:16px;line-height:1.45;color:#6d5d72;margin:8px 0 16px}
 .adventure-choices.typo-choices{display:flex;flex-wrap:wrap;justify-content:center;gap:10px}
@@ -96,11 +83,3 @@
 }
 
 .typo-choices .adventure-answer.correct:after{display:none}
-@media(min-width:361px) and (max-width:600px) and (orientation:portrait){
- .adventure-menu h1{font-size:34px;margin:8px 0 10px}
- .adventure-intro{margin-bottom:14px}
-}
-@media(max-width:360px) and (max-height:650px) and (orientation:portrait){
- .adventure-intro{display:none}
- .adventure-menu{margin-top:86px;max-height:calc(100dvh - 102px)}
-}

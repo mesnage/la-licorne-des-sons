@@ -1,4 +1,4 @@
-"""Four 2x2 chapters, thirteen activities, and the new six-slot family reward wheel."""
+"""Four 2x2 chapters, fourteen activities, and the new six-slot family reward wheel."""
 import argparse
 from pathlib import Path
 from playwright.sync_api import sync_playwright
@@ -11,7 +11,7 @@ args=parser.parse_args()
 if args.screenshots:args.screenshots.mkdir(parents=True,exist_ok=True)
 chapters={
  'letters':['voyelles','consonnes'],
- 'sounds':['sons','experts','tout'],
+ 'sounds':['sons','experts','tout','listen-phonemes'],
  'words':['words-1','words-2','words-3'],
  'sentences':['sentence-copy-3','sentence-copy-5','sentence-listen-3','sentence-listen-5','find-typo']
 }
@@ -29,7 +29,7 @@ with sync_playwright() as p:
  context=browser.new_context(viewport={'width':390,'height':844},has_touch=True,reduced_motion='reduce')
  context.add_init_script(legacy)
  errors=[];page=context.new_page();page.on('pageerror',lambda error:errors.append(str(error)));boot(page)
- assert page.locator('[data-chapter]').all_text_contents()==['Les lettresVoyelles et consonnes','Les sonsDécouvrir et mélanger les sons','Les motsTrois niveaux de lecture','Les phrasesConstruire et trouver la faute']
+ assert page.locator('[data-chapter]').all_text_contents()==['Les lettres','Les sons','Les mots','Les phrases']
  assert page.locator('#adventureModules button:visible').count()==0
  for width,height in [(320,568),(390,844),(459,724),(844,390),(768,1024),(1280,900)]:
   page.set_viewport_size({'width':width,'height':height})
@@ -54,7 +54,7 @@ with sync_playwright() as p:
   assert page.locator('[data-chapter]:visible').count()==4
  assert page.locator('canvas').count()==1
  assert page.evaluate('localStorage.getItem("licorne.words.v1")===null&&localStorage.getItem("licorne.sentences.v1")===null&&localStorage.getItem("licorne.typos.v1")===null')
- print('Four 2x2 chapters fit all six screen sizes; all 13 activities start and return to the correct chapter',flush=True)
+ print('Four 2x2 chapters fit all six screen sizes; all 14 activities start and return to the correct chapter',flush=True)
  # All six deterministic spins use an isolated legacy save, preserving old gifts without relabeling them.
  page.locator('#rewardPending').click(no_wait_after=True)
  assert page.locator('#fartScene,#fartUnicorn').count()==0

@@ -1,7 +1,7 @@
 import { soundPrompt } from '../learning/sound-prompts.js';
 import { returnFromRevision } from './curriculum-revision.js?v=storybook-2';
 import { PHONEME_ACTIVITY } from '../phonemes/model.js?v=phoneme-red-3';
-import { createWorld } from './world.js';
+import { createWorld } from './world.js?v=accueil-1';
 import { WORLDS, worldPanorama, MODULES, MENU_ITEMS, CHAPTERS, createAdventure, createJourneyMemory, journeyState } from './model.js?v=phoneme-red-3';
 import { illustration } from '../illustrations.js?v=chapters-wheel-1';
 import { createMastery, skillStatus } from '../learning/mastery.js';
@@ -248,16 +248,18 @@ function menu(){
 for(const module of MENU_ITEMS){
   const button=document.createElement('button');button.className=`adventure-module tone-${module.color}`;button.dataset.module=module.mode||module.id;button.dataset.activityId=module.id;button.dataset.chapterId=CHAPTERS.find(chapter=>chapter.activities.includes(module.id)).id;if(module.level)button.dataset.wordLevel=module.level;if(module.id===TYPO_ACTIVITY.id)button.dataset.typoMode=module.id;if(sentenceActivity(module.id))button.dataset.sentenceMode=module.id;button.disabled=true;
   const icon=document.createElement('span');icon.className='module-icon';icon.innerHTML=illustration(module.icon);icon.setAttribute('aria-hidden','true');
-  const title=document.createElement('strong');title.textContent=module.title+(sentenceActivity(module.id)?' · '+module.length+' mots':'');
-  const detail=document.createElement('small');detail.textContent=module.detail;
+  const sentence=sentenceActivity(module.id);
+  const title=document.createElement('strong');title.textContent=sentence?(sentence.hidden?'À l’écoute':'Avec le modèle'):module.title;
+  const detail=document.createElement('small');detail.textContent=sentence?sentence.length+' mots':module.detail;
   button.append(icon,title,detail);
   button.addEventListener('click',()=>{unlock();start(module.mode||module.id,module.level||1);});
   activityButtons.set(module.id,button);button.hidden=true;$('adventureModules').appendChild(button);
 }
 function showChapters(focusId=null){
   selectedChapter=null;$('chapterHome').hidden=false;$('chapterActivities').hidden=true;
-  $('adventureMenu').setAttribute('aria-labelledby','menuTitle');$('adventureMenu').scrollTop=0;
-  if(focusId)document.querySelector(`[data-chapter="${focusId}"]`)?.focus({preventScroll:true});
+  $('adventureMenu').setAttribute('aria-labelledby','menuTitle');
+  window.scrollTo(0,0);
+  if(focusId)document.querySelector(`[data-chapter="${focusId}"]`)?.focus();
 }
 function openChapter(id){
   const chapter=CHAPTERS.find(chapter=>chapter.id===id);if(!chapter)return;
@@ -265,16 +267,15 @@ function openChapter(id){
   $('chapterTitle').textContent=chapter.title;$('adventureMenu').setAttribute('aria-labelledby','chapterTitle');
   for(const [activityId,button] of activityButtons)button.hidden=!chapter.activities.includes(activityId);
   for(const activityId of chapter.activities)$('adventureModules').appendChild(activityButtons.get(activityId));
-  $('revisionHint').textContent=chapter.activities.includes(suggestedActivity)
-    ? 'L’atelier conseillé est indiqué ci-dessous.' : 'Choisis ton activité.';
-  $('adventureMenu').scrollTop=0;$('chapterTitle').focus({preventScroll:true});
+  window.scrollTo(0,0);
+  $('chapterTitle').focus({preventScroll:true});
 }
 for(const chapter of CHAPTERS){
   const button=document.createElement('button');button.type='button';button.className='chapter-tile tone-'+chapter.color;button.dataset.chapter=chapter.id;
   const icon=document.createElement('span');icon.className='chapter-icon';icon.innerHTML=illustration(chapter.icon);
   const title=document.createElement('strong');title.textContent=chapter.title;
-  const detail=document.createElement('small');detail.textContent=chapter.detail;
-  button.append(icon,title,detail);button.addEventListener('click',()=>openChapter(chapter.id));$('chapterTiles').appendChild(button);
+  icon.setAttribute('aria-hidden','true');
+  button.append(icon,title);button.addEventListener('click',()=>openChapter(chapter.id));$('chapterTiles').appendChild(button);
 }
 const suggestedButton=activityButtons.get(suggestedActivity);
 if(suggestedButton){
@@ -323,7 +324,7 @@ const world=createWorld($('adventureWorld'),{
     ready=true;$('engineStatus').textContent='';$('worldName').disabled=false;
     document.querySelectorAll('[data-module]').forEach(button=>{button.disabled=false;});world.reset(20,startingWorld());world.quiet(false);world.setPaused(false);
   },
-  onBiome(biome){$('worldName').innerHTML=illustration(biome.icon)+`<span class="world-name-label">${biome.name}</span><span class="world-chevron" aria-hidden="true">⌄</span>`;$('worldName').setAttribute('aria-label','Choisir un monde. Monde actuel : '+biome.name);$('adventureWorld').setAttribute('aria-label','Paillette · '+biome.name);},
+  onBiome(biome){$('worldName').innerHTML=illustration(biome.icon)+`<span class="world-name-label">${biome.name}</span><span class="world-name-short" aria-hidden="true">Décor</span><span class="world-chevron" aria-hidden="true">⌄</span>`;$('worldName').setAttribute('aria-label','Choisir un monde. Monde actuel : '+biome.name);$('adventureWorld').setAttribute('aria-label','Paillette · '+biome.name);},
   onGag(kind){
     const returning=session?.phase==='returning';
     const messages={prout:'Prout arc-en-ciel ! Paillette a fait une petite surprise !',rainbow:'Tout en haut de l’arc-en-ciel ! Paillette grimpe vers les nuages.',boing:'Boïng ! Les nuages font un trampoline !',hat:'Abracadabra ! Un chapeau magique !',butterfly:'Oh ! Un papillon chatouille la corne de Paillette !',crown:'Une couronne de fleurs ! Paillette est la reine de la forêt.',splash:'Plouf ! Une petite vague chatouille les sabots !',bubble:'Une bulle géante ! Paillette flotte tout doucement.',moonhop:'Youhou ! Sur la Lune, Paillette fait des bonds de géante !'};
