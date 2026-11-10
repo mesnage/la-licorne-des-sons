@@ -4,7 +4,7 @@ import { sounds } from '../data/curriculum-chapter-one.js';
 import { oralWords } from '../data/curriculum-pilot.js';
 import { answerCards, answerAudioKey, questionAudioKey } from '../data/curriculum-answer-cards.js';
 import { languagePairs, scenes, transferScenes } from '../data/curriculum-comprehension.js';
-import { simpleExercise, simpleInstructionKey } from '../data/curriculum-simple.js?v=sentier-1';
+import { simpleExercise, simpleInstructionKey } from '../data/curriculum-simple.js?v=storybook-2';
 import { createSourceQuestions } from './curriculum-questions.js';
 
 const syllableBlocks = [
@@ -93,9 +93,28 @@ const missingGroups = [
   ['eil'], ['ail'], ['ouil','euil'], ['on','an','ain','oi','eil']
 ];
 
-function fillPool(unit, source) {
+const fillCorrections = {
+  'C3-U02': { an: ['tante', 'T', 'TE', 'AN'], en: ['encore', '', 'CORE', 'EN'] },
+  'C3-U03': { fain: ['pain', 'P', '', 'AIN'] }
+};
+
+function fillPool(chapter, unit, source) {
+  if (unit.id === 'C3-U18') {
+    const examples = [['C3-U01', 'bon'], ['C3-U02', 'maman'], ['C3-U03', 'pin'],
+      ['C3-U04', 'moi'], ['C3-U15', 'soleil']];
+    return examples.map(([id, word]) => {
+      const earlier = chapter.units.find(item => item.id === id);
+      const questions = createSourceQuestions(chapter, earlier, null, 0);
+      return fillPool(chapter, earlier, questions).find(item => item.word === word);
+    });
+  }
   const candidates = missingGroups[unit.position - 1];
   return source.filter(q => q.type.startsWith('decode_')).map(q => {
+    const correction = fillCorrections[unit.id]?.[q.written.text];
+    if (correction) {
+      const [word, before, after, graph] = correction;
+      return { prompt: 'C23:oral:' + word, word, choices: [], blank: [before, after], labels: [graph, 'I'], answer: 0 };
+    }
     const segments = q.written.segments;
     const index = segments.findIndex(segment => candidates.includes(segment.g));
     if (index < 0) throw new Error('Graphème cible absent : ' + q.written.text);
@@ -162,7 +181,7 @@ function getPool(chapter, unit, seed) {
   if (unit.id === 'C1-U01') return countPool();
   const source = createSourceQuestions(chapter, unit, null, seed);
   if (chapter.id === 'C2') return assemblePool(unit, source);
-  if (chapter.id === 'C3') return fillPool(unit, source);
+  if (chapter.id === 'C3') return fillPool(chapter, unit, source);
   if (chapter.id === 'C4') return comprehensionPool(unit, source);
   return chapter.id === 'C1' && unit.position < 12 ? letterPool(unit, source) : decodePool(source);
 }

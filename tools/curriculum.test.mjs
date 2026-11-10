@@ -1,3 +1,4 @@
+import { reviewMode } from '../js/learning/curriculum-mode.js';
 import { readFileSync } from 'node:fs';
 import assert from 'node:assert/strict';
 import { test } from 'node:test';
@@ -55,4 +56,12 @@ test('rejects bad IDs, out-of-order records, invalid prerequisites and malformed
     mutate(draft);
     assert.throws(() => createCurriculum(draft), expected);
   }
+});
+
+
+test('only local development can unlock individual review blocks', () => {
+  assert.equal(reviewMode(new URL('http://localhost:8149/curriculum?test=1')), true);
+  assert.equal(reviewMode(new URL('http://127.0.0.1/curriculum?test=1')), true);
+  assert.equal(reviewMode(new URL('http://localhost/curriculum?bloc=2')), false);
+  assert.equal(reviewMode(new URL('https://la-licorne.example/curriculum?test=1&bloc=2')), false);
 });

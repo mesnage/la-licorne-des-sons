@@ -1,3 +1,4 @@
+import { soundPrompt } from '../js/learning/sound-prompts.js';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { ALL, CONSONNES, SONS, EXPERTS, LEVELS } from '../js/data/sounds.js';
@@ -71,5 +72,25 @@ test('word rotation uses every example before repeating within a planned game', 
   for(const sound of pool){
     const words = targets.filter(t => t.g === sound.g).map(t => t.w);
     assert.equal(new Set(words).size, words.length);
+  }
+});
+
+
+test('sound activities play approved French phonemes and use full words for contextual spellings', () => {
+  const example = (graph, word, mode = 'tout') => soundPrompt({ ...ALL.find(item => item.g === graph), w: word }, mode);
+  for (const [graph, word, phoneme] of [
+    ['ai','l[ai]t','e-open'], ['ei','r[ei]ne','e-open'], ['ez','n[ez]','e'], ['er','jou[er]','e'],
+    ['ch','[ch]at','ch'], ['gn','monta[gn]e','gn'], ['ph','[ph]oto','f'],
+    ['qu','[qu]ille','k'], ['eu','fl[eu]r','eu-open'], ['eu','bl[eu]','eu'],
+    ['ou','l[ou]p','ou'], ['an','p[an]da','an'], ['eau','bat[eau]','o']
+  ]) {
+    assert.equal(example(graph, word)[0], 'P:robin:' + phoneme);
+  }
+  assert.deepEqual(example('ui', 'n[ui]t'), ['w:nuit']);
+  assert.deepEqual(example('ill', 'gor[ill]e'), ['w:gorille']);
+  assert.equal(example('m','[m]oto','consonnes')[0], 'L:m');
+  assert.equal(example('ch','[ch]at','consonnes')[0], 'P:robin:ch');
+  for (const sound of ALL.filter(item => item.g.length > 1)) {
+    assert.ok(sound.words.every(({ w }) => !example(sound.g, w).some(key => typeof key === 'string' && /^[LF]:/.test(key))));
   }
 });

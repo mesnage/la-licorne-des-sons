@@ -1,3 +1,4 @@
+import { reviewMode } from '../learning/curriculum-mode.js';
 import { chapterMapUrl } from '../learning/chapter-one.js';
 
 const suggestions = {
@@ -23,7 +24,7 @@ export function revisionUrl(unit, testMode) {
   return 'index.html?revision=' + activity + '&retour=' + unit.id + (testMode ? '&test=1' : '');
 }
 
-export function returnFromRevision(params) {
-  const id = params.get('retour');
-  return /^C[1-7]-U\d{2}$/.test(id ?? '') ? chapterMapUrl(id, params.get('test') === '1') : null;
+export function returnFromRevision(url) {
+  const id = url.searchParams.get('retour');
+  return /^C[1-7]-U\d{2}$/.test(id ?? '') ? chapterMapUrl(id, reviewMode(url)) : null;
 }

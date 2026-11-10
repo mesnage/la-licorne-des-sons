@@ -1,15 +1,16 @@
-import { revisionFor, revisionUrl } from './curriculum-revision.js';
+import { curriculumLocation, reviewMode } from '../learning/curriculum-mode.js';
+import { revisionFor, revisionUrl } from './curriculum-revision.js?v=storybook-2';
 import * as playback from '../audio.js?v=curriculum-chapter-1';
 import { chapterMapUrl, chapterPlayUrl } from '../learning/chapter-one.js';
-import { createSimpleQuestions } from '../learning/curriculum-simple.js?v=sentier-1';
-import { exerciseVersion } from '../data/curriculum-simple.js?v=sentier-1';
-import { WORLDS } from './model.js';
+import { createSimpleQuestions } from '../learning/curriculum-simple.js?v=storybook-2';
+import { exerciseVersion } from '../data/curriculum-simple.js?v=storybook-2';
+import { WORLDS, worldPanorama } from './model.js';
 import { illustration } from '../illustrations.js';
-import { createCurriculum } from '../learning/curriculum.js?v=sentier-1';
+import { createCurriculum } from '../learning/curriculum.js?v=storybook-2';
 import {
   createPilotSession, newPilotState, readPilotProgress, restoreProgrammeState, unitProgressKey
-} from '../learning/pilot-session.js?v=sentier-1';
-import { pictureLabel, pictureSVG } from './curriculum-pictures.js?v=sentier-1';
+} from '../learning/pilot-session.js?v=storybook-2';
+import { pictureLabel, pictureSVG } from './curriculum-pictures.js?v=storybook-2';
 import { pilotUnitId } from '../data/curriculum-pilot.js';
 
 const get = id => document.getElementById(id);
@@ -44,9 +45,10 @@ async function readJson(path) {
 }
 
 async function openPilot() {
-  const catalogue = createCurriculum(await readJson('js/data/curriculum.v2.json?v=sentier-1'));
-  const params = new window.URLSearchParams(location.search);
-  const testMode = params.get('test') === '1';
+  const catalogue = createCurriculum(await readJson('js/data/curriculum.v2.json?v=storybook-2'));
+  const url = curriculumLocation();
+  const params = url.searchParams;
+  const testMode = reviewMode(url);
   const id = params.get('unite') ?? pilotUnitId;
   const unit = catalogue.getUnit(id);
   let storage;
@@ -66,7 +68,11 @@ async function openPilot() {
   const nextUnit = allUnits[allUnits.indexOf(unit) + 1];
   const nextChapter = nextUnit && nextUnit.chapterId !== unit.chapterId;
   const worldIndex = WORLDS.findIndex(world => world.habitat === chapter.theme);
-  const chapterAudio = await readJson('audio/curriculum-' + chapter.id.toLowerCase() + '-robin.json');
+  if (worldIndex >= 0) {
+    const panorama = new window.URL(worldPanorama(WORLDS[worldIndex]), location.href);
+    get('pilotWorld').style.setProperty('--pilot-panorama', 'url("' + panorama.href + '")');
+  }
+  const chapterAudio = await readJson('audio/curriculum-' + chapter.id.toLowerCase() + '-robin.json?v=storybook-2');
   const manifest = Object.fromEntries(Object.entries(chapterAudio).map(([audioId, track]) => [audioId, track.file]));
   await playback.registerClips(manifest);
   document.querySelectorAll('[data-chapter-return]').forEach(link => {
@@ -75,6 +81,16 @@ async function openPilot() {
   const version = exerciseVersion(unit);
   const total = block ? block.questionCount : unit.blocks.reduce((count, item) => count + item.questionCount, 0);
   get('pilotCrystals').max = total;
+  const markers = [];
+  for (const group of block ? [block] : unit.blocks) {
+    const row = makeRow('pilot-crystal-group');
+    for (let index = 0; index < group.questionCount; index++) {
+      const marker = document.createElement('span');
+      markers.push(marker);
+      row.append(marker);
+    }
+    get('pilotCrystalGroups').append(row);
+  }
   const key = unitProgressKey(id, testMode, block?.position);
   get('pilotUnitName').textContent = unit.title;
   document.title = unit.title + ' · La Licorne des Sons';
@@ -399,6 +415,9 @@ async function openPilot() {
     instructions.textContent = '';
     get('pilotCount').textContent = state.answers.length + ' / ' + total;
     get('pilotCrystals').value = state.answers.length;
+    for (const [index, marker] of markers.entries()) {
+      marker.classList.toggle('collected', index < state.answers.length);
+    }
     get('pilotRevision').hidden = !session.finished;
     if (session.finished) {
       heading.textContent = block ? 'Bloc ' + block.position + ' testé !' : !nextUnit ? 'Le parcours est terminé !'

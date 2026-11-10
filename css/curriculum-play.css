@@ -8,7 +8,7 @@
   overflow:hidden;
   border:1px solid #e4d6e5;
   border-radius:20px;
-  background:center/cover url('../assets/storybook/prairie-cotiere.jpg');
+  background:center/cover var(--pilot-panorama,url('../assets/storybook/prairie-cotiere.jpg'));
 }
 .pilot-world canvas { display:block; }
 .pilot-progress { margin:10px 0; }
@@ -149,4 +149,62 @@
   min-width:44px;
   min-height:48px;
   font-size:clamp(1.1rem,4vw,1.5rem);
+}
+
+.pilot-kicker { margin:14px 0 4px; }
+.pilot-world {
+  border-color:#c4adbd;
+  box-shadow:0 5px 16px #4e365c27;
+}
+.pilot-progress {
+  padding:8px 12px 10px;
+  border-radius:12px;
+  background:#fffaf3;
+  border:1px solid #e4d6e5;
+}
+#pilotCrystals {
+  position:absolute;
+  width:1px;
+  height:1px;
+  overflow:hidden;
+  clip-path:inset(50%);
+}
+.pilot-crystal-groups {
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:6px;
+  margin-top:6px;
+}
+.pilot-crystal-group {
+  flex:1;
+  display:flex;
+  justify-content:space-evenly;
+  gap:2px;
+  padding:6px 2px;
+  border-radius:8px;
+  background:#f3e9f3;
+}
+.pilot-crystal-group span {
+  width:clamp(7px,2vw,13px);
+  aspect-ratio:1;
+  transform:rotate(45deg);
+  border:1px solid #a790ad;
+  border-radius:2px;
+  background:#fffaf8;
+}
+.pilot-crystal-group .collected {
+  border-color:#815598;
+  background:linear-gradient(140deg,#dfacf4 0 46%,#a777c0 48% 100%);
+}
+.pilot-panel { background:#fffdf7; }
+.pilot-panel h2 { color:#4c3457; }
+.pilot-reading-text { border-color:#dcc7a3; background:#fffaf0; }
+.pilot-picture-card {
+  border-color:#ae9bb6;
+  box-shadow:0 3px 0 #71598138;
+}
+.pilot-button:not(:disabled) { cursor:pointer; }
+@media (hover:hover) {
+  .pilot-button:not(:disabled):hover { border-color:#795493; box-shadow:0 0 0 2px #a078b34d; }
 }

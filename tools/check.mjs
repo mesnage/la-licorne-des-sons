@@ -8,6 +8,7 @@ import { fileURLToPath } from 'node:url';
 import { PHONEMES } from '../js/data/phonemes.js';
 import { WORDS } from '../js/data/words.js';
 import { SENTENCES } from '../js/data/sentences.js';
+import { soundPrompt } from '../js/learning/sound-prompts.js';
 import { LEVELS, ALL } from '../js/data/sounds.js';
 import { distractors, isE, OTHER_VOWELS } from '../js/questions.js';
 
@@ -30,7 +31,11 @@ const manifest = JSON.parse(readFileSync(join(ROOT, 'audio/manifest.json'), 'utf
 const need = new Set(PHONEMES.map(phoneme=>phoneme.audioKey));
 for(const word of WORDS)need.add(word.audioKey);
 for(const sentence of SENTENCES)need.add(sentence.audioKey);
-for (const s of ALL) { need.add('L:' + s.g); need.add('F:' + s.g); for (const w of s.words) need.add('w:' + plain(w.w)); }
+for (const [mode, sounds] of Object.entries(LEVELS)) {
+  for (const sound of sounds) for (const { w } of sound.words) {
+    for (const key of soundPrompt({ ...sound, w }, mode)) if (typeof key === 'string') need.add(key);
+  }
+}
 const walk = d => readdirSync(d, { withFileTypes: true }).flatMap(e => e.isDirectory() ? walk(join(d, e.name)) : e.name.endsWith('.js') ? [join(d, e.name)] : []);
 for (const f of walk(join(ROOT, 'js'))) {
   const src = readFileSync(f, 'utf8');
@@ -41,7 +46,7 @@ for (const k of need) {
   else if (!existsSync(join(ROOT, 'audio', manifest[k]))) fail(`fichier audio manquant : audio/${manifest[k]}`);
 }
 const unused = Object.keys(manifest).filter(k => !need.has(k));
-if (unused.length) console.log(`ℹ ${unused.length} audio(s) inutilisé(s) (python3 tools/voice/build_voice.py --prune pour les retirer)`);
+if (unused.length) console.log(`ℹ ${unused.length} audio(s) inutilisé(s) (dont des consignes conservées pour les anciens jeux)`);
 
 // 3. fausses réponses
 let rounds = 0;

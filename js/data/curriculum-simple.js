@@ -27,7 +27,10 @@ const comprehension = [
 ];
 
 export const simpleProgrammeVersion = 3;
-export const exerciseVersion = unit => unit.chapterId === 'C1' ? 2 : simpleProgrammeVersion;
+export const pronunciationRevision = 4;
+const revisedUnits = new Set(['C3-U02', 'C3-U03', 'C3-U18']);
+export const exerciseVersion = unit => unit.chapterId === 'C1' ? 2
+  : revisedUnits.has(unit.id) ? pronunciationRevision : simpleProgrammeVersion;
 
 export function simpleExercise(unit) {
   const [type, icon, instruction] = unit.chapterId === 'C1'

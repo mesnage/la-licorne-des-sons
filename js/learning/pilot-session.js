@@ -1,4 +1,4 @@
-import { simpleProgrammeVersion } from '../data/curriculum-simple.js';
+import { pronunciationRevision, simpleProgrammeVersion } from '../data/curriculum-simple.js?v=storybook-2';
 import { oralBlocks, oralWords, pilotUnitId } from '../data/curriculum-pilot.js';
 
 export const pilotProgressKey = 'licorne.curriculum.pilot.v1';
@@ -73,7 +73,7 @@ export function unitProgressKey(id, testMode = false, block) {
 export function readPilotProgress(storage, id = pilotUnitId, testMode = false, block) {
   try {
     const value = JSON.parse(storage.getItem(unitProgressKey(id, testMode, block)));
-    if ([1, 2, simpleProgrammeVersion].includes(value?.version)) return value;
+    if ([1, 2, simpleProgrammeVersion, pronunciationRevision].includes(value?.version)) return value;
   } catch {
     // The pilot also works when browser storage is unavailable.
   }

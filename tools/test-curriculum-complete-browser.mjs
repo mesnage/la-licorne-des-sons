@@ -26,11 +26,11 @@ try {
     if (new URL(request.url()).origin !== new URL(base).origin) foreign.push(request.url());
   });
 
-  await page.addInitScript(({ prior, chapterKeys, version }) => {
+  await page.addInitScript(({ prior, chapterKeys }) => {
     for (const key of prior) {
       localStorage.setItem(key, JSON.stringify({ version: 1, completed: true }));
     }
-    for (const key of chapterKeys) {
+    for (const { key, version } of chapterKeys) {
       if (!localStorage.getItem(key)) {
         localStorage.setItem(key, JSON.stringify({
           version, completed: false, session: { seed: 0, cursor: 0, answers: [], wrong: 0, marks: 0 }
@@ -46,7 +46,7 @@ try {
     };
   }, {
     prior: all.slice(0, all.indexOf(chapter.units[0])).map(unit => unitProgressKey(unit.id)),
-    chapterKeys: chapter.units.map(unit => unitProgressKey(unit.id)), version: exerciseVersion(chapter.units[0])
+    chapterKeys: chapter.units.map(unit => ({ key: unitProgressKey(unit.id), version: exerciseVersion(unit) }))
   });
 
   await page.goto(new URL('curriculum.html#' + chapter.units[0].id, base).href);

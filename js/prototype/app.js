@@ -1,4 +1,5 @@
-import { returnFromRevision } from './curriculum-revision.js';
+import { soundPrompt } from '../learning/sound-prompts.js';
+import { returnFromRevision } from './curriculum-revision.js?v=storybook-2';
 import { PHONEME_ACTIVITY } from '../phonemes/model.js?v=phoneme-red-3';
 import { createWorld } from './world.js';
 import { WORLDS, worldPanorama, MODULES, MENU_ITEMS, CHAPTERS, createAdventure, createJourneyMemory, journeyState } from './model.js?v=phoneme-red-3';
@@ -31,9 +32,9 @@ let session=null, mode='voyelles', level=1, token=0, promptToken=0, ready=false,
 const resumeWaiters=new Set();
 let selectedChapter=null;
 const activityButtons=new Map();
-const menuParams=new window.URLSearchParams(location.search);
-const suggestedActivity=menuParams.get('revision');
-const returnUrl=returnFromRevision(menuParams);
+const menuUrl=new window.URL(location.href);
+const suggestedActivity=menuUrl.searchParams.get('revision');
+const returnUrl=returnFromRevision(menuUrl);
 if(returnUrl){
   for(const link of document.querySelectorAll('[data-revision-return]')){
     link.href=returnUrl;
@@ -86,14 +87,14 @@ async function replay(){
   if(!session||paused||session.phase!=='question') return;
   stopAudio();unlock();$('adventureAudioStatus').textContent='';
   if(mode===PHONEME_ACTIVITY.id||mode==='words'||sentenceActivity(mode)||mode===TYPO_ACTIVITY.id){voice.speak(session.current.target);return;}
-  const my=promptToken, target=session.current.target, keys=['L:'+target.g,'w:'+plain(target.w)];
+  const my=promptToken, parts=soundPrompt(session.current.target,mode);
   await audioReady;
-  const clips=await Promise.all(keys.map(key=>loadClip(key)));
+  const clips=await Promise.all(parts.filter(key=>typeof key==='string').map(key=>loadClip(key)));
   if(my!==promptToken) return;
   if(clips.some(clip=>!clip)){
     $('adventureAudioStatus').textContent='Le son n’a pas pu se charger. Vérifie le volume et la connexion, puis touche Réécouter.';return;
   }
-  say([keys[0],250,keys[1]],true);
+  say(parts,true);
 }
 function ask(){
   panels('question');world.quiet(false);progress();
@@ -335,5 +336,5 @@ document.addEventListener('visibilitychange',()=>{if(document.hidden){stopAudio(
 window.addEventListener('pagehide',event=>{cleanUp();if(!event.persisted){voice.destroy();world.destroy();}});
 window.addEventListener('pageshow',event=>{if(event.persisted) menu();});
 if(location.search.includes('debug')) window.__adventure={
-  state:()=>({ready,paused,mode,level,promptKey:mode===PHONEME_ACTIVITY.id||mode==='words'||sentenceActivity(mode)||mode===TYPO_ACTIVITY.id?session?.current?.target.audioKey:session?.current?'L:'+session.current.target.g:null,index:session?.index,total:session?.questions.length,phase:session?.phase,targetId:session?.current?.target.id,score:session?.score,sentenceWords:sentenceActivity(mode)?session?.current?.target.words:null,typo:mode===TYPO_ACTIVITY.id&&session?.current?{words:session.current.target.words,wrongIndex:session.current.target.wrongIndex}:null,selected:session?.selected?[...session.selected]:null,checkpoint:session?.returnIndex,startWorld,mastery:mastery.snapshot(),world:world.state()})
+  state:()=>({ready,paused,mode,level,promptKey:mode===PHONEME_ACTIVITY.id||mode==='words'||sentenceActivity(mode)||mode===TYPO_ACTIVITY.id?session?.current?.target.audioKey:session?.current?soundPrompt(session.current.target,mode)[0]:null,index:session?.index,total:session?.questions.length,phase:session?.phase,targetId:session?.current?.target.id,score:session?.score,sentenceWords:sentenceActivity(mode)?session?.current?.target.words:null,typo:mode===TYPO_ACTIVITY.id&&session?.current?{words:session.current.target.words,wrongIndex:session.current.target.wrongIndex}:null,selected:session?.selected?[...session.selected]:null,checkpoint:session?.returnIndex,startWorld,mastery:mastery.snapshot(),world:world.state()})
 };

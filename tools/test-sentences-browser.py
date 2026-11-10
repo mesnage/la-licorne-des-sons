@@ -109,7 +109,7 @@ with sync_playwright() as p:
    shot(page,f'{mode}-{width}-{height}')
    leave(page)
  # Returning to the original activities restores their choices and audio pipeline.
- for mode,choices,prefix in [('voyelles',3,'L:'),('words',4,'W:')]:
+ for mode,choices,prefix in [('voyelles',3,'P:robin:'),('words',4,'W:')]:
   select_activity(page,'[data-word-level="1"]' if mode=='words' else '[data-module="voyelles"]')
   current=state(page);assert current['promptKey'].startswith(prefix)
   assert page.locator('.adventure-answer').count()==choices and not page.locator('#sentenceWorkbench').is_visible()

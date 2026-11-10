@@ -1,4 +1,41 @@
 {
+  "C23:oral:encore": {
+    "file": "curriculum-c3-robin/57ef121c2dad9d95d4e6.mp3",
+    "language": "fr",
+    "model": "eleven_v4",
+    "provider": "elevenlabs",
+    "review": "pending_human_review",
+    "sha256": "f12205aa67d38e4b26cf05c69a19d584dd4497164a530960893b224c9a954a16",
+    "speaker": "robin",
+    "speechSeconds": 0.563,
+    "spoken": "encore.",
+    "text": "encore"
+  },
+  "C23:oral:pain": {
+    "file": "curriculum-c3-robin/486f6417405467cf248f.mp3",
+    "language": "fr",
+    "model": "eleven_v4",
+    "provider": "elevenlabs",
+    "review": "pending_human_review",
+    "sha256": "2ce639febbaaae4e6a136cd0d3df7504d39080ddcb6b882a72f148603a84684b",
+    "speaker": "robin",
+    "speechSeconds": 0.244,
+    "spoken": "pain.",
+    "synthesisText": "Pain, comme du pain à manger.",
+    "text": "pain"
+  },
+  "C23:oral:tante": {
+    "file": "curriculum-c3-robin/5c2fb79c8209d58dab71.mp3",
+    "language": "fr",
+    "model": "eleven_v4",
+    "provider": "elevenlabs",
+    "review": "pending_human_review",
+    "sha256": "7b227e42ddf683946dcddee0f047b518555fda5e3399b275c3f8b2ce7465d151",
+    "speaker": "robin",
+    "speechSeconds": 0.459,
+    "spoken": "tante.",
+    "text": "tante"
+  },
   "C23:écrit:aɲo:agneau": {
     "file": "curriculum-c3-robin/e16863c1319677568cab.mp3",
     "language": "fr",
@@ -58,18 +95,6 @@
     "speechSeconds": 0.305,
     "spoken": "bon.",
     "text": "bon"
-  },
-  "C23:écrit:bɔ̃v:bonv": {
-    "file": "curriculum-c3-robin/6545e074f0575240518f.mp3",
-    "language": "fr",
-    "model": "eleven_v4",
-    "provider": "elevenlabs",
-    "review": "pending_human_review",
-    "sha256": "558b8a9901c0aec8286b62965b251f769094d20750759256b2dc925e2699a198",
-    "speaker": "robin",
-    "speechSeconds": 0.448,
-    "spoken": "bonve.",
-    "text": "bonv"
   },
   "C23:écrit:detaj:détail": {
     "file": "curriculum-c3-robin/ba2ad0d6d90b6aded1e0.mp3",
@@ -227,18 +252,6 @@
     "spoken": "fenouil.",
     "text": "fenouil"
   },
-  "C23:écrit:fɛ̃:fain": {
-    "file": "curriculum-c3-robin/1fc94df93cb4b9fb0187.mp3",
-    "language": "fr",
-    "model": "eleven_v4",
-    "provider": "elevenlabs",
-    "review": "pending_human_review",
-    "sha256": "8cbc103cbd8f3d515212abb43ff14b58356ee66354fa9072721997ce0f5b3022",
-    "speaker": "robin",
-    "speechSeconds": 0.398,
-    "spoken": "fain.",
-    "text": "fain"
-  },
   "C23:écrit:fʁaz:phrase": {
     "file": "curriculum-c3-robin/2e9d87ca02eef61277c2.mp3",
     "language": "fr",
@@ -276,15 +289,16 @@
     "text": "conseil"
   },
   "C23:écrit:lave:laver": {
-    "file": "curriculum-c3-robin/ddc41adc293554c4fec2.mp3",
+    "file": "curriculum-c3-robin/81fd84824faae9f152f2.mp3",
     "language": "fr",
     "model": "eleven_v4",
     "provider": "elevenlabs",
     "review": "pending_human_review",
-    "sha256": "8385c2a27ec27e9d3a4bd06ea9d6c411bd8203e33a6164b5d3a18bc0c9327ec2",
+    "sha256": "3821e7845ff21c351c449c40c0ff7d8983b06cbb50ba2d1fc8b575ea88d1fa39",
     "speaker": "robin",
-    "speechSeconds": 0.512,
+    "speechSeconds": 0.469,
     "spoken": "laver.",
+    "synthesisText": "Laver, comme laver les mains.",
     "text": "laver"
   },
   "C23:écrit:liɲ:ligne": {
@@ -310,18 +324,6 @@
     "speechSeconds": 0.456,
     "spoken": "loi.",
     "text": "loi"
-  },
-  "C23:écrit:lɑ̃f:lanf": {
-    "file": "curriculum-c3-robin/37e9ffcd924c5b0572e1.mp3",
-    "language": "fr",
-    "model": "eleven_v4",
-    "provider": "elevenlabs",
-    "review": "pending_human_review",
-    "sha256": "3cb3d777e51ad66b0260c78fd565b503ad10198fbf80372767828721a900bdb8",
-    "speaker": "robin",
-    "speechSeconds": 0.627,
-    "spoken": "lanfe.",
-    "text": "lanf"
   },
   "C23:écrit:ləsɔ̃:leçon": {
     "file": "curriculum-c3-robin/e98b169c957b54a1f614.mp3",
@@ -432,15 +434,16 @@
     "text": "main"
   },
   "C23:écrit:ne:nez": {
-    "file": "curriculum-c3-robin/e8a2e509b72ff1e625d0.mp3",
+    "file": "curriculum-c3-robin/4799a89de3e91ca8a80c.mp3",
     "language": "fr",
     "model": "eleven_v4",
     "provider": "elevenlabs",
     "review": "pending_human_review",
-    "sha256": "66366891ddfa92277e767d47da565c6e1c7b54d0cb2b9e136ca494d595159ec5",
+    "sha256": "ba18bc53155246a3ae7ef28b1352f956d4d8a8fdf0a3a82401b5c6a2ebf26be2",
     "speaker": "robin",
-    "speechSeconds": 0.384,
+    "speechSeconds": 0.329,
     "spoken": "nez.",
+    "synthesisText": "Nez, comme le nez au milieu du visage.",
     "text": "nez"
   },
   "C23:écrit:nwaʁ:noir": {
@@ -576,28 +579,17 @@
     "text": "père"
   },
   "C23:écrit:pɛ̃:pin": {
-    "file": "curriculum-c3-robin/5f08359450564131847f.mp3",
+    "file": "curriculum-c3-robin/f172b1187d472f01918d.mp3",
     "language": "fr",
     "model": "eleven_v4",
     "provider": "elevenlabs",
     "review": "pending_human_review",
-    "sha256": "b870983a832801e5b12c41613a5afcc96359342aa194c0d01b800dc6019b3c05",
+    "sha256": "d38da2f3ad5fafca7eb670c208e459a7b838e10cb0167ca0383bd506f5b4641f",
     "speaker": "robin",
-    "speechSeconds": 0.298,
+    "speechSeconds": 0.259,
     "spoken": "pin.",
+    "synthesisText": "Pin, comme l’arbre de la forêt.",
     "text": "pin"
-  },
-  "C23:écrit:pɛ̃ʁ:painr": {
-    "file": "curriculum-c3-robin/6597d25131a45227c3bd.mp3",
-    "language": "fr",
-    "model": "eleven_v4",
-    "provider": "elevenlabs",
-    "review": "pending_human_review",
-    "sha256": "d9481b23574fcd1ff20e3fb1c6fd40a95e8a55a8efb1bb540afc37e530ca5721",
-    "speaker": "robin",
-    "speechSeconds": 0.534,
-    "spoken": "painre.",
-    "text": "painr"
   },
   "C23:écrit:sale:saler": {
     "file": "curriculum-c3-robin/5fdc8c2aaa9b405cc5d8.mp3",
@@ -707,18 +699,6 @@
     "spoken": "toi.",
     "text": "toi"
   },
-  "C23:écrit:twam:toim": {
-    "file": "curriculum-c3-robin/f640323ba4f5b9e54832.mp3",
-    "language": "fr",
-    "model": "eleven_v4",
-    "provider": "elevenlabs",
-    "review": "pending_human_review",
-    "sha256": "667dfbc97af33ccb549c9aebacc0f20a9033afb1f669af263c4409b6519fb152",
-    "speaker": "robin",
-    "speechSeconds": 0.503,
-    "spoken": "toime.",
-    "text": "toim"
-  },
   "C23:écrit:tɛt:tête": {
     "file": "curriculum-c3-robin/1e46464e03758f8fba8b.mp3",
     "language": "fr",
@@ -791,18 +771,6 @@
     "spoken": "veau.",
     "text": "veau"
   },
-  "C23:écrit:vɛjp:veilp": {
-    "file": "curriculum-c3-robin/4cabc154ced52eb4ff9d.mp3",
-    "language": "fr",
-    "model": "eleven_v4",
-    "provider": "elevenlabs",
-    "review": "pending_human_review",
-    "sha256": "70fff6918159936a306d233ad43564c875e5d29587bdce2e080b472afdde9f6c",
-    "speaker": "robin",
-    "speechSeconds": 0.604,
-    "spoken": "veilpe.",
-    "text": "veilp"
-  },
   "C23:écrit:vɛʁmɛj:vermeil": {
     "file": "curriculum-c3-robin/3fbf4ba8fb41be9d9acb.mp3",
     "language": "fr",
@@ -826,30 +794,6 @@
     "speechSeconds": 0.531,
     "spoken": "zone.",
     "text": "zone"
-  },
-  "C23:écrit:ɑ̃:an": {
-    "file": "curriculum-c3-robin/da227c0b27866dd77298.mp3",
-    "language": "fr",
-    "model": "eleven_v4",
-    "provider": "elevenlabs",
-    "review": "pending_human_review",
-    "sha256": "de43e4635b48e3eb2cd1bd2b6c7ee1e8daae08f2597235d7a4f4f3eb57cc0308",
-    "speaker": "robin",
-    "speechSeconds": 0.345,
-    "spoken": "an.",
-    "text": "an"
-  },
-  "C23:écrit:ɑ̃:en": {
-    "file": "curriculum-c3-robin/feaa7da57e1900c213c6.mp3",
-    "language": "fr",
-    "model": "eleven_v4",
-    "provider": "elevenlabs",
-    "review": "pending_human_review",
-    "sha256": "0f610c9dbb5aa2867d4cf0c79bf260c8e2fee62d82714c325ef22165c13da05c",
-    "speaker": "robin",
-    "speechSeconds": 0.372,
-    "spoken": "en.",
-    "text": "en"
   },
   "C23:écrit:ɡe:gué": {
     "file": "curriculum-c3-robin/daac8cc59c27a815a688.mp3",
@@ -997,15 +941,16 @@
     "text": "rein"
   },
   "C23:écrit:ʃe:chez": {
-    "file": "curriculum-c1-robin/b67487edddb1fd5bccc0.mp3",
+    "file": "curriculum-c3-robin/ce0c816e85c0300ee3e1.mp3",
     "language": "fr",
     "model": "eleven_v4",
     "provider": "elevenlabs",
     "review": "pending_human_review",
-    "sha256": "a121e79ee354197c8e428a3877828a5eb88849d2e753fd1ccb4c73d9c75c9a36",
+    "sha256": "a5ac447b310f2951191732e052ef6867c92482b28f901ae2c2da0fdec68d698c",
     "speaker": "robin",
-    "speechSeconds": 0.41,
+    "speechSeconds": 0.299,
     "spoken": "chez.",
+    "synthesisText": "Chez, comme dans chez moi.",
     "text": "chez"
   },
   "C23:écrit:ʒeni:génie": {

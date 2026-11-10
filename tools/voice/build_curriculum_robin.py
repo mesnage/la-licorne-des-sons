@@ -28,6 +28,11 @@ SPOKEN = {
 }
 # Selected after comparing the isolated and contextual pronunciations.
 CONTEXTS = {
+    'pin':'Pin, comme l’arbre de la forêt.',
+    'pain':'Pain, comme du pain à manger.',
+    'nez':'Nez, comme le nez au milieu du visage.',
+    'laver':'Laver, comme laver les mains.',
+    'chez':'Chez, comme dans chez moi.',
     'cabane':'Cabane, comme une petite maison.',
     'chou':'Chou, comme le légume.',
     'chute':'Chute, quand on tombe.',
@@ -61,6 +66,9 @@ for (const id of requested) {
       [q.instructionAudio, { text: q.instruction }],
       [q.modelAudio, { text: q.sentence ?? q.display }]
     ]));
+    for (const q of questions) {
+      if (q.type === 'fill_grapheme' && q.prompt.startsWith('C23:oral:')) texts[q.prompt] = { text: q.word };
+    }
     result[id] = { keys: [...new Set(questions.flatMap(audibleKeys))].sort(), texts };
 }
 console.log(JSON.stringify(result));
@@ -154,9 +162,13 @@ def main():
     chapters = list(dict.fromkeys(args.chapters))
     specs = json.loads(subprocess.check_output(['node','--input-type=module','-e',SOURCE,*chapters], cwd=ROOT))
     shared = read_json('curriculum-simple.json')
-    sources = {chapter: specs[chapter]['texts'] or {
-        **read_json('curriculum-'+chapter.lower()+'.json'), **shared
-    } for chapter in chapters}
+    sources = {
+        chapter: {
+            **({**read_json('curriculum-'+chapter.lower()+'.json'), **shared}
+               if chapter in ('C1', 'C2', 'C3', 'C4') else {}),
+            **specs[chapter]['texts']
+        } for chapter in chapters
+    }
     legacy = read_json('manifest.json')
     stop = threading.Event()
     guard = threading.Lock()

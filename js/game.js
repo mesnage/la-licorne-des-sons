@@ -1,5 +1,6 @@
+import { soundPrompt } from './learning/sound-prompts.js';
 /* La Licorne des Sons — déroulé d'une partie */
-import { $, wait, shuffle, pick, plain, wordHTML, cardHTML, gemSVG } from './utils.js';
+import { $, wait, shuffle, pick, wordHTML, cardHTML, gemSVG } from './utils.js';
 import { LEVELS, STEPS } from './data/sounds.js';
 import { STOPS, BIOMES, WORLD_STARTS } from './data/path.js';
 import { N, U } from './voice-keys.js';
@@ -16,10 +17,7 @@ function refreshStars(){ $('#homeStars').textContent = getStars(); }
 function renderTrack(){
   $('#track').innerHTML = Array.from({length:STEPS}, (_,k) => `<div class="slot ${k < step ? 'got' : ''}">${gemSVG(k+1)}</div>`).join('');
 }
-/* le son de la lettre est dit à chaque manche : « Écoute bien le son… X… X… comme dans… mot » */
-/* Phrases complètes : « Trouve la lettre M ! » puis « Comme dans moto ! »
-   (voyelles : le son ; consonnes : le nom de la lettre ; groupes de consonnes : épelés) */
-const prompt = t => ['L:' + t.g, 250, 'w:' + plain(t.w)];
+const prompt = target => soundPrompt(target, level);
 
 function startGame(key){
   unlock();
@@ -88,7 +86,7 @@ function answer(btn, it){
 /* une erreur : on entend la bonne réponse, puis Paillette glisse sur une peau de banane
    jusqu'au début du monde en cours */
 async function fail(my){
-  await say([N("Oh non !"), 150, 'F:' + cur.g, 250, 'w:' + plain(cur.w)]);
+  await say([N("Oh non !"), 150, ...prompt(cur)]);
   await wait(300);
   if(my !== round) return;
   const back = Math.max(...WORLD_STARTS.filter(k => k <= step));

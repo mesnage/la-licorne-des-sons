@@ -81,3 +81,19 @@
   font-size:.75rem;
   font-weight:700;
 }
+
+.curriculum-menu-tile {
+  border-color:#cba76d;
+  background:linear-gradient(110deg,#fff9e6,#f4e3b6);
+  box-shadow:0 3px 0 #ba995e55,inset 0 0 0 2px #fff8e1;
+}
+.curriculum-menu-arrow {
+  display:grid;
+  place-items:center;
+  width:30px;
+  height:30px;
+  border-radius:50%;
+  color:#543764;
+  background:#fff9ed;
+}
+.revision-title { color:#60426b; }

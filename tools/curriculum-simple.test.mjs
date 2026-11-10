@@ -49,6 +49,9 @@ test('all 74 units use the same exercise and instruction for four blocks of five
               assert.equal(session.orderIsCorrect(), true);
             }
             if (chapter.id === 'C3') {
+              if (unit.id === 'C3-U02') assert.ok(['tante','encore','maman','panda','ruban'].includes(q.word));
+              if (unit.id === 'C3-U03') assert.ok(['pin','main','plein','rein','pain'].includes(q.word));
+              if (unit.id === 'C3-U18') assert.ok(['bon','maman','pin','moi','soleil'].includes(q.word));
               assert.equal((q.blank[0] + q.labels[q.answer] + q.blank[1]).toLowerCase(), q.word);
               assert.equal(q.labels.length, 2);
               assert.ok(q.prompt && !q.choices.length);

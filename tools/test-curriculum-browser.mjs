@@ -31,7 +31,7 @@ try {
   await page.keyboard.press('Enter');
   await page.getByRole('heading', { name: 'Mon parcours de lecture' }).waitFor();
   assert.equal(await page.locator('.curriculum-card').count(), 7);
-  assert.ok(await page.getByText('Version pilote', { exact: false }).isVisible());
+  assert.ok(await page.getByText('Sept chapitres', { exact: false }).isVisible());
 
   for (const [width, height] of [[320, 568], [375, 812], [430, 932], [768, 1024], [1024, 768], [844, 390]]) {
     await page.setViewportSize({ width, height });
@@ -49,6 +49,7 @@ try {
     await page.getByRole('heading', { name: 'Le son /l/ : L' }).waitFor();
     assert.equal(await page.locator('#curriculumUnitTitle').evaluate(node => node === document.activeElement), true);
     assert.equal(await page.locator('[data-block-id]').count(), 4);
+    assert.equal(await page.locator('[data-block-status="locked"]').count(), 4);
     assert.equal(await page.getByText(/Bloc [1-4] · 5 questions/).count(), 4);
     assert.equal(await page.locator('.curriculum-units').isVisible(), width >= 768);
     assert.ok(await page.locator('[data-block-id]').evaluateAll(nodes =>
