@@ -49,6 +49,10 @@ try {
   await chooseCount(2).click();
   await page.getByRole('button', { name: 'Un indice' }).waitFor();
   await chooseCount(1).click();
+  const next = page.getByRole('button', { name: 'Question suivante' });
+  assert.ok(await heading.evaluate(node => node === document.activeElement));
+  await page.keyboard.press('Tab');
+  assert.ok(await next.evaluate(node => node === document.activeElement));
   assert.equal(await count.textContent(), '1 / 20');
   assert.equal((await save()).version, 2);
   assert.equal((await save()).session.answers[0], 2);
@@ -62,6 +66,10 @@ try {
   await page.getByRole('dialog').waitFor();
   await page.getByRole('button', { name: 'Reprendre', exact: true }).click();
   assert.equal(await page.locator('.pilot-counts button').count(), 2);
+  await page.getByRole('button', { name: 'Pause', exact: true }).click();
+  await page.getByRole('link', { name: 'Retour à mon étape' }).click();
+  await page.getByRole('link', { name: 'Reprendre l’unité' }).waitFor();
+  assert.ok(new URL(page.url()).hash === '#C1-U01');
   assert.deepEqual(errors, []);
   console.log('Syllabes : deux choix, migration, relance audio, correction, pause et reprise.');
 } finally {

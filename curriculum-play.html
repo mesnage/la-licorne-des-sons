@@ -8,8 +8,8 @@
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="css/style.css">
 <link rel="stylesheet" href="css/storybook.css">
-<link rel="stylesheet" href="css/curriculum.css?v=storybook-2">
-<link rel="stylesheet" href="css/curriculum-play.css?v=storybook-2">
+<link rel="stylesheet" href="css/curriculum.css?v=lecture-ux-1">
+<link rel="stylesheet" href="css/curriculum-play.css?v=lecture-ux-1">
 </head>
 <body class="curriculum">
 <header class="curriculum-header">
@@ -17,7 +17,6 @@
   <button id="pilotPause" class="pilot-button" type="button" hidden>Pause</button>
 </header>
 <main class="curriculum-main pilot-main">
-  <p class="curriculum-label pilot-kicker">Le voyage de Paillette</p>
   <h1 id="pilotUnitName">Le parcours de lecture</h1>
   <p id="pilotTestMode" class="curriculum-notice" hidden>Mode test · Les essais sont enregistrés séparément du parcours normal.</p>
   <p id="pilotLoadStatus" role="status">Paillette prépare le voyage…</p>
@@ -36,16 +35,16 @@
     <p id="pilotAudioStatus" role="status" class="pilot-audio-status"></p>
     <p id="pilotFeedback" role="status" class="pilot-feedback"></p>
     <div id="pilotActions"></div>
+    <div id="pilotHelp" class="pilot-help"></div>
     <a id="pilotRevision" class="curriculum-link" hidden>Atelier de révision</a>
   </section>
   <noscript><p>Active JavaScript pour jouer avec Paillette.</p></noscript>
 </main>
 <dialog id="pilotPauseDialog" class="curriculum-unit-detail pilot-dialog" aria-labelledby="pilotPauseTitle">
   <h2 id="pilotPauseTitle">Une petite pause ?</h2>
-  <p>Paillette t’attend ici.</p>
   <form method="dialog"><button class="pilot-button pilot-primary" autofocus>Reprendre</button></form>
-  <a class="curriculum-link" href="curriculum.html#C1" data-chapter-return>Retour à la carte</a>
+  <a id="pilotPauseReturn" class="curriculum-link" href="curriculum.html#C1-U01">Retour à mon étape</a>
 </dialog>
-<script type="module" src="js/prototype/curriculum-play.js?v=storybook-2"></script>
+<script type="module" src="js/prototype/curriculum-play.js?v=lecture-ux-1"></script>
 </body>
 </html>

@@ -65,7 +65,7 @@ try {
   await page.keyboard.press('Enter');
   await page.getByRole('heading', { name: 'Mon parcours de lecture' }).waitFor();
   assert.equal(await page.locator('.curriculum-card').count(), 7);
-  assert.ok(await page.getByText('Sept chapitres', { exact: false }).isVisible());
+  assert.equal(await page.locator('.curriculum-next-step').textContent(), catalogue.units[0].title);
 
   for (const [width, height] of [[320, 568], [375, 812], [430, 932], [768, 1024], [1024, 768], [844, 390]]) {
     await page.setViewportSize({ width, height });
@@ -84,7 +84,7 @@ try {
     assert.equal(await page.locator('#curriculumUnitTitle').evaluate(node => node === document.activeElement), true);
     assert.equal(await page.locator('[data-block-id]').count(), 4);
     assert.equal(await page.locator('[data-block-status="locked"]').count(), 4);
-    assert.equal(await page.getByText(/Bloc [1-4] · 5 questions/).count(), 4);
+    assert.equal(await page.getByText(/^Bloc [1-4]$/).count(), 4);
     assert.equal(await page.locator('.curriculum-units').isVisible(), width >= 768);
     assert.ok(await page.locator('[data-block-id]').evaluateAll(nodes =>
       nodes.every(node => node.getBoundingClientRect().right <= window.innerWidth && node.scrollWidth <= node.clientWidth)));

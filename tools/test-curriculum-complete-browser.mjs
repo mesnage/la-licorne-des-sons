@@ -6,7 +6,7 @@ import { URL } from 'node:url';
 import { createCurriculum } from '../js/learning/curriculum.js';
 import { exerciseVersion } from '../js/data/curriculum-simple.js';
 import { createSimpleQuestions } from '../js/learning/curriculum-simple.js';
-import { chapterPlayUrl } from '../js/learning/chapter-one.js';
+import { chapterMapUrl, chapterPlayUrl } from '../js/learning/chapter-one.js';
 import { unitProgressKey } from '../js/learning/pilot-session.js';
 
 const read = path => JSON.parse(readFileSync(new URL(path, import.meta.url), 'utf8'));
@@ -52,10 +52,9 @@ try {
   await page.goto(new URL('curriculum.html#' + chapter.units[0].id, base).href);
   await page.getByRole('link', { name: 'Reprendre l’unité' }).click();
   const heading = page.locator('#pilotHeading');
-  const controls = page.locator('#pilotControls');
   for (const unit of chapter.units) {
     await page.locator('#pilotUnitName').filter({ hasText: unit.title }).waitFor();
-    await controls.getByRole('button', { name: /Écouter la (consigne|question)/ }).click();
+    await page.locator('#pilotHelp').getByRole('button', { name: /Écouter la (consigne|question)/ }).click();
     await page.locator('#pilotControls[aria-busy="false"]').waitFor();
     const questions = createSimpleQuestions(chapter, unit, null, 0);
     for (const [index, question] of questions.entries()) {
@@ -72,12 +71,12 @@ try {
         };
         const press = async (label, root = controls) => {
           const find = () => [...root.querySelectorAll('button')]
-            .find(button => !button.disabled && button.textContent.trim() === label);
+            .find(button => !button.disabled && button.getAttribute('aria-disabled') !== 'true' && button.textContent.trim() === label);
           await wait(find, label);
           find().click();
         };
-        const hear = async label => {
-          await press(label);
+        const hear = async (label, root = controls) => {
+          await press(label, root);
           await wait(() => controls.getAttribute('aria-busy') === 'false', label);
           if (document.getElementById('pilotAudioStatus').textContent) throw new Error(item.id + ' · audio ' + label);
         };
@@ -92,7 +91,7 @@ try {
         }
         if (item.type === 'reread_text') {
           if (controls.querySelector('.pilot-reading-text')?.textContent !== item.display) throw new Error(item.id + ' · texte absent');
-          if (item.position % 2 === 0) await hear('Écouter Robin');
+          if (item.position % 2 === 0) await hear('Écouter Robin', document.getElementById('pilotHelp'));
           await press('J’ai lu', actions);
         } else if (item.pictures) {
           const cards = controls.querySelectorAll('.pilot-picture-card');
@@ -107,7 +106,7 @@ try {
             if (!cards[item.answer].classList.contains('pilot-picture-hint')) throw new Error(item.id + ' · indice absent');
           }
           cards[item.answer].click();
-          await hear('Écouter la phrase avec Robin');
+          await hear('Écouter la phrase avec Robin', document.getElementById('pilotHelp'));
         } else if (item.order) {
           const paper = controls.querySelector('.pilot-writing-paper');
           if (item.sentence && !item.prompt && controls.querySelector('.pilot-reading-text')?.textContent !== item.sentence) {
@@ -153,6 +152,17 @@ try {
     await page.locator('#pilotUnitName').filter({ hasText: next.title }).waitFor();
   } else {
     await heading.filter({ hasText: 'Le parcours est terminé !' }).waitFor();
+    const back = page.locator('#pilotActions').getByRole('link', { name: 'Retour à la carte' });
+    assert.equal(await back.getAttribute('href'), chapterMapUrl(chapter.id));
+    await back.click();
+    await page.getByText('Parcours terminé !', { exact: true }).waitFor();
+    await page.goBack();
+    await page.getByRole('button', { name: 'Rejouer l’unité' }).click();
+    await heading.filter({ hasText: 'Question 1 sur 5' }).waitFor();
+    const key = unitProgressKey(chapter.units.at(-1).id);
+    const saved = await page.evaluate(key => JSON.parse(localStorage.getItem(key)), key);
+    assert.equal(saved.completed, true);
+    assert.equal(saved.session.cursor, 0);
   }
   await page.goto(new URL('curriculum.html', base).href);
   await page.getByText(chapter.units.length + ' / ' + chapter.units.length + ' unités terminées', { exact: true }).first().waitFor();

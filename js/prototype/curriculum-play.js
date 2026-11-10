@@ -17,6 +17,7 @@ const get = id => document.getElementById(id);
 const heading = get('pilotHeading');
 const controls = get('pilotControls');
 const actions = get('pilotActions');
+const help = get('pilotHelp');
 const instructions = get('pilotInstructions');
 const feedback = get('pilotFeedback');
 const audioStatus = get('pilotAudioStatus');
@@ -78,6 +79,7 @@ async function openPilot() {
   document.querySelectorAll('[data-chapter-return]').forEach(link => {
     link.href = chapterMapUrl(block ? unit.id : chapter.id, testMode);
   });
+  get('pilotPauseReturn').href = chapterMapUrl(unit.id, testMode);
   const version = exerciseVersion(unit);
   const total = block ? block.questionCount : unit.blocks.reduce((count, item) => count + item.questionCount, 0);
   get('pilotCrystals').max = total;
@@ -194,7 +196,7 @@ async function openPilot() {
     const hint = button('Un indice', () => {
       if (question.pictures) {
         readyAnswers[question.answer].classList.add('pilot-picture-hint');
-        feedback.textContent = 'Regarde le dessin entouré.';
+        feedback.textContent = 'Cherche ' + pictureLabel(question.pictures[question.answer]) + '.';
       } else if (question.order) {
         feedback.textContent = 'Touche « ' + question.order[session.snapshot().order.length] + ' » pour continuer.';
         if (question.prompt) play([question.prompt]);
@@ -219,10 +221,12 @@ async function openPilot() {
     save();
     if (conflict) return;
     if (!result) {
-      feedback.textContent = session.question.sentence ? 'Essaie avec un autre mot.'
-        : session.question.pictures ? 'Relis la phrase et essaie encore.'
-        : 'Tu peux réécouter et essayer encore.';
-      if (session.snapshot().wrong >= 2) showCorrection(session.question);
+      const hintAvailable = session.snapshot().wrong >= 2;
+      feedback.textContent = hintAvailable ? 'Réessaie ou demande un indice.'
+        : session.question.sentence ? 'Essaie avec un autre mot.'
+        : session.question.pictures ? 'Relis la phrase et réessaie.'
+        : session.question.prompt ? 'Réécoute, puis réessaie.' : 'Essaie encore.';
+      if (hintAvailable) showCorrection(session.question);
       return;
     }
 
@@ -232,10 +236,10 @@ async function openPilot() {
     if (word) feedback.textContent = 'Tu as fabriqué « ' + word + ' ».';
     if (worldReady) {
       const next = actions.querySelector('button');
-      next.disabled = true;
+      next.setAttribute('aria-disabled', 'true');
       world.setPaused(false);
       world.moveTo(session.snapshot().answers.length, { gentle: true }).then(() => {
-        if (!conflict) next.disabled = false;
+        if (!conflict) next.removeAttribute('aria-disabled');
       });
     }
   }
@@ -363,7 +367,7 @@ async function openPilot() {
     }
     if (question.blank) showMissingLetters(question.blank);
     if (question.type === 'reread_text') {
-      audioControls.append(listen('Écouter Robin', [question.modelAudio], 'pilot-primary'));
+      help.append(listen('Écouter Robin', [question.modelAudio], 'pilot-instruction'));
     }
     if (question.prompt) {
       audioControls.append(listen(promptLabels[question.type], [question.prompt, question.context].filter(Boolean), 'pilot-primary'));
@@ -371,10 +375,7 @@ async function openPilot() {
     if (question.choices.length) {
       audioControls.append(listen('Écouter les deux choix', question.choices, 'pilot-primary'));
     }
-    audioControls.append(question.questionAudio
-      ? listen('Écouter la question', [question.questionAudio], 'pilot-instruction')
-      : listen('Écouter la consigne', [question.instructionAudio], 'pilot-instruction'));
-    controls.append(audioControls);
+    if (audioControls.childElementCount) controls.append(audioControls);
     if (question.type === 'reread_text') {
       actions.append(button('J’ai lu', () => answer(1), 'pilot-primary'));
     } else if (question.pictures) {
@@ -396,6 +397,9 @@ async function openPilot() {
       }
       controls.append(row);
     }
+    help.append(question.questionAudio
+      ? listen('Écouter la question', [question.questionAudio], 'pilot-instruction')
+      : listen('Écouter la consigne', [question.instructionAudio], 'pilot-instruction'));
     refreshAnswers();
     if (state.wrong) feedback.textContent = 'Tu peux réessayer.';
     if (state.wrong >= 2) showCorrection(question);
@@ -410,6 +414,7 @@ async function openPilot() {
     }
     controls.replaceChildren();
     actions.replaceChildren();
+    help.replaceChildren();
     readyAnswers.length = 0;
     feedback.textContent = '';
     instructions.textContent = '';
@@ -422,8 +427,6 @@ async function openPilot() {
     if (session.finished) {
       heading.textContent = block ? 'Bloc ' + block.position + ' testé !' : !nextUnit ? 'Le parcours est terminé !'
         : nextChapter ? 'Chapitre terminé !' : 'Bienvenue au château !';
-      instructions.textContent = block ? 'Les cinq questions du bloc sont terminées.'
-        : 'Tu as terminé les quatre blocs et gagné les vingt cristaux.';
       const castle = document.createElement('img');
       castle.src = 'assets/storybook/chateau-etoile.webp';
       castle.alt = '';
@@ -431,23 +434,21 @@ async function openPilot() {
       if (!block) controls.append(castle);
       feedback.textContent = chapter.id === 'C5' ? total + ' lectures faites.'
         : state.answers.filter(wrong => wrong === 0).length + ' réponses justes du premier coup sur ' + total + '.';
-      if (block || nextUnit) {
-        const next = document.createElement('a');
-        next.className = 'curriculum-link curriculum-play-link';
-        const nextBlock = block && unit.blocks[block.position];
-        next.href = nextBlock ? chapterPlayUrl(id, true, nextBlock.position)
-          : block ? chapterMapUrl(id, true) : chapterPlayUrl(nextUnit.id, testMode);
-        next.textContent = nextBlock ? 'Tester le bloc suivant' : block ? 'Retour à l’unité'
-          : nextChapter ? 'Chapitre suivant' : 'Unité suivante';
-        actions.append(next);
-      }
+      const next = document.createElement('a');
+      next.className = 'curriculum-link curriculum-play-link';
+      const nextBlock = block && unit.blocks[block.position];
+      next.href = nextBlock ? chapterPlayUrl(id, true, nextBlock.position)
+        : block ? chapterMapUrl(id, true) : nextUnit ? chapterPlayUrl(nextUnit.id, testMode) : chapterMapUrl(chapter.id, testMode);
+      next.textContent = nextBlock ? 'Tester le bloc suivant' : block ? 'Retour à l’unité'
+        : !nextUnit ? 'Retour à la carte' : nextChapter ? 'Chapitre suivant' : 'Unité suivante';
+      actions.append(next);
       actions.append(button(block ? 'Rejouer le bloc' : 'Rejouer l’unité', () => {
         restart(newPilotState(Math.floor(Math.random() * 1000000)));
         save();
         if (conflict) return;
         world?.reset(total, worldIndex);
         render(true);
-      }, 'pilot-primary'));
+      }, 'pilot-secondary'));
     } else if (session.solved) {
       if (question.order) showWrittenWord(question, state.order);
       if (question.modelAudio) {
@@ -457,15 +458,14 @@ async function openPilot() {
           picture.innerHTML = pictureSVG(question.pictures[question.answer]);
           controls.append(picture);
         }
-        controls.append(listen(question.pictures || question.sentence ? 'Écouter la phrase avec Robin' : 'Réécouter Robin',
+        help.append(listen(question.pictures || question.sentence ? 'Écouter la phrase avec Robin' : 'Réécouter Robin',
           [question.modelAudio], 'pilot-instruction'));
       }
       heading.textContent = question.position === 4 ? 'Bloc ' + (question.blockIndex + 1) + ' terminé !' : 'Un cristal de plus !';
-      feedback.textContent = 'Paillette avance avec toi.';
       const label = state.answers.length === total ? (block ? 'Terminer le bloc' : 'Entrer dans le château')
         : question.position === 4 ? 'Commencer le bloc suivant' : 'Question suivante';
-      actions.append(button(label, () => {
-        if (!session.advance()) return;
+      actions.append(button(label, event => {
+        if (event.currentTarget.getAttribute('aria-disabled') === 'true' || !session.advance()) return;
         stopAudio();
         if (session.finished) completed = true;
         save();
@@ -475,7 +475,10 @@ async function openPilot() {
       heading.textContent = 'Bloc ' + (question.blockIndex + 1) + ' sur 4 · Question ' + (question.position + 1) + ' sur 5';
       showQuestion(question, state);
     }
-    if (focus) heading.focus({ preventScroll: true });
+    if (focus) {
+      heading.focus({ preventScroll: true });
+      heading.scrollIntoView({ block: 'nearest' });
+    }
   }
 
   const restored = restoreProgrammeState(saved, total, version);

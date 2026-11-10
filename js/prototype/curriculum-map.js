@@ -1,7 +1,6 @@
 import { curriculumLocation, reviewMode } from '../learning/curriculum-mode.js';
 import { revisionFor, revisionUrl } from './curriculum-revision.js?v=storybook-2';
 import { exerciseVersion, simpleExercise } from '../data/curriculum-simple.js?v=storybook-2';
-import { illustration } from '../illustrations.js';
 import { createCurriculum } from '../learning/curriculum.js?v=storybook-2';
 import { chapterMapUrl, chapterPlayUrl } from '../learning/chapter-one.js';
 import { pilotProgressKey, pilotQuestionCount, readPilotProgress, restoreProgrammeState } from '../learning/pilot-session.js?v=storybook-2';
@@ -51,17 +50,14 @@ function chapterCard(chapter, index, completedUnits) {
 function chapterHome(curriculum, completedUnits, pilot) {
   const hero = element('div', 'curriculum-hero');
   const intro = element('div', '');
-  intro.append(
-    element('p', 'curriculum-label', 'Le livre de Paillette'),
-    element('h1', '', 'Mon parcours de lecture'),
-    element('p', '', 'Des premiers sons aux phrases à construire. Suis Paillette vers le château.')
-  );
+  intro.append(element('h1', '', 'Mon parcours de lecture'));
   const allUnits = curriculum.chapters.flatMap(chapter => chapter.units);
   const next = allUnits.find(unit => !completedUnits.has(unit.id));
   const destination = next ?? allUnits.at(-1);
   const progress = pilot.get(destination.id);
   const startLabel = !next ? 'Revoir le château final' : progress?.session || completedUnits.size
     ? 'Continuer mon aventure' : 'Commencer mon aventure';
+  if (next) intro.append(element('p', 'curriculum-next-step', next.title));
   intro.append(link(chapterPlayUrl(destination.id, testMode), startLabel, 'curriculum-link curriculum-play-link'));
   hero.append(intro, art('assets/storybook/paillette-0.webp', 'curriculum-paillette'));
   const chapters = element('nav', 'curriculum-chapters');
@@ -80,46 +76,40 @@ function unitDetail(unit, status, pilot) {
   const progress = pilot.get(unit.id);
   const active = restoreProgrammeState(progress, pilotQuestionCount, exerciseVersion(unit));
   const answered = progress?.completed ? pilotQuestionCount : active?.answers.length ?? 0;
-  const blocks = element('ol', 'curriculum-blocks');
-  let preceding = 0;
-  for (const block of unit.blocks) {
-    const item = element('li', 'curriculum-block');
-    item.dataset.blockId = block.id;
-    const icon = element('span', 'curriculum-block-icon');
-    icon.innerHTML = illustration(exercise.icon);
-    const copy = element('div', '');
-    copy.append(element('small', 'curriculum-label', 'Bloc ' + block.position + ' · ' + block.questionCount + ' questions'));
-    const finished = answered >= preceding + block.questionCount;
-    const unlocked = status !== 'upcoming' && answered >= preceding;
-    item.dataset.blockStatus = finished ? 'done' : unlocked ? 'next' : 'locked';
-    preceding += block.questionCount;
-    if (testMode) {
-      copy.append(link(chapterPlayUrl(unit.id, true, block.position), 'Tester le bloc ' + block.position));
-    }
-    if (!testMode) {
-      copy.append(element('span', 'curriculum-block-status', finished ? 'Terminé' : unlocked ? 'À jouer' : 'À venir'));
-    }
-    item.append(icon, copy);
-    blocks.append(item);
-  }
-  const castle = element('p', 'curriculum-castle', 'Au bout des quatre blocs, le château !');
-  castle.prepend(art('assets/storybook/chateau-etoile.webp'));
   detail.append(
     link('#' + unit.chapterId, '← Les unités', 'curriculum-link curriculum-unit-back'),
     element('p', 'curriculum-label', 'Unité ' + unit.position + ' · ' + statusLabels[status]),
     heading,
-    element('p', '', exercise.instruction),
-    element('p', '', 'Même exercice pendant les quatre blocs.'),
-    blocks,
-    castle
+    element('p', '', exercise.instruction)
   );
   if (status === 'upcoming') {
-    detail.append(element('p', '', 'Termine l’unité précédente pour jouer à celle-ci.'));
+    detail.append(element('p', 'curriculum-locked-message', 'Termine l’unité précédente pour jouer.'));
   } else {
     const label = active && active.cursor < pilotQuestionCount
       ? 'Reprendre l’unité' : progress?.completed ? 'Voir le château' : 'Jouer cette unité';
     detail.append(link(chapterPlayUrl(unit.id, testMode), label, 'curriculum-link curriculum-play-link'));
   }
+
+  const blocks = element('ol', 'curriculum-blocks');
+  blocks.setAttribute('aria-label', 'Blocs de l’unité');
+  let preceding = 0;
+  for (const block of unit.blocks) {
+    const item = element('li', 'curriculum-block');
+    item.dataset.blockId = block.id;
+    item.append(element('strong', '', 'Bloc ' + block.position));
+    const finished = answered >= preceding + block.questionCount;
+    const unlocked = status !== 'upcoming' && answered >= preceding;
+    item.dataset.blockStatus = finished ? 'done' : unlocked ? 'next' : 'locked';
+    preceding += block.questionCount;
+    if (testMode) {
+      item.append(link(chapterPlayUrl(unit.id, true, block.position), 'Tester le bloc ' + block.position));
+    }
+    if (!testMode) {
+      item.append(element('span', 'curriculum-block-status', finished ? 'Terminé' : unlocked ? 'À jouer' : 'À venir'));
+    }
+    blocks.append(item);
+  }
+  detail.append(blocks);
   const [, revisionLabel] = revisionFor(unit);
   const practice = element('aside', 'curriculum-revision');
   practice.append(element('p', 'curriculum-label', 'Pour t’entraîner'),
@@ -135,9 +125,10 @@ function chapterView(curriculum, chapter, selectedUnit, completedUnits, pilot) {
   const completed = chapter.units.filter(unit => completedUnits.has(unit.id)).length;
   const header = element('div', 'curriculum-chapter-header');
   header.append(link('#chapitres', '← Les chapitres'),
-    element('p', 'curriculum-label', 'Chapitre ' + (curriculum.chapters.indexOf(chapter) + 1)), heading,
-    element('p', '', chapter.description),
-    element('p', 'curriculum-chapter-progress', completed + ' / ' + chapter.units.length + ' étapes terminées'));
+    element('p', 'curriculum-label', 'Chapitre ' + (curriculum.chapters.indexOf(chapter) + 1)), heading);
+  if (!selectedUnit) {
+    header.append(element('p', 'curriculum-chapter-progress', completed + ' / ' + chapter.units.length + ' étapes terminées'));
+  }
 
   const map = element('div', selectedUnit ? 'curriculum-map has-unit' : 'curriculum-map');
   const path = element('div', 'curriculum-trail');
@@ -236,6 +227,7 @@ async function openCatalogue() {
   const curriculum = createCurriculum(await response.json());
   if (testMode) {
     const banner = document.getElementById('curriculumNotice');
+    banner.hidden = false;
     banner.textContent = 'Mode test · Toutes les unités et tous les blocs sont accessibles. ';
     banner.append(link(chapterMapUrl('chapitres', false), 'Revenir au parcours normal'));
   }
