@@ -371,7 +371,7 @@ L’accueil affiche **quatre grandes tuiles en grille 2×2**. Un toucher ouvre l
 | Chapitre | Activités |
 | --- | --- |
 | Les lettres | Les voyelles, Les consonnes |
-| Les sons | Syllabes faciles, Lettres muettes, Voyelles nasales |
+| Les sons | Syllabes faciles, Lettres muettes, Voyelles nasales, Tout mélangé |
 | Les mots | Les trois niveaux de Trouve le mot ! |
 | Les phrases | Phrases de 3 ou 5 mots avec modèle, phrases de 3 ou 5 mots à écouter, Trouve la faute ! |
 

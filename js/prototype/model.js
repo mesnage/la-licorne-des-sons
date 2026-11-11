@@ -13,11 +13,12 @@ export const MODULES = [
   { id:'voyelles', title:'Les voyelles', icon:'flower', detail:'a, e, i, o, u…', color:'rose' },
   { id:'consonnes', title:'Les consonnes', icon:'butterfly', detail:'Le nom des lettres', color:'lavender' },
   { id:'sons', title:'Voyelles nasales', icon:'rainbow', detail:'on, an, en, in, ain, ein, un', color:'sky' },
+  { id:'tout', title:'Tout mélangé', icon:'star', detail:'Un peu de tout', color:'gold' },
 ];
 export const MENU_ITEMS=[TYPO_ACTIVITY,...SENTENCE_ACTIVITIES,...MODULES,...SYLLABLE_ACTIVITIES,...WORD_LEVELS.map(level=>({id:'words-'+level.id,mode:'words',level:level.id,title:'Trouve le mot ! · '+level.id,detail:level.title,icon:'book',color:['sky','mint','lavender'][level.id-1]}))];
 export const CHAPTERS = [
   {id:'letters',title:'Les lettres',detail:'Voyelles et consonnes',icon:'letters',color:'rose',activities:['voyelles','consonnes']},
-  {id:'sounds',title:'Les sons',detail:'Syllabes, lettres muettes et voyelles nasales',icon:'sound',color:'mint',activities:['blend-simple','blend-silent','sons']},
+  {id:'sounds',title:'Les sons',detail:'Syllabes, lettres muettes et voyelles nasales',icon:'sound',color:'mint',activities:['blend-simple','blend-silent','sons','tout']},
   {id:'words',title:'Les mots',detail:'Trois niveaux de lecture',icon:'book',color:'sky',activities:['words-1','words-2','words-3']},
   {id:'sentences',title:'Les phrases',detail:'Construire et trouver la faute',icon:'sentence',color:'lavender',activities:['sentence-copy-3','sentence-copy-5','sentence-listen-3','sentence-listen-5','find-typo']}
 ];

@@ -1,7 +1,7 @@
 import { syllableActivity } from '../data/syllable-workshops.js';
 import { returnFromRevision } from './curriculum-revision.js?v=ateliers-sons-2';
 import { createWorld } from './world.js?v=accueil-1';
-import { WORLDS, worldPanorama, MODULES, MENU_ITEMS, CHAPTERS, createAdventure, createJourneyMemory, journeyState } from './model.js?v=ateliers-sons-2';
+import { WORLDS, worldPanorama, MODULES, MENU_ITEMS, CHAPTERS, createAdventure, createJourneyMemory, journeyState } from './model.js?v=ateliers-sons-3';
 import { illustration } from '../illustrations.js?v=chapters-wheel-1';
 import { createMastery, skillStatus } from '../learning/mastery.js';
 import { WORD_LEVELS } from '../data/words.js';
