@@ -451,6 +451,10 @@ crédits supplémentaires.
 Données : `js/data/typos.js`. Questions : `js/sentences/typos.js`. Le chapitre **Les phrases** contient la tuile rose **Trouve la faute !**. Vérification : `node tools/typos.test.mjs` et, avec le serveur et Python Playwright,
 `python3 tools/test-typos-browser.py --screenshots /tmp/licorne-fautes`.
 
+### Syllabes faciles et lettres muettes
+
+Dans **Ateliers de révision → Les sons**, **Syllabes faciles** propose 40 assemblages consonne-voyelle. L’enfant écoute Robin, choisit entre deux écritures, puis voit l’assemblage, par exemple « f + a → fa ». **Lettres muettes** fait reconnaître 40 mots courts. Après la réponse, la lettre finale muette est soulignée.
+
 ### Écoute des phonèmes avec Robin
 
 Dans **Les sons → Quel son entends-tu ?**, une aventure de dix questions tire

@@ -1,3 +1,4 @@
+import { syllableItems } from '../js/data/syllable-workshops.js';
 /* Vérifications automatiques du jeu (aucune dépendance) :  npm run check
    1. chaque son a assez de mots, bien écrits ([partie surlignée] + emoji)
    2. chaque phrase / lettre / mot dit par le jeu a son fichier audio
@@ -31,6 +32,7 @@ const manifest = JSON.parse(readFileSync(join(ROOT, 'audio/manifest.json'), 'utf
 const need = new Set(PHONEMES.map(phoneme=>phoneme.audioKey));
 for(const word of WORDS)need.add(word.audioKey);
 for(const sentence of SENTENCES)need.add(sentence.audioKey);
+for(const item of Object.values(syllableItems).flat())need.add(item.audioKey);
 for (const [mode, sounds] of Object.entries(LEVELS)) {
   for (const sound of sounds) for (const { w } of sound.words) {
     for (const key of soundPrompt({ ...sound, w }, mode)) if (typeof key === 'string') need.add(key);

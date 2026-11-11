@@ -163,3 +163,16 @@ body.prototype[data-screen="menu"] { overflow:visible; }
   .chapter-tile { transition:none; }
   .chapter-tile:active { transform:none; }
 }
+
+#adventureChoices.syllable-choices { grid-template-columns:repeat(2,minmax(0,1fr)); }
+.adventure-choices.syllable-choices:not(.words) .adventure-answer {
+  font-size:clamp(1.9rem,8vw,3rem);
+}
+.syllable-choices .silent-letter {
+  padding:0 .08em;
+  border-radius:.2em;
+  background:#fff9e7;
+  color:#6e487c;
+  text-decoration:underline;
+  text-underline-offset:.13em;
+}

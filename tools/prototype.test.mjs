@@ -1,6 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { MODULES, MENU_ITEMS, CHAPTERS, createAdventure, pathPoint, WORLD_WIDTH, WORLDS, checkpointFor, journeyState, gagFor, createJourneyMemory } from '../js/prototype/model.js';
+import { syllableItems } from '../js/data/syllable-workshops.js';
 import { QuestionSession } from '../js/words/model.js';
 import { isE, OTHER_VOWELS } from '../js/questions.js';
 
@@ -21,22 +22,37 @@ test('all phonics modules and the three word levels retain their learning conten
   }
   assert.throws(()=>createAdventure('unknown'),/Unknown/);
 });
-test('the menu includes typo detection, four sentence activities and the eight original activities',()=>{
+test('the menu includes typo detection, four sentence activities and the original activities and both syllable workshops',()=>{
  assert.equal(MENU_ITEMS[0].id,'find-typo');
  assert.deepEqual(MENU_ITEMS.slice(1,5).map(item=>item.id),['sentence-copy-3','sentence-copy-5','sentence-listen-3','sentence-listen-5']);
- assert.equal(MENU_ITEMS.length,14);assert.equal(new Set(MENU_ITEMS.map(item=>item.id)).size,14);
+ assert.equal(MENU_ITEMS.length,16);assert.equal(new Set(MENU_ITEMS.map(item=>item.id)).size,16);
  assert.deepEqual(MENU_ITEMS.filter(item=>item.mode==='words').map(item=>item.level),[1,2,3]);
- for(const item of MENU_ITEMS){const session=createAdventure(item.mode||item.id,item.level||1);assert.equal(session.questions.length,MODULES.some(module=>module.id===item.id)?20:10);}
+ for(const item of MENU_ITEMS){const session=createAdventure(item.mode||item.id,item.level||1);assert.equal(session.questions.length,Object.hasOwn(syllableItems,item.id)?40:MODULES.some(module=>module.id===item.id)?20:10);}
 });
 test('four chapters contain exactly the requested activities, once each',()=>{
  assert.deepEqual(CHAPTERS.map(chapter=>chapter.title),['Les lettres','Les sons','Les mots','Les phrases']);
  assert.deepEqual(CHAPTERS.map(chapter=>chapter.activities),[
-  ['voyelles','consonnes'],['sons','experts','tout','listen-phonemes'],['words-1','words-2','words-3'],
+  ['voyelles','consonnes'],['blend-simple','blend-silent','sons','experts','tout','listen-phonemes'],['words-1','words-2','words-3'],
   ['sentence-copy-3','sentence-copy-5','sentence-listen-3','sentence-listen-5','find-typo']
  ]);
  const activities=CHAPTERS.flatMap(chapter=>chapter.activities);
- assert.equal(new Set(activities).size,14);assert.deepEqual(new Set(activities),new Set(MENU_ITEMS.map(item=>item.id)));
+ assert.equal(new Set(activities).size,16);assert.deepEqual(new Set(activities),new Set(MENU_ITEMS.map(item=>item.id)));
 });
+test('both syllable workshops offer all 40 targets and two audibly distinct choices', () => {
+  for (const [mode, items] of Object.entries(syllableItems)) {
+    const session = createAdventure(mode);
+    assert.equal(items.length, 40);
+    assert.deepEqual(new Set(session.questions.map(q => q.target.id)), new Set(items.map(item => item.id)));
+    for (const question of session.questions) {
+      assert.equal(question.choices.length, 2);
+      assert.ok(question.choices.includes(question.target));
+      assert.equal(new Set(question.choices.map(choice => choice.ipa)).size, 2);
+      assert.equal(question.target.audioKey, 'SY:' + question.target.text);
+      assert.equal(question.target.silent, mode === 'blend-silent' ? question.target.text.at(-1) : null);
+    }
+  }
+});
+
 test('world boundaries are every ten crystals and refuges are exactly halfway',()=>{
   assert.deepEqual([0,1,4,5,6,9,10,11,14,15,16,19].map(checkpointFor),[0,0,0,5,5,5,10,10,10,15,15,15]);
   assert.equal(journeyState(9,20).worldIndex,0);assert.equal(journeyState(10,20).worldIndex,1);

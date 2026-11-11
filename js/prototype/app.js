@@ -1,8 +1,9 @@
+import { syllableActivity } from '../data/syllable-workshops.js';
 import { soundPrompt } from '../learning/sound-prompts.js';
 import { returnFromRevision } from './curriculum-revision.js?v=storybook-2';
 import { PHONEME_ACTIVITY } from '../phonemes/model.js?v=phoneme-red-3';
 import { createWorld } from './world.js?v=accueil-1';
-import { WORLDS, worldPanorama, MODULES, MENU_ITEMS, CHAPTERS, createAdventure, createJourneyMemory, journeyState } from './model.js?v=phoneme-red-3';
+import { WORLDS, worldPanorama, MODULES, MENU_ITEMS, CHAPTERS, createAdventure, createJourneyMemory, journeyState } from './model.js?v=syllabes-1';
 import { illustration } from '../illustrations.js?v=chapters-wheel-1';
 import { createMastery, skillStatus } from '../learning/mastery.js';
 import { WORD_LEVELS } from '../data/words.js';
@@ -86,7 +87,7 @@ function progress(){
 async function replay(){
   if(!session||paused||session.phase!=='question') return;
   stopAudio();unlock();$('adventureAudioStatus').textContent='';
-  if(mode===PHONEME_ACTIVITY.id||mode==='words'||sentenceActivity(mode)||mode===TYPO_ACTIVITY.id){voice.speak(session.current.target);return;}
+  if(session.current.target.audioKey){voice.speak(session.current.target);return;}
   const my=promptToken, parts=soundPrompt(session.current.target,mode);
   await audioReady;
   const clips=await Promise.all(parts.filter(key=>typeof key==='string').map(key=>loadClip(key)));
@@ -99,14 +100,14 @@ async function replay(){
 function ask(){
   panels('question');world.quiet(false);progress();
   const activity=sentenceActivity(mode);
-  const typo=mode===TYPO_ACTIVITY.id;
-  $('questionTitle').textContent=mode===PHONEME_ACTIVITY.id?'Quel son entends-tu ?':typo?'Trouve la faute !':activity?(activity.hidden?'Écoute la phrase':'La phrase en ordre'):mode==='words'?'Trouve le mot !':'Écoute bien !';
-  const skill=mode===PHONEME_ACTIVITY.id||mode==='words'||activity||typo?null:mastery.snapshot()[skillId()];
+  const typo=mode===TYPO_ACTIVITY.id, syllables=syllableActivity(mode);
+  $('questionTitle').textContent=syllables?(mode==='blend-simple'?'Quelle syllabe entends-tu ?':'Quel mot entends-tu ?'):mode===PHONEME_ACTIVITY.id?'Quel son entends-tu ?':typo?'Trouve la faute !':activity?(activity.hidden?'Écoute la phrase':'La phrase en ordre'):mode==='words'?'Trouve le mot !':'Écoute bien !';
+  const skill=mode===PHONEME_ACTIVITY.id||mode==='words'||activity||typo||syllables?null:mastery.snapshot()[skillId()];
   world.react(skill?.attempts?'attentive':'curious');
   const state=journeyState(session.index,session.questions.length,startWorld);
   $('checkpointName').textContent=`MONDE ${state.worldIndex+1} · CRISTAL ${state.worldCrystals+1}/10`;
-  $('adventureFeedback').textContent=state.worldCrystals===5?'Refuge atteint ! Tes cinq premiers cristaux sont protégés.':'Regarde bien chaque lettre. Tu peux prendre ton temps.';
-  const box=$('adventureChoices');box.classList.toggle('words',mode==='words'||!!activity||typo);box.classList.toggle('typo-choices',typo);box.classList.toggle('sentence-choices',!!activity);box.replaceChildren();
+  $('adventureFeedback').textContent=state.worldCrystals===5?'Refuge atteint ! Tes cinq premiers cristaux sont protégés.':syllables?'Écoute, puis touche la bonne réponse.':'Regarde bien chaque lettre. Tu peux prendre ton temps.';
+  const box=$('adventureChoices');box.classList.toggle('words',mode==='words'||!!activity||typo);box.classList.toggle('syllable-choices',!!syllables);box.classList.toggle('typo-choices',typo);box.classList.toggle('sentence-choices',!!activity);box.replaceChildren();
   $('adventureQuestion').classList.toggle('sentence-question',!!activity);
   $('adventureHud').classList.toggle('sentence-hud',!!activity);
   $('sentenceWorkbench').hidden=!activity;
@@ -119,13 +120,13 @@ function ask(){
   session.current.choices.forEach((choice,i)=>{
     const button=document.createElement('button');button.className=`adventure-answer tone-${['rose','lavender','mint','peach'][i]}`;
     button.dataset.choiceId=choice.id;
-    const text=document.createElement('span');text.textContent=mode==='words'?choice.text:choice.g.toUpperCase();button.appendChild(text);
+    const text=document.createElement('span');text.textContent=mode==='words'||syllables?choice.text:choice.g.toUpperCase();button.appendChild(text);
     if(mode===PHONEME_ACTIVITY.id){
       const word=choice.example||choice.g, [start,length]=choice.highlight;
       const sound=document.createElement('span');sound.className='phoneme-highlight';sound.textContent=word.slice(start,start+length);
       text.replaceChildren(document.createTextNode(word.slice(0,start)),sound,document.createTextNode(word.slice(start+length)));
       button.classList.add('phoneme-answer');
-    }else if(mode!=='words'){
+    }else if(mode!=='words'&&!syllables){
       const lower=document.createElement('small');lower.textContent=choice.g;button.appendChild(lower);
       if(choice.g.length>2) button.classList.add('long','phonics-group');
     }else if(choice.text.length>8) button.classList.add('long');
@@ -191,7 +192,7 @@ async function answer(id,button){
   if(activity&&result.correct)renderAssembly();
   $('worldName').disabled=true;
   let newlyRecognized=false;
-  if(mode!==PHONEME_ACTIVITY.id&&mode!=='words'&&!activity&&!typo&&!evaluated.has(session.index)){
+  if(!session.current.target.audioKey&&!evaluated.has(session.index)){
     const key=skillId(),before=skillStatus(mastery.snapshot()[key]);
     mastery.record(key,result.correct,sessionId,plain(session.current.target.w||session.current.target.example));evaluated.add(session.index);
     newlyRecognized=before!=='Bien reconnu'&&skillStatus(mastery.snapshot()[key])==='Bien reconnu';
@@ -219,12 +220,24 @@ async function answer(id,button){
   if(typo){if(result.firstCompletion)typoPractice.complete(session.current.target.id,result.firstTry);correctTypo();}
   storageNote();stopAudio();world.react('proud');
   if(typo)voice.speak(session.current.target);
+  const { text, silent } = session.current.target;
+  if (silent) {
+    const mark = document.createElement('strong');
+    mark.className = 'silent-letter';
+    mark.textContent = silent;
+    button.firstElementChild.replaceChildren(text.slice(0, -1), mark);
+    $('adventureFeedback').textContent = 'Dans « ' + text + ' », le ' + silent + ' final est muet.';
+  } else if (mode === 'blend-simple') {
+    $('adventureFeedback').textContent = text[0] + ' + ' + text[1] + ' → ' + text;
+  }
   if(newlyRecognized)$('adventureFeedback').textContent='Tu reconnais ce son de mieux en mieux !';
   sfx.ding();button.classList.add('correct');
   $('adventureChoices').querySelectorAll('button').forEach(b=>{b.disabled=true;});
   const my=token;
   // Show the successful answer briefly, then let the child watch Paillette walk.
-  await new Promise(resolve=>setTimeout(resolve,typo?1800:activity?1100:window.matchMedia('(prefers-reduced-motion: reduce)').matches?80:650));
+  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const feedbackDelay = typo ? 1800 : activity ? 1100 : reduced ? 80 : syllableActivity(mode) ? 1250 : 650;
+  await new Promise(resolve=>setTimeout(resolve,feedbackDelay));
   if(!await continueWhenReady(my)) return;
   panels('walking');world.quiet(false);$('adventureWalking').textContent='Bravo ! Paillette avance vers le prochain cristal…';
   const arrived=await world.moveTo(session.index+1);
@@ -239,7 +252,7 @@ function start(id,wordLevel=1){
   const activity=sentenceActivity(mode);
   const stats=mode===TYPO_ACTIVITY.id?typoPractice.snapshot():activity?Object.fromEntries(Object.entries(sentencePractice.snapshot()).filter(([key])=>key.startsWith(mode+':')).map(([key,value])=>[key.slice(mode.length+1),value])):practice.snapshot();
   session=createAdventure(mode,level,stats,mastery.snapshot());
-  $('activityName').textContent=mode===PHONEME_ACTIVITY.id?PHONEME_ACTIVITY.title:mode===TYPO_ACTIVITY.id?TYPO_ACTIVITY.title:activity?activity.title+' · '+activity.length+' mots':mode==='words'?WORD_LEVELS.find(l=>l.id===level).title:MODULES.find(m=>m.id===mode).title;
+  $('activityName').textContent=syllableActivity(mode)?.title??(mode===PHONEME_ACTIVITY.id?PHONEME_ACTIVITY.title:mode===TYPO_ACTIVITY.id?TYPO_ACTIVITY.title:activity?activity.title+' · '+activity.length+' mots':mode==='words'?WORD_LEVELS.find(l=>l.id===level).title:MODULES.find(m=>m.id===mode).title);
   startWorld=startingWorld();world.reset(session.questions.length,startWorld);storageNote();ask();
 }
 function menu(){
@@ -337,5 +350,5 @@ document.addEventListener('visibilitychange',()=>{if(document.hidden){stopAudio(
 window.addEventListener('pagehide',event=>{cleanUp();if(!event.persisted){voice.destroy();world.destroy();}});
 window.addEventListener('pageshow',event=>{if(event.persisted) menu();});
 if(location.search.includes('debug')) window.__adventure={
-  state:()=>({ready,paused,mode,level,promptKey:mode===PHONEME_ACTIVITY.id||mode==='words'||sentenceActivity(mode)||mode===TYPO_ACTIVITY.id?session?.current?.target.audioKey:session?.current?soundPrompt(session.current.target,mode)[0]:null,index:session?.index,total:session?.questions.length,phase:session?.phase,targetId:session?.current?.target.id,score:session?.score,sentenceWords:sentenceActivity(mode)?session?.current?.target.words:null,typo:mode===TYPO_ACTIVITY.id&&session?.current?{words:session.current.target.words,wrongIndex:session.current.target.wrongIndex}:null,selected:session?.selected?[...session.selected]:null,checkpoint:session?.returnIndex,startWorld,mastery:mastery.snapshot(),world:world.state()})
+  state:()=>({ready,paused,mode,level,promptKey:session?.current?.target.audioKey??(session?.current?soundPrompt(session.current.target,mode)[0]:null),index:session?.index,total:session?.questions.length,phase:session?.phase,targetId:session?.current?.target.id,score:session?.score,sentenceWords:sentenceActivity(mode)?session?.current?.target.words:null,typo:mode===TYPO_ACTIVITY.id&&session?.current?{words:session.current.target.words,wrongIndex:session.current.target.wrongIndex}:null,selected:session?.selected?[...session.selected]:null,checkpoint:session?.returnIndex,startWorld,mastery:mastery.snapshot(),world:world.state()})
 };
