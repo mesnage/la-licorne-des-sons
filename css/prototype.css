@@ -136,6 +136,3 @@ body.prototype{background:#cee2df;color:#394850;font-family:'Fredoka',ui-rounded
 @media(max-width:600px){.adventure-module[data-word-level] small{font-size:11px}}
 
 /* Only the word is shown; highlight the spelling of the sound being heard. */
-.adventure-choices:not(.words) .adventure-answer.phoneme-answer { font-size: clamp(16px, 4.6vw, 28px); padding: 12px 4px; }
-.phoneme-answer > span { white-space: nowrap; }
-.adventure-answer.phoneme-answer .phoneme-highlight { color: #d00000; font-weight: inherit; }

@@ -1,6 +1,5 @@
 import { SYLLABLE_ACTIVITIES, syllableActivity, syllableItems } from '../data/syllable-workshops.js';
-import { PHONEME_ACTIVITY, phonemeQuestions } from '../phonemes/model.js?v=phoneme-red-3';
-import { LEVELS } from '../data/sounds.js';
+import { LEVELS, NASAL_VOWELS } from '../data/sounds.js?v=ateliers-sons-2';
 import { WORDS, WORD_LEVELS } from '../data/words.js';
 import { distractors, pickWord } from '../questions.js';
 import { shuffle } from '../utils.js';
@@ -13,14 +12,12 @@ import { typoQuestions } from '../sentences/typos.js';
 export const MODULES = [
   { id:'voyelles', title:'Les voyelles', icon:'flower', detail:'a, e, i, o, u…', color:'rose' },
   { id:'consonnes', title:'Les consonnes', icon:'butterfly', detail:'Le nom des lettres', color:'lavender' },
-  { id:'sons', title:'Les sons', icon:'rainbow', detail:'ou, on, an, ui…', color:'mint' },
-  { id:'experts', title:'Sons experts', icon:'gem', detail:'Des sons à explorer', color:'peach' },
-  { id:'tout', title:'Tout mélangé', icon:'star', detail:'La grande aventure', color:'gold' },
+  { id:'sons', title:'Voyelles nasales', icon:'rainbow', detail:'on, an, en, in, ain, ein, un', color:'sky' },
 ];
-export const MENU_ITEMS=[TYPO_ACTIVITY,...SENTENCE_ACTIVITIES,...MODULES,PHONEME_ACTIVITY,...SYLLABLE_ACTIVITIES,...WORD_LEVELS.map(level=>({id:'words-'+level.id,mode:'words',level:level.id,title:'Trouve le mot ! · '+level.id,detail:level.title,icon:'book',color:['sky','mint','lavender'][level.id-1]}))];
+export const MENU_ITEMS=[TYPO_ACTIVITY,...SENTENCE_ACTIVITIES,...MODULES,...SYLLABLE_ACTIVITIES,...WORD_LEVELS.map(level=>({id:'words-'+level.id,mode:'words',level:level.id,title:'Trouve le mot ! · '+level.id,detail:level.title,icon:'book',color:['sky','mint','lavender'][level.id-1]}))];
 export const CHAPTERS = [
   {id:'letters',title:'Les lettres',detail:'Voyelles et consonnes',icon:'letters',color:'rose',activities:['voyelles','consonnes']},
-  {id:'sounds',title:'Les sons',detail:'Découvrir et mélanger les sons',icon:'sound',color:'mint',activities:['blend-simple','blend-silent','sons','experts','tout','listen-phonemes']},
+  {id:'sounds',title:'Les sons',detail:'Syllabes, lettres muettes et voyelles nasales',icon:'sound',color:'mint',activities:['blend-simple','blend-silent','sons']},
   {id:'words',title:'Les mots',detail:'Trois niveaux de lecture',icon:'book',color:'sky',activities:['words-1','words-2','words-3']},
   {id:'sentences',title:'Les phrases',detail:'Construire et trouver la faute',icon:'sentence',color:'lavender',activities:['sentence-copy-3','sentence-copy-5','sentence-listen-3','sentence-listen-5','find-typo']}
 ];
@@ -119,18 +116,36 @@ function syllableQuestions(items) {
   });
 }
 
+function nasalQuestions() {
+  const families = shuffle([...new Set(NASAL_VOWELS.map(sound => sound.p))]);
+  const spellings = families.map(family => shuffle(NASAL_VOWELS.filter(sound => sound.p === family)));
+  const history = {};
+  return Array.from({ length: 20 }, (_, index) => {
+    const family = index % families.length;
+    const round = Math.floor(index / families.length);
+    const own = spellings[family];
+    const target = pickWord(own[round % own.length], history);
+    const alternatives = spellings.filter((_, i) => i !== family).map(group => shuffle(group)[0]);
+    return {
+      target: { ...target, id: target.g },
+      choices: shuffle([target, ...alternatives]).map(sound => ({ ...sound, id: sound.g, text: sound.g }))
+    };
+  });
+}
+
 export function createAdventure(mode, level = 1, stats = {}, skills = {}){
+  if(mode === 'sons') return new AdventureSession(nasalQuestions());
   if(syllableActivity(mode))return new AdventureSession(syllableQuestions(syllableItems[mode]));
-  if(mode === PHONEME_ACTIVITY.id)return new AdventureSession(phonemeQuestions());
   if(mode === TYPO_ACTIVITY.id)return new AdventureSession(typoQuestions(stats));
   if(mode === 'words') return new AdventureSession(new WordSession(WORDS,level,stats).questions);
   const activity=sentenceActivity(mode);
   if(activity)return new SentenceAdventureSession(sentenceQuestions(activity.length,stats));
-  if(!LEVELS[mode]) throw new Error('Unknown learning module');
+  if(!MODULES.some(module => module.id === mode)) throw new Error('Unknown learning module');
+  const pool = LEVELS[mode];
   const targets=[],history={};
   let bag=[];
   while(targets.length<20){
-    if(!bag.length)bag=shuffle(LEVELS[mode]);
+    if(!bag.length)bag=shuffle(pool);
     const previous=targets.at(-1)?.p;
     const remaining=new Map();
     for(const sound of bag)remaining.set(sound.p,(remaining.get(sound.p)||0)+1);
@@ -145,7 +160,7 @@ export function createAdventure(mode, level = 1, stats = {}, skills = {}){
   }
   const questions = targets.map(target => ({
     target:{...target,id:target.g},
-    choices:shuffle([target,...distractors(target,LEVELS[mode])]).map(w => ({...w,id:w.g,text:w.g}))
+    choices:shuffle([target,...distractors(target,pool)]).map(w => ({...w,id:w.g,text:w.g}))
   }));
   return new AdventureSession(questions);
 }

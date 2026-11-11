@@ -74,6 +74,21 @@ const EXPERTS = [
 ];
 const LEVELS = { voyelles:VOYELLES, consonnes:CONSONNES, sons:SONS, experts:EXPERTS, tout:[...VOYELLES,...CONSONNES,...SONS,...EXPERTS] };
 const ALL = LEVELS.tout;
+// Use examples that do not also contain another nasal-vowel family.
+const nasalExamples = {
+  on: ['mouton','ballon','cochon','pont','poisson','citron','crayon','papillon'],
+  an: ['panda','ange','orange','ruban','volcan','branche','gant','grand'],
+  en: ['dent','tente','vent','argent','centre','vendredi','ventre','serpent'],
+  in: ['lapin','singe','raisin','sapin','requin','jardin','patin','chemin'],
+  ain: ['pain','main','train','bain','copain','nain','demain','sain'],
+  ein: ['ceinture','peinture','frein','plein','teinture','peintre'],
+  un: ['lundi','brun','chacun','aucun','commun']
+};
+export const NASAL_VOWELS = Object.entries(nasalExamples).map(([grapheme, examples]) => {
+  const sound = ALL.find(item => item.g === grapheme);
+  return { ...sound, words: sound.words.filter(({ w }) => examples.includes(w.replace(/[[\]]/g, ''))) };
+});
+
 /** nombre d'étapes jusqu'au château */
 const STEPS = 20;
 

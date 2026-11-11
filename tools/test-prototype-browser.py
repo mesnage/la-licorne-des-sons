@@ -38,11 +38,11 @@ with sync_playwright() as p:
     assert page.locator('[data-module]').count()==13
     assert page.evaluate('window.__adventure.state().world.version')=='4.2.1'
     shot(page,'prototype-menu-phone')
-    modes=[('voyelles',1),('consonnes',1),('sons',1),('experts',1),('tout',1),('words',1),('words',2),('words',3)]
+    modes=[('voyelles',1),('consonnes',1),('sons',1),('blend-simple',1),('blend-silent',1),('words',1),('words',2),('words',3)]
     for number,(module,level) in enumerate(modes,1):
         choose(page,module,level)
-        total=10 if module=='words' else 20
-        assert page.locator('.adventure-answer').count()==(4 if module=='words' else 3)
+        total=10 if module=='words' else 40 if module.startswith('blend-') else 20
+        assert page.locator('.adventure-answer').count()==(4 if module=='words' else 2 if module.startswith('blend-') else 3)
         shot(page,'prototype-'+module+'-'+str(level))
         for index in range(total):
             state=page.evaluate('window.__adventure.state()')

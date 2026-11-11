@@ -103,12 +103,12 @@ with sync_playwright() as p:
         assert view.locator('.adventure-answer').evaluate_all('(bs)=>bs.every(b=>b.scrollWidth<=b.clientWidth&&b.getBoundingClientRect().height>=44&&parseFloat(getComputedStyle(b).fontSize)>=24)')
         assert view.evaluate('document.documentElement.scrollWidth<=innerWidth')
         shot(view,f'large-words-{width}x{height}')
-        view.locator('#adventureHome').click();view.locator('#adventureLeave').click();choose(view,'experts')
-        # Exercise a real four-letter question rather than rewriting rendered card styles.
+        view.locator('#adventureHome').click();view.locator('#adventureLeave').click();choose(view,'blend-silent')
+        # Exercise a real question with a longer word rather than rewriting rendered card styles.
         for _ in range(20):
-            if view.locator('.adventure-answer').evaluate_all('bs=>bs.some(b=>b.dataset.choiceId.length===4)'):break
+            if view.locator('.adventure-answer').evaluate_all('bs=>bs.some(b=>b.dataset.choiceId.length>=4)'):break
             correct(view)
-        assert view.locator('.adventure-answer').evaluate_all('bs=>bs.some(b=>b.dataset.choiceId.length===4)')
+        assert view.locator('.adventure-answer').evaluate_all('bs=>bs.some(b=>b.dataset.choiceId.length>=4)')
         assert view.locator('.adventure-answer').evaluate_all('(bs)=>bs.every(b=>b.scrollWidth<=b.clientWidth&&parseFloat(getComputedStyle(b).fontSize)>=25)'), view.locator('.adventure-answer').evaluate_all('(bs)=>bs.map(b=>({w:b.clientWidth,scroll:b.scrollWidth,font:getComputedStyle(b).fontSize}))')
         view.close()
     assert not errors,errors

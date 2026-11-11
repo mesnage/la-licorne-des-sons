@@ -1,9 +1,7 @@
 import { syllableActivity } from '../data/syllable-workshops.js';
-import { soundPrompt } from '../learning/sound-prompts.js';
-import { returnFromRevision } from './curriculum-revision.js?v=storybook-2';
-import { PHONEME_ACTIVITY } from '../phonemes/model.js?v=phoneme-red-3';
+import { returnFromRevision } from './curriculum-revision.js?v=ateliers-sons-2';
 import { createWorld } from './world.js?v=accueil-1';
-import { WORLDS, worldPanorama, MODULES, MENU_ITEMS, CHAPTERS, createAdventure, createJourneyMemory, journeyState } from './model.js?v=syllabes-1';
+import { WORLDS, worldPanorama, MODULES, MENU_ITEMS, CHAPTERS, createAdventure, createJourneyMemory, journeyState } from './model.js?v=ateliers-sons-2';
 import { illustration } from '../illustrations.js?v=chapters-wheel-1';
 import { createMastery, skillStatus } from '../learning/mastery.js';
 import { WORD_LEVELS } from '../data/words.js';
@@ -19,7 +17,6 @@ const $ = id => document.getElementById(id);
 let storage;
 try {storage=window.localStorage;}catch(e){}
 const practice=createWordProgress(storage);
-const phonemePractice=createWordProgress(storage,'licorne.phonemes.v1');
 const sentencePractice=createWordProgress(storage,'licorne.sentences.v1');
 const typoPractice=createWordProgress(storage,'licorne.typos.v1');
 const mastery=createMastery(storage);
@@ -34,7 +31,8 @@ const resumeWaiters=new Set();
 let selectedChapter=null;
 const activityButtons=new Map();
 const menuUrl=new window.URL(location.href);
-const suggestedActivity=menuUrl.searchParams.get('revision');
+const revision=menuUrl.searchParams.get('revision');
+const suggestedActivity=revision==='listen-phonemes'?'blend-simple':revision;
 const returnUrl=returnFromRevision(menuUrl);
 if(returnUrl){
   for(const link of document.querySelectorAll('[data-revision-return]')){
@@ -65,7 +63,7 @@ function pause(){
 }
 
 function storageNote(){
-  $('adventureStorage').textContent=practice.persistent&&phonemePractice.persistent&&sentencePractice.persistent&&typoPractice.persistent&&mastery.persistent&&journeyMemory.persistent?'':'La sauvegarde est bloquée. Les progrès resteront pendant cette visite.';
+  $('adventureStorage').textContent=practice.persistent&&sentencePractice.persistent&&typoPractice.persistent&&mastery.persistent&&journeyMemory.persistent?'':'La sauvegarde est bloquée. Les progrès resteront pendant cette visite.';
 }
 function panels(name){
   document.body.dataset.screen=name;
@@ -84,11 +82,15 @@ function progress(){
   $('adventureProgress').setAttribute('aria-valuetext',`${state.worldCrystals} cristaux sur 10 dans ce monde. Refuge à 5.`);
   $('adventureProgress').firstElementChild.style.width=`${state.worldCrystals*10}%`;
 }
+function workshopPrompt(target, activity) {
+  const word = 'w:' + plain(target.w);
+  return activity === 'consonnes' && target.g.length === 1 ? ['L:' + target.g, 250, word] : [word];
+}
 async function replay(){
   if(!session||paused||session.phase!=='question') return;
   stopAudio();unlock();$('adventureAudioStatus').textContent='';
   if(session.current.target.audioKey){voice.speak(session.current.target);return;}
-  const my=promptToken, parts=soundPrompt(session.current.target,mode);
+  const my=promptToken, parts=workshopPrompt(session.current.target,mode);
   await audioReady;
   const clips=await Promise.all(parts.filter(key=>typeof key==='string').map(key=>loadClip(key)));
   if(my!==promptToken) return;
@@ -101,12 +103,12 @@ function ask(){
   panels('question');world.quiet(false);progress();
   const activity=sentenceActivity(mode);
   const typo=mode===TYPO_ACTIVITY.id, syllables=syllableActivity(mode);
-  $('questionTitle').textContent=syllables?(mode==='blend-simple'?'Quelle syllabe entends-tu ?':'Quel mot entends-tu ?'):mode===PHONEME_ACTIVITY.id?'Quel son entends-tu ?':typo?'Trouve la faute !':activity?(activity.hidden?'Écoute la phrase':'La phrase en ordre'):mode==='words'?'Trouve le mot !':'Écoute bien !';
-  const skill=mode===PHONEME_ACTIVITY.id||mode==='words'||activity||typo||syllables?null:mastery.snapshot()[skillId()];
+  $('questionTitle').textContent=syllables?(mode==='blend-simple'?'Quelle syllabe entends-tu ?':'Quel mot entends-tu ?'):mode==='sons'?'Écoute le mot':typo?'Trouve la faute !':activity?(activity.hidden?'Écoute la phrase':'La phrase en ordre'):mode==='words'?'Trouve le mot !':'Écoute bien !';
+  const skill=mode==='words'||activity||typo||syllables?null:mastery.snapshot()[skillId()];
   world.react(skill?.attempts?'attentive':'curious');
   const state=journeyState(session.index,session.questions.length,startWorld);
   $('checkpointName').textContent=`MONDE ${state.worldIndex+1} · CRISTAL ${state.worldCrystals+1}/10`;
-  $('adventureFeedback').textContent=state.worldCrystals===5?'Refuge atteint ! Tes cinq premiers cristaux sont protégés.':syllables?'Écoute, puis touche la bonne réponse.':'Regarde bien chaque lettre. Tu peux prendre ton temps.';
+  $('adventureFeedback').textContent=state.worldCrystals===5?'Refuge atteint ! Tes cinq premiers cristaux sont protégés.':mode==='sons'?'Touche les lettres du son.':syllables?'Écoute, puis touche la bonne réponse.':'Regarde bien chaque lettre. Tu peux prendre ton temps.';
   const box=$('adventureChoices');box.classList.toggle('words',mode==='words'||!!activity||typo);box.classList.toggle('syllable-choices',!!syllables);box.classList.toggle('typo-choices',typo);box.classList.toggle('sentence-choices',!!activity);box.replaceChildren();
   $('adventureQuestion').classList.toggle('sentence-question',!!activity);
   $('adventureHud').classList.toggle('sentence-hud',!!activity);
@@ -121,12 +123,7 @@ function ask(){
     const button=document.createElement('button');button.className=`adventure-answer tone-${['rose','lavender','mint','peach'][i]}`;
     button.dataset.choiceId=choice.id;
     const text=document.createElement('span');text.textContent=mode==='words'||syllables?choice.text:choice.g.toUpperCase();button.appendChild(text);
-    if(mode===PHONEME_ACTIVITY.id){
-      const word=choice.example||choice.g, [start,length]=choice.highlight;
-      const sound=document.createElement('span');sound.className='phoneme-highlight';sound.textContent=word.slice(start,start+length);
-      text.replaceChildren(document.createTextNode(word.slice(0,start)),sound,document.createTextNode(word.slice(start+length)));
-      button.classList.add('phoneme-answer');
-    }else if(mode!=='words'&&!syllables){
+    if(mode!=='words'&&!syllables){
       const lower=document.createElement('small');lower.textContent=choice.g;button.appendChild(lower);
       if(choice.g.length>2) button.classList.add('long','phonics-group');
     }else if(choice.text.length>8) button.classList.add('long');
@@ -179,7 +176,7 @@ function finish(){
   $('finishTitle').focus({preventScroll:true});
   const my=token;rewardTimer=setTimeout(()=>{if(my===token) showReward();},700);
 }
-function skillId(){return (mode===PHONEME_ACTIVITY.id?'phonemes:':'letters:')+session.current.target.id;}
+function skillId(){return 'letters:'+session.current.target.id;}
 async function answer(id,button){
   if(!session||paused) return;
   const result=session.answer(id);if(!result) return;
@@ -198,7 +195,6 @@ async function answer(id,button){
     newlyRecognized=before!=='Bien reconnu'&&skillStatus(mastery.snapshot()[key])==='Bien reconnu';
   }
   if(!result.correct){
-    if(mode===PHONEME_ACTIVITY.id&&result.firstMistake) phonemePractice.miss(session.current.target.id);
     if(mode==='words'&&result.firstMistake) practice.miss(session.current.target.id);
     if(activity&&result.firstMistake)sentencePractice.miss(mode+':'+session.current.target.id);
     if(typo&&result.firstMistake)typoPractice.miss(session.current.target.id);
@@ -213,7 +209,6 @@ async function answer(id,button){
     if(my!==token||!arrived)return;
     session.recover();ask();return;
   }
-  if(mode===PHONEME_ACTIVITY.id&&result.firstCompletion) phonemePractice.complete(session.current.target.id,result.firstTry);
   if(mode==='words'&&result.firstCompletion) practice.complete(session.current.target.id,result.firstTry);
   if(activity&&result.firstCompletion)sentencePractice.complete(mode+':'+session.current.target.id,result.firstTry);
   if(activity)$('adventureFeedback').textContent='Bravo ! Tu as construit toute la phrase !';
@@ -229,14 +224,18 @@ async function answer(id,button){
     $('adventureFeedback').textContent = 'Dans « ' + text + ' », le ' + silent + ' final est muet.';
   } else if (mode === 'blend-simple') {
     $('adventureFeedback').textContent = text[0] + ' + ' + text[1] + ' → ' + text;
+  } else if (mode === 'sons') {
+    const { g, w } = session.current.target;
+    $('adventureFeedback').textContent = 'Dans « ' + plain(w) + ' », ce son s’écrit ' + g + '.';
+  } else if(newlyRecognized){
+    $('adventureFeedback').textContent='Tu reconnais ce son de mieux en mieux !';
   }
-  if(newlyRecognized)$('adventureFeedback').textContent='Tu reconnais ce son de mieux en mieux !';
   sfx.ding();button.classList.add('correct');
   $('adventureChoices').querySelectorAll('button').forEach(b=>{b.disabled=true;});
   const my=token;
   // Show the successful answer briefly, then let the child watch Paillette walk.
   const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const feedbackDelay = typo ? 1800 : activity ? 1100 : reduced ? 80 : syllableActivity(mode) ? 1250 : 650;
+  const feedbackDelay = typo ? 1800 : activity ? 1100 : reduced ? 80 : mode === 'sons' || syllableActivity(mode) ? 1250 : 650;
   await new Promise(resolve=>setTimeout(resolve,feedbackDelay));
   if(!await continueWhenReady(my)) return;
   panels('walking');world.quiet(false);$('adventureWalking').textContent='Bravo ! Paillette avance vers le prochain cristal…';
@@ -252,7 +251,7 @@ function start(id,wordLevel=1){
   const activity=sentenceActivity(mode);
   const stats=mode===TYPO_ACTIVITY.id?typoPractice.snapshot():activity?Object.fromEntries(Object.entries(sentencePractice.snapshot()).filter(([key])=>key.startsWith(mode+':')).map(([key,value])=>[key.slice(mode.length+1),value])):practice.snapshot();
   session=createAdventure(mode,level,stats,mastery.snapshot());
-  $('activityName').textContent=syllableActivity(mode)?.title??(mode===PHONEME_ACTIVITY.id?PHONEME_ACTIVITY.title:mode===TYPO_ACTIVITY.id?TYPO_ACTIVITY.title:activity?activity.title+' · '+activity.length+' mots':mode==='words'?WORD_LEVELS.find(l=>l.id===level).title:MODULES.find(m=>m.id===mode).title);
+  $('activityName').textContent=syllableActivity(mode)?.title??(mode===TYPO_ACTIVITY.id?TYPO_ACTIVITY.title:activity?activity.title+' · '+activity.length+' mots':mode==='words'?WORD_LEVELS.find(l=>l.id===level).title:MODULES.find(m=>m.id===mode).title);
   startWorld=startingWorld();world.reset(session.questions.length,startWorld);storageNote();ask();
 }
 function menu(){
@@ -291,12 +290,16 @@ for(const chapter of CHAPTERS){
   button.append(icon,title);button.addEventListener('click',()=>openChapter(chapter.id));$('chapterTiles').appendChild(button);
 }
 const suggestedButton=activityButtons.get(suggestedActivity);
+const directChapterId=menuUrl.hash==='#sons'?'sounds':menuUrl.hash.slice(1);
+const directChapter=CHAPTERS.find(chapter=>chapter.id===directChapterId);
 if(suggestedButton){
   const badge=document.createElement('span');
   badge.className='revision-badge';
   badge.textContent='Atelier conseillé';
   suggestedButton.append(badge);
   openChapter(suggestedButton.dataset.chapterId);
+}else if(directChapter){
+  openChapter(directChapter.id);
 }
 $('chapterBack').addEventListener('click',()=>showChapters(selectedChapter));
 function openWorldPicker(){
@@ -350,5 +353,5 @@ document.addEventListener('visibilitychange',()=>{if(document.hidden){stopAudio(
 window.addEventListener('pagehide',event=>{cleanUp();if(!event.persisted){voice.destroy();world.destroy();}});
 window.addEventListener('pageshow',event=>{if(event.persisted) menu();});
 if(location.search.includes('debug')) window.__adventure={
-  state:()=>({ready,paused,mode,level,promptKey:session?.current?.target.audioKey??(session?.current?soundPrompt(session.current.target,mode)[0]:null),index:session?.index,total:session?.questions.length,phase:session?.phase,targetId:session?.current?.target.id,score:session?.score,sentenceWords:sentenceActivity(mode)?session?.current?.target.words:null,typo:mode===TYPO_ACTIVITY.id&&session?.current?{words:session.current.target.words,wrongIndex:session.current.target.wrongIndex}:null,selected:session?.selected?[...session.selected]:null,checkpoint:session?.returnIndex,startWorld,mastery:mastery.snapshot(),world:world.state()})
+  state:()=>({ready,paused,mode,level,promptKey:session?.current?.target.audioKey??(session?.current?workshopPrompt(session.current.target,mode)[0]:null),index:session?.index,total:session?.questions.length,phase:session?.phase,targetId:session?.current?.target.id,score:session?.score,sentenceWords:sentenceActivity(mode)?session?.current?.target.words:null,typo:mode===TYPO_ACTIVITY.id&&session?.current?{words:session.current.target.words,wrongIndex:session.current.target.wrongIndex}:null,selected:session?.selected?[...session.selected]:null,checkpoint:session?.returnIndex,startWorld,mastery:mastery.snapshot(),world:world.state()})
 };

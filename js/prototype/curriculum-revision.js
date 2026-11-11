@@ -2,9 +2,9 @@ import { reviewMode } from '../learning/curriculum-mode.js';
 import { chapterMapUrl } from '../learning/chapter-one.js';
 
 const suggestions = {
-  C1: ['listen-phonemes', 'Réviser les sons'],
+  C1: ['blend-simple', 'Réviser les syllabes'],
   C2: ['words-1', 'S’entraîner à lire des mots'],
-  C3: ['sons', 'Réviser les sons complexes'],
+  C3: ['sons', 'Réviser les voyelles nasales'],
   C4: ['sentence-copy-3', 'Reconstruire des phrases courtes'],
   C5: ['words-2', 'Relire des mots'],
   C6: ['sentence-copy-3', 'S’entraîner avec des phrases courtes']

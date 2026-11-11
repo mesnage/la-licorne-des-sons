@@ -1,5 +1,5 @@
 import { curriculumLocation, reviewMode } from '../learning/curriculum-mode.js';
-import { revisionFor, revisionUrl } from './curriculum-revision.js?v=storybook-2';
+import { revisionFor, revisionUrl } from './curriculum-revision.js?v=ateliers-sons-2';
 import * as playback from '../audio.js?v=curriculum-chapter-1';
 import { chapterMapUrl, chapterPlayUrl } from '../learning/chapter-one.js';
 import { createSimpleQuestions } from '../learning/curriculum-simple.js?v=storybook-2';

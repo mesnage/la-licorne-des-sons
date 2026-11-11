@@ -1,43 +1,61 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { MODULES, MENU_ITEMS, CHAPTERS, createAdventure, pathPoint, WORLD_WIDTH, WORLDS, checkpointFor, journeyState, gagFor, createJourneyMemory } from '../js/prototype/model.js';
+import { NASAL_VOWELS } from '../js/data/sounds.js';
 import { syllableItems } from '../js/data/syllable-workshops.js';
 import { QuestionSession } from '../js/words/model.js';
 import { isE, OTHER_VOWELS } from '../js/questions.js';
 
 test('all phonics modules and the three word levels retain their learning content',()=>{
-  assert.deepEqual(MODULES.map(m=>m.id),['voyelles','consonnes','sons','experts','tout']);
+  assert.deepEqual(MODULES.map(m=>m.id),['voyelles','consonnes','sons']);
   for(const module of MODULES){
     const session=createAdventure(module.id);assert.equal(session.questions.length,20);
     for(const q of session.questions){
       assert.equal(q.choices.length,3);assert.equal(new Set(q.choices.map(c=>c.p)).size,3);
       assert.ok(q.choices.some(c=>c.id===q.target.id));
-      const es=q.choices.filter(c=>isE(c.g));assert.ok(es.length<=1);
-      if(es.length)assert.ok(q.choices.filter(c=>!isE(c.g)).every(c=>OTHER_VOWELS.includes(c.g)));
+      if(module.id!=='sons'){
+        const es=q.choices.filter(c=>isE(c.g));
+        assert.ok(es.length<=1);
+        if(es.length)assert.ok(q.choices.filter(c=>!isE(c.g)).every(c=>OTHER_VOWELS.includes(c.g)));
+      }
     }
   }
   for(const level of [1,2,3]){
     const session=createAdventure('words',level);assert.equal(session.questions.length,10);
     for(const q of session.questions){assert.equal(q.choices.length,4);assert.equal(q.target.level,level);}
   }
-  assert.throws(()=>createAdventure('unknown'),/Unknown/);
+  for(const mode of ['unknown','experts','tout','listen-phonemes'])assert.throws(()=>createAdventure(mode),/Unknown/);
 });
 test('the menu includes typo detection, four sentence activities and the original activities and both syllable workshops',()=>{
  assert.equal(MENU_ITEMS[0].id,'find-typo');
  assert.deepEqual(MENU_ITEMS.slice(1,5).map(item=>item.id),['sentence-copy-3','sentence-copy-5','sentence-listen-3','sentence-listen-5']);
- assert.equal(MENU_ITEMS.length,16);assert.equal(new Set(MENU_ITEMS.map(item=>item.id)).size,16);
+ assert.equal(MENU_ITEMS.length,13);assert.equal(new Set(MENU_ITEMS.map(item=>item.id)).size,13);
  assert.deepEqual(MENU_ITEMS.filter(item=>item.mode==='words').map(item=>item.level),[1,2,3]);
  for(const item of MENU_ITEMS){const session=createAdventure(item.mode||item.id,item.level||1);assert.equal(session.questions.length,Object.hasOwn(syllableItems,item.id)?40:MODULES.some(module=>module.id===item.id)?20:10);}
 });
 test('four chapters contain exactly the requested activities, once each',()=>{
  assert.deepEqual(CHAPTERS.map(chapter=>chapter.title),['Les lettres','Les sons','Les mots','Les phrases']);
  assert.deepEqual(CHAPTERS.map(chapter=>chapter.activities),[
-  ['voyelles','consonnes'],['blend-simple','blend-silent','sons','experts','tout','listen-phonemes'],['words-1','words-2','words-3'],
+  ['voyelles','consonnes'],['blend-simple','blend-silent','sons'],['words-1','words-2','words-3'],
   ['sentence-copy-3','sentence-copy-5','sentence-listen-3','sentence-listen-5','find-typo']
  ]);
  const activities=CHAPTERS.flatMap(chapter=>chapter.activities);
- assert.equal(new Set(activities).size,16);assert.deepEqual(new Set(activities),new Set(MENU_ITEMS.map(item=>item.id)));
+ assert.equal(new Set(activities).size,13);assert.deepEqual(new Set(activities),new Set(MENU_ITEMS.map(item=>item.id)));
 });
+test('the nasal-vowel workshop compares different nasal families using whole-word examples', () => {
+  const allowed = new Set(NASAL_VOWELS.map(sound => sound.g));
+  for (let round = 0; round < 20; round++) {
+    const { questions } = createAdventure('sons');
+    assert.equal(questions.length, 20);
+    assert.deepEqual(new Set(questions.map(question => question.target.g)), allowed);
+    for (const { target, choices } of questions) {
+      assert.ok(choices.every(choice => allowed.has(choice.g)));
+      assert.equal(new Set(choices.map(choice => choice.p)).size, 3);
+      assert.ok(target.w.includes('[' + target.g + ']'));
+    }
+  }
+});
+
 test('both syllable workshops offer all 40 targets and two audibly distinct choices', () => {
   for (const [mode, items] of Object.entries(syllableItems)) {
     const session = createAdventure(mode);

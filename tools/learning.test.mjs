@@ -37,10 +37,10 @@ test('malformed, unavailable or quota-limited storage retains usable in-memory l
   const m=createMastery(store);m.record('letters:m',false,'a','moto');assert.equal(m.snapshot()['letters:m'].attempts,1);m.reset('all');assert.deepEqual(m.snapshot(),{});assert.equal(m.persistent,false);
  }
 });
-test('balanced letter revision keeps all five activities and their card rules valid',()=>{
+test('balanced letter revision keeps all three workshops and their card rules valid',()=>{
  const stats=Object.fromEntries(SKILLS.filter(s=>s.scope==='letters').map(s=>[s.id,{attempts:4,correct:4,streak:4,sessions:['a','b'],contexts:['one','two'],lastSeen:Date.now(),nextReview:Date.now()+86400000}]));
  stats['letters:a']={...stats['letters:a'],streak:0,correct:1};let a=0,i=0;
- for(const mode of ['voyelles','consonnes','sons','experts','tout'])for(let run=0;run<20;run++){
+ for(const mode of ['voyelles','consonnes','sons'])for(let run=0;run<20;run++){
   const session=createAdventure(mode,1,{},stats);assert.equal(session.questions.length,20);
   for(const [index,q]of session.questions.entries()){
    assert.equal(q.choices.length,3);assert.equal(new Set(q.choices.map(c=>c.p)).size,3);

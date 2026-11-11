@@ -21,7 +21,7 @@ with sync_playwright() as p:
  browser=p.chromium.launch(executable_path=args.browser_path,headless=True,args=['--no-sandbox'])
  errors=[]
  page=browser.new_page(viewport={'width':390,'height':844},has_touch=True,reduced_motion='reduce');page.add_init_script(monitor);page.on('pageerror',lambda e:errors.append(str(e)));boot(page)
- assert page.locator('#adventureModules > button').count()==16
+ assert page.locator('#adventureModules > button').count()==13
  assert page.locator('[data-chapter]').count()==4
  assert page.locator('#adventureModules > [data-word-level]').count()==3
  assert page.locator('#adventureModules > [data-sentence-mode]').count()==4

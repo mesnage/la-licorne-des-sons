@@ -371,7 +371,7 @@ L’accueil affiche **quatre grandes tuiles en grille 2×2**. Un toucher ouvre l
 | Chapitre | Activités |
 | --- | --- |
 | Les lettres | Les voyelles, Les consonnes |
-| Les sons | Les sons, Sons experts, Tout mélangé |
+| Les sons | Syllabes faciles, Lettres muettes, Voyelles nasales |
 | Les mots | Les trois niveaux de Trouve le mot ! |
 | Les phrases | Phrases de 3 ou 5 mots avec modèle, phrases de 3 ou 5 mots à écouter, Trouve la faute ! |
 
@@ -455,21 +455,9 @@ Données : `js/data/typos.js`. Questions : `js/sentences/typos.js`. Le chapitre 
 
 Dans **Ateliers de révision → Les sons**, **Syllabes faciles** propose 40 assemblages consonne-voyelle. L’enfant écoute Robin, choisit entre deux écritures, puis voit l’assemblage, par exemple « f + a → fa ». **Lettres muettes** fait reconnaître 40 mots courts. Après la réponse, la lettre finale muette est soulignée.
 
-### Écoute des phonèmes avec Robin
+### Voyelles nasales
 
-Dans **Les sons → Quel son entends-tu ?**, une aventure de dix questions tire
-sans répétition parmi les 36 phonèmes validés. Chaque question joue uniquement
-le son enregistré et propose trois mots repères, avec la lettre ou le groupe de
-lettres du son en rouge. Le e muet est présenté seul, faute de mot initial adapté.
-Les variantes proches et les paires de consonnes définies dans
-`js/phonemes/model.js` ne sont jamais proposées ensemble, même comme distracteurs.
-Les MP3 validés sont dans `audio/phonemes-robin/` ; `provenance.json` conserve
-leur origine et leur empreinte SHA-256. Aucun appel ElevenLabs n'est fait par le jeu.
-Les progrès sont séparés de ceux des lettres ; les refuges et cadeaux sont partagés.
-
-Vérification : `npm test`, `npm run check`, puis
-`python3 tools/test-phonemes-browser.py --url http://127.0.0.1:8080`
-avec Playwright et Chrome installés. L'écoute sur iPad/Safari reste à vérifier sur appareil.
+Dans **Ateliers de révision → Les sons → Voyelles nasales**, Robin lit des mots entiers. L’enfant écoute par exemple « mouton », « gant » ou « lapin », puis choisit l’écriture de la voyelle nasale. Les choix comparent les familles **on**, **an/en** et **in/ain/ein/un**. Les phonèmes de référence restent accessibles dans le parcours et le catalogue d’écoute.
 
 Le [catalogue d’écoute](ecoute.html) permet de rechercher et écouter les 919 enregistrements avec Robin.
 
