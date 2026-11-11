@@ -106,7 +106,8 @@ test('all audible Chapter 1 questions and instructions use only Robin audio from
       assert.equal(track.file, manifest[key]);
       assert.equal(track.review, 'approved_existing_phoneme');
     } else {
-      assert.ok(track.file.startsWith('curriculum-c1-robin/'));
+      const folder = key.startsWith('simple:consigne:') ? 'curriculum-c1-robin/' : 'curriculum-robin-naturel/';
+      assert.ok(track.file.startsWith(folder));
       assert.equal(track.language, 'fr');
       assert.equal(track.review, 'pending_human_review');
     }

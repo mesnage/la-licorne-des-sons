@@ -73,7 +73,7 @@ async function openPilot() {
     const panorama = new window.URL(worldPanorama(WORLDS[worldIndex]), location.href);
     get('pilotWorld').style.setProperty('--pilot-panorama', 'url("' + panorama.href + '")');
   }
-  const chapterAudio = await readJson('audio/curriculum-' + chapter.id.toLowerCase() + '-robin.json?v=storybook-2');
+  const chapterAudio = await readJson('audio/curriculum-' + chapter.id.toLowerCase() + '-robin.json?v=robin-naturel-1');
   const manifest = Object.fromEntries(Object.entries(chapterAudio).map(([audioId, track]) => [audioId, track.file]));
   await playback.registerClips(manifest);
   document.querySelectorAll('[data-chapter-return]').forEach(link => {

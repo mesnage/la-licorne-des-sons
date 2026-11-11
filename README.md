@@ -212,9 +212,7 @@ bloquée ; le jeu continue alors à suivre les progrès pendant la visite.
 
 ### Écouter et remplacer les voix
 
-Tous les mots utilisent désormais **la voix enregistrée de Robin** que les consonnes et les sons :
-Les fichiers livrés utilisent la voix Robin. Les 194 consignes « Trouve le mot, … ! »
-sont des MP3 livrés avec le jeu. Aucune voix système ou synthèse du navigateur n’est utilisée. Sur iPad/iPhone/Mac,
+Les 416 consignes « Trouve le mot », les exemples « Comme dans » et les phrases à écouter utilisent des MP3 de Robin dans le ton naturel retenu pour le jeu. Aucune voix système ou synthèse du navigateur n’est utilisée. Sur iPad/iPhone/Mac,
 il suffit de vérifier le volume. En cas d’échec de chargement, le message propose de réécouter sans révéler la réponse.
 Les tests de navigateur utilisent les vrais fichiers MP3 ; l’écoute et la fluidité restent à vérifier sur les appareils.
 
@@ -472,3 +470,5 @@ avec Playwright et Chrome installés. L'écoute sur iPad/Safari reste à vérifi
 Le [catalogue d’écoute](ecoute.html) permet de rechercher et écouter les 919 enregistrements avec Robin.
 
 Dans le parcours d’aventure, les mots, les consignes et les réponses à écouter utilisent la voix Robin sur ElevenLabs. Les pistes sont locales et recensées dans les registres `audio/curriculum-c1-robin.json` à `audio/curriculum-c7-robin.json`. Le script `tools/voice/build_curriculum_robin.py` présente le lot à produire sans appel réseau par défaut. Utiliser `--chapters C6 C7` pour sélectionner plusieurs chapitres.
+
+`tools/voice/refresh_robin_words.py --cache <dossier>` recense les mots et les phrases des ateliers et du parcours. Ajouter `--generate` pour produire les pistes avec la ponctuation du ton naturel, puis actualiser les fichiers que le jeu charge.
