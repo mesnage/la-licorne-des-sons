@@ -38,7 +38,7 @@ try {
       }
     }
     const wait = window.setTimeout.bind(window);
-    window.setTimeout = (callback, delay, ...args) => wait(callback, delay === 650 ? 25 : delay, ...args);
+    window.setTimeout = (callback, delay, ...args) => wait(callback, ({ 650: 25, 900: 120 })[delay] ?? delay, ...args);
     const start = window.AudioBufferSourceNode.prototype.start;
     window.AudioBufferSourceNode.prototype.start = function (...args) {
       this.playbackRate.value = 12;
@@ -130,8 +130,10 @@ try {
           await press(String(item.answer));
         }
         await wait(() => document.getElementById('pilotCrystals').value === count, 'cristal');
-        await press(count === 20 ? 'Entrer dans le château'
-          : item.position === 4 ? 'Commencer le bloc suivant' : 'Question suivante', actions);
+        if (actions.querySelector('button')) throw new Error(item.id + ' · bouton après réponse');
+        await wait(() => count === 20
+          ? !document.getElementById('pilotRevision').hidden
+          : displayed.textContent.includes('Question ' + ((item.position + 1) % 5 + 1) + ' sur 5'), 'suite automatique');
       }, { item: question, count: index + 1 });
     }
     const saved = await page.evaluate(key => JSON.parse(localStorage.getItem(key)), unitProgressKey(unit.id));

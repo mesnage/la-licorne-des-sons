@@ -105,6 +105,7 @@ async function openPilot() {
   let worldReady = false;
   let heard = new Set();
   let audioToken = 0;
+  let advanceTimer;
   const readyAnswers = [];
 
   function restart(state) {
@@ -133,6 +134,7 @@ async function openPilot() {
 
   function showConflict() {
     conflict = true;
+    cancelAdvance();
     stopAudio();
     if (pauseDialog.open) pauseDialog.close();
     world?.setPaused(true);
@@ -150,6 +152,27 @@ async function openPilot() {
     controls.setAttribute('aria-busy', 'false');
   }
 
+  function cancelAdvance() {
+    clearTimeout(advanceTimer);
+    advanceTimer = undefined;
+  }
+
+  function canAdvance() {
+    return session.solved && !conflict && !pauseDialog.open && !document.hidden &&
+      controls.getAttribute('aria-busy') !== 'true';
+  }
+
+  function scheduleAdvance() {
+    if (advanceTimer !== undefined || !canAdvance()) return;
+    advanceTimer = setTimeout(() => {
+      advanceTimer = undefined;
+      if (!canAdvance() || !session.advance()) return;
+      if (session.finished) completed = true;
+      save();
+      if (!conflict) render(true);
+    }, 900);
+  }
+
   function refreshAnswers() {
     const question = session.question;
     const canAnswer = (!question.prompt || heard.has(question.prompt)) && question.choices.every(key => heard.has(key));
@@ -158,6 +181,7 @@ async function openPilot() {
   }
 
   async function play(keys) {
+    cancelAdvance();
     stopAudio();
     const token = audioToken;
     controls.setAttribute('aria-busy', 'true');
@@ -175,7 +199,10 @@ async function openPilot() {
     } catch {
       if (token === audioToken) audioStatus.textContent = 'Le son est indisponible. Touche Écouter pour réessayer.';
     } finally {
-      if (token === audioToken) controls.setAttribute('aria-busy', 'false');
+      if (token === audioToken) {
+        controls.setAttribute('aria-busy', 'false');
+        scheduleAdvance();
+      }
     }
   }
 
@@ -235,13 +262,10 @@ async function openPilot() {
     render(true);
     if (word) feedback.textContent = 'Tu as fabriqué « ' + word + ' ».';
     if (worldReady) {
-      const next = actions.querySelector('button');
-      next.setAttribute('aria-disabled', 'true');
       world.setPaused(false);
-      world.moveTo(session.snapshot().answers.length, { gentle: true }).then(() => {
-        if (!conflict) next.removeAttribute('aria-disabled');
-      });
+      world.moveTo(session.snapshot().answers.length, { gentle: true });
     }
+    scheduleAdvance();
   }
 
   function showWrittenWord(question, placed) {
@@ -462,15 +486,6 @@ async function openPilot() {
           [question.modelAudio], 'pilot-instruction'));
       }
       heading.textContent = question.position === 4 ? 'Bloc ' + (question.blockIndex + 1) + ' terminé !' : 'Un cristal de plus !';
-      const label = state.answers.length === total ? (block ? 'Terminer le bloc' : 'Entrer dans le château')
-        : question.position === 4 ? 'Commencer le bloc suivant' : 'Question suivante';
-      actions.append(button(label, event => {
-        if (event.currentTarget.getAttribute('aria-disabled') === 'true' || !session.advance()) return;
-        stopAudio();
-        if (session.finished) completed = true;
-        save();
-        if (!conflict) render(true);
-      }, 'pilot-primary'));
     } else {
       heading.textContent = 'Bloc ' + (question.blockIndex + 1) + ' sur 4 · Question ' + (question.position + 1) + ' sur 5';
       showQuestion(question, state);
@@ -490,19 +505,30 @@ async function openPilot() {
   loadStatus.hidden = true;
   if (!storage) get('pilotStorage').hidden = false;
   render();
+  scheduleAdvance();
   pauseButton.addEventListener('click', () => {
+    cancelAdvance();
     stopAudio();
     world?.setPaused(true);
     pauseDialog.showModal();
   });
   pauseDialog.addEventListener('close', () => {
     if (!conflict) world?.setPaused(document.hidden);
+    scheduleAdvance();
   });
   document.addEventListener('visibilitychange', () => {
-    if (document.hidden) stopAudio();
+    if (document.hidden) {
+      cancelAdvance();
+      stopAudio();
+    }
     world?.setPaused(document.hidden || pauseDialog.open || conflict);
+    scheduleAdvance();
   });
-  window.addEventListener('pagehide', stopAudio);
+  window.addEventListener('pagehide', () => {
+    cancelAdvance();
+    stopAudio();
+  });
+  window.addEventListener('pageshow', scheduleAdvance);
   window.addEventListener('storage', event => {
     if (event.key === key && event.newValue !== lastSaved) showConflict();
   });

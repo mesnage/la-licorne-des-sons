@@ -71,9 +71,9 @@ try {
   await page.goto(new URL(chapterPlayUrl(id, true, 3), base).href);
   const questions = createSimpleQuestions(catalogue.getChapter('C1'), catalogue.getUnit(id), null, 0).slice(10, 15);
   for (const question of questions) {
+    await page.getByRole('heading', { name: 'Bloc 3 sur 4 · Question ' + (question.position + 1) + ' sur 5' }).waitFor();
     await page.getByRole('button', { name: 'Écouter le mot' }).click();
     await page.getByRole('button', { name: question.answer + ' syllabes', exact: true }).click();
-    await page.getByRole('button', { name: question.position === 4 ? 'Terminer le bloc' : 'Question suivante' }).click();
   }
   await page.getByRole('heading', { name: 'Bloc 3 testé !' }).waitFor();
   assert.equal(await page.getByRole('link', { name: 'Tester le bloc suivant' }).getAttribute('href'), chapterPlayUrl(id, true, 4));
