@@ -20,7 +20,7 @@ with sync_playwright() as p:
     page.wait_for_function('window.__licorneOK')
     page.clock.install()
     # Finish real 20-question adventures, without adding a production completion shortcut.
-    for mode, roll in zip(['voyelles', 'consonnes', 'sons', 'experts', 'tout'], [.01, .40, .70, .90, .20]):
+    for mode, roll in zip(['voyelles', 'consonnes', 'sons', 'experts', 'tout'], [.01, .45, .75, .25, .85]):
         page.locator('[data-level="' + mode + '"]').click()
         for step in range(20):
             assert page.evaluate('window.__game.step()') == step
@@ -56,16 +56,16 @@ with sync_playwright() as p:
     page.locator('#rewardsClose').click()
     assert page.locator('#savingsOpen, #savingsDialog, #withdrawForm').count() == 0
     assert page.locator('#dailyPrizes li').count() == 4
-    assert page.locator('#rewardWheel span').count() == 6
+    assert page.locator('#rewardWheel span').count() == 10
     assert page.evaluate('document.documentElement.scrollWidth <= window.innerWidth')
     assert not errors, errors
-    print('Reload persistence, six wheel segments, no savings controls, mobile layout: passed')
+    print('Reload persistence, ten wheel segments, no savings controls, mobile layout: passed')
     # Exercise the normal-motion transition as well as the reduced-motion mobile path.
     desktop = browser.new_page(viewport={'width': 1280, 'height': 900})
     desktop.on('pageerror', lambda error: errors.append(str(error)))
     desktop.goto(args.url+'/classic.html?debug', wait_until='domcontentloaded')
     desktop.wait_for_function('window.__licorneOK')
-    desktop.evaluate("async () => { const r = await import('./js/rewards.js'); r.earnReward(); r.showReward(); Math.random = () => 2.5/6; }")
+    desktop.evaluate("async () => { const r = await import('./js/rewards.js?v=roue-dinos-1'); r.earnReward(); r.showReward(); Math.random = () => .45; }")
     desktop.locator('#spinReward').click()
     assert desktop.locator('#spinReward').is_disabled()
     desktop.wait_for_function("document.querySelector('#rewardResult').textContent.includes('10 minutes de télé')")

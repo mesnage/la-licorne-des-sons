@@ -185,9 +185,9 @@ button{font-family:inherit;color:inherit;cursor:pointer;touch-action:manipulatio
 .dialog-close{position:absolute;top:10px;right:10px;min-width:44px;min-height:44px;border:0;background:#eee1ff;border-radius:50%;font-size:20px}
 button:focus-visible,input:focus-visible{outline:3px solid #5b2fc2;outline-offset:4px}
 .reward-dialog button:disabled{cursor:default;opacity:.65}
-.wheel-stage{position:relative;width:min(280px,100%);aspect-ratio:1;margin:24px auto}
-.reward-wheel{position:absolute;inset:0;border:7px solid #fff;border-radius:50%;box-shadow:0 6px 0 #c7a8e7,0 9px 22px #67338733;background:conic-gradient(#ffd36b 0deg 60deg,#c4afff 60deg 120deg,#ffa9c9 120deg 180deg,#b9e9f4 180deg 240deg,#ffe5ad 240deg 300deg,#c2b0f3 300deg 360deg);transition:transform 4s cubic-bezier(.15,.75,.15,1)}
-.reward-wheel span{position:absolute;left:50%;top:50%;width:50px;height:44px;margin:-22px -25px;font-size:28px;display:grid;place-items:center;transform:rotate(var(--angle)) translateY(-92px) rotate(calc(-1 * var(--angle)))}
+.wheel-stage{position:relative;width:min(280px,100%);aspect-ratio:1;margin:24px auto;container-type:inline-size}
+.reward-wheel{position:absolute;inset:0;border:7px solid #fff;border-radius:50%;box-shadow:0 6px 0 #c7a8e7,0 9px 22px #67338733;background:#f4e3aa;transition:transform 4s cubic-bezier(.15,.75,.15,1)}
+.reward-wheel span{position:absolute;left:50%;top:50%;width:14cqw;aspect-ratio:1;display:grid;place-items:center;transform:translate(-50%,-50%) rotate(var(--angle)) translateY(-33cqw) rotate(calc(-1 * var(--angle)))}
 .wheel-pointer{position:absolute;top:-20px;left:calc(50% - 18px);z-index:2;font-size:40px;color:#a82a6a;text-shadow:0 2px #fff}
 .wheel-hub{position:absolute;left:calc(50% - 25px);top:calc(50% - 25px);width:50px;height:50px;display:grid;place-items:center;border-radius:50%;background:#fff4c4;box-shadow:0 3px 6px #54247333;font-size:28px}
 .reward-dialog .big-btn{font-size:19px;max-width:100%;padding:14px 20px;margin:4px 0 12px}
@@ -287,6 +287,6 @@ body{background:radial-gradient(ellipse at 16% 8%,#fff7e3aa,transparent 48%),lin
 .prototype-entry span{display:block;font-size:12px;margin-top:5px;color:#86745f}
 /* Shared original illustrations for reward screens, including the classic fallback. */
 .reward-dialog .illustration{display:inline-block;width:32px;height:32px;vertical-align:middle}
-.reward-wheel .illustration{width:42px;height:42px}
+.reward-wheel .illustration{width:100%;height:auto}
 .reward-dialog .fart-cloud .illustration{width:90px;height:90px}
 #rewardPending .illustration{display:inline-block;width:23px;height:23px;vertical-align:middle;margin-right:6px}

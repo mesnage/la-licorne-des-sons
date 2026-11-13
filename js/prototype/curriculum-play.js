@@ -4,7 +4,7 @@ import * as playback from '../audio.js?v=curriculum-chapter-1';
 import { chapterMapUrl, chapterPlayUrl } from '../learning/chapter-one.js';
 import { createSimpleQuestions } from '../learning/curriculum-simple.js?v=storybook-2';
 import { exerciseVersion } from '../data/curriculum-simple.js?v=storybook-2';
-import { WORLDS, worldPanorama } from './model.js';
+import { WORLDS, worldPanorama } from './model.js?v=roue-dinos-1';
 import { illustration } from '../illustrations.js';
 import { createCurriculum } from '../learning/curriculum.js?v=storybook-2';
 import {
@@ -71,7 +71,7 @@ async function openPilot() {
   const worldIndex = WORLDS.findIndex(world => world.habitat === chapter.theme);
   if (worldIndex >= 0) {
     const panorama = new window.URL(worldPanorama(WORLDS[worldIndex]), location.href);
-    get('pilotWorld').style.setProperty('--pilot-panorama', 'url("' + panorama.href + '")');
+    document.body.style.setProperty('--curriculum-panorama', 'url("' + panorama.href + '")');
   }
   const chapterAudio = await readJson('audio/curriculum-' + chapter.id.toLowerCase() + '-robin.json?v=robin-naturel-1');
   const manifest = Object.fromEntries(Object.entries(chapterAudio).map(([audioId, track]) => [audioId, track.file]));
@@ -534,7 +534,7 @@ async function openPilot() {
   });
 
   try {
-    const { createWorld } = await import('./world.js?v=curriculum-pilot-1');
+    const { createWorld } = await import('./world.js?v=roue-dinos-1');
     world = createWorld(get('pilotWorld'), {
       onReady() {
         worldReady = true;

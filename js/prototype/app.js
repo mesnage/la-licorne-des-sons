@@ -1,7 +1,7 @@
 import { syllableActivity } from '../data/syllable-workshops.js';
 import { returnFromRevision } from './curriculum-revision.js?v=ateliers-sons-2';
-import { createWorld } from './world.js?v=accueil-1';
-import { WORLDS, worldPanorama, MODULES, MENU_ITEMS, CHAPTERS, createAdventure, createJourneyMemory, journeyState } from './model.js?v=ateliers-sons-3';
+import { createWorld } from './world.js?v=roue-dinos-1';
+import { WORLDS, worldPanorama, MODULES, MENU_ITEMS, CHAPTERS, createAdventure, createJourneyMemory, journeyState } from './model.js?v=roue-dinos-1';
 import { illustration } from '../illustrations.js?v=chapters-wheel-1';
 import { createMastery, skillStatus } from '../learning/mastery.js';
 import { WORD_LEVELS } from '../data/words.js';
@@ -9,7 +9,7 @@ import { sentenceActivity } from '../data/sentences.js';
 import { TYPO_ACTIVITY } from '../data/typos.js';
 import { createWordProgress } from '../words/progress.js?v=chapters-wheel-1';
 import { createWordVoice } from '../words/voice.js';
-import { initRewards, earnReward, showReward } from '../rewards.js?v=chapters-wheel-1';
+import { initRewards, earnReward, showReward } from '../rewards.js?v=roue-dinos-1';
 import { ready as audioReady, loadClip, say, hush, sfx, unlock } from '../audio.js?v=chapters-wheel-1';
 import { gemSVG, plain } from '../utils.js';
 

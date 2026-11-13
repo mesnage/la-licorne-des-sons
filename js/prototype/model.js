@@ -35,7 +35,8 @@ export const WORLDS = [
   {id:3,habitat:'beach',name:'La plage des coquillages',icon:'shell',kind:'palm',sky:'#c4e9ed',ground:'#f0dbb2',mountain:'#83c4cf',road:'#f8e7c3'},
   {id:4,habitat:'ice',name:'Le pays des glaces',icon:'ice',kind:'purple',sky:'#d3e6f5',ground:'#dbe8ef',mountain:'#a5bddb',road:'#f5faff'},
   {id:5,habitat:'clouds',name:'Le voyage dans les nuages',icon:'cloud',kind:'purple',sky:'#d9ddf1',ground:'#d1c4e8',mountain:'#aaa4ce',road:'#fff7fb'},
-  {id:6,habitat:'moon',name:'La lune des petits lapins',icon:'moon',kind:'purple',sky:'#383d72',ground:'#9ba6c2',mountain:'#7978aa',road:'#d9deec'}
+  {id:6,habitat:'moon',name:'La lune des petits lapins',icon:'moon',kind:'purple',sky:'#383d72',ground:'#9ba6c2',mountain:'#7978aa',road:'#d9deec'},
+  {id:7,habitat:'prehistoric',name:'La vallée des dinosaures',icon:'leaf',sky:'#ecd1a4',ground:'#9b9c66',road:'#e3bd82'}
 ];
 export function worldPanorama(theme){
   const file=theme.habitat==='meadow'?'prairie-cotiere.jpg':theme.habitat+'.webp';
@@ -52,7 +53,7 @@ export function journeyState(crystals,total,startWorld=0){
   return {worldIndex,worldCrystals,theme:WORLDS[(startWorld+worldIndex)%WORLDS.length],checkpoint:checkpointFor(count),finished};
 }
 export function gagFor(crystal,habitat){
-  if(crystal%10===6&&habitat)return {meadow:'butterfly',forest:'crown',jungle:'crown',beach:'splash',ice:'bubble',clouds:'bubble',moon:'moonhop'}[habitat]||null;
+  if(crystal%10===6&&habitat)return {meadow:'butterfly',forest:'crown',jungle:'crown',beach:'splash',ice:'bubble',clouds:'bubble',moon:'moonhop',prehistoric:'boing'}[habitat]||null;
   return [null,'prout',null,'rainbow',null,null,'boing',null,'hat',null][(crystal-1)%10]||null;
 }
 export class AdventureSession extends QuestionSession {

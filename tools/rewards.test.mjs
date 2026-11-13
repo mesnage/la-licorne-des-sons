@@ -5,15 +5,15 @@ const memory = () => {
   const data = new Map();
   return { getItem: k => data.get(k) ?? null, setItem: (k,v) => data.set(k,v) };
 };
-test('six equal segments give two chocolates, two candies, one TV reward and one coin', () => {
+test('ten equal segments give five coins, two candies, two chocolates and one TV reward', () => {
   assert.deepEqual(PRIZES.map(p => p.id), ['candies','chocolate','tv','coin']);
-  assert.deepEqual(SEGMENTS.map(p => SEGMENTS.filter(n => n === p).length), [2,2,1,2,2,1]);
+  assert.equal(SEGMENTS.length, 10);
   const store = createRewards(memory());
-  for(let i=0;i<6;i++){
+  for(let i=0;i<SEGMENTS.length;i++){
     store.earn();
-    assert.equal(store.spin(() => (i+.5)/6).segment, i);
+    assert.equal(store.spin(() => (i+.5)/SEGMENTS.length).segment, i);
   }
-  assert.deepEqual(store.snapshot().counts, [2,2,1,1]);
+  assert.deepEqual(store.snapshot().counts, [2,2,1,5]);
 });
 test('one spin per completion, with pending spins and prizes surviving reload', () => {
   const storage = memory(), store = createRewards(storage);
@@ -84,7 +84,7 @@ test('old four-prize stories and unicorn rewards never turn into TV time or coin
   const store=createRewards(storage,date);
   assert.deepEqual(store.snapshot().counts,[2,3,0,0]);assert.deepEqual(store.snapshot().earlier,[4,5]);
   assert.equal(store.snapshot().pending,6);
-  store.spin(()=>(2.5/6));
+  store.spin(()=>(.45));
   const saved=JSON.parse(storage.getItem(REWARD_KEY));
   assert.equal(saved.version,2);assert.deepEqual(saved.counts,[2,3,1,0]);assert.deepEqual(saved.earlier,[4,5]);
   assert.equal(saved.pending,5);assert.equal(Object.hasOwn(saved,'savings'),false);

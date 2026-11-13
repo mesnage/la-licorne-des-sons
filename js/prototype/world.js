@@ -1,7 +1,7 @@
 import { createEncounter, poseEncounter } from './encounters.js';
 import { drawHabitatTouch } from './habitat-touch.js';
 import Phaser from '../../vendor/phaser/phaser.esm.min.js';
-import { WORLD_WIDTH, WORLD_HEIGHT, pathPoint, WORLDS, worldPanorama, gagFor } from './model.js';
+import { WORLD_WIDTH, WORLD_HEIGHT, pathPoint, WORLDS, worldPanorama, gagFor } from './model.js?v=roue-dinos-1';
 import { uri, crystal, cloud, checkpointFlag, magicHat } from './art.js';
 import { landmark } from './scenery.js';
 import { coastalBreeze, coastalGrasses, windAt, sunPatch, driftingLeaf, glowMote, birdParts, createFlyingBird, poseCoastalBird } from './atmosphere.js';
@@ -14,8 +14,28 @@ import { RAINBOW, rainbowPoint, walkingPoint, bridgeFocus, birdPoint, pathRibbon
 import { createCoastalAnimal, poseCoastalAnimal } from './coastal-fauna.js';
 import { coastalPonyFrame, posePonyGlints } from './coastal-pony.js';
 
+const prehistoricWildlife = [
+  { key:'brachiosaurus', stop:.068, width:135, offset:-92 },
+  { key:'triceratops', stop:.24, width:195, offset:138 },
+  { key:'stegosaurus', stop:.47, width:230, offset:145 },
+  { key:'ankylosaurus', stop:.67, width:190, offset:136 },
+  { key:'tyrannosaurus', stop:.85, width:232, offset:-52 }
+];
+const cameos = {
+  meadow:{ key:'mickey', stop:.059, width:78, offset:-93 },
+  forest:{ key:'donald', stop:.059, width:78, offset:-93 }
+};
+
+function trailVisitor(scene,{key,stop,width,offset}){
+  const point=pathPoint(stop);
+  const sprite=scene.add.image(point.x,point.y+offset,key).setOrigin(.5,1);
+  return sprite.setScale(width/sprite.width).setDepth(offset<0?-4:4.5);
+}
+
 function companionPlan(theme){
- const kinds=HABITAT_ANIMALS[theme.habitat],count=theme.id<2?8:6,slots=[.035,.12,.23,.39,.54,.67,.8,.94];
+ const kinds=HABITAT_ANIMALS[theme.habitat];
+ if(!kinds)return [];
+ const count=theme.id<2?8:6,slots=[.035,.12,.23,.39,.54,.67,.8,.94];
  return Array.from({length:count},(_,i)=>{
   const p=pathPoint(count===8?slots[i]:(i+.32)/6),kind=kinds[i%kinds.length],x=p.x+(i%2?12:-18);
   const landing=p.x>880&&p.x<1700,lane=landing?185:kind==='deer'||kind==='cow'?175:kind==='bunny'?125:kind==='fox'?135:105;
@@ -36,6 +56,9 @@ export function createWorld(parent,{onReady,onBiome,onError,onGag=()=>{}}){
         this.load.svg(key,uri(source),raster);
       };
       WORLDS.forEach(theme=>this.load.image('land'+theme.id,worldPanorama(theme)));
+      for(const {key} of [...Object.values(cameos),...prehistoricWildlife]) {
+        this.load.image(key,'assets/storybook/'+key+'.webp');
+      }
       this.load.spritesheet('trail-details','assets/storybook/bords-du-sentier.webp',{frameWidth:240,frameHeight:200});
       load('landmark0',landmark(WORLDS[0]),{width:660,height:540});
       this.load.spritesheet('world-fauna','assets/storybook/faune-mondes.webp',{frameWidth:400,frameHeight:280});
@@ -134,7 +157,7 @@ export function createWorld(parent,{onReady,onBiome,onError,onGag=()=>{}}){
       if(this.encounter)keep(this.encounter.group);
       const detailsByHabitat={
         meadow:[0,1], forest:[2,3,15], jungle:[4,5], beach:[6,7,14],
-        ice:[8,9], clouds:[10,11], moon:[12,13]
+        ice:[8,9], clouds:[10,11], moon:[12,13], prehistoric:[4,5]
       };
       const frames=detailsByHabitat[this.theme.habitat];
       for(let i=0;i<17;i++){
@@ -149,12 +172,17 @@ export function createWorld(parent,{onReady,onBiome,onError,onGag=()=>{}}){
         const fly=keep(this.add.image(150+i*122,300+(i*61%300),'glow-mote').setDisplaySize(19+i%3*4,19+i%3*4).setAlpha(.65).setDepth(4));
         fly.startY=fly.y;this.fireflies.push(fly);
       }
-      for(let i=0;i<(paintedMeadow||this.theme.habitat==='moon'?0:8);i++){
+      for(let i=0;i<(paintedMeadow||['moon','prehistoric'].includes(this.theme.habitat)?0:8);i++){
         const cloud=keep(this.add.image(180+i*490,170+(i*41%100),'cloud').setDisplaySize(147+(i%3)*42,60+(i%3)*17).setScrollFactor(.6,1).setDepth(-12).setAlpha(.55));
         this.clouds.push({object:cloud,x:cloud.x,phase:i});
       }
       const vista=pathPoint(.78);
       if(paintedMeadow)keep(this.add.image(vista.x,vista.y-80,'landmark0').setOrigin(.5,1).setDisplaySize(330,270).setDepth(-3));
+      const cameo=cameos[this.theme.habitat];
+      if(cameo)keep(trailVisitor(this,cameo));
+      if(this.theme.habitat==='prehistoric'){
+        for(const dinosaur of prehistoricWildlife)keep(trailVisitor(this,dinosaur));
+      }
       if(['meadow','forest','jungle','beach'].includes(this.theme.habitat)){
         for(let i=0;i<32;i++){
           const point=pathPoint((i+.25)/32),x=point.x+Math.sin(i*7)*43;
@@ -188,7 +216,7 @@ export function createWorld(parent,{onReady,onBiome,onError,onGag=()=>{}}){
       this.castle.setVisible(number===Math.ceil(this.total/10)-1);this.portal.setVisible(!this.castle.visible);
       this.drawBridge();
       this.poseBird=poseCoastalBird;
-      for(let i=0;i<(this.theme.habitat==='moon'?0:9);i++){
+      for(let i=0;i<(['moon','prehistoric'].includes(this.theme.habitat)?0:9);i++){
         const bird=keep(createFlyingBird(this,0,0,42+(i%3)*6,i).setDepth(-5).setAlpha(.95));
         const p=birdPoint(i,0);bird.setPosition(p.x,p.y);this.poseBird(bird,0,reduced);
         this.birds.push(bird);
@@ -265,16 +293,24 @@ export function createWorld(parent,{onReady,onBiome,onError,onGag=()=>{}}){
       const focus=bridgeFocus(this.travel.value),fit=Math.max(.42,Math.min(base,w/850));
       const ground=pathPoint(this.travel.value),lift=ground.y-this.hero.y;
       const portraitMenu=document.body.dataset.screen==='menu'&&w<600&&h>w;
-      const vertical = portraitMenu ? .25 : h < 500 ? -.1 : .09;
+      const pilotBackdrop=parent.classList.contains('pilot-world');
+      const fullBackdrop=pilotBackdrop||this.theme.habitat==='prehistoric';
+      const vertical = pilotBackdrop ? .22 : portraitMenu ? (this.theme.habitat==='prehistoric'?.19:.25) : h < 500 ? -.1 : .09;
       // Keep the bottom of the portrait menu inside the painted landscape.
       const menuZoom = portraitMenu ? h * (.5 + vertical) / (WORLD_HEIGHT - ground.y) : 0;
-      const target=Math.max(base+(fit-base)*focus,menuZoom);
+      const target=Math.max(base+(fit-base)*focus,menuZoom,fullBackdrop?w/WORLD_WIDTH:0,fullBackdrop?h/WORLD_HEIGHT:0);
       const smoothing=1-Math.exp(-8.5*(this.frameSeconds||1/60));
-      const zoom=this.cameraInitialized&&!reduced?this.cameras.main.zoom/density+(target-this.cameras.main.zoom/density)*smoothing:target;
+      const zoom=this.cameraInitialized&&!reduced&&!fullBackdrop?this.cameras.main.zoom/density+(target-this.cameras.main.zoom/density)*smoothing:target;
       this.cameraInitialized=true;this.cameras.main.setZoom(zoom*density);
       // The camera gives the climb room while leaving the arch and landing visible.
       const follow= h<700?.75:.42;
-      this.cameras.main.centerOn(this.hero.x+w*.14/zoom,ground.y-lift*follow+h*vertical/zoom);
+      let centerX=this.hero.x+w*.14/zoom,centerY=ground.y-lift*follow+h*vertical/zoom;
+      if(fullBackdrop){
+        const halfWidth=w/zoom/2,halfHeight=h/zoom/2;
+        centerX=Math.max(halfWidth,Math.min(WORLD_WIDTH-halfWidth,centerX));
+        centerY=Math.max(halfHeight,Math.min(WORLD_HEIGHT-halfHeight,centerY));
+      }
+      this.cameras.main.centerOn(centerX,centerY);
 
     }
     sparkle(x,y){
@@ -405,7 +441,7 @@ export function createWorld(parent,{onReady,onBiome,onError,onGag=()=>{}}){
         scene.castle.setVisible(number===Math.ceil(total/10)-1);scene.portal.setVisible(!scene.castle.visible);
         scene.pose();scene.cameraInitialized=false;scene.positionCamera();onBiome({...scene.theme,number:number+1});
       }else scene.paintWorld(number,local);
-      if(count===total)onBiome({id:7,name:'Le château de cristal',icon:'castle',number:number+1});
+      if(count===total)onBiome({name:'Le château de cristal',icon:'castle',number:number+1});
     },
     setTheme(id){
       if(!scene?.hero||scene.moving||!Number.isInteger(id)||id<0||id>=WORLDS.length)return false;
@@ -425,7 +461,7 @@ export function createWorld(parent,{onReady,onBiome,onError,onGag=()=>{}}){
           if(my!==serial)return;
           progress=count/scene.total;crystals=count;scene.moving=false;scene.gag=null;hideProps();
           scene.emotion=count===scene.total?'proud':'attentive';scene.hero.stop().setFlipX(false);scene.setHeroDrawing();scene.hero.angle=0;
-          if(count===scene.total)onBiome({id:7,name:'Le château de cristal',icon:'castle',number:scene.worldNumber+1});
+          if(count===scene.total)onBiome({name:'Le château de cristal',icon:'castle',number:scene.worldNumber+1});
           if(finishMove){finishMove(true);finishMove=null;}
         };
         const complete=()=>{

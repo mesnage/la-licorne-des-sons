@@ -22,7 +22,7 @@ def boot(page):
 def pick(page, theme):
     page.locator('#worldName').click(no_wait_after=True)
     assert page.locator('#worldDialog').is_visible()
-    assert page.locator('#worldChoices button').count() == 7
+    assert page.locator('#worldChoices button').count() == 8
     page.locator(f'[data-world-id="{theme}"]').click(no_wait_after=True)
     assert not page.locator('#worldDialog').is_visible()
     assert state(page)['world']['theme'] == theme
@@ -43,10 +43,10 @@ with sync_playwright() as p:
     page = browser.new_page(viewport={'width':390,'height':844}, has_touch=True, reduced_motion='reduce')
     page.on('pageerror', lambda e: errors.append(str(e)))
     boot(page)
-    for theme in range(7):
+    for theme in range(8):
         pick(page, theme)
     page.reload();page.wait_for_function('window.__adventure?.state().ready')
-    assert state(page)['world']['theme'] == 6
+    assert state(page)['world']['theme'] == 7
     pick(page, 0)
     select_activity(page,'[data-module="voyelles"]')
     for _ in range(10):
@@ -67,7 +67,7 @@ with sync_playwright() as p:
     page.locator('#worldName').click(no_wait_after=True)
     page.keyboard.press('Escape')
     assert not state(page)['paused'] and state(page)['targetId'] is not None
-    print('Seven-world selection, persisted preference, in-progress question/crystals and reduced motion passed', flush=True)
+    print('Eight-world selection, persisted preference, in-progress question/crystals and reduced motion passed', flush=True)
     page.close()
 
     live = browser.new_page(viewport={'width':1024,'height':768}, device_scale_factor=2)

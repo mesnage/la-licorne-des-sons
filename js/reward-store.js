@@ -5,7 +5,7 @@ export const PRIZES = [
   { id: 'tv', icon: '📺', label: '10 minutes de télé', color: '#cce4e7' },
   { id: 'coin', icon: '🐷', label: 'Une pièce pour la tirelire', color: '#f4e3aa' }
 ];
-export const SEGMENTS = [1, 0, 2, 1, 0, 3];
+export const SEGMENTS = [1, 3, 0, 3, 2, 3, 1, 3, 0, 3];
 export const REWARD_KEY = 'licorne.rewards.v1';
 export function dayKey(date = new Date()){
   return [date.getFullYear(), String(date.getMonth()+1).padStart(2, '0'), String(date.getDate()).padStart(2, '0')].join('-');

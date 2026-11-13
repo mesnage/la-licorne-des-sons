@@ -1,4 +1,4 @@
-import('./app.js?v=ateliers-sons-3').catch(() => {
+import('./app.js?v=roue-dinos-1').catch(() => {
   document.getElementById('legacyFallback').hidden=false;
   document.getElementById('engineStatus').textContent='Le décor animé n’a pas pu démarrer. Recharge la page ou ouvre les activités classiques avec le lien de secours.';
 });

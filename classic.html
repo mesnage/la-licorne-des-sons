@@ -10,7 +10,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/style.css?v=roue-dinos-1">
 <link rel="stylesheet" href="css/words.css">
 </head>
 <body>
@@ -124,12 +124,12 @@
   <p>Une aventure terminée, un tour de roue !</p>
   <div class="wheel-stage">
     <div class="wheel-pointer" aria-hidden="true">▼</div>
-    <div id="rewardWheel" class="reward-wheel" role="img" aria-label="Roue à six cases : deux chocolats, deux bonbons, dix minutes de télé et une pièce pour la tirelire"></div>
+    <div id="rewardWheel" class="reward-wheel" role="img" aria-label="Roue à dix cases : cinq pièces pour la tirelire, deux bonbons, deux chocolats et dix minutes de télé"></div>
     <span class="wheel-hub" aria-hidden="true">⭐</span>
   </div>
   <button id="spinReward" class="big-btn candy c-sun">Tourner la roue !</button>
   <p id="rewardResult" class="reward-result" role="status" aria-live="polite"></p>
-  <p class="wheel-odds">Chocolat : 2 cases · Bonbons : 2 cases · 10 minutes de télé : 1 case · Une pièce pour la tirelire : 1 case.</p>
+  <p class="wheel-odds">Pièce pour la tirelire : 50 % · Bonbons : 20 % · Chocolat : 20 % · 10 minutes de télé : 10 %.</p>
   <h3>Aujourd’hui : <span id="dailyTotal">0</span> cadeau(x)</h3>
   <ul id="dailyPrizes" class="daily-prizes"></ul>
   <p class="reward-storage-note"></p>
@@ -147,6 +147,6 @@
       : "Le jeu n'a pas pu démarrer. Rechargez la page.");
   }, 4000);
 </script>
-<script type="module" src="js/main.js?v=storybook-2"></script>
+<script type="module" src="js/main.js?v=roue-dinos-1"></script>
 </body>
 </html>

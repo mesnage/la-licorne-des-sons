@@ -1,4 +1,4 @@
-import { createRewards, PRIZES, SEGMENTS } from './reward-store.js?v=chapters-wheel-1';
+import { createRewards, PRIZES, SEGMENTS } from './reward-store.js?v=roue-dinos-1';
 import { illustration } from './illustrations.js?v=chapters-wheel-1';
 
 const $ = s => document.querySelector(s);
@@ -26,8 +26,9 @@ export function earnReward(){ rewards.earn(); refresh(); }
 export function showReward(){ openRewards(); }
 export function initRewards(){
   const wheel = $('#rewardWheel');
-  wheel.innerHTML = SEGMENTS.map((p,i) => `<span data-prize="${PRIZES[p].id}" style="--angle:${(i+.5)*360/SEGMENTS.length}deg" aria-hidden="true">${art(PRIZES[p])}</span>`).join('');
-  wheel.style.background='conic-gradient('+SEGMENTS.map((prize,index)=>`${PRIZES[prize].color} ${index*60}deg ${(index+1)*60}deg`).join(',')+')';
+  const slice = 360 / SEGMENTS.length;
+  wheel.innerHTML = SEGMENTS.map((p,i) => `<span data-prize="${PRIZES[p].id}" style="--angle:${(i+.5)*slice}deg" aria-hidden="true">${art(PRIZES[p])}</span>`).join('');
+  wheel.style.background='conic-gradient('+SEGMENTS.map((prize,index)=>`${PRIZES[prize].color} ${index*slice}deg ${(index+1)*slice}deg`).join(',')+')';
   document.querySelectorAll('#rewardPending, #winReward, #wordReward').forEach(button => button.addEventListener('click', openRewards));
   document.querySelectorAll('[data-close-dialog]').forEach(button => button.addEventListener('click', () => {
     if(!turning) button.closest('dialog').close();
@@ -42,7 +43,7 @@ export function initRewards(){
     $('#rewardsClose').disabled = true;
     refresh();
     // The selected segment's centre ends up directly beneath the top pointer.
-    const target = 360 - (result.segment + .5) * 360 / SEGMENTS.length;
+    const target = 360 - (result.segment + .5) * slice;
     rotation += 360 * 5 + ((target - rotation % 360 + 360) % 360);
     wheel.style.transform = `rotate(${rotation}deg)`;
     // A timer also completes the reveal if transitionend is suppressed or the tab was hidden.

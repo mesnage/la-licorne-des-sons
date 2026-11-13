@@ -4,7 +4,7 @@ import { exerciseVersion, simpleExercise } from '../data/curriculum-simple.js?v=
 import { createCurriculum } from '../learning/curriculum.js?v=storybook-2';
 import { chapterMapUrl, chapterPlayUrl } from '../learning/chapter-one.js';
 import { pilotProgressKey, pilotQuestionCount, readPilotProgress, restoreProgrammeState } from '../learning/pilot-session.js?v=storybook-2';
-import { WORLDS, worldPanorama } from './model.js';
+import { WORLDS, worldPanorama } from './model.js?v=roue-dinos-1';
 
 const testMode = reviewMode(curriculumLocation());
 const content = document.getElementById('curriculumContent');
@@ -48,6 +48,7 @@ function chapterCard(chapter, index, completedUnits) {
 }
 
 function chapterHome(curriculum, completedUnits, pilot) {
+  document.body.style.removeProperty('--curriculum-panorama');
   const hero = element('div', 'curriculum-hero');
   const intro = element('div', '');
   intro.append(element('h1', '', 'Mon parcours de lecture'));
@@ -134,8 +135,7 @@ function chapterView(curriculum, chapter, selectedUnit, completedUnits, pilot) {
   const path = element('div', 'curriculum-trail');
   const world = WORLDS.find(world => world.habitat === chapter.theme);
   if (world) {
-    path.style.setProperty('--trail-panorama', 'url("' + new window.URL(worldPanorama(world), location.href).href + '")');
-    path.style.setProperty('--trail-tint', world.ground);
+    document.body.style.setProperty('--curriculum-panorama', 'url("' + new window.URL(worldPanorama(world), location.href).href + '")');
   }
   const units = element('ol', 'curriculum-units');
   units.setAttribute('aria-label', 'Unités du chapitre');

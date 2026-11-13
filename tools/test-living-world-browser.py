@@ -57,9 +57,10 @@ with sync_playwright() as p:
  for renderer in ['', '&renderer=canvas']:
   reduced=browser.new_page(viewport={'width':1024,'height':768},device_scale_factor=2,reduced_motion='reduce')
   reduced.on('pageerror',lambda e:errors.append(str(e)));boot(reduced,renderer)
-  for theme in range(7):
+  for theme in range(8):
    pick(reduced,theme);before=snapshot(reduced);reduced.wait_for_timeout(100);assert before==snapshot(reduced)
-   assert len(state(reduced)['world']['animalKinds'])>=6
+   if theme < 7:
+    assert len(state(reduced)['world']['animalKinds'])>=6
   reduced.set_viewport_size({'width':390,'height':844})
   reduced.wait_for_function('(()=>{const c=document.querySelector("canvas"),r=c.getBoundingClientRect();return c.width===780&&c.height===1688&&r.width===390&&r.height===844})()')
   pick(reduced,0);select_activity(reduced,'[data-module="voyelles"]')
@@ -70,7 +71,7 @@ with sync_playwright() as p:
   reduced.wait_for_function('document.querySelector("#rewardsDialog").open')
   assert reduced.evaluate('JSON.parse(localStorage.getItem("licorne.rewards.v1")).pending')==1
   reduced.close()
-  print(('Canvas' if renderer else 'WebGL')+': seven habitats, Retina rotation, reduced motion and full two-world adventure/reward passed',flush=True)
+  print(('Canvas' if renderer else 'WebGL')+': eight habitats, Retina rotation, reduced motion and full two-world adventure/reward passed',flush=True)
  assert not errors,errors
  browser.close()
  print('All living-world browser checks passed; no JavaScript errors',flush=True)

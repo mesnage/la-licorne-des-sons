@@ -8,7 +8,7 @@ The path now extends off-screen at the entrance, with narrow earthen layers, gra
 
 Paillette's four transparent walking poses remain in `assets/storybook/paillette-0.webp` through `paillette-3.webp`, used throughout the seven worlds and the reward scene. The JPEG landscape explorations in that directory are retained as reference art and are no longer loaded by the game or menu. The generation prompts below document that earlier exploration; the current scenery is code-native artwork, without new image generation or runtime image services.
 
-The world-name badge opens a seven-world picker. Selecting a habitat preserves the question, crystal count and checkpoint, and remembers the preferred starting habitat locally (`licorne.world-choice.v1`). The picker pauses the scene while open; closing it resumes the same question and recording. World switching is available at stable question/menu/finish screens, with the button briefly disabled during travel and answer feedback.
+The world-name badge opens an eight-world picker. Selecting a habitat preserves the question, crystal count and checkpoint, and remembers the preferred starting habitat locally (`licorne.world-choice.v1`). The picker pauses the scene while open; closing it resumes the same question and recording. World switching is available at stable question/menu/finish screens, with the button briefly disabled during travel and answer feedback.
 
 The menu overlays the live world. Portrait framing keeps Paillette above the activity panel. Large reading cards, recordings, path/bridge geometry, checkpoints, progress and reward accounting remain intact. The classic fallback is unchanged. Resize now updates the backing buffer before CSS zoom, keeping the canvas display size in step with portrait/landscape rotation; the existing browser regression also checks both CSS dimensions.
 
@@ -29,3 +29,15 @@ Use case: illustration-story. Production side scrolling game background, very wi
 ### Meadow playfield
 
 Use case: illustration-story. Create a landscape background for SIDE SCROLLING GAME. Extremely wide 3:1 panorama. CRITICAL COMPOSITION: horizon at 20% from TOP. Upper 20% a thin band of lavender mountains, tiny fairytale castle on far right, peach clouds and golden sunset sky. BOTTOM 80% a very broad open level GRASS MEADOW from edge to edge, with short softly textured lush grass, tiny pink flowers and daisies. NO water anywhere. NO cliffs. NO mountains in lower 80%. Grass must start no lower than 25% from top across the ENTIRE width. Camera looks gently downward on grassy playfield. This is a ground plane for a horizontal dynamic path to be drawn on top around 45% from top, therefore at that height there MUST be meadow grass for every horizontal position. Painterly cinematic 3D storybook rendering, detailed and softly glowing, light and shadow in grass, warm buttery gold and fresh sage green, soft pink sunset reflected in distant tree line. Very subtle small foliage in extreme bottom corners only, open central playfield, no objects, no road, no characters, no text, no UI. Match charming polished fairytale illustration rather than flat vector. Please prioritize the 80% grassy ground / 20% distant vista composition over conventional landscape composition.
+
+## La vallée des dinosaures et les apparitions
+
+Le panorama `prehistoric.webp` et les cinq dinosaures détourés ont été créés avec ImageGen. Le brachiosaure, le tricératops, le stégosaure, l’ankylosaure et le tyrannosaure sont placés à différents endroits du sentier.
+
+- Panorama 3:1 à la gouache et à l’aquarelle. Volcan fumant dans le premier sixième à gauche, au lever du soleil, fougères arborescentes et rivière. Une terrasse herbeuse dégagée accueille le sentier au milieu de l’image.
+- Planche transparente de cinq dinosaures en pied, vus de trois quarts et orientés vers la gauche. Brachiosaure bleu, tricératops ocre, stégosaure vert à plaques corail, ankylosaure violet et tyrannosaure orange.
+
+Les personnages Mickey et Donald appartiennent à Disney. Sources des deux illustrations transparentes utilisées pour les apparitions dans le jeu familial.
+
+- [Mickey dans la prairie](https://www.pngaaa.com/detail/2782194)
+- [Donald dans la forêt](https://www.pngaaa.com/detail/1005527)

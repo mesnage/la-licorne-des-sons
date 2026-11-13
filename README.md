@@ -170,8 +170,8 @@ ou les 10 questions d’une partie de « Trouve le mot ! », quel que soit le ni
 La roue s’ouvre à la fin de la partie et reste accessible depuis « Ma récompense » ou « Mes cadeaux du jour ».
 Un tour ne peut être utilisé qu’une fois ; les tours non utilisés restent disponibles.
 
-La roue comporte **six cases égales** : **2 chocolats**, **2 bonbons**, **1 cadeau de 10 minutes de télé** et
-**1 pièce pour la tirelire**. Les deux premières récompenses ont chacune 2 chances sur 6 ; les deux autres 1 sur 6.
+La roue comporte **dix cases égales** : **5 pièces pour la tirelire**, **2 bonbons**, **2 chocolats** et
+**1 cadeau de 10 minutes de télé**.
 Les cadeaux sont à offrir en famille. Il n’y a pas de solde en argent ni de formulaire de retrait dans le jeu.
 
 Le compteur indique les cadeaux gagnés **aujourd’hui**, selon la date locale du navigateur, puis repart à zéro
