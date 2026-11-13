@@ -534,7 +534,7 @@ async function openPilot() {
   });
 
   try {
-    const { createWorld } = await import('./world.js?v=roue-dinos-1');
+    const { createWorld } = await import('./world.js?v=dinos-en-marche-1');
     world = createWorld(get('pilotWorld'), {
       onReady() {
         worldReady = true;

@@ -1,6 +1,6 @@
 import { syllableActivity } from '../data/syllable-workshops.js';
 import { returnFromRevision } from './curriculum-revision.js?v=ateliers-sons-2';
-import { createWorld } from './world.js?v=roue-dinos-1';
+import { createWorld } from './world.js?v=dinos-en-marche-1';
 import { WORLDS, worldPanorama, MODULES, MENU_ITEMS, CHAPTERS, createAdventure, createJourneyMemory, journeyState } from './model.js?v=roue-dinos-1';
 import { illustration } from '../illustrations.js?v=chapters-wheel-1';
 import { createMastery, skillStatus } from '../learning/mastery.js';

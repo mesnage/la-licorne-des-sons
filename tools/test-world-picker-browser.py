@@ -98,6 +98,12 @@ with sync_playwright() as p:
         live.screenshot(path=str(args.screenshots/'world-picker-phone.png'))
     live.locator('[data-world-id="3"]').click()
     assert state(live)['world']['habitat'] == 'beach'
+    pick(live, 7)
+    dinosaurs = state(live)['world']['dinosaurs']
+    assert len({dinosaur['species'] for dinosaur in dinosaurs}) == 5
+    live.wait_for_function("""start => window.__adventure.state().world.dinosaurs.every(
+        (dinosaur, index) => Math.abs(dinosaur.x - start[index].x) > 10 && dinosaur.frame !== start[index].frame
+    )""", arg=dinosaurs)
     assert not errors, errors
     browser.close()
     print('Phone picker layout and selection passed; no JavaScript errors', flush=True)

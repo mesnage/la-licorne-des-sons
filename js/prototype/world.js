@@ -13,14 +13,7 @@ import { RAINBOW, rainbowPoint, walkingPoint, bridgeFocus, birdPoint, pathRibbon
 
 import { createCoastalAnimal, poseCoastalAnimal } from './coastal-fauna.js';
 import { coastalPonyFrame, posePonyGlints } from './coastal-pony.js';
-
-const prehistoricWildlife = [
-  { key:'brachiosaurus', stop:.068, width:135, offset:-92 },
-  { key:'triceratops', stop:.24, width:195, offset:138 },
-  { key:'stegosaurus', stop:.47, width:230, offset:145 },
-  { key:'ankylosaurus', stop:.67, width:190, offset:136 },
-  { key:'tyrannosaurus', stop:.85, width:232, offset:-52 }
-];
+import { DINOSAURS, createDinosaur, poseDinosaur } from './dinosaurs.js?v=dinos-en-marche-1';
 const cameos = {
   meadow:{ key:'mickey', stop:.059, width:78, offset:-93 },
   forest:{ key:'donald', stop:.059, width:78, offset:-93 }
@@ -56,7 +49,7 @@ export function createWorld(parent,{onReady,onBiome,onError,onGag=()=>{}}){
         this.load.svg(key,uri(source),raster);
       };
       WORLDS.forEach(theme=>this.load.image('land'+theme.id,worldPanorama(theme)));
-      for(const {key} of [...Object.values(cameos),...prehistoricWildlife]) {
+      for(const {key} of [...Object.values(cameos),...DINOSAURS]) {
         this.load.image(key,'assets/storybook/'+key+'.webp');
       }
       this.load.spritesheet('trail-details','assets/storybook/bords-du-sentier.webp',{frameWidth:240,frameHeight:200});
@@ -180,9 +173,12 @@ export function createWorld(parent,{onReady,onBiome,onError,onGag=()=>{}}){
       if(paintedMeadow)keep(this.add.image(vista.x,vista.y-80,'landmark0').setOrigin(.5,1).setDisplaySize(330,270).setDepth(-3));
       const cameo=cameos[this.theme.habitat];
       if(cameo)keep(trailVisitor(this,cameo));
-      if(this.theme.habitat==='prehistoric'){
-        for(const dinosaur of prehistoricWildlife)keep(trailVisitor(this,dinosaur));
-      }
+      this.dinosaurs=this.theme.habitat==='prehistoric' ? DINOSAURS.map(dinosaur=>{
+        const animal=createDinosaur(this,dinosaur,reduced);
+        keep(animal.root);
+        return animal;
+      }) : [];
+      this.dinosaurSeconds=0;
       if(['meadow','forest','jungle','beach'].includes(this.theme.habitat)){
         for(let i=0;i<32;i++){
           const point=pathPoint((i+.25)/32),x=point.x+Math.sin(i*7)*43;
@@ -356,6 +352,10 @@ export function createWorld(parent,{onReady,onBiome,onError,onGag=()=>{}}){
     update(time,delta){
       if(!this.hero) return;
       this.frameSeconds=Math.min(delta||16.67,80)/1000;this.pose(time);this.positionCamera();
+      if(!reduced&&this.dinosaurs.length){
+        this.dinosaurSeconds+=this.frameSeconds;
+        this.dinosaurs.forEach((animal,i)=>poseDinosaur(animal,this.dinosaurSeconds+i*2.3));
+      }
       const camera=this.cameras.main,half=camera.width/camera.zoom/2;
       const center=camera.scrollX+camera.width/2;
       for(const object of this.decor){const x=object.x+camera.scrollX*(1-object.scrollFactorX);object.setVisible(x>center-half-350&&x<center+half+350);}
@@ -479,7 +479,7 @@ export function createWorld(parent,{onReady,onBiome,onError,onGag=()=>{}}){
     cancel,
     react(emotion){if(scene?.hero&&!scene.moving){scene.emotion=emotion;scene.setHeroDrawing();}},
     setPaused(value){if(scene?.hero){if(value)scene.scene.pause();else scene.scene.resume();}},
-    state(){return {camera:scene?.cameras?.main?{width:scene.cameras.main.width,height:scene.cameras.main.height,zoom:scene.cameras.main.zoom,scrollX:scene.cameras.main.scrollX,scrollY:scene.cameras.main.scrollY}:null,rigCount:scene?.animals?.filter(a=>a.rig).length,rigPoses:scene?.animals?.map(a=>a.rig?{head:a.rig.neck.angle,bodyVisible:a.rig.visual.visible,turnVisible:a.rig.front.visible,bodyAlpha:a.rig.visual.alpha,turnAlpha:a.rig.front.alpha,feet:a.rig.legs.map(l=>({x:l.foot.x,y:l.foot.y,angle:l.foot.angle,planted:l.planted}))}:null),lighting:scene?.lights?.map(l=>({x:l.object.x,alpha:l.object.alpha})),leafPoses:scene?.petals?.map(p=>({x:p.x,y:p.y,angle:p.angle,alpha:p.alpha})),animalActivities:scene?.animals?.map((a,i)=>(a.rig||a.painted)?(wildlifePose(a.kind,scene.birdSeconds,i).walking?'walking':'resting'):null),foliageCount:scene?.foliage?.length,foliageAngles:scene?.foliage?.map(f=>f.object.angle),density:profile.ratio,canvas:{width:game?.canvas.width,height:game?.canvas.height},animalKinds:scene?.animals?.map(a=>a.kind),greetings:scene?.animals?.map(a=>a.greetingUntil),animalScreens:scene?.animals?.map(a=>{const camera=scene.cameras.main,p=camera.matrixCombined.transformPoint(a.x,a.y-35);return {x:p.x/profile.ratio,y:p.y/profile.ratio};}),animalPoses:scene?.animals?.map(a=>({x:a.x,y:a.y,angle:a.angle})),habitat:scene?.theme.habitat,propsVisible:!!(scene?.butterfly?.visible||scene?.crown?.visible||scene?.bubble?.visible),ready:!!scene?.hero,progress,crystals,moving:!!scene?.moving,worldIndex:scene?.worldNumber,theme:scene?.theme.id,
+    state(){return {camera:scene?.cameras?.main?{width:scene.cameras.main.width,height:scene.cameras.main.height,zoom:scene.cameras.main.zoom,scrollX:scene.cameras.main.scrollX,scrollY:scene.cameras.main.scrollY}:null,rigCount:scene?.animals?.filter(a=>a.rig).length,rigPoses:scene?.animals?.map(a=>a.rig?{head:a.rig.neck.angle,bodyVisible:a.rig.visual.visible,turnVisible:a.rig.front.visible,bodyAlpha:a.rig.visual.alpha,turnAlpha:a.rig.front.alpha,feet:a.rig.legs.map(l=>({x:l.foot.x,y:l.foot.y,angle:l.foot.angle,planted:l.planted}))}:null),lighting:scene?.lights?.map(l=>({x:l.object.x,alpha:l.object.alpha})),leafPoses:scene?.petals?.map(p=>({x:p.x,y:p.y,angle:p.angle,alpha:p.alpha})),animalActivities:scene?.animals?.map((a,i)=>(a.rig||a.painted)?(wildlifePose(a.kind,scene.birdSeconds,i).walking?'walking':'resting'):null),foliageCount:scene?.foliage?.length,foliageAngles:scene?.foliage?.map(f=>f.object.angle),density:profile.ratio,canvas:{width:game?.canvas.width,height:game?.canvas.height},animalKinds:scene?.animals?.map(a=>a.kind),greetings:scene?.animals?.map(a=>a.greetingUntil),animalScreens:scene?.animals?.map(a=>{const camera=scene.cameras.main,p=camera.matrixCombined.transformPoint(a.x,a.y-35);return {x:p.x/profile.ratio,y:p.y/profile.ratio};}),animalPoses:scene?.animals?.map(a=>({x:a.x,y:a.y,angle:a.angle})),habitat:scene?.theme.habitat,dinosaurs:scene?.dinosaurs?.map(({root,drawing,dinosaur})=>({species:dinosaur.key,x:root.x,y:root.y,frame:drawing.frame.name,facing:drawing.flipX})),propsVisible:!!(scene?.butterfly?.visible||scene?.crown?.visible||scene?.bubble?.visible),ready:!!scene?.hero,progress,crystals,moving:!!scene?.moving,worldIndex:scene?.worldNumber,theme:scene?.theme.id,
       emotion:scene?.emotion,landmark:scene?.theme.name,birdCount:scene?.birds?.length,birdSeconds:scene?.birdSeconds,childCount:scene?.children.length,bridge:{start:rainbowPoint(0),crest:rainbowPoint(.5),end:rainbowPoint(1)},onBridge:scene?.travel?walkingPoint(scene.travel.value).onBridge:false,bridgeLift:scene?.travel?walkingPoint(scene.travel.value).lift:0,visibleCrystals:scene?.gems?.filter(g=>g.visible).length,effectCount:scene?.effects?.length,hatVisible:scene?.hat?.visible,angle:scene?.hero?.angle,worldCrystals:Math.round((scene?.travel?.value||0)*10),gag:scene?.gag,lastGag:scene?.lastGag,
       position:scene?.hero?{x:scene.hero.x,y:scene.hero.y}:null,frame:scene?.hero?.frame.name,renderer:game?.renderer?.type,version:Phaser.VERSION};},
     destroy(){cancel();observer?.disconnect();window.removeEventListener('resize',resize);game?.destroy(true);}
