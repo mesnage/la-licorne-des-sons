@@ -5,7 +5,7 @@ const vowelSounds = ['a', 'o', 'i', 'y'];
 const consonants = [
   ['f', 'f', ['fa', 'faux', 'fie', 'fut']],
   ['t', 't', ['ta', 'tôt', 'ti', 'tu']],
-  ['p', 'p', ['pas', 'pot', 'pie', 'pu']],
+  ['p', 'p', ['pas', 'peau', 'pie', 'pu']],
   ['j', 'ʒ', ['ja', 'Jo', 'J', 'jus']],
   ['m', 'm', ['ma', 'mot', 'mi', 'mue']],
   ['b', 'b', ['bas', 'beau', 'bi', 'bu']],
@@ -14,10 +14,17 @@ const consonants = [
   ['s', 's', ['sa', 'sot', 'si', 'su']]
 ];
 
+const robinRecordings = {do:'dos', di:'dis', du:'du', ra:'rat', ri:'riz', cha:'chat', cho:'chaud', vi:'vie', vo:'veau'};
+const newSyllables = [
+  ['d','d','aoiu'], ['r','ʁ','aoiu'], ['z','z','aoiu'], ['ch','ʃ','aoiu'],
+  ['v','v','aoi'], ['g','ɡ','aou']
+].flatMap(([letter, ipa, endings]) => [...endings].map(vowel => [
+  letter + vowel, ipa + vowelSounds[vowels.indexOf(vowel)], robinRecordings[letter + vowel]
+]));
 const simple = consonants.flatMap(([letter, consonant, speech]) => vowels.map((vowel, index) => [
   letter + vowel, consonant + vowelSounds[index], speech[index]
 ])).concat([
-  ['ca', 'ka', 'cas'], ['co', 'ko', 'co'], ['cu', 'ky', 'cu'], ['vu', 'vy', 'vu']
+  ['ca', 'ka', 'cas'], ['co', 'ko', 'co'], ['cu', 'ky', 'cu'], ['vu', 'vy', 'vu'], ...newSyllables
 ]);
 
 // Each final letter in this list is silent when the word is spoken on its own.
@@ -35,7 +42,7 @@ const silent = [
 ];
 
 export const SYLLABLE_ACTIVITIES = [
-  { id:'blend-simple', title:'Syllabes faciles', detail:'40 syllabes · fa, fo, fu…', icon:'letters', color:'mint' },
+  { id:'blend-simple', title:'Syllabes faciles', detail:`${simple.length} syllabes · fa, cha, du…`, icon:'letters', color:'mint' },
   { id:'blend-silent', title:'Lettres muettes', detail:'40 mots · chat, lit, pied…', icon:'book', color:'lavender' }
 ];
 

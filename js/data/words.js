@@ -1,5 +1,5 @@
 /* Editable vocabulary for Trouve le mot !
-   audioKey: reference in audio/manifest.json to a FULL prompt in the shared female voice.
+   audioKey: reference in audio/manifest.json to the word spoken by Robin (alone at level 1).
    speech: optional pronunciation override (never displayed as a hint).
    soundGroup: give homophones the SAME value, e.g. et/est → 'eh', to keep them out of one question.
    All words in the selected level are available in a shuffled bag without repetition. */

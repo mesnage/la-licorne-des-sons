@@ -26,14 +26,17 @@ def prompts():
 import { WORDS } from './js/data/words.js';
 import { SENTENCES } from './js/data/sentences.js';
 console.log(JSON.stringify([
-  Object.fromEntries(WORDS.map(word => [word.audioKey, word.speech ?? word.text])),
+  Object.fromEntries(WORDS.map(word => {
+    const text = word.speech ?? word.text;
+    return [word.audioKey, word.level === 1 ? text : 'Trouve le mot ' + text];
+  })),
   Object.fromEntries(SENTENCES.map(sentence => [sentence.audioKey, sentence.text]))
 ]));
 """
     words, sentences = json.loads(subprocess.check_output(
         ['node', '--input-type=module', '-e', code], cwd=ROOT))
     return {
-        **{key: neutral('Trouve le mot ' + text) for key, text in words.items()},
+        **{key: neutral(text) for key, text in words.items()},
         **{key: neutral(text) for key, text in sentences.items()}
     }
 

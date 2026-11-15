@@ -146,7 +146,7 @@ with sync_playwright() as p:
     # Recorded prompts work without any installed device voice; failures remain generic.
     silent = browser.new_page(viewport={'width':390,'height':844})
     silent.add_init_script(speech_mock)
-    silent.route('**/audio/mot-entier-*.mp3',lambda route:route.abort())
+    silent.route('**/audio/premiers-mots-robin/*.mp3',lambda route:route.abort())
     silent.on('pageerror', lambda e: errors.append(str(e)))
     open_game(silent)
     silent.locator('[data-word-level="1"]').click()

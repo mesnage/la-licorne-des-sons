@@ -76,7 +76,7 @@ test('word rotation uses every example before repeating within a planned game', 
 });
 
 
-test('sound activities play approved French phonemes and use full words for contextual spellings', () => {
+test('sound activities present the target before the example, without a recorded instruction', () => {
   const example = (graph, word, mode = 'tout') => soundPrompt({ ...ALL.find(item => item.g === graph), w: word }, mode);
   for (const [graph, word, phoneme] of [
     ['ai','l[ai]t','e-open'], ['ei','r[ei]ne','e-open'], ['ez','n[ez]','e'], ['er','jou[er]','e'],
@@ -86,11 +86,22 @@ test('sound activities play approved French phonemes and use full words for cont
   ]) {
     assert.equal(example(graph, word)[0], 'P:robin:' + phoneme);
   }
-  assert.deepEqual(example('ui', 'n[ui]t'), ['w:nuit']);
-  assert.deepEqual(example('ill', 'gor[ill]e'), ['w:gorille']);
-  assert.equal(example('m','[m]oto','consonnes')[0], 'L:m');
+  assert.deepEqual(example('ui', 'n[ui]t'), ['PS:ui','w:nuit']);
+  assert.deepEqual(example('ill', 'gor[ill]e'), ['P:robin:yod','w:gorille']);
+  assert.deepEqual(example('h','[h]aricot'), ['LN:h','w:haricot']);
+  assert.equal(example('m','[m]oto','consonnes')[0], 'LN:m');
   assert.equal(example('ch','[ch]at','consonnes')[0], 'P:robin:ch');
-  for (const sound of ALL.filter(item => item.g.length > 1)) {
-    assert.ok(sound.words.every(({ w }) => !example(sound.g, w).some(key => typeof key === 'string' && /^[LF]:/.test(key))));
+  for (const sound of ALL) {
+    for (const {w} of sound.words) {
+      const parts=example(sound.g,w);
+      if(sound.g==='ç'){
+        const word=w.replace(/[\[\]]/g,'');
+        assert.deepEqual(parts,['LN:ç','w:'+word]);
+        assert.deepEqual(example('ç',w,'consonnes'),parts);
+        continue;
+      }
+      assert.match(parts[0],/^(?:LN|PS|P):/);
+      assert.match(parts[1],/^w:/);
+    }
   }
 });

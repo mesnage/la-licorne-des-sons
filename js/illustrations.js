@@ -18,6 +18,7 @@ const drawings={
  star:'<path d="m32 4 9 18 20 3-15 15 4 21-18-10-18 10 4-21L3 25l20-3Z" fill="#e6cc91"/>',
  leaf:'<path d="M12 53C-3 15 30-1 56 7c4 32-15 51-39 42Z" fill="#9eb799"/><path d="m9 59 36-39M21 42l-3-16m15 4 13 2" fill="none" stroke="#718f78" stroke-width="3"/>',
  moon:'<path d="M45 6C7-1-5 45 28 58c13 5 25-2 31-12C27 57 15 23 45 6Z" fill="#e9dca9"/>',
+ cactus:'<path d="M32 55V13m0 26H20q-8 0-8-8v-8m20 8h12q8 0 8-8v-6" fill="none" stroke="#80a778" stroke-width="10" stroke-linecap="round"/><path d="M31 53V14" stroke="#bdd49b" stroke-width="2" stroke-linecap="round"/><circle cx="51" cy="12" r="5" fill="#eaa49b"/>',
  shell:'<path d="M27 55C-3 45 0 11 19 15 29-5 45 0 48 15c23-2 23 29-10 40Z" fill="#dcb5a2"/><path d="m32 51-14-30m14 30V14m4 37 12-29" stroke="#f6e3cb" stroke-width="3" fill="none"/>',
  ice:'<path d="M32 3v58M7 17l50 30M7 47l50-30M21 9l11 9L43 9M21 55l11-9 11 9" stroke="#a0c1c7" stroke-width="4" fill="none" stroke-linecap="round"/>',
  cloud:'<path d="M13 52C-5 52-3 29 14 27 8 9 36 3 42 22 64 17 71 52 49 52Z" fill="#ece8d9" stroke="#c0c8c0" stroke-width="2"/>',

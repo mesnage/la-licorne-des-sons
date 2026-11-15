@@ -12,6 +12,7 @@ import { SENTENCES } from '../js/data/sentences.js';
 import { soundPrompt } from '../js/learning/sound-prompts.js';
 import { LEVELS, ALL } from '../js/data/sounds.js';
 import { distractors, isE, OTHER_VOWELS } from '../js/questions.js';
+import { ALPHABET } from '../js/prototype/model.js';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const plain = w => w.replace(/[[\]]/g, '');
@@ -29,10 +30,12 @@ for (const s of ALL) {
 
 // 2. audio
 const manifest = JSON.parse(readFileSync(join(ROOT, 'audio/manifest.json'), 'utf8'));
+if(manifest['SY:po']===manifest['SY:pot'])fail('« po » et « pot » doivent avoir deux prises distinctes.');
 const need = new Set(PHONEMES.map(phoneme=>phoneme.audioKey));
 for(const word of WORDS)need.add(word.audioKey);
 for(const sentence of SENTENCES)need.add(sentence.audioKey);
 for(const item of Object.values(syllableItems).flat())need.add(item.audioKey);
+for(const {audioKey} of ALPHABET)need.add(audioKey);
 for (const [mode, sounds] of Object.entries(LEVELS)) {
   for (const sound of sounds) for (const { w } of sound.words) {
     for (const key of soundPrompt({ ...sound, w }, mode)) if (typeof key === 'string') need.add(key);
@@ -55,7 +58,7 @@ let rounds = 0;
 for (const [name, pool] of Object.entries(LEVELS)) {
   for (const s of pool) for (const w of s.words) for (let r = 0; r < 15; r++) {
     rounds++;
-    const t = { ...s, w: w.w }, d = distractors(t, pool), opts = [t, ...d], word = plain(t.w).toLowerCase();
+    const t = { ...s, w: w.w }, d = distractors(t, pool, name === 'consonnes' ? pool : undefined), opts = [t, ...d], word = plain(t.w).toLowerCase();
     const es = opts.filter(o => isE(o.g));
     const where = `${name} / ${t.g} / ${plain(t.w)} -> ${d.map(o => o.g).join(', ')}`;
     if (d.length !== 2) { fail(`pas 2 fausses réponses : ${where}`); continue; }

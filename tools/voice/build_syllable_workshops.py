@@ -40,15 +40,18 @@ import { syllableItems } from './js/data/syllable-workshops.js';
 console.log(JSON.stringify(Object.values(syllableItems).flat()));
 """
     items = json.loads(subprocess.check_output(['node', '--input-type=module', '-e', source], cwd=ROOT))
-    manifest = {key: file for key, file in read_json('manifest.json').items() if not key.startswith('SY:')}
+    manifest = read_json('manifest.json')
+    total = len(items)
+    items = [item for item in items if not (AUDIO / manifest.get(item['audioKey'], '.')).is_file()]
+    if not items:
+        print(f'{total} pistes de Robin déjà disponibles en local.')
+        return
     known = {
         track['spoken'].casefold(): track
         for chapter in range(1, 8)
         for track in read_json(f'curriculum-c{chapter}-robin.json').values()
         if 'spoken' in track
     }
-    api_key = load_key(args.env_file)
-
     def build(item):
         line = neutral(item['speech'])
         context = CONTEXTS.get(item['speech'])
@@ -59,7 +62,7 @@ console.log(JSON.stringify(Object.values(syllableItems).flat()));
             script = context or line
             file = 'syllabes-robin/' + digest(script) + '.mp3'
             if not (AUDIO / file).exists():
-                raw = cached_request(api_key, script, args.cache, bool(context))
+                raw = cached_request(load_key(args.env_file), script, args.cache, bool(context))
                 if context:
                     raw = extract_initial_word(raw, item['speech'])
                 encode(raw, AUDIO / file)
@@ -81,7 +84,7 @@ console.log(JSON.stringify(Object.values(syllableItems).flat()));
     temporary = target.with_suffix('.json.tmp')
     temporary.write_text(json.dumps(manifest, ensure_ascii=False, indent=1) + '\n')
     temporary.replace(target)
-    print(f'{len(items)} pistes disponibles pour les deux ateliers.')
+    print(f'{total} pistes disponibles pour les deux ateliers.')
 
 
 if __name__ == '__main__':

@@ -26,7 +26,7 @@ function makeTargets(p, n){
    Un « e » est toujours présenté avec deux autres voyelles bien différentes. */
 const isE = g => /[eéèê]/.test(g);
 const OTHER_VOWELS = ['a','i','o','u','ou','on','an','in','oi','au','ain'];
-function distractors(t, pool){
+function distractors(t, pool, candidates=ALL){
   const word = plain(t.w).toLowerCase();
   const inWord = new Set(ALL.filter(x => word.includes(x.g)).map(x => x.p));   // sons déjà présents dans le mot
   const ok = x => x.p !== t.p && !word.includes(x.g) && !inWord.has(x.p);
@@ -34,10 +34,10 @@ function distractors(t, pool){
   let c, rank;
   if(isE(t.g)){
     rank = x => (t.g.length === 1 && x.g.length > 1 ? 2 : 0) + (pool.includes(x) ? 0 : 1);
-    c = ALL.filter(x => OTHER_VOWELS.includes(x.g) && ok(x));
+    c = candidates.filter(x => OTHER_VOWELS.includes(x.g) && ok(x));
   } else {
     rank = x => pool.includes(x) ? 0 : 1;
-    c = ALL.filter(ok);
+    c = candidates.filter(ok);
   }
   const pairs = [];
   for(let i = 0; i < c.length; i++) for(let j = i + 1; j < c.length; j++){

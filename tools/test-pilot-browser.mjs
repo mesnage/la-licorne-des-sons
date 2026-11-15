@@ -29,6 +29,8 @@ try {
     }
   }, pilotProgressKey);
   await page.goto(new URL('curriculum.html#C1-U01', base).href);
+  const firstMp3 = '**/audio/' + manifest['C1:oral:chat'].file;
+  await page.route(firstMp3, route => route.abort());
   await page.getByRole('link', { name: 'Jouer cette unité' }).click();
   await heading.filter({ hasText: 'Question 1 sur 5' }).waitFor();
   assert.ok(await page.getByText('L’exercice a changé', { exact: false }).isVisible());
@@ -37,9 +39,6 @@ try {
   assert.equal(await chooseCount(1).isDisabled(), true);
   assert.equal(await page.getByRole('button', { name: 'Ajouter un point' }).count(), 0);
 
-  const firstMp3 = '**/audio/' + manifest['C1:oral:chat'].file;
-  await page.route(firstMp3, route => route.abort());
-  await listen();
   await audioStatus.filter({ hasText: 'indisponible' }).waitFor();
   assert.equal(await chooseCount(1).isDisabled(), true);
   await page.unroute(firstMp3);
@@ -62,6 +61,7 @@ try {
   assert.equal(solved.session.cursor, 0);
   await page.getByRole('button', { name: 'Reprendre', exact: true }).click();
   await heading.filter({ hasText: 'Question 2 sur 5' }).waitFor();
+  await page.waitForFunction(() => document.querySelector('.pilot-counts button:not(:disabled)'));
   assert.ok(await heading.evaluate(node => node === document.activeElement));
 
   await page.evaluate(({ key, solved }) => localStorage.setItem(key, JSON.stringify(solved)), { key: pilotProgressKey, solved });

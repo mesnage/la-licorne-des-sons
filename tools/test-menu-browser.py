@@ -21,7 +21,7 @@ with sync_playwright() as p:
  browser=p.chromium.launch(executable_path=args.browser_path,headless=True,args=['--no-sandbox'])
  errors=[]
  page=browser.new_page(viewport={'width':390,'height':844},has_touch=True,reduced_motion='reduce');page.add_init_script(monitor);page.on('pageerror',lambda e:errors.append(str(e)));boot(page)
- assert page.locator('#adventureModules > button').count()==14
+ assert page.locator('#adventureModules > button').count()==15
  assert page.locator('[data-chapter]').count()==4
  assert page.locator('#adventureModules > [data-word-level]').count()==3
  assert page.locator('#adventureModules > [data-sentence-mode]').count()==4
@@ -48,9 +48,11 @@ with sync_playwright() as p:
   page.locator('#adventureHome').click();assert page.evaluate('window.__playing.size')==0
   page.locator('#adventureLeave').click();page.wait_for_timeout(150);assert page.evaluate('window.__playing.size')==0
  print('All three word levels start directly; same recorded pipeline, no device speech and no overlapping playback passed',flush=True)
- durations=page.evaluate("""async()=>{const {WORDS}=await import('./js/data/words.js');const manifest=await(await fetch('audio/manifest.json')).json();const ctx=new OfflineAudioContext(1,1,16000);const out=[];for(const word of WORDS){const r=await fetch('audio/'+manifest[word.audioKey]);if(!r.ok)throw Error(word.id);const b=await ctx.decodeAudioData(await r.arrayBuffer());out.push(b.duration);}return out;}""")
+ durations=page.evaluate("""async()=>{const {WORDS}=await import('./js/data/words.js');const manifest=await(await fetch('audio/manifest.json')).json();const ctx=new OfflineAudioContext(1,1,16000);const out=[];for(const word of WORDS){const r=await fetch('audio/'+manifest[word.audioKey]);if(!r.ok)throw Error(word.id);const b=await ctx.decodeAudioData(await r.arrayBuffer());out.push({level:word.level,duration:b.duration});}return out;}""")
  word_count=page.evaluate("async()=>{const {WORDS}=await import('./js/data/words.js');return WORDS.length;}")
- assert len(durations)==word_count and word_count>=194 and min(durations)>1 and max(durations)<10
+ assert len(durations)==word_count and word_count>=194
+ assert all(.15 < clip['duration'] < 1.1 for clip in durations if clip['level']==1)
+ assert all(1 < clip['duration'] < 10 for clip in durations if clip['level']>1)
  print(f'All {word_count} full word prompts fetched and decoded by Chromium',flush=True)
  # The three word cards share the same layout and touch-target rules as the other activities.
  for w,h in [(320,568),(390,844),(844,390),(768,1024),(1280,900)]:
@@ -66,10 +68,10 @@ with sync_playwright() as p:
  print('Direct menu and word cards fit phone/tablet/desktop portrait and landscape layouts',flush=True)
  # Failure cannot change the narrator or reveal a target as a text fallback.
  failure=browser.new_page(reduced_motion='reduce');failure.add_init_script(monitor);failure.on('pageerror',lambda e:errors.append(str(e)))
- failure.route('**/audio/mot-entier-*.mp3',lambda route:route.abort());boot(failure);select_activity(failure,'[data-word-level="1"]')
+ failure.route('**/audio/premiers-mots-robin/*.mp3',lambda route:route.abort());boot(failure);select_activity(failure,'[data-word-level="1"]')
  failure.wait_for_function('document.querySelector("#adventureAudioStatus").textContent.includes("n’a pas pu se charger")')
  assert failure.evaluate('window.__deviceSpeech')==0 and failure.locator('.adventure-answer:enabled').count()==4
- failure.unroute('**/audio/mot-entier-*.mp3');failure.locator('#listenBtn').click();failure.wait_for_function('window.__starts>0')
+ failure.unroute('**/audio/premiers-mots-robin/*.mp3');failure.locator('#listenBtn').click();failure.wait_for_function('window.__starts>0')
  assert failure.locator('#adventureAudioStatus').inner_text()==''
  assert not errors,errors
  browser.close();print('Generic recording failure/retry passed; the existing full-session suite verifies wheel rewards')

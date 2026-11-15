@@ -1,8 +1,8 @@
 import { syllableActivity } from '../data/syllable-workshops.js';
 import { returnFromRevision } from './curriculum-revision.js?v=ateliers-sons-2';
-import { createWorld } from './world.js?v=dinos-en-marche-1';
-import { WORLDS, worldPanorama, MODULES, MENU_ITEMS, CHAPTERS, createAdventure, createJourneyMemory, journeyState } from './model.js?v=roue-dinos-1';
-import { illustration } from '../illustrations.js?v=chapters-wheel-1';
+import { createWorld } from './world.js?v=faune-desert-1';
+import { WORLDS, worldPanorama, MODULES, MENU_ITEMS, CHAPTERS, createAdventure, createJourneyMemory, journeyState } from './model.js?v=faune-desert-1';
+import { illustration } from '../illustrations.js?v=cactus-alphabet-1';
 import { createMastery, skillStatus } from '../learning/mastery.js';
 import { WORD_LEVELS } from '../data/words.js';
 import { sentenceActivity } from '../data/sentences.js';
@@ -12,6 +12,8 @@ import { createWordVoice } from '../words/voice.js';
 import { initRewards, earnReward, showReward } from '../rewards.js?v=roue-dinos-1';
 import { ready as audioReady, loadClip, say, hush, sfx, unlock } from '../audio.js?v=chapters-wheel-1';
 import { gemSVG, plain } from '../utils.js';
+import { soundPrompt } from '../learning/sound-prompts.js?v=cedille-1';
+import { markSeen, seen } from '../storage.js';
 
 const $ = id => document.getElementById(id);
 let storage;
@@ -82,17 +84,13 @@ function progress(){
   $('adventureProgress').setAttribute('aria-valuetext',`${state.worldCrystals} cristaux sur 10 dans ce monde. Refuge à 5.`);
   $('adventureProgress').firstElementChild.style.width=`${state.worldCrystals*10}%`;
 }
-function workshopPrompt(target, activity) {
-  const word = 'w:' + plain(target.w);
-  return activity === 'consonnes' && target.g.length === 1 ? ['L:' + target.g, 250, word] : [word];
-}
 async function replay(){
   if(!session||paused||session.phase!=='question') return;
   stopAudio();unlock();$('adventureAudioStatus').textContent='';
   if(session.current.target.audioKey){voice.speak(session.current.target);return;}
-  const my=promptToken, parts=workshopPrompt(session.current.target,mode);
+  const my=promptToken, parts=soundPrompt(session.current.target,mode);
   await audioReady;
-  const clips=await Promise.all(parts.filter(key=>typeof key==='string').map(key=>loadClip(key)));
+  const clips=await Promise.all(parts.map(key=>loadClip(key)));
   if(my!==promptToken) return;
   if(clips.some(clip=>!clip)){
     $('adventureAudioStatus').textContent='Le son n’a pas pu se charger. Vérifie le volume et la connexion, puis touche Réécouter.';return;
@@ -103,7 +101,7 @@ function ask(){
   panels('question');world.quiet(false);progress();
   const activity=sentenceActivity(mode);
   const typo=mode===TYPO_ACTIVITY.id, syllables=syllableActivity(mode);
-  $('questionTitle').textContent=syllables?(mode==='blend-simple'?'Quelle syllabe entends-tu ?':'Quel mot entends-tu ?'):mode==='sons'?'Écoute le mot':typo?'Trouve la faute !':activity?(activity.hidden?'Écoute la phrase':'La phrase en ordre'):mode==='words'?'Trouve le mot !':'Écoute bien !';
+  $('questionTitle').textContent=syllables?(mode==='blend-simple'?'Quelle syllabe entends-tu ?':'Quel mot entends-tu ?'):mode==='sons'?'Quel son entends-tu ?':mode==='alphabet'?'Quelle lettre entends-tu ?':typo?'Trouve la faute !':activity?(activity.hidden?'Écoute la phrase':'La phrase en ordre'):mode==='words'?'Quel mot entends-tu ?':'Écoute bien !';
   const skill=mode==='words'||activity||typo||syllables?null:mastery.snapshot()[skillId()];
   world.react(skill?.attempts?'attentive':'curious');
   const state=journeyState(session.index,session.questions.length,startWorld);
@@ -181,6 +179,12 @@ async function answer(id,button){
   if(!session||paused) return;
   const result=session.answer(id);if(!result) return;
   const activity=sentenceActivity(mode), typo=mode===TYPO_ACTIVITY.id;
+  const target=session.current.target;
+  if((target.w||syllableActivity(mode))&&(result.firstMistake||(result.firstCompletion&&result.firstTry))){
+    const prefix='atelier:'+mode+':';
+    markSeen(prefix+target.id);
+    if(target.w)markSeen(prefix+target.w);
+  }
   if(result.partial){
     renderAssembly();button.disabled=true;button.classList.add('placed');
     $('adventureFeedback').textContent=`${session.selected.length} mot${session.selected.length>1?'s':''} placé${session.selected.length>1?'s':''} sur ${session.current.target.words.length}. Continue !`;
@@ -191,7 +195,7 @@ async function answer(id,button){
   let newlyRecognized=false;
   if(!session.current.target.audioKey&&!evaluated.has(session.index)){
     const key=skillId(),before=skillStatus(mastery.snapshot()[key]);
-    mastery.record(key,result.correct,sessionId,plain(session.current.target.w||session.current.target.example));evaluated.add(session.index);
+    mastery.record(key,result.correct,sessionId,plain(session.current.target.w||session.current.target.g));evaluated.add(session.index);
     newlyRecognized=before!=='Bien reconnu'&&skillStatus(mastery.snapshot()[key])==='Bien reconnu';
   }
   if(!result.correct){
@@ -223,7 +227,7 @@ async function answer(id,button){
     button.firstElementChild.replaceChildren(text.slice(0, -1), mark);
     $('adventureFeedback').textContent = 'Dans « ' + text + ' », le ' + silent + ' final est muet.';
   } else if (mode === 'blend-simple') {
-    $('adventureFeedback').textContent = text[0] + ' + ' + text[1] + ' → ' + text;
+    $('adventureFeedback').textContent = text.slice(0,-1) + ' + ' + text.at(-1) + ' → ' + text;
   } else if (mode === 'sons') {
     const { g, w } = session.current.target;
     $('adventureFeedback').textContent = 'Dans « ' + plain(w) + ' », ce son s’écrit ' + g + '.';
@@ -250,7 +254,9 @@ function start(id,wordLevel=1){
   evaluated=new Set();sessionId=Date.now().toString(36)+'-'+Math.random().toString(36).slice(2);
   const activity=sentenceActivity(mode);
   const stats=mode===TYPO_ACTIVITY.id?typoPractice.snapshot():activity?Object.fromEntries(Object.entries(sentencePractice.snapshot()).filter(([key])=>key.startsWith(mode+':')).map(([key,value])=>[key.slice(mode.length+1),value])):practice.snapshot();
-  session=createAdventure(mode,level,stats,mastery.snapshot());
+  const prefix='atelier:'+mode+':';
+  const history=Object.fromEntries(Object.entries(seen).filter(([key])=>key.startsWith(prefix)).map(([key,time])=>[key.slice(prefix.length),time]));
+  session=createAdventure(mode,level,stats,history);
   $('activityName').textContent=syllableActivity(mode)?.title??(mode===TYPO_ACTIVITY.id?TYPO_ACTIVITY.title:activity?activity.title+' · '+activity.length+' mots':mode==='words'?WORD_LEVELS.find(l=>l.id===level).title:MODULES.find(m=>m.id===mode).title);
   startWorld=startingWorld();world.reset(session.questions.length,startWorld);storageNote();ask();
 }
@@ -353,5 +359,5 @@ document.addEventListener('visibilitychange',()=>{if(document.hidden){stopAudio(
 window.addEventListener('pagehide',event=>{cleanUp();if(!event.persisted){voice.destroy();world.destroy();}});
 window.addEventListener('pageshow',event=>{if(event.persisted) menu();});
 if(location.search.includes('debug')) window.__adventure={
-  state:()=>({ready,paused,mode,level,promptKey:session?.current?.target.audioKey??(session?.current?workshopPrompt(session.current.target,mode)[0]:null),index:session?.index,total:session?.questions.length,phase:session?.phase,targetId:session?.current?.target.id,score:session?.score,sentenceWords:sentenceActivity(mode)?session?.current?.target.words:null,typo:mode===TYPO_ACTIVITY.id&&session?.current?{words:session.current.target.words,wrongIndex:session.current.target.wrongIndex}:null,selected:session?.selected?[...session.selected]:null,checkpoint:session?.returnIndex,startWorld,mastery:mastery.snapshot(),world:world.state()})
+  state:()=>({ready,paused,mode,level,promptKey:session?.current?.target.audioKey??(session?.current?soundPrompt(session.current.target,mode)[0]:null),index:session?.index,total:session?.questions.length,phase:session?.phase,targetId:session?.current?.target.id,score:session?.score,sentenceWords:sentenceActivity(mode)?session?.current?.target.words:null,typo:mode===TYPO_ACTIVITY.id&&session?.current?{words:session.current.target.words,wrongIndex:session.current.target.wrongIndex}:null,selected:session?.selected?[...session.selected]:null,checkpoint:session?.returnIndex,startWorld,mastery:mastery.snapshot(),world:world.state()})
 };
