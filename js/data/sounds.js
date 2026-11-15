@@ -72,7 +72,7 @@ const EXPERTS = [
   S('euil','EUIL','euil','faut[euil] 🪑|écur[euil] 🐿️|f[euil]le 🍃|s[euil] 🚪|chevr[euil] 🦌|tr[euil] 🏗️'),
   S('tion','SION','sion','addi[tion] ➕|soustrac[tion] ➖|opéra[tion] 🧮|décora[tion] 🎀|invita[tion] 💌|récréa[tion] 🛝'),
 ];
-const LEVELS = { voyelles:VOYELLES, consonnes:CONSONNES, sons:SONS, experts:EXPERTS, tout:[...VOYELLES,...CONSONNES,...SONS,...EXPERTS] };
+const LEVELS = { voyelles:VOYELLES, consonnes:CONSONNES.filter(({g})=>g.length===1), sons:SONS, experts:EXPERTS, tout:[...VOYELLES,...CONSONNES,...SONS,...EXPERTS] };
 const ALL = LEVELS.tout;
 // Use examples that do not also contain another nasal-vowel family.
 const nasalExamples = {

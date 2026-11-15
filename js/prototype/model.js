@@ -1,23 +1,29 @@
-import { SYLLABLE_ACTIVITIES, syllableActivity, syllableItems } from '../data/syllable-workshops.js';
-import { LEVELS, NASAL_VOWELS } from '../data/sounds.js?v=ateliers-sons-2';
+import { SYLLABLE_ACTIVITIES, syllableActivity, syllableItems } from '../data/syllable-workshops.js?v=voix-courte-1';
+import { LEVELS, NASAL_VOWELS } from '../data/sounds.js?v=cactus-alphabet-1';
 import { WORDS, WORD_LEVELS } from '../data/words.js';
-import { distractors, pickWord } from '../questions.js';
+import { distractors, pickWord } from '../questions.js?v=cactus-alphabet-1';
 import { shuffle } from '../utils.js';
 import { QuestionSession, WordSession } from '../words/model.js';
 import { SENTENCE_ACTIVITIES, sentenceActivity } from '../data/sentences.js';
 import { sentenceQuestions } from '../sentences/model.js';
 import { TYPO_ACTIVITY } from '../data/typos.js';
 import { typoQuestions } from '../sentences/typos.js';
+import { letterName } from '../learning/sound-prompts.js?v=cedille-1';
+
+export const ALPHABET = [...'abcdefghijklmnopqrstuvwxyz'].map(g=>({
+  id:g,g,text:g,audioKey:letterName(g)
+}));
 
 export const MODULES = [
   { id:'voyelles', title:'Les voyelles', icon:'flower', detail:'a, e, i, o, u…', color:'rose' },
   { id:'consonnes', title:'Les consonnes', icon:'butterfly', detail:'Le nom des lettres', color:'lavender' },
+  { id:'alphabet', title:'L’alphabet', icon:'letters', detail:'Les 26 lettres de A à Z', color:'sky' },
   { id:'sons', title:'Voyelles nasales', icon:'rainbow', detail:'on, an, en, in, ain, ein, un', color:'sky' },
   { id:'tout', title:'Tout mélangé', icon:'star', detail:'Un peu de tout', color:'gold' },
 ];
 export const MENU_ITEMS=[TYPO_ACTIVITY,...SENTENCE_ACTIVITIES,...MODULES,...SYLLABLE_ACTIVITIES,...WORD_LEVELS.map(level=>({id:'words-'+level.id,mode:'words',level:level.id,title:'Trouve le mot ! · '+level.id,detail:level.title,icon:'book',color:['sky','mint','lavender'][level.id-1]}))];
 export const CHAPTERS = [
-  {id:'letters',title:'Les lettres',detail:'Voyelles et consonnes',icon:'letters',color:'rose',activities:['voyelles','consonnes']},
+  {id:'letters',title:'Les lettres',detail:'Voyelles, consonnes et alphabet',icon:'letters',color:'rose',activities:['voyelles','consonnes','alphabet']},
   {id:'sounds',title:'Les sons',detail:'Syllabes, lettres muettes et voyelles nasales',icon:'sound',color:'mint',activities:['blend-simple','blend-silent','sons','tout']},
   {id:'words',title:'Les mots',detail:'Trois niveaux de lecture',icon:'book',color:'sky',activities:['words-1','words-2','words-3']},
   {id:'sentences',title:'Les phrases',detail:'Construire et trouver la faute',icon:'sentence',color:'lavender',activities:['sentence-copy-3','sentence-copy-5','sentence-listen-3','sentence-listen-5','find-typo']}
@@ -36,7 +42,9 @@ export const WORLDS = [
   {id:4,habitat:'ice',name:'Le pays des glaces',icon:'ice',kind:'purple',sky:'#d3e6f5',ground:'#dbe8ef',mountain:'#a5bddb',road:'#f5faff'},
   {id:5,habitat:'clouds',name:'Le voyage dans les nuages',icon:'cloud',kind:'purple',sky:'#d9ddf1',ground:'#d1c4e8',mountain:'#aaa4ce',road:'#fff7fb'},
   {id:6,habitat:'moon',name:'La lune des petits lapins',icon:'moon',kind:'purple',sky:'#383d72',ground:'#9ba6c2',mountain:'#7978aa',road:'#d9deec'},
-  {id:7,habitat:'prehistoric',name:'La vallée des dinosaures',icon:'leaf',sky:'#ecd1a4',ground:'#9b9c66',road:'#e3bd82'}
+  {id:7,habitat:'prehistoric',name:'La vallée des dinosaures',icon:'leaf',sky:'#ecd1a4',ground:'#9b9c66',road:'#e3bd82'},
+  {id:8,habitat:'desert',name:'Le désert des cactus',icon:'cactus',sky:'#f59b82',ground:'#e7ae75',road:'#f0c987'},
+  {id:9,habitat:'fairy',name:'Le royaume des licornes',icon:'rainbow',sky:'#ced8f3',ground:'#9dbd93',road:'#f1dfda'}
 ];
 export function worldPanorama(theme){
   const file=theme.habitat==='meadow'?'prairie-cotiere.jpg':theme.habitat+'.webp';
@@ -53,7 +61,7 @@ export function journeyState(crystals,total,startWorld=0){
   return {worldIndex,worldCrystals,theme:WORLDS[(startWorld+worldIndex)%WORLDS.length],checkpoint:checkpointFor(count),finished};
 }
 export function gagFor(crystal,habitat){
-  if(crystal%10===6&&habitat)return {meadow:'butterfly',forest:'crown',jungle:'crown',beach:'splash',ice:'bubble',clouds:'bubble',moon:'moonhop',prehistoric:'boing'}[habitat]||null;
+  if(crystal%10===6&&habitat)return {meadow:'butterfly',forest:'crown',jungle:'crown',beach:'splash',ice:'bubble',clouds:'bubble',moon:'moonhop',prehistoric:'boing',desert:'butterfly',fairy:'bubble'}[habitat]||null;
   return [null,'prout',null,'rainbow',null,null,'boing',null,'hat',null][(crystal-1)%10]||null;
 }
 export class AdventureSession extends QuestionSession {
@@ -107,8 +115,9 @@ export function createJourneyMemory(storage){
     complete(worlds){load();count+=worlds;try{storage.setItem('licorne.adventure.v1',JSON.stringify({worldsCompleted:count}));}catch(e){persistent=false;}}
   };
 }
-function syllableQuestions(items) {
-  return shuffle(items).map((target, index) => {
+function syllableQuestions(items, history) {
+  const selected=shuffle(items).sort((a,b)=>(history[a.id]||0)-(history[b.id]||0)).slice(0,40);
+  return shuffle(selected).map((target, index) => {
     const alternatives = shuffle(items.filter(item => item.ipa !== target.ipa));
     const related = index % 2 === 0
       ? item => item.ipa[0] === target.ipa[0]
@@ -118,10 +127,9 @@ function syllableQuestions(items) {
   });
 }
 
-function nasalQuestions() {
+function nasalQuestions(history) {
   const families = shuffle([...new Set(NASAL_VOWELS.map(sound => sound.p))]);
   const spellings = families.map(family => shuffle(NASAL_VOWELS.filter(sound => sound.p === family)));
-  const history = {};
   return Array.from({ length: 20 }, (_, index) => {
     const family = index % families.length;
     const round = Math.floor(index / families.length);
@@ -135,16 +143,37 @@ function nasalQuestions() {
   });
 }
 
-export function createAdventure(mode, level = 1, stats = {}, skills = {}){
-  if(mode === 'sons') return new AdventureSession(nasalQuestions());
-  if(syllableActivity(mode))return new AdventureSession(syllableQuestions(syllableItems[mode]));
+export function createAdventure(mode, level = 1, stats = {}, history = {}){
+  const wordsSeen={...history};
+  if(mode === 'sons') return new AdventureSession(nasalQuestions(wordsSeen));
+  if(mode === 'alphabet'){
+    const review=shuffle(ALPHABET.slice(0,-1)).slice(0,4);
+    const questions=[...ALPHABET,...review].map(target=>({
+      target,
+      choices:shuffle([target,...shuffle(ALPHABET.filter(letter=>letter!==target)).slice(0,2)])
+    }));
+    return new AdventureSession(questions);
+  }
+  if(syllableActivity(mode))return new AdventureSession(syllableQuestions(syllableItems[mode],history));
   if(mode === TYPO_ACTIVITY.id)return new AdventureSession(typoQuestions(stats));
   if(mode === 'words') return new AdventureSession(new WordSession(WORDS,level,stats).questions);
   const activity=sentenceActivity(mode);
   if(activity)return new SentenceAdventureSession(sentenceQuestions(activity.length,stats));
   if(!MODULES.some(module => module.id === mode)) throw new Error('Unknown learning module');
   const pool = LEVELS[mode];
-  const targets=[],history={};
+  const targets=[];
+  if(mode==='tout'){
+    const familyHistory=new Map();
+    for(const {p,g} of pool)familyHistory.set(p,Math.max(familyHistory.get(p)||0,history[g]||0));
+    const families=new Set();
+    const ordered=shuffle(pool).sort((a,b)=>familyHistory.get(a.p)-familyHistory.get(b.p)||(history[a.g]||0)-(history[b.g]||0));
+    for(const sound of ordered){
+      if(families.has(sound.p))continue;
+      families.add(sound.p);
+      targets.push(pickWord(sound,wordsSeen));
+      if(targets.length===20)break;
+    }
+  }
   let bag=[];
   while(targets.length<20){
     if(!bag.length)bag=shuffle(pool);
@@ -158,11 +187,12 @@ export function createAdventure(mode, level = 1, stats = {}, skills = {}){
     // Prefer a different sound, including across the boundary between bags.
     const index=different<0?0:different;
     const [sound]=bag.splice(index,1);
-    targets.push(pickWord(sound,history));
+    targets.push(pickWord(sound,wordsSeen));
   }
-  const questions = targets.map(target => ({
+  const orderedTargets=mode==='tout'?shuffle(targets):targets;
+  const questions = orderedTargets.map(target => ({
     target:{...target,id:target.g},
-    choices:shuffle([target,...distractors(target,pool)]).map(w => ({...w,id:w.g,text:w.g}))
+    choices:shuffle([target,...distractors(target,pool,mode==='consonnes'?pool:undefined)]).map(w => ({...w,id:w.g,text:w.g}))
   }));
   return new AdventureSession(questions);
 }

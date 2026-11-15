@@ -5,14 +5,17 @@ import { NASAL_VOWELS } from '../js/data/sounds.js';
 import { syllableItems } from '../js/data/syllable-workshops.js';
 import { QuestionSession } from '../js/words/model.js';
 import { isE, OTHER_VOWELS } from '../js/questions.js';
+import { soundPrompt } from '../js/learning/sound-prompts.js';
 
 test('all phonics modules and the three word levels retain their learning content',()=>{
-  assert.deepEqual(MODULES.map(m=>m.id),['voyelles','consonnes','sons','tout']);
+  assert.deepEqual(MODULES.map(m=>m.id),['voyelles','consonnes','alphabet','sons','tout']);
   for(const module of MODULES){
+    if(module.id==='alphabet')continue;
     const session=createAdventure(module.id);assert.equal(session.questions.length,20);
     for(const q of session.questions){
       assert.equal(q.choices.length,3);assert.equal(new Set(q.choices.map(c=>c.p)).size,3);
       assert.ok(q.choices.some(c=>c.id===q.target.id));
+      if(module.id==='consonnes')assert.ok(q.choices.every(choice=>choice.g.length===1));
       if(module.id!=='sons'){
         const es=q.choices.filter(c=>isE(c.g));
         assert.ok(es.length<=1);
@@ -29,20 +32,31 @@ test('all phonics modules and the three word levels retain their learning conten
 test('the menu includes typo detection, four sentence activities and the original activities and both syllable workshops',()=>{
  assert.equal(MENU_ITEMS[0].id,'find-typo');
  assert.deepEqual(MENU_ITEMS.slice(1,5).map(item=>item.id),['sentence-copy-3','sentence-copy-5','sentence-listen-3','sentence-listen-5']);
- assert.equal(MENU_ITEMS.length,14);assert.equal(new Set(MENU_ITEMS.map(item=>item.id)).size,14);
+ assert.equal(MENU_ITEMS.length,15);assert.equal(new Set(MENU_ITEMS.map(item=>item.id)).size,15);
  assert.deepEqual(MENU_ITEMS.filter(item=>item.mode==='words').map(item=>item.level),[1,2,3]);
- for(const item of MENU_ITEMS){const session=createAdventure(item.mode||item.id,item.level||1);assert.equal(session.questions.length,Object.hasOwn(syllableItems,item.id)?40:MODULES.some(module=>module.id===item.id)?20:10);}
+ for(const item of MENU_ITEMS){const session=createAdventure(item.mode||item.id,item.level||1);assert.equal(session.questions.length,item.id==='alphabet'?30:Object.hasOwn(syllableItems,item.id)?40:MODULES.some(module=>module.id===item.id)?20:10);}
 });
 test('four chapters contain exactly the requested activities, once each',()=>{
  assert.deepEqual(CHAPTERS.map(chapter=>chapter.title),['Les lettres','Les sons','Les mots','Les phrases']);
  assert.deepEqual(CHAPTERS.map(chapter=>chapter.activities),[
-  ['voyelles','consonnes'],['blend-simple','blend-silent','sons','tout'],['words-1','words-2','words-3'],
+  ['voyelles','consonnes','alphabet'],['blend-simple','blend-silent','sons','tout'],['words-1','words-2','words-3'],
   ['sentence-copy-3','sentence-copy-5','sentence-listen-3','sentence-listen-5','find-typo']
  ]);
  const activities=CHAPTERS.flatMap(chapter=>chapter.activities);
- assert.equal(new Set(activities).size,14);assert.deepEqual(new Set(activities),new Set(MENU_ITEMS.map(item=>item.id)));
+ assert.equal(new Set(activities).size,15);assert.deepEqual(new Set(activities),new Set(MENU_ITEMS.map(item=>item.id)));
 });
-test('the nasal-vowel workshop compares different nasal families using whole-word examples', () => {
+test('the alphabet introduces every letter in order and uses single letters for all choices', () => {
+  const session = createAdventure('alphabet');
+  assert.equal(session.questions.slice(0,26).map(({target})=>target.g).join(''),'abcdefghijklmnopqrstuvwxyz');
+  for (const {target,choices} of session.questions) {
+    assert.equal(new Set(choices.map(choice=>choice.g)).size,3);
+    assert.ok(choices.every(choice=>/^[a-z]$/.test(choice.g)));
+    assert.ok(choices.includes(target));
+    assert.match(target.audioKey,/^(LN:|P:robin:)/);
+  }
+});
+
+test('the nasal-vowel workshop presents the sound before whole-word examples', () => {
   const allowed = new Set(NASAL_VOWELS.map(sound => sound.g));
   for (let round = 0; round < 20; round++) {
     const { questions } = createAdventure('sons');
@@ -52,15 +66,17 @@ test('the nasal-vowel workshop compares different nasal families using whole-wor
       assert.ok(choices.every(choice => allowed.has(choice.g)));
       assert.equal(new Set(choices.map(choice => choice.p)).size, 3);
       assert.ok(target.w.includes('[' + target.g + ']'));
+      const phoneme={an:'an',en:'an',in:'in',ain:'in',ein:'in',on:'on',un:'un'}[target.g];
+      assert.deepEqual(soundPrompt(target,'sons'),['P:robin:'+phoneme,'w:'+target.w.replace(/[\[\]]/g,'')]);
     }
   }
 });
 
-test('both syllable workshops offer all 40 targets and two audibly distinct choices', () => {
+test('both syllable workshops offer 40 distinct targets and two audibly distinct choices', () => {
   for (const [mode, items] of Object.entries(syllableItems)) {
     const session = createAdventure(mode);
-    assert.equal(items.length, 40);
-    assert.deepEqual(new Set(session.questions.map(q => q.target.id)), new Set(items.map(item => item.id)));
+    assert.equal(items.length, mode === 'blend-simple' ? 62 : 40);
+    assert.equal(new Set(session.questions.map(q => q.target.id)).size,40);
     for (const question of session.questions) {
       assert.equal(question.choices.length, 2);
       assert.ok(question.choices.includes(question.target));
@@ -71,13 +87,33 @@ test('both syllable workshops offer all 40 targets and two audibly distinct choi
   }
 });
 
+test('syllables and mixed sounds prioritize examples skipped in the previous game',()=>{
+  for(const mode of ['blend-simple','tout']){
+    const first=createAdventure(mode).questions;
+    const history=Object.fromEntries(first.map(({target})=>[target.id,1]));
+    const second=createAdventure(mode,1,{},history).questions;
+    const unseen=second.filter(({target})=>!history[target.id]);
+    assert.ok(unseen.length>=20);
+    if(mode==='tout'){
+      const previousSounds=new Set(first.map(({target})=>target.p));
+      assert.equal(new Set(second.map(({target})=>target.p)).size,20);
+      assert.ok(second.every(({target})=>!previousSounds.has(target.p)));
+    }
+  }
+});
+
+test('Mickey is only cast in the meadow',async()=>{
+  const {CAMEOS}=await import('../js/prototype/cameos.js');
+  assert.deepEqual(Object.keys(CAMEOS).filter(habitat=>CAMEOS[habitat].some(({key})=>key==='mickey')),['meadow']);
+});
+
 test('world boundaries are every ten crystals and refuges are exactly halfway',()=>{
   assert.deepEqual([0,1,4,5,6,9,10,11,14,15,16,19].map(checkpointFor),[0,0,0,5,5,5,10,10,10,15,15,15]);
   assert.equal(journeyState(9,20).worldIndex,0);assert.equal(journeyState(10,20).worldIndex,1);
   assert.equal(journeyState(10,20).worldCrystals,0);assert.equal(journeyState(19,20).worldCrystals,9);
   assert.equal(journeyState(20,20).worldIndex,1);assert.equal(journeyState(20,20).worldCrystals,10);
   assert.equal(journeyState(10,10).finished,true);assert.equal(journeyState(10,10).worldIndex,0);
-  assert.equal(journeyState(10,20,6).theme.id,7);assert.equal(journeyState(10,20,7).theme.id,0);assert.equal(WORLDS.length,8);
+  assert.equal(journeyState(10,20,6).theme.id,7);assert.equal(journeyState(10,20,7).theme.id,8);assert.equal(journeyState(10,20,9).theme.id,0);assert.equal(WORLDS.length,10);
 });
 function advanceTo(session,index){
   while(session.index<index){session.answer(session.current.target.id);session.next();}
@@ -112,9 +148,9 @@ test('gags rotate within each ten-crystal world and path stays within bounds',()
 test('completed worlds persist across modules without storing child information',()=>{
   const data=new Map(),storage={getItem:k=>data.get(k)??null,setItem:(k,v)=>data.set(k,v)};
   const memory=createJourneyMemory(storage);assert.equal(memory.startWorld,0);memory.complete(2);
-  const reloaded=createJourneyMemory(storage);assert.equal(reloaded.startWorld,2);reloaded.complete(6);
+  const reloaded=createJourneyMemory(storage);assert.equal(reloaded.startWorld,2);reloaded.complete(8);
   assert.equal(createJourneyMemory(storage).startWorld,0);
-  assert.deepEqual(JSON.parse(data.get('licorne.adventure.v1')),{worldsCompleted:8});
+  assert.deepEqual(JSON.parse(data.get('licorne.adventure.v1')),{worldsCompleted:10});
   const blocked=createJourneyMemory(undefined);blocked.complete(1);assert.equal(blocked.startWorld,1);assert.equal(blocked.persistent,false);
 });
 test('the original word question session keeps its retry behavior',()=>{
@@ -155,10 +191,10 @@ test('Retina profiles allocate real pixels while bounding the largest backing bu
  const large=renderProfile(1920,1080,2);assert.ok(large.width*large.height<=6010000);assert.ok(large.ratio>1);
  assert.equal(renderProfile(800,600,1).width,800);assert.ok(renderProfile(0,0,0).width>=1);
 });
-test('all eight habitats have scenery and their own extra travel surprise',async()=>{
+test('all ten habitats have scenery and their own extra travel surprise',async()=>{
  const {HABITAT_ANIMALS,ANIMAL_KINDS,animalSVG}=await import('../js/prototype/animals.js');
- assert.equal(WORLDS.length,8);assert.equal(new Set(WORLDS.map(w=>w.habitat)).size,8);
- for(const kind of ['jungle','beach','clouds','moon'])assert.ok(WORLDS.some(w=>w.habitat===kind));
+ assert.equal(WORLDS.length,10);assert.equal(new Set(WORLDS.map(w=>w.habitat)).size,10);
+ for(const kind of ['jungle','beach','clouds','moon','desert','fairy'])assert.ok(WORLDS.some(w=>w.habitat===kind));
  assert.ok(ANIMAL_KINDS.length>=12);
  for(const world of WORLDS){
   assert.ok(gagFor(6,world.habitat));assert.equal(gagFor(4,world.habitat),'rainbow');

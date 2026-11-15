@@ -3,7 +3,7 @@ import { $ } from './utils.js';
 import { unicornSVG } from './unicorn.js';
 import { mountWorld } from './world.js';
 import { initScene } from './scene.js';
-import { initGame } from './game.js?v=roue-dinos-1';
+import { initGame } from './game.js?v=cedille-1';
 import './audio.js';
 import { initRewards } from './rewards.js?v=roue-dinos-1';
 import { initWordGame } from './words/game.js?v=roue-dinos-1';

@@ -4,7 +4,7 @@ import * as playback from '../audio.js?v=curriculum-chapter-1';
 import { chapterMapUrl, chapterPlayUrl } from '../learning/chapter-one.js';
 import { createSimpleQuestions } from '../learning/curriculum-simple.js?v=storybook-2';
 import { exerciseVersion } from '../data/curriculum-simple.js?v=storybook-2';
-import { WORLDS, worldPanorama } from './model.js?v=roue-dinos-1';
+import { WORLDS, worldPanorama } from './model.js?v=faune-desert-1';
 import { illustration } from '../illustrations.js';
 import { createCurriculum } from '../learning/curriculum.js?v=storybook-2';
 import {
@@ -180,7 +180,7 @@ async function openPilot() {
     for (const node of readyAnswers) node.disabled = !canAnswer || placed.includes(Number(node.dataset.tile));
   }
 
-  async function play(keys) {
+  async function play(keys, automatic = false) {
     cancelAdvance();
     stopAudio();
     const token = audioToken;
@@ -192,6 +192,10 @@ async function openPilot() {
       const clips = await Promise.all(keys.map(key => playback.loadClip(key)));
       if (token !== audioToken) return;
       if (clips.some(clip => !clip)) throw new Error('Enregistrement indisponible');
+      if (automatic && playback.audio()?.state !== 'running') {
+        audioStatus.textContent = 'Touche l’écran pour activer le son.';
+        return;
+      }
       await playback.say(keys.flatMap((key, index) => index ? [650, key] : [key]));
       if (token !== audioToken || conflict) return;
       keys.forEach(key => heard.add(key));
@@ -204,6 +208,20 @@ async function openPilot() {
         scheduleAdvance();
       }
     }
+  }
+
+  function playQuestionAudio() {
+    if (!session.question || session.solved || session.finished || conflict || pauseDialog.open || document.hidden ||
+        controls.getAttribute('aria-busy') === 'true') return;
+    const { prompt, context, choices } = session.question;
+    const keys = prompt && !heard.has(prompt) ? [prompt, context].filter(Boolean) : [];
+    keys.push(...choices.filter(key => !heard.has(key)));
+    if (keys.length) play(keys, true);
+  }
+
+  // A new page may need a gesture before the browser unlocks Web Audio.
+  function retryQuestionAudio(event) {
+    if (event.isTrusted && !event.target.closest('button, a')) playQuestionAudio();
   }
 
   function listen(label, keys, className = '') {
@@ -432,7 +450,8 @@ async function openPilot() {
   function render(focus = false) {
     const state = session.snapshot();
     const question = session.question;
-    if (question?.id !== lastQuestion) {
+    const newQuestion = question?.id !== lastQuestion;
+    if (newQuestion) {
       heard = new Set();
       lastQuestion = question?.id;
     }
@@ -489,6 +508,7 @@ async function openPilot() {
     } else {
       heading.textContent = 'Bloc ' + (question.blockIndex + 1) + ' sur 4 · Question ' + (question.position + 1) + ' sur 5';
       showQuestion(question, state);
+      if (newQuestion) playQuestionAudio();
     }
     if (focus) {
       heading.focus({ preventScroll: true });
@@ -514,6 +534,7 @@ async function openPilot() {
   });
   pauseDialog.addEventListener('close', () => {
     if (!conflict) world?.setPaused(document.hidden);
+    playQuestionAudio();
     scheduleAdvance();
   });
   document.addEventListener('visibilitychange', () => {
@@ -522,19 +543,24 @@ async function openPilot() {
       stopAudio();
     }
     world?.setPaused(document.hidden || pauseDialog.open || conflict);
+    playQuestionAudio();
     scheduleAdvance();
   });
+  document.addEventListener('click', retryQuestionAudio);
   window.addEventListener('pagehide', () => {
     cancelAdvance();
     stopAudio();
   });
-  window.addEventListener('pageshow', scheduleAdvance);
+  window.addEventListener('pageshow', () => {
+    playQuestionAudio();
+    scheduleAdvance();
+  });
   window.addEventListener('storage', event => {
     if (event.key === key && event.newValue !== lastSaved) showConflict();
   });
 
   try {
-    const { createWorld } = await import('./world.js?v=dinos-en-marche-1');
+    const { createWorld } = await import('./world.js?v=faune-desert-1');
     world = createWorld(get('pilotWorld'), {
       onReady() {
         worldReady = true;

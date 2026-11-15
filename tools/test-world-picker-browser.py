@@ -22,10 +22,11 @@ def boot(page):
 def pick(page, theme):
     page.locator('#worldName').click(no_wait_after=True)
     assert page.locator('#worldDialog').is_visible()
-    assert page.locator('#worldChoices button').count() == 8
+    assert page.locator('#worldChoices button').count() == 10
     page.locator(f'[data-world-id="{theme}"]').click(no_wait_after=True)
     assert not page.locator('#worldDialog').is_visible()
     assert state(page)['world']['theme'] == theme
+    assert ('mickey' in state(page)['world']['cameos']) == (theme == 0)
     assert not state(page)['paused']
 
 def right(page):
@@ -43,10 +44,10 @@ with sync_playwright() as p:
     page = browser.new_page(viewport={'width':390,'height':844}, has_touch=True, reduced_motion='reduce')
     page.on('pageerror', lambda e: errors.append(str(e)))
     boot(page)
-    for theme in range(8):
+    for theme in range(10):
         pick(page, theme)
     page.reload();page.wait_for_function('window.__adventure?.state().ready')
-    assert state(page)['world']['theme'] == 7
+    assert state(page)['world']['theme'] == 9
     pick(page, 0)
     select_activity(page,'[data-module="voyelles"]')
     for _ in range(10):
@@ -67,7 +68,7 @@ with sync_playwright() as p:
     page.locator('#worldName').click(no_wait_after=True)
     page.keyboard.press('Escape')
     assert not state(page)['paused'] and state(page)['targetId'] is not None
-    print('Eight-world selection, persisted preference, in-progress question/crystals and reduced motion passed', flush=True)
+    print('Ten-world selection, persisted preference, in-progress question/crystals and reduced motion passed', flush=True)
     page.close()
 
     live = browser.new_page(viewport={'width':1024,'height':768}, device_scale_factor=2)
@@ -101,9 +102,17 @@ with sync_playwright() as p:
     pick(live, 7)
     dinosaurs = state(live)['world']['dinosaurs']
     assert len({dinosaur['species'] for dinosaur in dinosaurs}) == 5
-    live.wait_for_function("""start => window.__adventure.state().world.dinosaurs.every(
-        (dinosaur, index) => Math.abs(dinosaur.x - start[index].x) > 10 && dinosaur.frame !== start[index].frame
-    )""", arg=dinosaurs)
+    for index, dinosaur in enumerate(dinosaurs):
+        live.wait_for_function("""([index, start]) => {
+            const dinosaur = window.__adventure.state().world.dinosaurs[index];
+            return Math.abs(dinosaur.x - start.x) > 10 && dinosaur.frame !== start.frame;
+        }""", arg=[index, dinosaur])
+    pick(live, 8)
+    desert = state(live)['world']['desertAnimals']
+    assert {animal['species'] for animal in desert} == {'geocoucou','lezard','lievre','tatou'}
+    live.wait_for_function("""start => window.__adventure.state().world.desertAnimals.some(
+        (animal, index) => animal.x !== start[index].x && animal.frame !== start[index].frame
+    )""", arg=desert)
     assert not errors, errors
     browser.close()
     print('Phone picker layout and selection passed; no JavaScript errors', flush=True)

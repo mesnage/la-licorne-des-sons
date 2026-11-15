@@ -17,9 +17,11 @@ Utilisation (depuis la racine du projet) :
   python3 tools/voice/build_voice.py --prune     # supprime les audios qui ne servent plus
   python3 tools/voice/build_voice.py --no-verify # plus rapide, sans reconnaissance vocale
 
-Toutes les phrases sont dites EN PHRASES COMPLÈTES (jamais un son isolé, que la voix prononce mal) :
-  L:<son>  « Trouve la lettre, M ! »   F:<son>  « Il fallait trouver la lettre, M ! »
-  w:<mot>  « Comme dans, moto ! »      W:<id> « Trouve le mot, maison ! » / S:<id> « Le chat dort. »
+Les ateliers utilisent un nom ou un son bref suivi du mot exemple :
+  LN:<lettre> « M »             PS:<son> « oi »
+  L:<son> et F:<son> : anciennes consignes complètes, conservées comme sources audio
+  w:<mot> « Comme dans, moto ! »  W:<id> mot seul au niveau 1 / consigne aux niveaux 2 et 3
+  S:<id> « Le chat dort. »
   n:/u:    phrases de la narratrice / de Paillette (voix plus aiguë)
 """
 import argparse, difflib, hashlib, json, os, re, subprocess, sys, tempfile, unicodedata
@@ -49,6 +51,11 @@ LETTER.update({
  'ui':'ˈy, ˈi', 'tion':'tˈe, ˈi, ˈo, ˈɛn',
 })
 SPELLED = {'ch', 'ph', 'qu', 'gn', 'ill', 'ail', 'eil', 'euil', 'ouil', 'oin', 'ien', 'ui', 'tion'}
+COMBINED_SOUNDS = {
+    'x':'ks', 'oi':'wˈa', 'ui':'ɥˈi', 'oin':'wˈɛ̃', 'ien':'jˈɛ̃', 'eil':'ˈɛj',
+    'ail':'ˈaj', 'ouil':'ˈuj', 'euil':'ˈœj', 'tion':'sjˈɔ̃',
+}
+LETTER_NAMES = {g: LETTER[g] for g in 'bcdfghjklmnpqrstvwxyzç'}
 # « Trouve le son, an » est mal rendu par la voix ; « Cherche bien le son, an » est compris.
 INTRO_OVERRIDE = {('an', False): 'Cherche bien le son', ('en', False): 'Cherche bien le son'}
 
@@ -78,14 +85,20 @@ def wanted_keys():
     keys = [p + g for g in sounds for p in ('L:', 'F:')] + ['w:' + w for w in words] + [k.lower() + ':' + t for k, t in lines]
     missing = [g for g in sounds if g not in LETTER]
     if missing: sys.exit(f'Ajoutez la prononciation de {missing} dans LETTER (tools/voice/build_voice.py).')
-    return keys + ['W:' + word_id for word_id in whole_word_prompts()] + ['S:' + sentence_id for sentence_id in sentence_prompts()]
+    return (keys + ['W:' + word_id for word_id in whole_word_prompts()]
+            + ['S:' + sentence_id for sentence_id in sentence_prompts()]
+            + list(phonetic_prompts()))
+
+def phonetic_prompts():
+    return {**{'LN:' + g: phonemes for g, phonemes in LETTER_NAMES.items()},
+            **{'PS:' + g: phonemes for g, phonemes in COMBINED_SOUNDS.items()}}
 
 _WORD_PROMPTS = None
 def whole_word_prompts():
     global _WORD_PROMPTS
     if _WORD_PROMPTS is None:
         words = json.loads(subprocess.check_output(['node', '--input-type=module', '-e', "import {WORDS} from './js/data/words.js';process.stdout.write(JSON.stringify(WORDS));"], cwd=ROOT, text=True))
-        _WORD_PROMPTS = {word['id']: word.get('speech', word['text']) for word in words}
+        _WORD_PROMPTS = {word['id']: (word.get('speech', word['text']), word['level']) for word in words}
     return _WORD_PROMPTS
 
 _SENTENCE_PROMPTS = None
@@ -96,7 +109,8 @@ def sentence_prompts():
         _SENTENCE_PROMPTS = {sentence['id']: sentence['text'] for sentence in sentences}
     return _SENTENCE_PROMPTS
 
-PREFIX = {'S': 'phrase', 'L': 'lettre', 'F': 'erreur', 'w': 'mot', 'W': 'mot-entier', 'n': 'voix', 'u': 'paillette'}
+PREFIX = {'S': 'phrase', 'L': 'lettre', 'F': 'erreur', 'w': 'mot', 'W': 'mot-entier', 'n': 'voix', 'u': 'paillette',
+          'LN': 'nom-lettre', 'PS': 'son'}
 def filename(key):
     p, t = key.split(':', 1)
     s = unicodedata.normalize('NFD', t.lower().replace('œ', 'oe'))
@@ -112,6 +126,7 @@ class Voice:
         if not os.path.exists(d): sys.exit('Voix introuvable : lancez d’abord  bash tools/voice/download_models.sh')
         self.v = PiperVoice.load(os.path.join(d, 'fr_FR-siwis-medium.onnx'), os.path.join(d, 'fr_FR-siwis-medium.onnx.json'))
         self.Cfg = SynthesisConfig; self.sr = self.v.config.sample_rate
+        self.phonetic = phonetic_prompts()
 
     def phon(self, text):
         out = []
@@ -123,12 +138,16 @@ class Voice:
     def job(self, key):
         """phonèmes à dire, vitesse, hauteur de voix (1.2 = Paillette)"""
         p, t = key.split(':', 1)
+        if key in self.phonetic:
+            return list(self.phonetic[key]) + ['!'], 0.78, 1.0
         if p in ('L', 'F'):
             return self.phon(intro(t, p == 'F')) + [',', ' '] + list(LETTER[t]) + ['!'], 0.85, 1.0
         if p == 'S':
             return self.phon(sentence_prompts()[t]), 0.85, 1.0
         if p == 'W':
-            return self.phon('Trouve le mot') + [',', ' '] + self.phon(whole_word_prompts()[t] + ' !'), 0.85, 1.0
+            word, level = whole_word_prompts()[t]
+            prefix = self.phon('Trouve le mot') + [',', ' '] if level > 1 else []
+            return prefix + self.phon(word + ' !'), 0.85, 1.0
         if p == 'w':
             return self.phon('Comme dans') + [',', ' '] + self.phon(t + ' !'), 0.88, 1.0
         return self.phon(t), 0.95, (1.0 if p == 'n' else 1.2)
@@ -148,6 +167,20 @@ class Voice:
             sf.write(w.name, a, self.sr)
             af = ['-af', f'asetrate={int(self.sr*pitch)},aresample={self.sr},atempo={1/pitch:.4f}'] if pitch != 1.0 else []
             subprocess.run(['ffmpeg', '-y', '-loglevel', 'error', '-i', w.name, *af, '-ac', '1', '-ar', '16000', '-b:a', '24k', path], check=True)
+
+    def letter_excerpt(self, path):
+        """Keep only Robin's letter name after the pause in the original prompt."""
+        result = subprocess.run(
+            ['ffmpeg', '-hide_banner', '-i', path, '-af', 'silencedetect=n=-38dB:d=0.14',
+             '-ac', '1', '-ar', str(self.sr), '-f', 'f32le', '-'],
+            capture_output=True, check=True)
+        gaps = re.findall(rb'silence_start: ([\d.]+).*?silence_end: ([\d.]+)', result.stderr, re.S)
+        samples = np.frombuffer(result.stdout, dtype=np.float32)
+        for start, end in gaps:
+            start, end = float(start), float(end)
+            if .6 < start < 1.05 and .14 < end - start < .45 and end + .15 < len(samples) / self.sr:
+                return samples[int((end - .065) * self.sr):]
+        return None
 
 # --- Reconnaissance vocale (vérification) -----------------------------------------------------
 class Ear:
@@ -187,7 +220,7 @@ def main():
     keys = wanted_keys()
     redo = {k.strip() for k in args.redo.split(',') if k.strip()}
     todo = [k for k in keys if k in redo or k not in manifest or not os.path.exists(os.path.join(AUDIO, manifest[k]))]
-    unused = [k for k in manifest if k not in keys]
+    unused = [k for k in manifest if k not in keys and not k.startswith(('P:', 'SY:'))]
     print(f'{len(keys)} phrases dans le jeu, {len(todo)} à générer, {len(unused)} inutilisée(s).')
     if args.list:
         for k in todo: print('  à générer :', k)
@@ -198,8 +231,10 @@ def main():
         for n, key in enumerate(todo, 1):
             P, speed, pitch = voice.job(key)
             best = None
+            letter_source = manifest.get('L:' + key[3:]) if key.startswith('LN:') and key not in ('LN:w','LN:ç') else None
+            excerpt = voice.letter_excerpt(os.path.join(AUDIO, letter_source)) if letter_source and os.path.isfile(os.path.join(AUDIO, letter_source)) else None
             for t in range(1 if ear is None else args.tries):
-                a = voice.synth(P, speed * (1 - 0.03 * (t % 3)))
+                a = excerpt if t == 0 and excerpt is not None else voice.synth(P, speed * (1 - 0.03 * (t % 3)))
                 if ear is None: best = (1.0, '', a); break
                 heard = ear.hear(a, voice.sr); sc = score(voice, P, heard)
                 if best is None or sc > best[0]: best = (sc, heard, a)

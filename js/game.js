@@ -1,12 +1,12 @@
-import { soundPrompt } from './learning/sound-prompts.js';
+import { soundPrompt } from './learning/sound-prompts.js?v=cedille-1';
 /* La Licorne des Sons — déroulé d'une partie */
 import { $, wait, shuffle, pick, wordHTML, cardHTML, gemSVG } from './utils.js';
-import { LEVELS, STEPS } from './data/sounds.js';
+import { LEVELS, STEPS } from './data/sounds.js?v=cactus-alphabet-1';
 import { STOPS, BIOMES, WORLD_STARTS } from './data/path.js';
 import { N, U } from './voice-keys.js';
 import { unlock, hush, say, sfx, preload } from './audio.js';
 import { uniEl, camTo, skyTo, placeUni, anim, mood, bubble, zone, burst, gag } from './scene.js';
-import { makeTargets, distractors } from './questions.js';
+import { makeTargets, distractors } from './questions.js?v=cactus-alphabet-1';
 import { getStars, addStar, recordRound } from './storage.js';
 import { earnReward, showReward } from './rewards.js?v=roue-dinos-1';
 
@@ -33,7 +33,7 @@ function startGame(key){
 function newRound(intro=[]){
   round++;
   cur = targets[step];
-  const opts = shuffle([cur, ...distractors(cur, pool)]);
+  const opts = shuffle([cur, ...distractors(cur, pool, level === 'consonnes' ? pool : undefined)]);
   recordRound(cur, opts);
   const colors = shuffle(['c-pink','c-lilac','c-aqua']);
   const box = $('#cards'); box.innerHTML = '';
