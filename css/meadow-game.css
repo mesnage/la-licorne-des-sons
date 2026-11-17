@@ -97,7 +97,7 @@
 .painted-game [data-road-stone] small{font-size:.72em!important}
 @media(max-width:600px){.painted-game.road-choices .adventure-question-top{margin-bottom:4px}.painted-game.road-choices .pilot-panel{padding:10px 12px}.painted-game.road-choices #pilotInstructions{font-size:15px;margin:0 0 6px}.painted-game.road-choices #pilotAudioStatus{font-size:12px;margin:4px 0}}
 
-.painted-game [data-road-stone].phonics-group{flex-direction:column!important}
+.painted-game [data-road-stone].phonics-group{flex-direction:row!important}
 
 
 
@@ -255,3 +255,14 @@ body.curriculum.painted-game::before{background:radial-gradient(90% 26% at 50% 1
 .painted-game:is([data-painted-habitat="beach"],[data-painted-habitat="desert"],[data-painted-habitat="moon"]) [data-road-stone]::after{
  -webkit-mask:none;mask:none;left:-5%;right:-5%;bottom:-12px;height:16px;border-radius:50%;
  background:radial-gradient(ellipse at 50% 50%,var(--stone-tuft) 0 28%,transparent 70%);opacity:.65}
+
+/* Every option stays on one line, with a shared size determined by the widest label. */
+.painted-game .adventure-answer,
+.painted-game .pilot-answer-pair > .pilot-button,
+.painted-game .pilot-answer-card > .pilot-button,
+.painted-game .pilot-word-tiles > .pilot-button{
+ white-space:nowrap!important;overflow-wrap:normal!important;word-break:normal!important;
+ flex-direction:row!important;flex-wrap:nowrap!important;font-size:var(--choice-font,28px)!important;min-width:0}
+.painted-game .adventure-answer span,.painted-game .adventure-answer small{white-space:nowrap!important;flex-shrink:0}
+.painted-game .adventure-answer small{font-size:.72em!important}
+@media(max-width:600px){.painted-game .adventure-choices.words:not(.sentence-choices){grid-template-columns:1fr}}

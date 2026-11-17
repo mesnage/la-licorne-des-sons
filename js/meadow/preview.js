@@ -1,13 +1,13 @@
 /* Meadow graphics trial adapted from the supplied Paillette style frame. */
 /* global matchMedia, innerWidth, innerHeight, performance, Path2D, URLSearchParams */
 import { ready, say, hush, unlock } from '../audio.js';
-import { createFauna } from './fauna.js?v=polish-8';
-import { HABITATS, paintHabitat } from './habitats.js?v=polish-8';
-import { PAINTED_WORLDS } from './themes.js?v=polish-8';
-import { JUNGLE_PALETTE, paintJungle } from './jungle.js?v=polish-8';
-import { FOREST_PALETTE, paintForest } from './forest.js?v=polish-8';
+import { createFauna } from './fauna.js?v=choices-9';
+import { HABITATS, paintHabitat } from './habitats.js?v=choices-9';
+import { PAINTED_WORLDS } from './themes.js?v=choices-9';
+import { JUNGLE_PALETTE, paintJungle } from './jungle.js?v=choices-9';
+import { FOREST_PALETTE, paintForest } from './forest.js?v=choices-9';
 import { createJourney } from './journey.js?v=lively-1';
-import { createScenery } from './scenery.js?v=polish-8';
+import { createScenery } from './scenery.js?v=choices-9';
 
 (() => {
 const NS='http://www.w3.org/2000/svg', svg=document.getElementById('svg');

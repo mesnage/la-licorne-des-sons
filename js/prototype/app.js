@@ -1,7 +1,9 @@
-import { PAINTED_WORLDS } from '../meadow/themes.js?v=polish-8';
+import { fitChoiceGroup } from '../meadow/choice-fit.js?v=choices-9';
+fitChoiceGroup(document.getElementById('adventureChoices'));
+import { PAINTED_WORLDS } from '../meadow/themes.js?v=choices-9';
 import { syllableActivity } from '../data/syllable-workshops.js';
 import { returnFromRevision } from './curriculum-revision.js?v=ateliers-sons-2';
-import { createWorld } from '../meadow/world.js?v=polish-8';
+import { createWorld } from '../meadow/world.js?v=choices-9';
 import { WORLDS, MODULES, MENU_ITEMS, CHAPTERS, createAdventure, createJourneyMemory, journeyState } from './model.js?v=faune-desert-1';
 import { illustration } from '../illustrations.js?v=cactus-alphabet-1';
 import { createMastery, skillStatus } from '../learning/mastery.js';

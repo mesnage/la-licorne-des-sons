@@ -1,4 +1,4 @@
-import { PAINTED_WORLDS, paintedWorld } from './themes.js?v=polish-8';
+import { PAINTED_WORLDS, paintedWorld } from './themes.js?v=choices-9';
 /* Adapter shared by every workshop and curriculum exercise.
  * The iframe isolates the scene's SVG IDs/styles; answers/audio/storage stay in the host.
  */
@@ -45,7 +45,7 @@ export function createWorld(parent,{onReady=()=>{},onBiome=()=>{},onError=()=>{}
       candidate.addEventListener('error',()=>{onError('Le décor est indisponible.');resolve(false);},{once:true});
     });
     loading=promise;
-    candidate.src=new window.URL('../../meadow-preview.html?scene&v=polish-8&habitat='+next.habitat+(parent.id==='pilotWorld'?'&reading':''),import.meta.url).href;
+    candidate.src=new window.URL('../../meadow-preview.html?scene&v=choices-9&habitat='+next.habitat+(parent.id==='pilotWorld'?'&reading':''),import.meta.url).href;
     parent.append(candidate);
     return promise;
   }
