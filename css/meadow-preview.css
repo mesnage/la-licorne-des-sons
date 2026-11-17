@@ -1,0 +1,87 @@
+
+  html,body{margin:0;height:100%;overflow:hidden;background:#cfe6d8;
+    font-family:ui-rounded,"SF Pro Rounded","Nunito","Fredoka","Quicksand",system-ui,sans-serif;
+    -webkit-tap-highlight-color:transparent;user-select:none;-webkit-user-select:none}
+  #view{position:fixed;inset:0;overflow:clip}
+  #view>*{position:absolute;left:0;top:0}
+  #skyg,#skyp,#dusk,#svg{width:100%;height:100%}
+  #skyp{opacity:.16}#dusk{background:#f7c79a;opacity:0;pointer-events:none;transition:opacity 1.4s}
+  #svg{display:block;touch-action:manipulation}
+  .world{transform-origin:0 0;pointer-events:none;width:0;height:0}
+  .world>*{position:absolute;left:0;top:0}
+  .world .L{will-change:transform}.world canvas{position:absolute}
+  .A{position:absolute;left:0;top:0;will-change:transform}
+  .G,.T{position:absolute;left:0;top:0}
+  .wind{animation:sway 5.5s ease-in-out infinite alternate;will-change:transform}.wind.s2{animation-duration:4.1s}.wind.s3{animation-duration:6.9s}
+  .wind.top{animation-name:swayTop}
+  @keyframes swayTop{from{transform:rotate(-1.3deg)}to{transform:rotate(1.5deg)}}
+  .calm .wind{animation:none}
+  #load{position:fixed;inset:0;display:grid;place-items:center;background:#f6ecd0;color:#35372f;font-size:20px;font-weight:600;transition:opacity .6s;z-index:9}#load.off{opacity:0;pointer-events:none}
+  .sway{transform-box:fill-box;transform-origin:50% 100%;animation:sway 5.5s ease-in-out infinite alternate}
+  .sway.s2{animation-duration:4.2s}.sway.s3{animation-duration:6.8s}
+  @keyframes sway{from{transform:rotate(-2deg)}to{transform:rotate(2.3deg)}}
+  .stone{cursor:pointer;outline:none}
+  .stone:focus-visible .ring{opacity:1}
+  .stone .inner{transform-box:fill-box;transform-origin:50% 100%;transition:transform .35s cubic-bezier(.3,1.6,.5,1)}
+  .stone.live:hover .inner{transform:scale(1.04)}
+  .stone.no .inner{animation:wob .55s ease-in-out}
+  .stone text{transition:opacity .6s}.stone.dim text{opacity:.3}
+  @keyframes wob{0%,100%{transform:rotate(0)}25%{transform:rotate(-5deg)}60%{transform:rotate(4deg)}}
+  .bloom{transform-box:fill-box;transform-origin:50% 100%;transform:scale(0);transition:transform .7s cubic-bezier(.3,1.5,.5,1)}
+  .bloom.on{transform:scale(1)}
+  #grain,#vig{position:fixed;inset:0;pointer-events:none}
+  #grain{opacity:.07}
+  #vig{background:radial-gradient(ellipse at 50% 55%,rgba(255,255,255,0) 55%,rgba(60,74,87,.06) 100%)}
+  .pill{position:fixed;top:14px;display:flex;align-items:center;gap:6px;padding:9px 13px;border-radius:999px;
+    background:rgba(255,250,240,.86);box-shadow:0 2px 0 rgba(60,74,87,.10);color:#35372f}
+  #gems{left:14px}
+  #gems svg{width:20px;height:22px;transition:transform .4s cubic-bezier(.3,1.8,.5,1)}
+  #gems svg.got{transform:scale(1.18)}
+  #gems svg path{fill:#d9d2c4;transition:fill .4s}
+  #gems svg.got path{fill:#5fb0aa}
+  #snd{right:14px;border:0;font:inherit;font-size:15px;font-weight:600;cursor:pointer}
+  #prompt{position:fixed;left:50%;bottom:14px;transform:translateX(-50%);display:flex;align-items:center;gap:12px;
+    padding:9px 20px 9px 9px;border-radius:999px;background:rgba(255,250,240,.92);
+    box-shadow:0 3px 0 rgba(60,74,87,.12);color:#35372f;font-size:22px;font-weight:600;white-space:nowrap;
+    transition:opacity .5s,transform .5s}
+  #prompt.away{opacity:0;transform:translate(-50%,24px);pointer-events:none}
+  #prompt b{font-size:30px;color:#b9506b;margin:0 2px}
+  #say{width:52px;height:52px;border-radius:50%;border:0;background:#edbdb4;cursor:pointer;display:grid;place-items:center;
+    box-shadow:0 3px 0 #d39c93;transition:transform .15s}
+  #say:active{transform:translateY(2px)}
+  #note{position:fixed;left:50%;top:16px;transform:translateX(-50%);font-size:12px;color:#35372f;opacity:.6;
+    background:rgba(255,250,240,.6);padding:5px 12px;border-radius:999px;white-space:nowrap}
+  #end{position:fixed;left:50%;bottom:18px;transform:translate(-50%,30px);opacity:0;pointer-events:none;
+    display:flex;align-items:center;gap:14px;padding:12px 14px 12px 24px;border-radius:999px;
+    background:rgba(255,250,240,.94);box-shadow:0 3px 0 rgba(60,74,87,.12);color:#35372f;font-size:21px;font-weight:600;
+    transition:opacity .8s,transform .8s;white-space:nowrap}
+  #end.on{opacity:1;transform:translate(-50%,0);pointer-events:auto}
+  #again{border:0;font:inherit;font-size:18px;padding:11px 20px;border-radius:999px;background:#e0ad4c;color:#3a2f1a;cursor:pointer;
+    box-shadow:0 3px 0 #bf8e36}
+  @media (max-width:560px){#prompt{font-size:18px}#prompt b{font-size:25px}#note{display:none}#end{font-size:17px}}
+  @media (prefers-reduced-motion:reduce){.sway,.wind{animation:none}}
+
+#home{top:64px;left:14px;text-decoration:none;font-size:14px}#pause{top:64px;right:14px;border:0;font:inherit;cursor:pointer}
+#start{position:fixed;inset:0;z-index:8;display:grid;place-items:center;background:#294f4340;backdrop-filter:blur(3px);color:#35372f}
+#start[hidden]{display:none}#start>div{text-align:center;background:#fff8e9f5;border-radius:32px;padding:32px;box-shadow:0 12px 60px #294f4330;max-width:calc(100vw - 100px)}
+#start small{letter-spacing:2px;font-size:11px}#start h1{font-size:36px;margin:14px 0}#start p{line-height:1.7}#begin{display:block;border:0;border-radius:24px;background:#e0ad4c;color:#35372f;font:inherit;font-weight:700;padding:16px 24px;margin:24px auto 18px;cursor:pointer}#start a{color:#587a48;font-size:14px}
+.paused .wind{animation-play-state:paused}.paused .bloom,.paused .stone .inner{animation-play-state:paused}
+@media(max-width:560px){#end{gap:8px;padding:10px}#again{font-size:16px;padding:10px}#start h1{font-size:28px}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
+
+/* The embedded renderer owns scenery only; the host activity owns controls and audio. */
+.scene-only #gems,.scene-only #note,.scene-only #home,.scene-only #pause,.scene-only #snd,.scene-only #prompt,.scene-only #start,.scene-only #end{display:none!important}
+
+.waterfall{animation:waterfall-flow 1.8s ease-in-out infinite alternate;will-change:transform,opacity}
+@keyframes waterfall-flow{from{transform:translateY(-3px);opacity:.65}to{transform:translateY(4px);opacity:1}}
+.paused .waterfall{animation-play-state:paused}
+@media(prefers-reduced-motion:reduce){.waterfall{animation:none}}
+
+/* The next crystal is the child's visible goal: it floats, glows and glints. */
+.gem-bob{animation:gem-bob 1.9s ease-in-out infinite alternate}
+.gem-halo{transform-box:fill-box;transform-origin:50% 50%;animation:gem-halo 1.9s ease-in-out infinite alternate}
+.gem-glint{transform-box:fill-box;transform-origin:50% 50%;animation:gem-glint 2.6s ease-in-out infinite}
+@keyframes gem-bob{from{transform:translateY(3px)}to{transform:translateY(-7px)}}
+@keyframes gem-halo{from{transform:scale(.8);opacity:.18}to{transform:scale(1.15);opacity:.42}}
+@keyframes gem-glint{0%,55%,100%{transform:scale(0) rotate(0)}70%{transform:scale(1.2) rotate(45deg)}85%{transform:scale(.4) rotate(90deg)}}
+.paused .gem-bob,.paused .gem-halo,.paused .gem-glint{animation-play-state:paused}

@@ -157,8 +157,9 @@ async function openPilot() {
     advanceTimer = undefined;
   }
 
+  let travelling=false;
   function canAdvance() {
-    return session.solved && !conflict && !pauseDialog.open && !document.hidden &&
+    return session.solved && !travelling && !conflict && !pauseDialog.open && !document.hidden &&
       controls.getAttribute('aria-busy') !== 'true';
   }
 
@@ -175,7 +176,7 @@ async function openPilot() {
 
   function refreshAnswers() {
     const question = session.question;
-    const canAnswer = (!question.prompt || heard.has(question.prompt)) && question.choices.every(key => heard.has(key));
+    const canAnswer = !session.solved && !conflict && !pauseDialog.open;
     const placed = question.order ? session.snapshot().order : [];
     for (const node of readyAnswers) node.disabled = !canAnswer || placed.includes(Number(node.dataset.tile));
   }
@@ -231,7 +232,7 @@ async function openPilot() {
   }
 
   function answerButton(label, value) {
-    const node = button(label, () => answer(value));
+    const node = button(label, () => answer(value),label.length>9?'pilot-long-answer':'');
     readyAnswers.push(node);
     return node;
   }
@@ -266,6 +267,7 @@ async function openPilot() {
     save();
     if (conflict) return;
     if (!result) {
+      world?.react('encouraging');
       const hintAvailable = session.snapshot().wrong >= 2;
       feedback.textContent = hintAvailable ? 'Réessaie ou demande un indice.'
         : session.question.sentence ? 'Essaie avec un autre mot.'
@@ -280,8 +282,13 @@ async function openPilot() {
     render(true);
     if (word) feedback.textContent = 'Tu as fabriqué « ' + word + ' ».';
     if (worldReady) {
+      world.react('proud');
       world.setPaused(false);
-      world.moveTo(session.snapshot().answers.length, { gentle: true });
+      travelling=true;
+      world.moveTo(session.snapshot().answers.length).then(arrived=>{
+        travelling=false;
+        if(arrived)scheduleAdvance();
+      });
     }
     scheduleAdvance();
   }
@@ -447,7 +454,15 @@ async function openPilot() {
     if (state.wrong >= 2) showCorrection(question);
   }
 
+  function placeRoadChoices(){
+    if(!worldReady)return;
+    const q=session.question;
+    const eligible=!session.solved&&!session.finished&&!q?.order&&!q?.pictures&&readyAnswers.length>0&&readyAnswers.length<=3&&readyAnswers.every(b=>b.textContent.length<=4);
+    world.placeChoices(eligible?[...readyAnswers]:[],session.solved&&!session.finished);
+  }
+
   function render(focus = false) {
+    world?.placeChoices([],session.solved&&!session.finished);
     const state = session.snapshot();
     const question = session.question;
     const newQuestion = question?.id !== lastQuestion;
@@ -471,7 +486,7 @@ async function openPilot() {
       heading.textContent = block ? 'Bloc ' + block.position + ' testé !' : !nextUnit ? 'Le parcours est terminé !'
         : nextChapter ? 'Chapitre terminé !' : 'Bienvenue au château !';
       const castle = document.createElement('img');
-      castle.src = 'assets/storybook/chateau-etoile.webp';
+      castle.src = 'assets/storybook/chateau-peint.svg';
       castle.alt = '';
       castle.className = 'pilot-castle-art';
       if (!block) controls.append(castle);
@@ -510,6 +525,7 @@ async function openPilot() {
       showQuestion(question, state);
       if (newQuestion) playQuestionAudio();
     }
+    placeRoadChoices();
     if (focus) {
       heading.focus({ preventScroll: true });
       heading.scrollIntoView({ block: 'nearest' });
@@ -550,8 +566,10 @@ async function openPilot() {
   window.addEventListener('pagehide', () => {
     cancelAdvance();
     stopAudio();
+    world?.cancel();world?.setPaused(true);
   });
   window.addEventListener('pageshow', () => {
+    world?.setPaused(document.hidden || pauseDialog.open || conflict);
     playQuestionAudio();
     scheduleAdvance();
   });
@@ -560,12 +578,13 @@ async function openPilot() {
   });
 
   try {
-    const { createWorld } = await import('./world.js?v=faune-desert-1');
+    const { createWorld } = await import('../meadow/world.js?v=polish-8');
     world = createWorld(get('pilotWorld'), {
       onReady() {
         worldReady = true;
         world.reset(total, worldIndex, session.snapshot().answers.length);
         world.quiet(true);
+        placeRoadChoices();
         world.setPaused(document.hidden || pauseDialog.open || conflict);
       },
       onBiome() {},

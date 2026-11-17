@@ -1,13 +1,13 @@
 {
   "name": "la-licorne-des-sons",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Jeu de lecture en français pour enfants : reconnaître les lettres et les sons avec Paillette la licorne.",
   "private": true,
   "type": "module",
   "scripts": {
     "dev": "npx --yes serve@14.2.4 -l 8080 .",
     "check": "node tools/check.mjs",
-    "test": "node tools/rewards.test.mjs && node tools/words.test.mjs && node tools/sentences.test.mjs && node tools/typos.test.mjs && node tools/sounds.test.mjs && node tools/phonemes.test.mjs && node tools/prototype.test.mjs && node tools/learning.test.mjs && node tools/wildlife.test.mjs && node tools/curriculum.test.mjs && node tools/pilot-session.test.mjs && node tools/chapter-one.test.mjs && node tools/curriculum-complete.test.mjs && node tools/curriculum-simple.test.mjs",
+    "test": "node tools/rewards.test.mjs && node tools/words.test.mjs && node tools/sentences.test.mjs && node tools/typos.test.mjs && node tools/sounds.test.mjs && node tools/phonemes.test.mjs && node tools/prototype.test.mjs && node tools/learning.test.mjs && node tools/wildlife.test.mjs && node tools/curriculum.test.mjs && node tools/pilot-session.test.mjs && node tools/chapter-one.test.mjs && node tools/curriculum-complete.test.mjs && node tools/curriculum-simple.test.mjs && node --test tools/meadow-journey.test.mjs tools/painted-world.test.mjs tools/painted-fauna.test.mjs",
     "lint": "npx --yes eslint@9.13.0 js tools"
   }
 }

@@ -1,7 +1,8 @@
+import { PAINTED_WORLDS } from '../meadow/themes.js?v=polish-8';
 import { syllableActivity } from '../data/syllable-workshops.js';
 import { returnFromRevision } from './curriculum-revision.js?v=ateliers-sons-2';
-import { createWorld } from './world.js?v=faune-desert-1';
-import { WORLDS, worldPanorama, MODULES, MENU_ITEMS, CHAPTERS, createAdventure, createJourneyMemory, journeyState } from './model.js?v=faune-desert-1';
+import { createWorld } from '../meadow/world.js?v=polish-8';
+import { WORLDS, MODULES, MENU_ITEMS, CHAPTERS, createAdventure, createJourneyMemory, journeyState } from './model.js?v=faune-desert-1';
 import { illustration } from '../illustrations.js?v=cactus-alphabet-1';
 import { createMastery, skillStatus } from '../learning/mastery.js';
 import { WORD_LEVELS } from '../data/words.js';
@@ -26,6 +27,8 @@ let evaluated=new Set(),sessionId='';
 const journeyMemory=createJourneyMemory(storage);
 let chosenWorld=null;
 try {const value=JSON.parse(storage?.getItem('licorne.world-choice.v1')||'null');if(Number.isInteger(value)&&value>=0&&value<WORLDS.length)chosenWorld=value;}catch(e){}
+const requestedWorld=new window.URL(location.href).searchParams.get('world');
+if(requestedWorld!==null&&PAINTED_WORLDS.some(theme=>theme.id===Number(requestedWorld)))chosenWorld=Number(requestedWorld);
 const startingWorld=()=>chosenWorld??journeyMemory.startWorld;
 const voice=createWordVoice({ready:audioReady,loadClip,say,hush,unlock},message=>{$('adventureAudioStatus').textContent=message;});
 let session=null, mode='voyelles', level=1, token=0, promptToken=0, ready=false, rewardTimer=null, startWorld=0, paused=false;
@@ -68,6 +71,7 @@ function storageNote(){
   $('adventureStorage').textContent=practice.persistent&&sentencePractice.persistent&&typoPractice.persistent&&mastery.persistent&&journeyMemory.persistent?'':'La sauvegarde est bloquée. Les progrès resteront pendant cette visite.';
 }
 function panels(name){
+  world.placeChoices([],name==='walking');
   document.body.dataset.screen=name;
   for(const [id,state] of [['adventureMenu','menu'],['adventureQuestion','question'],['adventureWalking','walking'],['adventureFinish','finish']]) $(id).hidden=name!==state;
   $('adventureHome').hidden=name==='menu';$('adventureHud').hidden=name==='menu';
@@ -83,6 +87,11 @@ function progress(){
   $('adventureProgress').setAttribute('aria-valuenow',state.worldCrystals);
   $('adventureProgress').setAttribute('aria-valuetext',`${state.worldCrystals} cristaux sur 10 dans ce monde. Refuge à 5.`);
   $('adventureProgress').firstElementChild.style.width=`${state.worldCrystals*10}%`;
+  // A row of ten crystals a non-reader can count; the ringed fifth one is the refuge.
+  let gems=$('adventureGems');
+  if(!gems){gems=document.createElement('div');gems.id='adventureGems';gems.setAttribute('aria-hidden','true');
+    gems.innerHTML=Array.from({length:10},(_,i)=>`<i class="hud-gem${i===4?' refuge':''}">${illustration('gem')}</i>`).join('');$('adventureProgress').before(gems);}
+  [...gems.children].forEach((gem,i)=>gem.classList.toggle('got',i<state.worldCrystals));
 }
 async function replay(){
   if(!session||paused||session.phase!=='question') return;
@@ -127,6 +136,7 @@ function ask(){
     }else if(choice.text.length>8) button.classList.add('long');
     button.addEventListener('click',()=>answer(choice.id,button));box.appendChild(button);
   });
+  if(mode!=='words'&&session.current.choices.length<=3&&session.current.choices.every(c=>(c.g??c.text??'').length<=4))world.placeChoices([...box.children]);
   replay();
 }
 function renderAssembly(){
@@ -239,7 +249,7 @@ async function answer(id,button){
   const my=token;
   // Show the successful answer briefly, then let the child watch Paillette walk.
   const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const feedbackDelay = typo ? 1800 : activity ? 1100 : reduced ? 80 : mode === 'sons' || syllableActivity(mode) ? 1250 : 650;
+  const feedbackDelay = typo ? 1800 : activity ? 1100 : reduced ? 80 : mode === 'sons' || syllableActivity(mode) ? 1250 : 900;
   await new Promise(resolve=>setTimeout(resolve,feedbackDelay));
   if(!await continueWhenReady(my)) return;
   panels('walking');world.quiet(false);$('adventureWalking').textContent='Bravo ! Paillette avance vers le prochain cristal…';
@@ -317,10 +327,10 @@ function openWorldPicker(){
   $('worldDialog').scrollTop=0;$('worldDialogClose').focus();
 }
 function closeWorldPicker(){resume();replay();$('worldName').focus();}
-for(const theme of WORLDS){
+for(const theme of PAINTED_WORLDS){
   const button=document.createElement('button');button.type='button';button.className='world-option';button.dataset.worldId=theme.id;
   button.style.setProperty('--world-sky',theme.sky);
-  button.innerHTML=`<img class="world-option-art" src="${worldPanorama(theme)}" alt=""><strong>${theme.name}</strong><span class="world-check" aria-hidden="true">✓</span>`;
+  button.innerHTML=`<span class="painted-world-flower" aria-hidden="true">${illustration(theme.icon)}</span><strong>${theme.name}</strong><span class="world-check" aria-hidden="true">✓</span>`;
   button.setAttribute('aria-pressed','false');
   button.addEventListener('click',()=>{
     if(!world.setTheme(theme.id))return;
@@ -355,7 +365,7 @@ const world=createWorld($('adventureWorld'),{
   },
   onError(message){$('engineStatus').textContent=message;$('legacyFallback').hidden=false;}
 });
-document.addEventListener('visibilitychange',()=>{if(document.hidden){stopAudio();if(session&&session.phase!=='finished')pause();}});
+document.addEventListener('visibilitychange',()=>{if(document.hidden){stopAudio();if(session&&session.phase!=='finished')pause();}if(!session||session.phase==='finished')world.setPaused(document.hidden);});
 window.addEventListener('pagehide',event=>{cleanUp();if(!event.persisted){voice.destroy();world.destroy();}});
 window.addEventListener('pageshow',event=>{if(event.persisted) menu();});
 if(location.search.includes('debug')) window.__adventure={
