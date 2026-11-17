@@ -1,0 +1,257 @@
+/* Painted meadow release: shared scenery, native accessible exercise controls. */
+.painted-scene{display:block;width:100%;height:100%;border:0;pointer-events:none}
+.painted-game{--ink:#35372f;--paper:#fff8e9;--meadow:#587a48;--pink:#e59aa4;color:var(--ink)}
+.painted-game .adventure-header{padding:12px 20px;background:none}
+.painted-game .adventure-brand,.painted-game .world-name,.painted-game .curriculum-link{background:#fff8e9e8;border-radius:24px;padding:10px 14px;color:#43553b}
+.painted-game .adventure-brand{font-size:15px}
+.painted-game .adventure-hud{top:72px;left:20px;background:#fff8e9e8;box-shadow:none;border:0;width:260px}
+.painted-game .adventure-question{width:min(700px,55vw);left:auto;right:24px;bottom:20px;transform:none;background:none;border:0;box-shadow:none;backdrop-filter:none;padding:0;max-height:calc(100dvh - 150px);overflow:auto;scrollbar-width:thin}
+.painted-game .adventure-question-top{background:#fff8e9ed;border-radius:24px;padding:10px 14px;margin-bottom:12px}
+.painted-game .adventure-question h2{font-family:inherit;font-size:21px;color:var(--ink);font-weight:650}
+.painted-game .adventure-question .adventure-eyebrow{display:none}
+.painted-game .adventure-speaker{background:#edbdb4;border:0;box-shadow:0 3px 0 #cc9b92;border-radius:50px}
+.painted-game .adventure-choices{gap:12px;padding:4px 5px 10px}
+.painted-game .adventure-answer{background:radial-gradient(ellipse at 28% 16%,#eee6d6,transparent 65%),#d8d0bf;border:2px solid #b9af9b;border-bottom:7px solid #b0a58c;border-radius:42% 36% 18% 22% / 34% 29% 12% 15%;box-shadow:0 7px 0 #34492c24;color:#35372f;text-shadow:0 1px #fff7;overflow-wrap:anywhere}
+.painted-game .adventure-answer.correct{background:#f1dcaa;border-color:#c5ac77}
+.painted-game .adventure-answer.placed{opacity:.4}
+.painted-game .adventure-choices:not(.words) .adventure-answer{min-height:110px;font-size:48px;flex-direction:row}
+.painted-game .adventure-choices.words{grid-template-columns:repeat(2,minmax(0,1fr))}
+.painted-game .adventure-choices.words .adventure-answer{font-size:30px;min-height:90px}
+.painted-game .adventure-choices.sentence-choices{display:flex;flex-wrap:wrap}
+.painted-game .adventure-choices.sentence-choices .adventure-answer{font-size:24px;min-height:66px;border-radius:20px}
+.painted-game .adventure-feedback,.painted-game .adventure-question .adventure-status{background:#fff8e9ed;padding:8px 12px;border-radius:18px;margin:6px 0 0;min-height:0;color:#43553b}
+.painted-game .sentence-workbench,.painted-game #typoInstruction,.painted-game #typoCorrection{background:#fff8e9ed;border-radius:18px;padding:10px;margin:8px 0;color:var(--ink)}
+.painted-game .adventure-menu{background:#fff8e9f2;border-color:#f6ecd0;box-shadow:0 12px 45px #29482e20}
+.painted-game .adventure-module,.painted-game .chapter-tile{border-color:#e4d8bb;box-shadow:0 4px 0 #d5c7a6}
+.painted-game .adventure-finish,.painted-game dialog{background:#fff8e9;color:var(--ink)}
+.painted-game button:focus-visible,.painted-game a:focus-visible{outline:3px solid #b9506b;outline-offset:4px}
+.painted-game .pilot-main{max-width:850px;padding-bottom:20px}
+.painted-game .pilot-world{z-index:-1;background:#8fcbc9}
+.painted-game .pilot-main>h1{font-size:clamp(18px,3vw,26px);margin:8px 0}
+.painted-game .pilot-progress{margin:12px 0;background:#fff8e9e8;border-radius:18px;padding:10px 14px}
+.painted-game .pilot-panel{margin-top:clamp(150px,24vh,230px);background:#fff8e9eb;border:1px solid #efe3c9;border-radius:26px;box-shadow:0 5px 25px #29482e12;padding:18px 22px}
+.painted-game .pilot-panel h2{font-size:15px;color:#647357;margin:0 0 8px}
+.painted-game #pilotInstructions{font-size:19px;line-height:1.35;margin:6px 0 12px}
+.painted-game .pilot-answer-pair>.pilot-button,.painted-game .pilot-answer-card>.pilot-button,.painted-game .pilot-counts>.pilot-button,.painted-game .pilot-picture-card{background:radial-gradient(ellipse at 25% 15%,#f1ebdf,transparent 70%),#d8d0bf;color:#35372f;border:2px solid #b9af9b;border-bottom:6px solid #b0a58c;border-radius:32px 28px 18px 22px;box-shadow:0 5px 0 #34492c15;min-height:80px}
+.painted-game .pilot-primary{background:#edbdb4;color:#513e36;border-color:#dba59b}
+.painted-game .pilot-word-tile{background:#f1dcaa;border-color:#c5ac77;color:#35372f}
+.painted-game .pilot-reading-text,.painted-game .pilot-text,.painted-game .pilot-writing-paper{background:#fffaf0;color:#35372f;border-color:#d9c9a7}
+.painted-game .pilot-picture-card svg{max-height:130px}
+.painted-game .pilot-help{margin-top:8px}
+.painted-game #pilotAudioStatus:empty,.painted-game #pilotFeedback:empty{display:none}
+@media(max-width:600px){
+ .painted-game .adventure-header{padding:10px;gap:6px}.painted-game .adventure-brand{font-size:11px;padding:8px}.painted-game .world-name{font-size:11px;padding:8px}
+ .painted-game .adventure-hud{top:60px;left:10px;width:210px;padding:8px 10px;gap:5px}
+ .painted-game .adventure-question{left:10px;right:10px;bottom:max(12px,env(safe-area-inset-bottom));width:auto;max-height:54dvh}
+ .painted-game .adventure-question-top{padding:8px 10px;margin-bottom:8px}.painted-game .adventure-question h2{font-size:17px}
+ .painted-game .adventure-choices{gap:9px}.painted-game .adventure-choices:not(.words) .adventure-answer{font-size:38px;min-height:94px;padding:10px 3px}
+ .painted-game .adventure-choices.words .adventure-answer{min-height:70px;font-size:26px}.painted-game .adventure-choices.words .adventure-answer.long{font-size:23px}
+ .painted-game .adventure-choices.sentence-choices .adventure-answer{font-size:22px;min-height:58px;padding:8px 4px}
+ .painted-game .adventure-feedback{font-size:12px}.painted-game .sentence-model{font-size:18px}
+ .painted-game .pilot-main{padding:8px 12px 18px}.painted-game .pilot-panel{margin-top:clamp(120px,23vh,200px);padding:14px 12px}
+ .painted-game .pilot-progress{font-size:12px;padding:8px 10px}.painted-game .pilot-main>h1{font-size:18px}
+ .painted-game #pilotInstructions{font-size:17px}.painted-game .pilot-answer-pair{gap:10px}
+ .painted-game .pilot-answer-pair>.pilot-button{font-size:32px;padding:10px 8px}
+}
+@media(max-height:550px) and (orientation:landscape){
+ .painted-game .adventure-question{width:55vw;max-height:calc(100dvh - 70px);bottom:10px;right:12px;left:auto}
+ .painted-game .adventure-choices:not(.words) .adventure-answer{min-height:65px;font-size:32px}
+ .painted-game .adventure-hud{top:65px;bottom:auto;width:190px}.painted-game .pilot-panel{margin-top:30px}
+}
+@media(prefers-reduced-motion:reduce){.painted-game *{scroll-behavior:auto!important}}
+
+/* Keep the character visible above a scrollable reading desk, including long stories. */
+.painted-game .pilot-panel{position:fixed;bottom:14px;left:50%;transform:translateX(-50%);width:min(740px,calc(100% - 28px));box-sizing:border-box;max-height:48dvh;overflow:auto;margin:0;scrollbar-width:thin;overscroll-behavior:contain}
+.painted-game .pilot-main{padding-bottom:52dvh}
+.painted-game .pilot-main>h1{font-family:inherit;font-weight:650}
+.painted-game .curriculum-header{background:none;backdrop-filter:none;padding:10px 12px}
+.painted-game .pilot-panel .pilot-word-tiles button{background:#f1dcaa;color:#35372f;border-color:#c5ac77}
+@media(max-width:600px){.painted-game .pilot-panel{max-height:45dvh;padding:14px 12px}.painted-game .pilot-main>h1{margin-top:0}.painted-game .pilot-main{padding-top:0}}
+@media(max-height:550px) and (orientation:landscape){.painted-game .pilot-panel{left:auto;right:12px;transform:none;width:58%;max-height:calc(100dvh - 70px)}.painted-game .pilot-main>h1,.painted-game .pilot-progress{max-width:32%}}
+
+.painted-game .pilot-answer-pair>.pilot-long-answer,.painted-game .pilot-answer-card>.pilot-long-answer{font-size:clamp(18px,4.8vw,25px);line-height:1.25;white-space:normal;overflow-wrap:anywhere}
+
+@media(max-width:600px){
+ .painted-game .adventure-question.sentence-question{max-height:44dvh}
+ .painted-game .sentence-question .sentence-instruction,.painted-game .sentence-model>span{display:none}
+ .painted-game .sentence-model{padding:7px 10px;margin-bottom:6px}
+ .painted-game .sentence-model p{font-size:22px;line-height:1.22;margin:0}
+ .painted-game .sentence-assembly{min-height:38px;padding:5px;margin-bottom:0;gap:4px}
+ .painted-game .sentence-slot{min-height:30px;min-width:30px;padding:2px 6px}
+ .painted-game .sentence-slot.filled{font-size:20px}
+ .painted-game .sentence-workbench{padding:7px;margin:5px 0}
+ .painted-game .adventure-choices.sentence-choices .adventure-answer{min-height:48px;padding:7px 9px}
+ .painted-game .sentence-question .adventure-feedback{font-size:11px;padding:6px;margin-top:3px}
+}
+
+.painted-world-flower{display:grid;place-items:center;height:100px;background:linear-gradient(#c9e6dc,#9bb884);border-radius:20px}.painted-world-flower svg{width:64px;height:64px}
+/* Native answer buttons projected onto the winding road, with the same handlers and focus. */
+.painted-game.road-choices .adventure-question{left:12px;right:12px;transform:none;width:auto;max-width:650px;margin-inline:auto;overflow:visible;max-height:none;bottom:14px}
+.painted-game.road-choices #adventureChoices{height:0;padding:0;gap:0}
+.painted-game.road-choices .adventure-feedback{font-size:12px;padding:6px 10px}
+.painted-game.road-choices .pilot-panel{transform:none;left:12px;right:12px;width:auto;max-height:28dvh;overflow:visible;background:#fff8e9ed}
+.painted-game.road-choices .pilot-panel h2,.painted-game.road-choices #pilotHelp{display:none}
+.painted-game.road-choices .pilot-answer-pair{height:0;margin:0}
+.painted-game [data-road-stone]{position:fixed!important;left:var(--road-x)!important;top:var(--road-y)!important;width:var(--road-w)!important;height:var(--road-h)!important;min-width:0!important;min-height:44px!important;max-width:none!important;margin:0!important;padding:5px!important;display:flex!important;flex-direction:row!important;align-items:center;justify-content:center;gap:3px!important;font-size:var(--road-font,32px)!important;line-height:1!important;border-radius:44% 42% 12% 15% / 36% 35% 12% 13%!important;border-bottom-width:5px!important;background:radial-gradient(ellipse at 28% 16%,#eee6d6,transparent 65%),#d8d0bf!important;box-shadow:0 8px 0 #34492c30!important;pointer-events:auto;z-index:4}
+.painted-game [data-road-stone].correct{background:#f1dcaa!important}
+.painted-game [data-road-stone] small{font-size:.72em!important}
+@media(max-width:600px){.painted-game.road-choices .adventure-question-top{margin-bottom:4px}.painted-game.road-choices .pilot-panel{padding:10px 12px}.painted-game.road-choices #pilotInstructions{font-size:15px;margin:0 0 6px}.painted-game.road-choices #pilotAudioStatus{font-size:12px;margin:4px 0}}
+
+.painted-game [data-road-stone].phonics-group{flex-direction:column!important}
+
+
+
+.world-option .painted-world-flower{background:linear-gradient(var(--world-sky,#c9e6dc),#fff0d1)}
+
+
+/* ---------- Art pass 4: painted answer stones, crystal counter, calmer chrome ---------- */
+.painted-game .adventure-menu{border-radius:30px;border:1px solid #fffaf0;box-shadow:0 14px 50px #29482e26,0 2px 0 #e6d8b6}
+.painted-game .adventure-hud{border-radius:22px;box-shadow:0 3px 0 #d9cba622,0 8px 24px #29482e14}
+.painted-game #adventureGems{flex-basis:100%;display:flex;gap:3px;justify-content:space-between;align-items:center;padding:2px 1px}
+.painted-game .hud-gem{display:grid;place-items:center;width:9.4%;max-width:26px;aspect-ratio:1;border-radius:50%;filter:grayscale(.9) brightness(.82);opacity:.5;transition:opacity .35s,filter .35s,transform .45s cubic-bezier(.3,1.9,.5,1)}
+.painted-game .hud-gem svg{width:100%;height:100%}
+.painted-game .hud-gem.got{filter:none;opacity:1;transform:scale(1.12)}
+.painted-game .hud-gem.refuge{outline:2px dashed #d9a441;outline-offset:1px}
+.painted-game #adventureProgress{height:0;opacity:0;margin:-4px 0 0;overflow:hidden}
+.painted-game #adventureRefuge,.painted-game #adventureTotal{opacity:.72}
+.painted-game .adventure-speaker{min-height:56px;padding:8px 18px;font-size:16px}
+.painted-game .adventure-speaker span{display:inline-block;animation:speaker-nudge 7s ease-in-out infinite}
+@keyframes speaker-nudge{0%,88%,100%{transform:scale(1)}92%{transform:scale(1.22) rotate(-6deg)}96%{transform:scale(1.1) rotate(4deg)}}
+
+body{--stone-tuft:#5f8a48;--stone-bloom:#e59aa4}
+body[data-painted-habitat="forest"]{--stone-tuft:#47693f}
+body[data-painted-habitat="jungle"]{--stone-tuft:#3f7a52;--stone-bloom:#e88b6a}
+body[data-painted-habitat="beach"]{--stone-tuft:#b3a468;--stone-bloom:#eeb7a2}
+body[data-painted-habitat="ice"]{--stone-tuft:#f4f9f8;--stone-bloom:#b9dbe6}
+body[data-painted-habitat="clouds"]{--stone-tuft:#fffaf0;--stone-bloom:#f6dc8f}
+body[data-painted-habitat="moon"]{--stone-tuft:#6f7696;--stone-bloom:#8fe0d2}
+body[data-painted-habitat="prehistoric"]{--stone-tuft:#4f7a45;--stone-bloom:#f1d98c}
+body[data-painted-habitat="desert"]{--stone-tuft:#b3955c;--stone-bloom:#e88b8f}
+body[data-painted-habitat="fairy"]{--stone-tuft:#6f9a72;--stone-bloom:#c8b6ec}
+.painted-game [data-road-stone]{border:0!important;border-bottom:6px solid #a3957b!important;border-radius:47% 45% 15% 17% / 44% 41% 13% 14%!important;
+ background:radial-gradient(9px 6px at 22% 30%,#d9a44166 0 60%,transparent 62%),radial-gradient(6px 4px at 76% 22%,#d9a44155 0 60%,transparent 62%),radial-gradient(7px 5px at 82% 64%,#8fa37a55 0 60%,transparent 62%),radial-gradient(125% 95% at 30% 10%,#fdf8ec 0,#f1e8d4 36%,#ddd2bc 70%,#c6b99f 100%)!important;
+ box-shadow:inset 0 3px 0 #ffffffb8,inset -9px -10px 16px #8a7c641f,0 9px 0 -2px #2c3f2b2e,0 14px 14px -6px #2c3f2b40!important;color:#33352e!important;font-weight:800;text-shadow:0 1px #fff9!important;overflow:visible!important;transition:filter .2s}
+/* A fringe of grass (or snow, sand…) tucks each stone into its world; it blooms on a right answer. */
+.painted-game [data-road-stone]::after{content:'';position:absolute;left:-9%;right:-9%;bottom:-13px;height:24px;pointer-events:none;background:var(--stone-tuft);
+ -webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 150 24' preserveAspectRatio='none'%3E%3Cpath d='M0 24Q3 10 0 3Q8 10 9 24ZM8 24Q11 7 16 0Q16 12 18 24ZM17 24Q22 12 28 8Q25 16 26 24ZM27 24Q30 16 35 14Q33 19 34 24ZM118 24Q118 17 115 13Q121 17 124 24ZM124 24Q125 12 121 6Q130 13 133 24ZM133 24Q135 8 140 1Q140 12 142 24ZM141 24Q146 12 150 8Q148 17 150 24ZM34 24Q60 19 90 20Q108 20 118 24Z'/%3E%3C/svg%3E") center/100% 100% no-repeat;
+ mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 150 24' preserveAspectRatio='none'%3E%3Cpath d='M0 24Q3 10 0 3Q8 10 9 24ZM8 24Q11 7 16 0Q16 12 18 24ZM17 24Q22 12 28 8Q25 16 26 24ZM27 24Q30 16 35 14Q33 19 34 24ZM118 24Q118 17 115 13Q121 17 124 24ZM124 24Q125 12 121 6Q130 13 133 24ZM133 24Q135 8 140 1Q140 12 142 24ZM141 24Q146 12 150 8Q148 17 150 24ZM34 24Q60 19 90 20Q108 20 118 24Z'/%3E%3C/svg%3E") center/100% 100% no-repeat}
+.painted-game [data-road-stone]::before{content:'';position:absolute;left:-6%;right:-6%;bottom:-4px;height:22px;pointer-events:none;opacity:0;transform:scale(.3);transform-origin:50% 100%;transition:opacity .3s,transform .5s cubic-bezier(.3,1.7,.5,1);
+ background:radial-gradient(circle 5px at 7% 55%,var(--stone-bloom) 0 96%,transparent),radial-gradient(circle 2px at 7% 55%,#f6dc8f 0 96%,transparent),radial-gradient(circle 6px at 18% 30%,#fbf3e4 0 96%,transparent),radial-gradient(circle 5px at 86% 34%,var(--stone-bloom) 0 96%,transparent),radial-gradient(circle 6px at 95% 60%,#fbf3e4 0 96%,transparent),radial-gradient(circle 4px at 76% 68%,#f0cf8f 0 96%,transparent);background-blend-mode:normal}
+.painted-game [data-road-stone]:disabled{opacity:1}
+.painted-game [data-road-stone]:disabled:not(.correct):not(.retry){filter:saturate(.7) brightness(.97)}
+.painted-game [data-road-stone].correct{background:radial-gradient(125% 95% at 30% 10%,#fffbe6 0,#fbe9ae 40%,#f1d27e 100%)!important;border-bottom-color:#c9a550!important;
+ box-shadow:inset 0 3px 0 #fffffFd0,0 0 0 5px #fff6cf99,0 0 30px 10px #f6d98aa6,0 9px 0 -2px #2c3f2b2e!important}
+.painted-game [data-road-stone].correct::before{opacity:1;transform:scale(1)}
+.painted-game [data-road-stone].retry{filter:saturate(.55) brightness(.98)}
+/* Positioning uses the independent `translate` property so press, joy and retry can animate `transform`. */
+@supports (translate:0px){
+ .painted-game [data-road-stone]{translate:-50% -100%}
+ .painted-game [data-road-stone]:not(:disabled):active{transform:translateY(4px) scale(.98)!important;box-shadow:inset 0 3px 0 #ffffffb8,0 4px 0 -2px #2c3f2b2e!important}
+ .painted-game [data-road-stone].correct{animation:stone-joy .75s cubic-bezier(.3,1.5,.5,1) both}
+ .painted-game [data-road-stone].retry{animation:stone-retry .5s ease-in-out both}
+}
+@supports not (translate:0px){.painted-game [data-road-stone]{transform:translate(-50%,-100%)!important}}
+@keyframes stone-joy{0%{transform:scale(1)}30%{transform:scale(1.16) translateY(-10px) rotate(-3deg)}60%{transform:scale(.97) rotate(2deg)}100%{transform:scale(1.06)}}
+@keyframes stone-retry{0%,100%{transform:rotate(0)}25%{transform:rotate(-5deg)}60%{transform:rotate(4deg)}}
+@media(prefers-reduced-motion:reduce){.painted-game .adventure-speaker span,.painted-game [data-road-stone].correct,.painted-game [data-road-stone].retry{animation:none!important}}
+
+
+/* ---------- Art pass 6: world picker shows a small painting of each world; larger HUD text ---------- */
+.world-option .painted-world-flower{position:relative;overflow:hidden;width:100%;height:84px;border-radius:16px 16px 10px 10px;
+ background:radial-gradient(70% 34% at 50% 108%,var(--wp,#ecd3a0) 0 62%,transparent 63%),radial-gradient(120% 62% at 22% 120%,var(--wg,#6f9152) 0 62%,transparent 63%),radial-gradient(95% 58% at 88% 108%,var(--wh,#9bb884) 0 62%,transparent 63%),radial-gradient(circle at 78% 24%,var(--ws,#fff8de) 0 8%,transparent 9%),linear-gradient(var(--world-sky,#c9e6dc),var(--wk,#fff0d1))}
+.world-option .painted-world-flower svg{width:40px;height:40px;position:relative;top:-8px;filter:drop-shadow(0 2px 0 #ffffffb0)}
+.world-option[data-world-id="0"]{--wg:#6f9152;--wh:#9bb884;--wp:#ecd3a0}
+.world-option[data-world-id="1"]{--wg:#4e6c48;--wh:#6e9276;--wp:#d9c79d;--wk:#e5d7a6}
+.world-option[data-world-id="2"]{--wg:#477957;--wh:#6bb9b0;--wp:#ead0a2;--wk:#eee1b5}
+.world-option[data-world-id="3"]{--wg:#ecd7a6;--wh:#5fb9c4;--wp:#fbeecb;--wk:#fff1cf}
+.world-option[data-world-id="4"]{--wg:#e9f1f0;--wh:#9cc3d8;--wp:#fbf8ee;--wk:#f6f1e2}
+.world-option[data-world-id="5"]{--wg:#e9f1ff;--wh:#f6d6e6;--wp:#ffeec2;--wk:#ffd2a8;--world-sky:#7fb0ee}
+.world-option[data-world-id="6"]{--wg:#a39fe0;--wh:#7b76c4;--wp:#f3e9d6;--wk:#7a5cb0;--ws:#6fb3d6;--world-sky:#241f5a}
+.world-option[data-world-id="7"]{--wg:#8fa868;--wh:#5f8a5e;--wp:#e9c890;--wk:#f6d79c}
+.world-option[data-world-id="8"]{--wg:#e9c48c;--wh:#c9806f;--wp:#fbe2b4;--wk:#fdeec6}
+.world-option[data-world-id="9"]{--wg:#a6c394;--wh:#e7a9c6;--wp:#fbe6dc;--wk:#fff0d2}
+.painted-game .adventure-hud{font-size:14px}
+.painted-game .adventure-hud small{font-size:12px}
+@media(max-width:600px){.painted-game .adventure-hud{font-size:12px}.painted-game .adventure-hud small{font-size:11px}}
+
+
+/* ---------- Art pass 7: the reading path wears the same painted look as the worlds ---------- */
+[data-habitat]{--k1:#8fcbc9;--k2:#f6ecd0;--far:#b3d2cb;--hill:#9bb884;--gr:#6f9152;--pa:#ecd3a0;--sun:#fff8de}
+[data-habitat="forest"]{--k1:#496e61;--k2:#e5d7a6;--far:#8eac98;--hill:#6e9276;--gr:#4e6c48;--pa:#d9c79d}
+[data-habitat="jungle"]{--k1:#73b4a6;--k2:#eee1b5;--far:#6bb9b0;--hill:#699f7c;--gr:#477957;--pa:#ead0a2}
+[data-habitat="beach"]{--k1:#7cc6d6;--k2:#fff1cf;--far:#5fb9c4;--hill:#f0dfb4;--gr:#e3cb98;--pa:#fbeecb}
+[data-habitat="ice"]{--k1:#7fb4d2;--k2:#f6f1e2;--far:#9cc3d8;--hill:#dcebee;--gr:#cde0e8;--pa:#fbf8ee}
+[data-habitat="clouds"]{--k1:#5f9be6;--k2:#ffd2a8;--far:#f6d6e6;--hill:#fffdf6;--gr:#dfeaff;--pa:#ffeec2}
+[data-habitat="moon"]{--k1:#17143f;--k2:#7a5cb0;--far:#5b56a8;--hill:#8e8ad2;--gr:#7b76c4;--pa:#f3e9d6;--sun:#6fb3d6}
+.curriculum-thumb{display:block;min-height:112px;height:100%;background:radial-gradient(60% 30% at 56% 106%,var(--pa) 0 62%,transparent 63%),radial-gradient(120% 60% at 18% 122%,var(--gr) 0 62%,transparent 63%),radial-gradient(100% 62% at 92% 112%,var(--hill) 0 62%,transparent 63%),radial-gradient(90% 50% at 40% 96%,var(--far) 0 62%,transparent 63%),radial-gradient(circle at 76% 24%,var(--sun) 0 9%,transparent 10%),linear-gradient(var(--k1),var(--k2))}
+body.curriculum.painted-game{background:var(--k2,#f6ecd0);font-family:ui-rounded,'SF Pro Rounded','Nunito','Fredoka','Quicksand',system-ui,sans-serif;color:#35372f}
+body.curriculum.painted-game::before{background:radial-gradient(90% 26% at 50% 104%,var(--pa) 0 62%,transparent 63%),radial-gradient(130% 44% at 12% 112%,var(--gr) 0 62%,transparent 63%),radial-gradient(120% 46% at 96% 106%,var(--hill) 0 62%,transparent 63%),radial-gradient(110% 40% at 40% 92%,var(--far) 0 62%,transparent 63%),radial-gradient(circle at 80% 14%,var(--sun) 0 5%,transparent 5.4%),linear-gradient(var(--k1) 0,var(--k2) 62%)}
+.painted-game.curriculum h1,.painted-game.curriculum h2,.painted-game .curriculum-card-copy strong{font-family:inherit;font-weight:750;color:#35372f;letter-spacing:-.01em}
+.painted-game.curriculum h1{font-size:clamp(1.7rem,5vw,2.9rem)}
+.painted-game .curriculum-header{background:none;border:0}
+.painted-game .curriculum-header .curriculum-link{background:#fff8e9e8;border-radius:24px;padding:4px 14px;text-decoration:none;color:#43553b;font-size:.9rem}
+.painted-game .curriculum-hero{background:#fff8e9f2;border:1px solid #fffaf0;border-radius:30px;box-shadow:0 14px 50px #29482e26,0 2px 0 #e6d8b6}
+.painted-game .curriculum-paillette{max-height:190px}
+.painted-game .curriculum-play-link{background:#e0ad4c;color:#3a2f1a;border-radius:999px;padding:12px 22px;min-height:52px;box-shadow:0 4px 0 #bf8e36;text-decoration:none;font-size:1.05rem}
+.painted-game .curriculum-play-link:active{transform:translateY(3px);box-shadow:0 1px 0 #bf8e36}
+.painted-game .curriculum-card{grid-template-columns:34% minmax(0,1fr);background:#fff8e9f5;border:1px solid #fffaf0;border-radius:24px;box-shadow:0 4px 0 #d5c7a6,0 10px 24px #29482e14;min-height:112px}
+.painted-game .curriculum-label{color:#647357}
+.painted-game .curriculum-card-copy small,.painted-game .curriculum-unit small{color:#647357}
+.painted-game .curriculum-chapter-header{background:#fff8e9f2;border-radius:24px;padding:12px 18px}
+.painted-game .curriculum-chapter-header .curriculum-chapter-progress{background:#e4efd6;color:#43553b}
+.painted-game .curriculum-trail{background:#fff8e94d;border:0;border-radius:30px;box-shadow:none}
+.painted-game .curriculum-road path{stroke:#c9a56c;stroke-width:30px;stroke-linecap:round}
+.painted-game .curriculum-road path + path{stroke:#f6e6c0;stroke-width:24px}
+.painted-game .curriculum-road.is-traveled path + path{stroke:#ffe9a8}
+.painted-game .curriculum-trail .curriculum-unit,.painted-game .curriculum-arrival{background:#fff8e9f7;border:1px solid #fffaf0;border-radius:20px;box-shadow:0 3px 0 #d5c7a6;min-height:60px}
+.painted-game .curriculum-trail .curriculum-unit[data-status="available"]{background:#fff3c4;border-color:#e0ad4c;box-shadow:0 3px 0 #d9a441,0 0 0 4px #fff6cf99}
+.painted-game .curriculum-trail .curriculum-unit[data-status="completed"]{background:#eef6e0}
+.painted-game .curriculum-trail .curriculum-unit[data-status="upcoming"]{background:#fff8e9c9}
+.painted-game .curriculum-trail .curriculum-stop{width:44px;height:44px;border:0;border-bottom:4px solid #a3957b;border-radius:47% 45% 30% 32% / 50% 48% 30% 30%;background:radial-gradient(120% 90% at 30% 10%,#fdf8ec,#ddd2bc);box-shadow:0 5px 6px -3px #2c3f2b55;color:#33352e;font-weight:800}
+.painted-game .curriculum-trail [data-status="completed"] .curriculum-stop{background:radial-gradient(120% 90% at 30% 10%,#fffbe6,#f1d27e);border-bottom-color:#c9a550}
+.painted-game .curriculum-trail [data-status="upcoming"] .curriculum-stop{opacity:.75}
+.painted-game .curriculum-traveler{width:70px;height:70px;left:calc(var(--stop) - 35px);top:calc(50% - 84px);background:url('../assets/storybook/paillette-peinte.svg') center/contain no-repeat;filter:drop-shadow(0 3px 2px #2c3f2b40)}
+.painted-game .curriculum-traveler.is-walking{animation:traveler-bob .36s ease-in-out infinite alternate}
+@keyframes traveler-bob{from{transform:translateY(0) rotate(-3deg)}to{transform:translateY(-7px) rotate(3deg)}}
+.painted-game .curriculum-trail-end .curriculum-stop{width:92px;height:104px;border:0;background:none;box-shadow:none;border-radius:0}
+.painted-game .curriculum-trail-end .curriculum-traveler{top:calc(50% - 96px)}
+.painted-game .curriculum-unit-detail{background:#fff8e9f5;border:1px solid #fffaf0;border-radius:26px;box-shadow:0 4px 0 #d5c7a6}
+.painted-game .curriculum-block{border-radius:16px}
+.painted-game .curriculum-menu-tile img{width:clamp(44px,9vw,58px)}
+@media(max-width:600px){
+ .painted-game .curriculum-header{gap:6px}.painted-game .curriculum-header .adventure-brand{font-size:12px}.painted-game .curriculum-header .curriculum-link{font-size:.8rem;padding:2px 10px}
+ .painted-game .curriculum-hero{grid-template-columns:minmax(0,1fr) 38%;padding:16px;border-radius:24px}.painted-game .curriculum-paillette{display:block;max-height:120px}
+ .painted-game .curriculum-card{grid-template-columns:30% minmax(0,1fr);min-height:96px}.painted-game .curriculum-thumb{min-height:96px}
+ .painted-game .curriculum-card-copy{padding:10px 12px;gap:3px}.painted-game .curriculum-card-copy strong{font-size:1.12rem}
+ .painted-game .curriculum-trail{padding:40px 6px 16px}.painted-game .curriculum-trail .curriculum-unit,.painted-game .curriculum-arrival{width:62%;margin-left:37%}
+ .painted-game .curriculum-trail .curriculum-unit strong{font-size:.95rem;line-height:1.2}
+}
+@media(prefers-reduced-motion:reduce){.painted-game .curriculum-traveler.is-walking{animation:none}}
+
+/* Phones held sideways: a slim prompt bar below the stones and a compact crystal counter. */
+@media(max-height:550px) and (orientation:landscape){
+ .painted-game.road-choices .adventure-question{left:auto;right:10px;bottom:6px;width:min(52vw,440px);max-width:none;margin:0}
+ .painted-game.road-choices .adventure-question-top{padding:5px 8px 5px 14px;margin:0;border-radius:999px}
+ .painted-game.road-choices .adventure-question h2{font-size:16px}
+ .painted-game.road-choices .adventure-speaker{min-height:44px;padding:4px 14px;font-size:14px}
+ .painted-game.road-choices .adventure-feedback{position:fixed;left:10px;bottom:6px;max-width:40vw;margin:0;font-size:11px}
+ .painted-game .adventure-hud{top:56px;bottom:auto;left:10px;width:176px;padding:6px 10px;gap:3px}
+ .painted-game #adventureTotal,.painted-game #adventureRefuge{display:none}
+ .painted-game .adventure-header{padding:6px 10px}
+ .painted-game .adventure-menu{max-height:calc(100dvh - 60px);overflow:auto}
+}
+
+/* Polish 8: match the picker to the game and ground stones in their actual habitat. */
+.painted-game #worldDialog{font-family:inherit;background:#fff8e9;color:var(--ink);border:1px solid #fffaf0;scrollbar-width:thin}
+.painted-game #worldDialog h2{font-family:inherit;color:var(--ink);font-size:clamp(24px,4vw,32px);letter-spacing:-.025em}
+.painted-game #worldDialogClose{background:#efe3cb;color:#43553b}
+.painted-game .world-option{border-radius:20px;box-shadow:0 3px 0 #d5c7a6;border-color:#eadfc9}
+.painted-game .world-option[aria-pressed="true"]{border-color:#a7803b;background:#fff1c9;box-shadow:0 0 0 3px #e4c57d70,0 3px 0 #b99a60}
+.painted-game:is([data-painted-habitat="ice"],[data-painted-habitat="clouds"]) [data-road-stone]::after{
+ -webkit-mask:none;mask:none;left:-6%;right:-6%;bottom:-12px;height:20px;background:
+ radial-gradient(ellipse at 16% 72%,var(--stone-tuft) 0 19%,transparent 21%),
+ radial-gradient(ellipse at 83% 72%,var(--stone-tuft) 0 21%,transparent 23%),
+ radial-gradient(ellipse at 50% 100%,var(--stone-tuft) 0 52%,transparent 55%)}
+.painted-game:is([data-painted-habitat="beach"],[data-painted-habitat="desert"],[data-painted-habitat="moon"]) [data-road-stone]::after{
+ -webkit-mask:none;mask:none;left:-5%;right:-5%;bottom:-12px;height:16px;border-radius:50%;
+ background:radial-gradient(ellipse at 50% 50%,var(--stone-tuft) 0 28%,transparent 70%);opacity:.65}

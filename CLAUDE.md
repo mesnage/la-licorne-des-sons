@@ -127,3 +127,21 @@ The world-name button opens the seven-world picker. Habitat changes preserve the
 ## Chapters and the family reward wheel
 
 The chapter menu lives in app.js + css/chapters.css. Keep four root tiles in two rows at every screen size. The chapter back button is available inside each chapter; navigation must not mutate learning progress or rewards. Browser checks use tools/browser_menu.py to open chapters through the real UI before choosing a module. tools/test-chapters-browser.py exercises all thirteen starts, responsive navigation, all six deterministic wheel outcomes, legacy gift migration, one real earned spin, classic fallback and normal-motion locking. The shared reward module/import revision must match across main, game.js and words/game.js. Never reintroduce the removed wheel fart animation; the separate adventure prout gags stay unchanged.
+
+
+## Art pass 4 (painted worlds)
+
+`js/meadow/fauna.js` draws fifty species from thirteen kits listed in `SPEC`; `faunaPose` in `fauna-data.js` is a pure
+behaviour loop and must stay deterministic (tests compare poses). Parts are baked with `sprite()` (auto-cropped) and
+moved only with CSS transforms. `scenery.js` owns the shared ground brush and props; `habitats.js` returns a scatter
+brush per world. Scenery tiles are virtualised in `preview.js` (`syncTiles`, `needBottom`): never go back to baking
+every tile up front — it used over 600 MB. Far planes use `LIFT` on wide screens. Road stones are positioned with the
+CSS `translate` property so `transform` stays free for animations. While a question is open, animals slow down and
+look at the stones (`fauna.update(..., focus)`). Review record: docs/art-pass-4-panel-review.md.
+
+Art pass 5: colour fills are flat on purpose (`wash` caps its noise). Do not bring back blotchy washes, translucent
+shadow pools or veils — the owner sees them as grey marks. Shading is done with the `texture` tiles (`speck`, `dash`)
+placed where they describe form: under hill crests, along the far edge, under verges, in cast shadows.
+
+Art pass 6: the companion is an original duckling (`makeDuck` in preview.js, variable `pal`); do not draw licensed
+characters. Paillette keeps her rig anchors (leg pivots y=-46, head 24,-72, tail -40,-74, ear 42,-134).

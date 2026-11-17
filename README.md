@@ -1,3 +1,19 @@
+## Polish 8
+
+Version à essayer : `index.html?world=7&version=polish-8`. Les nouvelles illustrations sont conservées ; textures allégées, silhouettes plus lisibles, pierres adaptées aux habitats et sélecteur de mondes corrigé. Voir [la revue](docs/polish-8-review.md).
+
+## Version 1.1 — les mondes peints
+
+Sur `codex/storybook-meadow`, l’entrée habituelle `index.html` utilise désormais la prairie peinte pour les **15 ateliers**. `curriculum-play.html` utilise le même décor pour les **74 unités du parcours**. Les dix mondes sont maintenant disponibles : prairie, forêt, jungle, plage, glaces, nuages, lune, dinosaures, désert et royaume des licornes. Chaque chapitre du parcours utilise son habitat. Pour essayer la version complète : `index.html?world=7&version=fauna-3`, puis le bouton du monde en haut.
+
+Chaque monde possède maintenant cinq espèces animées : marche, petits bonds, battements d’ailes, clignements et mouvements de tête ou de queue. Voir [la faune des mondes](docs/painted-wildlife.md).
+
+Les exercices, les enregistrements, les sauvegardes, les refuges et la roue des cadeaux restent reliés aux modèles existants. Les réponses sont des contrôles HTML accessibles, habillés en pierres ou en tuiles ; les lectures longues disposent d’un panneau défilant. Un échec audio ne bloque plus les réponses du parcours.
+
+Le rendu peint est isolé dans un cadre local via `js/meadow/world.js`, sans Phaser ni CDN pour ces deux entrées. Les décors sont peints une fois, puis déplacés ; `js/meadow/journey.js` gère les trajets, les pauses et les annulations. `classic.html` reste le secours historique. `meadow-preview.html` conserve l’essai graphique autonome.
+
+Voir [le bilan de migration](docs/painted-meadow-release.md) pour les vérifications et les limites. Les sections historiques ci-dessous décrivent aussi l’ancien moteur.
+
 # 🦄 La Licorne des Sons
 
 Jeu de lecture en français pour les enfants de 4 à 7 ans. Toutes les activités utilisent maintenant l’aventure

@@ -4,7 +4,6 @@ import { exerciseVersion, simpleExercise } from '../data/curriculum-simple.js?v=
 import { createCurriculum } from '../learning/curriculum.js?v=storybook-2';
 import { chapterMapUrl, chapterPlayUrl } from '../learning/chapter-one.js';
 import { pilotProgressKey, pilotQuestionCount, readPilotProgress, restoreProgrammeState } from '../learning/pilot-session.js?v=storybook-2';
-import { WORLDS, worldPanorama } from './model.js?v=roue-dinos-1';
 
 const testMode = reviewMode(curriculumLocation());
 const content = document.getElementById('curriculumContent');
@@ -32,8 +31,11 @@ function art(src, className = '') {
 
 function chapterCard(chapter, index, completedUnits) {
   const card = link('#' + chapter.id, '', 'curriculum-card tone-' + ['rose', 'mint', 'sky', 'lavender', 'peach', 'gold', 'lavender'][index]);
-  const world = WORLDS.find(world => world.habitat === chapter.theme);
-  if (world) card.append(art(worldPanorama(world), 'curriculum-panorama'));
+  // A small painted landscape in the chapter's own colours (see css/meadow-game.css).
+  const thumb = element('span', 'curriculum-thumb');
+  thumb.dataset.habitat = chapter.theme;
+  thumb.setAttribute('aria-hidden', 'true');
+  card.append(thumb);
 
   const summary = element('div', 'curriculum-card-copy');
   const completed = chapter.units.filter(unit => completedUnits.has(unit.id)).length;
@@ -48,7 +50,7 @@ function chapterCard(chapter, index, completedUnits) {
 }
 
 function chapterHome(curriculum, completedUnits, pilot) {
-  document.body.style.removeProperty('--curriculum-panorama');
+  document.body.dataset.habitat = 'meadow';
   const hero = element('div', 'curriculum-hero');
   const intro = element('div', '');
   intro.append(element('h1', '', 'Mon parcours de lecture'));
@@ -60,7 +62,7 @@ function chapterHome(curriculum, completedUnits, pilot) {
     ? 'Continuer mon aventure' : 'Commencer mon aventure';
   if (next) intro.append(element('p', 'curriculum-next-step', next.title));
   intro.append(link(chapterPlayUrl(destination.id, testMode), startLabel, 'curriculum-link curriculum-play-link'));
-  hero.append(intro, art('assets/storybook/paillette-0.webp', 'curriculum-paillette'));
+  hero.append(intro, art('assets/storybook/paillette-et-caneton.svg', 'curriculum-paillette'));
   const chapters = element('nav', 'curriculum-chapters');
   chapters.setAttribute('aria-label', 'Chapitres du parcours de lecture');
   chapters.append(...curriculum.chapters.map((chapter, index) => chapterCard(chapter, index, completedUnits)));
@@ -133,10 +135,7 @@ function chapterView(curriculum, chapter, selectedUnit, completedUnits, pilot) {
 
   const map = element('div', selectedUnit ? 'curriculum-map has-unit' : 'curriculum-map');
   const path = element('div', 'curriculum-trail');
-  const world = WORLDS.find(world => world.habitat === chapter.theme);
-  if (world) {
-    document.body.style.setProperty('--curriculum-panorama', 'url("' + new window.URL(worldPanorama(world), location.href).href + '")');
-  }
+  document.body.dataset.habitat = chapter.theme;
   const units = element('ol', 'curriculum-units');
   units.setAttribute('aria-label', 'Unités du chapitre');
   const firstUnfinished = chapter.units.find(unit => !completedUnits.has(unit.id));
@@ -201,7 +200,7 @@ function chapterView(curriculum, chapter, selectedUnit, completedUnits, pilot) {
   }
   const destination = element('li', 'curriculum-trail-step curriculum-trail-end');
   destination.style.setProperty('--stop', castleStop + '%');
-  const castle = art('assets/storybook/chateau-etoile.webp', 'curriculum-stop');
+  const castle = art('assets/storybook/chateau-peint.svg', 'curriculum-stop');
   const nextChapter = curriculum.chapters[curriculum.chapters.indexOf(chapter) + 1];
   const title = element('strong', '', nextChapter ? 'Château du chapitre' : 'Château final');
   const arrival = element('div', 'curriculum-arrival');
