@@ -1,3 +1,5 @@
+import { fitChoiceGroup } from '../meadow/choice-fit.js?v=choices-9';
+fitChoiceGroup(document.getElementById('pilotControls'));
 import { curriculumLocation, reviewMode } from '../learning/curriculum-mode.js';
 import { revisionFor, revisionUrl } from './curriculum-revision.js?v=ateliers-sons-2';
 import * as playback from '../audio.js?v=curriculum-chapter-1';
@@ -578,7 +580,7 @@ async function openPilot() {
   });
 
   try {
-    const { createWorld } = await import('../meadow/world.js?v=polish-8');
+    const { createWorld } = await import('../meadow/world.js?v=choices-9');
     world = createWorld(get('pilotWorld'), {
       onReady() {
         worldReady = true;

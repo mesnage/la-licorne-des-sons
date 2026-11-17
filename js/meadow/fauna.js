@@ -1,4 +1,4 @@
-import {FAUNA,faunaPose} from './fauna-data.js?v=polish-8';
+import {FAUNA,faunaPose} from './fauna-data.js?v=choices-9';
 /**
  * Painted, articulated animals. Every part is drawn once into a small tightly-cropped bitmap
  * and then only moved with CSS transforms (no per-frame canvas work).
