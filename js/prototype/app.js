@@ -1,10 +1,10 @@
-import { fitChoiceGroup } from '../meadow/choice-fit.js?v=portals-12';
+import { fitChoiceGroup } from '../meadow/choice-fit.js?v=review-16';
 fitChoiceGroup(document.getElementById('adventureChoices'));
-import { PAINTED_WORLDS } from '../meadow/themes.js?v=portals-12';
+import { PAINTED_WORLDS } from '../meadow/themes.js?v=review-16';
 import { syllableActivity } from '../data/syllable-workshops.js';
 import { returnFromRevision } from './curriculum-revision.js?v=ateliers-sons-2';
-import { createWorld } from '../meadow/world.js?v=portals-12';
-import { WORLDS, MODULES, MENU_ITEMS, CHAPTERS, createAdventure, createJourneyMemory, journeyState } from './model.js?v=faune-desert-1';
+import { createWorld } from '../meadow/world.js?v=review-16';
+import { WORLDS, MODULES, MENU_ITEMS, CHAPTERS, createAdventure, createJourneyMemory, journeyState } from './model.js?v=review-16';
 import { illustration } from '../illustrations.js?v=cactus-alphabet-1';
 import { createMastery, skillStatus } from '../learning/mastery.js';
 import { WORD_LEVELS } from '../data/words.js';
@@ -12,9 +12,9 @@ import { sentenceActivity } from '../data/sentences.js';
 import { TYPO_ACTIVITY } from '../data/typos.js';
 import { createWordProgress } from '../words/progress.js?v=chapters-wheel-1';
 import { createWordVoice } from '../words/voice.js';
-import { initRewards, earnReward, showReward } from '../rewards.js?v=portals-12';
-import { ready as audioReady, loadClip, say, hush, sfx, unlock } from '../audio.js?v=chapters-wheel-1';
-import { gemSVG, plain } from '../utils.js';
+import { initRewards, earnReward, showReward } from '../rewards.js?v=review-16';
+import { ready as audioReady, loadClip, say, hush, sfx, unlock } from '../audio.js?v=review-16';
+import { gemSVG, plain } from '../utils.js?v=review-16';
 import { soundPrompt } from '../learning/sound-prompts.js?v=cedille-1';
 import { markSeen, seen } from '../storage.js';
 
@@ -138,7 +138,7 @@ function ask(){
     }else if(choice.text.length>8) button.classList.add('long');
     button.addEventListener('click',()=>answer(choice.id,button));box.appendChild(button);
   });
-  if(mode!=='words'&&session.current.choices.length<=3&&session.current.choices.every(c=>(c.g??c.text??'').length<=4))world.placeChoices([...box.children]);
+  world.placeChoices([...box.children]);
   replay();
 }
 function renderAssembly(){
@@ -218,7 +218,7 @@ async function answer(id,button){
     $('adventureFeedback').textContent=typo?'Ce mot est bien écrit. Cherche encore !':'On essaie encore ensemble. Paillette t’accompagne !';
     button.classList.add('retry');$('adventureChoices').querySelectorAll('button').forEach(b=>{b.disabled=true;});
     const my=token;
-    await new Promise(resolve=>setTimeout(resolve,window.matchMedia('(prefers-reduced-motion: reduce)').matches?40:400));
+    await new Promise(resolve=>setTimeout(resolve,window.matchMedia('(prefers-reduced-motion: reduce)').matches?40:world.forked?900:400));
     if(!await continueWhenReady(my))return;
     panels('walking');world.quiet(false);
     $('adventureWalking').textContent=result.checkpoint%10===5?'On retourne au refuge. Tes cinq cristaux sont protégés.':'On retourne au début de ce monde pour réessayer ensemble.';
@@ -252,7 +252,7 @@ async function answer(id,button){
   const my=token;
   // Show the successful answer briefly, then let the child watch Paillette walk.
   const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const feedbackDelay = typo ? 1800 : activity ? 1100 : reduced ? 80 : mode === 'sons' || syllableActivity(mode) ? 1250 : 900;
+  const feedbackDelay = typo ? 1800 : activity ? 1100 : reduced ? 80 : world.forked ? 1450 : mode === 'sons' || syllableActivity(mode) ? 1250 : 900;
   await new Promise(resolve=>setTimeout(resolve,feedbackDelay));
   if(!await continueWhenReady(my)) return;
   panels('walking');world.quiet(false);$('adventureWalking').textContent='Bravo ! Paillette avance vers le prochain cristal…';

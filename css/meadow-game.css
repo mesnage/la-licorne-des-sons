@@ -92,17 +92,10 @@
 .painted-game.road-choices .pilot-panel{transform:none;left:12px;right:12px;width:auto;max-height:28dvh;overflow:visible;background:#fff8e9ed}
 .painted-game.road-choices .pilot-panel h2,.painted-game.road-choices #pilotHelp{display:none}
 .painted-game.road-choices .pilot-answer-pair{height:0;margin:0}
-.painted-game [data-road-stone]{position:fixed!important;left:var(--road-x)!important;top:var(--road-y)!important;width:var(--road-w)!important;height:var(--road-h)!important;min-width:0!important;min-height:44px!important;max-width:none!important;margin:0!important;padding:5px!important;display:flex!important;flex-direction:row!important;align-items:center;justify-content:center;gap:3px!important;font-size:var(--road-font,32px)!important;line-height:1!important;border-radius:44% 42% 12% 15% / 36% 35% 12% 13%!important;border-bottom-width:5px!important;background:radial-gradient(ellipse at 28% 16%,#eee6d6,transparent 65%),#d8d0bf!important;box-shadow:0 8px 0 #34492c30!important;pointer-events:auto;z-index:4}
-.painted-game [data-road-stone].correct{background:#f1dcaa!important}
-.painted-game [data-road-stone] small{font-size:.72em!important}
+
 @media(max-width:600px){.painted-game.road-choices .adventure-question-top{margin-bottom:4px}.painted-game.road-choices .pilot-panel{padding:10px 12px}.painted-game.road-choices #pilotInstructions{font-size:15px;margin:0 0 6px}.painted-game.road-choices #pilotAudioStatus{font-size:12px;margin:4px 0}}
 
-.painted-game [data-road-stone].phonics-group{flex-direction:row!important}
-
-
-
 .world-option .painted-world-flower{background:linear-gradient(var(--world-sky,#c9e6dc),#fff0d1)}
-
 
 /* ---------- Art pass 4: painted answer stones, crystal counter, calmer chrome ---------- */
 .painted-game .adventure-menu{border-radius:30px;border:1px solid #fffaf0;box-shadow:0 14px 50px #29482e26,0 2px 0 #e6d8b6}
@@ -118,43 +111,11 @@
 .painted-game .adventure-speaker span{display:inline-block;animation:speaker-nudge 7s ease-in-out infinite}
 @keyframes speaker-nudge{0%,88%,100%{transform:scale(1)}92%{transform:scale(1.22) rotate(-6deg)}96%{transform:scale(1.1) rotate(4deg)}}
 
-body{--stone-tuft:#5f8a48;--stone-bloom:#e59aa4}
-body[data-painted-habitat="forest"]{--stone-tuft:#47693f}
-body[data-painted-habitat="jungle"]{--stone-tuft:#3f7a52;--stone-bloom:#e88b6a}
-body[data-painted-habitat="beach"]{--stone-tuft:#b3a468;--stone-bloom:#eeb7a2}
-body[data-painted-habitat="ice"]{--stone-tuft:#f4f9f8;--stone-bloom:#b9dbe6}
-body[data-painted-habitat="clouds"]{--stone-tuft:#fffaf0;--stone-bloom:#f6dc8f}
-body[data-painted-habitat="moon"]{--stone-tuft:#6f7696;--stone-bloom:#8fe0d2}
-body[data-painted-habitat="prehistoric"]{--stone-tuft:#4f7a45;--stone-bloom:#f1d98c}
-body[data-painted-habitat="desert"]{--stone-tuft:#b3955c;--stone-bloom:#e88b8f}
-body[data-painted-habitat="fairy"]{--stone-tuft:#6f9a72;--stone-bloom:#c8b6ec}
-.painted-game [data-road-stone]{border:0!important;border-bottom:6px solid #a3957b!important;border-radius:47% 45% 15% 17% / 44% 41% 13% 14%!important;
- background:radial-gradient(9px 6px at 22% 30%,#d9a44166 0 60%,transparent 62%),radial-gradient(6px 4px at 76% 22%,#d9a44155 0 60%,transparent 62%),radial-gradient(7px 5px at 82% 64%,#8fa37a55 0 60%,transparent 62%),radial-gradient(125% 95% at 30% 10%,#fdf8ec 0,#f1e8d4 36%,#ddd2bc 70%,#c6b99f 100%)!important;
- box-shadow:inset 0 3px 0 #ffffffb8,inset -9px -10px 16px #8a7c641f,0 9px 0 -2px #2c3f2b2e,0 14px 14px -6px #2c3f2b40!important;color:#33352e!important;font-weight:800;text-shadow:0 1px #fff9!important;overflow:visible!important;transition:filter .2s}
 /* A fringe of grass (or snow, sand…) tucks each stone into its world; it blooms on a right answer. */
-.painted-game [data-road-stone]::after{content:'';position:absolute;left:-9%;right:-9%;bottom:-13px;height:24px;pointer-events:none;background:var(--stone-tuft);
- -webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 150 24' preserveAspectRatio='none'%3E%3Cpath d='M0 24Q3 10 0 3Q8 10 9 24ZM8 24Q11 7 16 0Q16 12 18 24ZM17 24Q22 12 28 8Q25 16 26 24ZM27 24Q30 16 35 14Q33 19 34 24ZM118 24Q118 17 115 13Q121 17 124 24ZM124 24Q125 12 121 6Q130 13 133 24ZM133 24Q135 8 140 1Q140 12 142 24ZM141 24Q146 12 150 8Q148 17 150 24ZM34 24Q60 19 90 20Q108 20 118 24Z'/%3E%3C/svg%3E") center/100% 100% no-repeat;
- mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 150 24' preserveAspectRatio='none'%3E%3Cpath d='M0 24Q3 10 0 3Q8 10 9 24ZM8 24Q11 7 16 0Q16 12 18 24ZM17 24Q22 12 28 8Q25 16 26 24ZM27 24Q30 16 35 14Q33 19 34 24ZM118 24Q118 17 115 13Q121 17 124 24ZM124 24Q125 12 121 6Q130 13 133 24ZM133 24Q135 8 140 1Q140 12 142 24ZM141 24Q146 12 150 8Q148 17 150 24ZM34 24Q60 19 90 20Q108 20 118 24Z'/%3E%3C/svg%3E") center/100% 100% no-repeat}
-.painted-game [data-road-stone]::before{content:'';position:absolute;left:-6%;right:-6%;bottom:-4px;height:22px;pointer-events:none;opacity:0;transform:scale(.3);transform-origin:50% 100%;transition:opacity .3s,transform .5s cubic-bezier(.3,1.7,.5,1);
- background:radial-gradient(circle 5px at 7% 55%,var(--stone-bloom) 0 96%,transparent),radial-gradient(circle 2px at 7% 55%,#f6dc8f 0 96%,transparent),radial-gradient(circle 6px at 18% 30%,#fbf3e4 0 96%,transparent),radial-gradient(circle 5px at 86% 34%,var(--stone-bloom) 0 96%,transparent),radial-gradient(circle 6px at 95% 60%,#fbf3e4 0 96%,transparent),radial-gradient(circle 4px at 76% 68%,#f0cf8f 0 96%,transparent);background-blend-mode:normal}
-.painted-game [data-road-stone]:disabled{opacity:1}
-.painted-game [data-road-stone]:disabled:not(.correct):not(.retry){filter:saturate(.7) brightness(.97)}
-.painted-game [data-road-stone].correct{background:radial-gradient(125% 95% at 30% 10%,#fffbe6 0,#fbe9ae 40%,#f1d27e 100%)!important;border-bottom-color:#c9a550!important;
- box-shadow:inset 0 3px 0 #fffffFd0,0 0 0 5px #fff6cf99,0 0 30px 10px #f6d98aa6,0 9px 0 -2px #2c3f2b2e!important}
-.painted-game [data-road-stone].correct::before{opacity:1;transform:scale(1)}
-.painted-game [data-road-stone].retry{filter:saturate(.55) brightness(.98)}
-/* Positioning uses the independent `translate` property so press, joy and retry can animate `transform`. */
-@supports (translate:0px){
- .painted-game [data-road-stone]{translate:-50% -100%}
- .painted-game [data-road-stone]:not(:disabled):active{transform:translateY(4px) scale(.98)!important;box-shadow:inset 0 3px 0 #ffffffb8,0 4px 0 -2px #2c3f2b2e!important}
- .painted-game [data-road-stone].correct{animation:stone-joy .75s cubic-bezier(.3,1.5,.5,1) both}
- .painted-game [data-road-stone].retry{animation:stone-retry .5s ease-in-out both}
-}
-@supports not (translate:0px){.painted-game [data-road-stone]{transform:translate(-50%,-100%)!important}}
-@keyframes stone-joy{0%{transform:scale(1)}30%{transform:scale(1.16) translateY(-10px) rotate(-3deg)}60%{transform:scale(.97) rotate(2deg)}100%{transform:scale(1.06)}}
-@keyframes stone-retry{0%,100%{transform:rotate(0)}25%{transform:rotate(-5deg)}60%{transform:rotate(4deg)}}
-@media(prefers-reduced-motion:reduce){.painted-game .adventure-speaker span,.painted-game [data-road-stone].correct,.painted-game [data-road-stone].retry{animation:none!important}}
 
+/* Positioning uses the independent `translate` property so press, joy and retry can animate `transform`. */
+
+@media(prefers-reduced-motion:reduce){.painted-game .adventure-speaker span{animation:none!important}}
 
 /* ---------- Art pass 6: world picker shows a small painting of each world; larger HUD text ---------- */
 .world-option .painted-world-flower{position:relative;overflow:hidden;width:100%;height:84px;border-radius:16px 16px 10px 10px;
@@ -173,7 +134,6 @@ body[data-painted-habitat="fairy"]{--stone-tuft:#6f9a72;--stone-bloom:#c8b6ec}
 .painted-game .adventure-hud{font-size:14px}
 .painted-game .adventure-hud small{font-size:12px}
 @media(max-width:600px){.painted-game .adventure-hud{font-size:12px}.painted-game .adventure-hud small{font-size:11px}}
-
 
 /* ---------- Art pass 7: the reading path wears the same painted look as the worlds ---------- */
 [data-habitat]{--k1:#8fcbc9;--k2:#f6ecd0;--far:#b3d2cb;--hill:#9bb884;--gr:#6f9152;--pa:#ecd3a0;--sun:#fff8de}
@@ -247,14 +207,6 @@ body.curriculum.painted-game::before{background:radial-gradient(90% 26% at 50% 1
 .painted-game #worldDialogClose{background:#efe3cb;color:#43553b}
 .painted-game .world-option{border-radius:20px;box-shadow:0 3px 0 #d5c7a6;border-color:#eadfc9}
 .painted-game .world-option[aria-pressed="true"]{border-color:#a7803b;background:#fff1c9;box-shadow:0 0 0 3px #e4c57d70,0 3px 0 #b99a60}
-.painted-game:is([data-painted-habitat="ice"],[data-painted-habitat="clouds"]) [data-road-stone]::after{
- -webkit-mask:none;mask:none;left:-6%;right:-6%;bottom:-12px;height:20px;background:
- radial-gradient(ellipse at 16% 72%,var(--stone-tuft) 0 19%,transparent 21%),
- radial-gradient(ellipse at 83% 72%,var(--stone-tuft) 0 21%,transparent 23%),
- radial-gradient(ellipse at 50% 100%,var(--stone-tuft) 0 52%,transparent 55%)}
-.painted-game:is([data-painted-habitat="beach"],[data-painted-habitat="desert"],[data-painted-habitat="moon"]) [data-road-stone]::after{
- -webkit-mask:none;mask:none;left:-5%;right:-5%;bottom:-12px;height:16px;border-radius:50%;
- background:radial-gradient(ellipse at 50% 50%,var(--stone-tuft) 0 28%,transparent 70%);opacity:.65}
 
 /* Every option stays on one line, with a shared size determined by the widest label. */
 .painted-game .adventure-answer,
@@ -290,10 +242,39 @@ body.curriculum.painted-game::before{background:radial-gradient(90% 26% at 50% 1
  .painted-game .pilot-crystal-group span{width:7px;flex-shrink:1}
 }
 
-.painted-game [data-road-stone][data-road-surface="wood"]::after,
-.painted-game [data-road-stone][data-road-surface="arch"]::after,
-.painted-game [data-road-stone][data-road-surface="steps"]::after{mask:none;-webkit-mask:none;background:radial-gradient(ellipse,#4c453930,transparent 70%);height:15px;border-radius:50%;bottom:-13px}
-
 .painted-scene.portal-arrival{animation:portal-arrival .55s ease-out both}
 @keyframes portal-arrival{from{opacity:0}to{opacity:1}}
 @media(prefers-reduced-motion:reduce){.painted-scene.portal-arrival{animation:none}}
+
+/* ---- Crossroads view: each answer is the sign on a door; Paillette wonders which one to take. ---- */
+.painted-game [data-road-door]{position:fixed!important;left:var(--road-x)!important;top:var(--road-y)!important;width:var(--road-w)!important;height:var(--road-h)!important;
+ min-width:0!important;min-height:0!important;max-width:none!important;margin:0!important;padding:2px 6px!important;box-sizing:border-box!important;z-index:3;
+ display:flex!important;flex-direction:row!important;flex-wrap:wrap!important;align-items:baseline!important;align-content:center!important;justify-content:center!important;gap:0 4px!important;text-align:center!important;
+ font-size:var(--choice-font,30px)!important;line-height:1!important;font-weight:800!important;color:#35372f!important;white-space:nowrap!important;
+ background:linear-gradient(#fffdf3,#fbf0d6)!important;border:3px solid #b98f5e!important;border-radius:18px!important;
+ box-shadow:0 4px 0 #8a6a4266,inset 0 2px 0 #ffffffcc!important;transform:none;translate:none;filter:none!important;opacity:1!important;
+ animation:door-sign-in .45s cubic-bezier(.3,1.5,.5,1) both;transition:transform .12s}
+.painted-game [data-road-door]:nth-child(2){animation-delay:.07s}.painted-game [data-road-door]:nth-child(3){animation-delay:.14s}.painted-game [data-road-door]:nth-child(4){animation-delay:.21s}
+.painted-game [data-road-door] small{font-size:.72em!important;font-weight:700!important;opacity:.82}
+.painted-game [data-road-door] span,.painted-game [data-road-door] small{line-height:1!important}
+/* The whole door is the touch target, not only its sign. */
+.painted-game [data-road-door]::after{content:''!important;display:block!important;position:absolute!important;left:-4px;right:-4px;top:-10px;bottom:calc(-1 * var(--door-reach,0px));background:none!important;border:0!important;box-shadow:none!important;transform:none!important;opacity:1!important;mask:none!important;-webkit-mask:none!important;height:auto!important;border-radius:0!important}
+.painted-game [data-road-door]::before{content:none!important}
+.painted-game [data-road-door]:not(:disabled):active{transform:scale(.95)}
+.painted-game [data-road-door]:focus-visible{outline:4px solid #b9506b;outline-offset:3px}
+.painted-game [data-road-door].correct{background:linear-gradient(#fffbe6,#f6d886)!important;border-color:#c9a550!important;animation:door-sign-joy 1s ease-in both}
+.painted-game [data-road-door].retry{background:#ece6da!important;border-color:#b5aa98!important;color:#7c766b!important;animation:door-sign-no .5s ease-in-out both}
+.painted-game [data-road-door]:disabled:not(.correct):not(.retry){opacity:.55!important}
+@keyframes door-sign-in{from{transform:translateY(-14px) scale(.7)}to{transform:none}}
+@keyframes door-sign-joy{0%{transform:scale(1)}18%{transform:scale(1.16)}34%{transform:scale(1.04)}100%{transform:scale(1.06)}}
+@keyframes door-sign-no{0%,100%{transform:none}20%{transform:translateX(-7px) rotate(-3deg)}50%{transform:translateX(6px) rotate(3deg)}80%{transform:translateX(-3px)}}
+@media(prefers-reduced-motion:reduce){.painted-game [data-road-door],.painted-game [data-road-door].correct,.painted-game [data-road-door].retry{animation:none!important}}
+/* The prompt becomes a slim bar under the scene so the doors keep the stage. */
+.painted-game.road-choices .adventure-question{padding-top:8px;padding-bottom:8px}
+.painted-game.road-choices .adventure-eyebrow{display:none}
+
+.painted-game .pilot-button[data-road-door]{font-size:clamp(26px,calc(var(--road-h) * .6),46px)!important}
+
+@media(max-width:600px){
+ .painted-game .adventure-choices.words.short-word-choices:not(.sentence-choices){grid-template-columns:repeat(2,minmax(0,1fr))}
+}

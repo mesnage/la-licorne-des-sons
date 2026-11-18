@@ -1,6 +1,6 @@
 import { oralWords, pilotUnitId } from '../data/curriculum-pilot.js';
 import { chapterInstructions, meanings, sounds, units } from '../data/curriculum-chapter-one.js';
-import { createPilotQuestions } from './pilot-session.js';
+import { createPilotQuestions } from './pilot-session.js?v=review-16';
 
 const oralKey = word => 'C1:oral:' + word;
 const writtenKey = word => 'C1:écrit:' + word;

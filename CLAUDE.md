@@ -1,5 +1,14 @@
 # La Licorne des Sons — notes for Claude Code
 
+## Current voice and module policy (review 16)
+
+The user wants one voice: Robin from ElevenLabs (`ZLsOpArVEayz7qulwa9E`). This supersedes the historical Piper/three-voice notes below. Do not generate new Piper clips for the playable game. `node tools/audit-voice.mjs --write` checks the active curriculum metadata/hashes and lists legacy short clips that still need source verification. A file named Robin is not, by itself, proof; pronunciation review is separate from provenance.
+
+Graphics live under `js/meadow/`; curriculum and question selection live under `js/learning/`, `js/data/`, and the pure `js/prototype/model.js`. Door colours/proportions are in `crossroads-theme.js`. Keep scoring/storage/audio out of drawing modules. `js/random.js` supplies shared, injectable shuffling. Saved curriculum sessions carry `questionVersion`: old sessions retain their old schedule. `js/audio-cache.js` bounds decoded recording memory and shares pending loads. No new framework or build dependency is needed.
+
+Use `npm run dev` for a local public-assets-only preview. It does not serve dotfiles, tooling or backups. The in-progress review is not a deployment.
+
+
 French reading game for a ~5-year-old girl: Paillette the unicorn crosses 7 worlds in 20 steps; each step the voice says a
 letter/sound and the child picks one of 3 cards. Static site (no build), native ES modules, deployed on GitHub Pages /
 Cloudflare Pages. The owner speaks French; all game text and voice are in French. README.md documents the structure.
@@ -145,3 +154,40 @@ placed where they describe form: under hill crests, along the far edge, under ve
 
 Art pass 6: the companion is an original duckling (`makeDuck` in preview.js, variable `pal`); do not draw licensed
 characters. Paillette keeps her rig anchors (leg pivots y=-46, head 24,-72, tail -40,-74, ear 42,-134).
+
+
+## Crossroads 13: question view, crossings and livelier animals
+
+`js/meadow/crossroads.js` draws the question view inside the scene iframe: Paillette seen from behind, wondering
+(`?` bubble, head turning door to door), one door per answer. `world.placeChoices(buttons)` returns `true` when the
+answers fit (≤3 doors on phones, ≤4 on wide screens, short labels); the host buttons become the door signs
+(`data-road-door`, positioned from `scene.roadLayout()`), otherwise they stay as cards in the panel. `world.react`
+passes the tapped door to `scene.chooseDoor(index, ok)`: right = door opens with light and she trots in, wrong = the
+door rattles and she shakes her head. `app.js` lengthens the feedback pause while `forked` so the child sees it.
+The scene measures the host header/HUD/panel (`setForkInsets`) so nothing is hidden; sentences and typo activities
+keep their panels. The old stones-on-the-road layout (`data-road-stone` CSS) is no longer used.
+
+`route.js` paints crossings as structures (planked bridge with railings/lanterns, stone/ice arch with parapets,
+thick stepping stones, rainbow cloud bridge) over a stream centred under them. Keep to path/ellipse/circle with flat
+fills: the tile baker supports nothing else.
+
+`fauna.js`: five adults with different sizes and tempos, walkers get a youngster trailing the parent, other species a
+smaller sibling. `update(dt,cam,width,hero)` takes Paillette's position: the nearest small walker trots beside her
+(`buddy`), a flyer circles her horn (`visitor`), others turn to look and hop hello as she passes. `faunaPose` stays
+pure. All of it stops for reduced motion.
+
+Crossroads 14: each world has its own little houses around the doors (`STYLE` in crossroads.js: stone arch with ivy,
+tree house, beach hut, igloo, cloud arch, moon dome, adobe, mushroom) and its own backdrop (ridge, tall trees between
+the houses, clouds/stars/planet/rainbow). `CROWN`/`SPREAD` reserve the room each house needs; the answer sign hangs on
+the lintel so the door leaf stays visible. `fauna.guests(host)` builds two extra rigs before `scratch` is removed; one
+sits beside Paillette in the crossroads, looks around and hops when the answer is right. Canvases inside `.fork-life`
+must stay `position:absolute`.
+
+Crossroads 15: `js/meadow/door-signs.js` owns the answer signs (fit decision, hanging/releasing the host buttons,
+inset measuring, following the doors every frame, the tapped door). `world.js` only delegates (`placeChoices`,
+`world.forked`, `react`). The decision is re-made on every resize/rotation: four word doors on a tablet become panel
+cards on a phone and back. A newly loaded world adopts the open question without replaying the fade
+(`setRoadChoices(n, true)`), and a rebuild keeps an answer in progress (door stays open). The old stone CSS and the
+`roadChoices` framing were removed. Run `node --test tools/door-signs.test.mjs` and
+`python3 tools/test-crossroads-browser.py --browser-path <chrome>` (rotations in every world, world change while
+walking and right after answering, pause, mistake, words on tablet/phone).

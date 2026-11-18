@@ -1,11 +1,11 @@
 /* La Licorne des Sons — démarrage */
-import { $ } from './utils.js';
+import { $ } from './utils.js?v=review-16';
 import { unicornSVG } from './unicorn.js';
 import { mountWorld } from './world.js';
 import { initScene } from './scene.js';
 import { initGame } from './game.js?v=cedille-1';
-import './audio.js';
-import { initRewards } from './rewards.js?v=portals-12';
+import './audio.js?v=review-16';
+import { initRewards } from './rewards.js?v=review-16';
 import { initWordGame } from './words/game.js?v=roue-dinos-1';
 
 $('#homeUni').innerHTML = unicornSVG();

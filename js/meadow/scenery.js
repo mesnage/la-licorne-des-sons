@@ -96,16 +96,34 @@ export function createScenery({el,wa,W,blob,R,rnd,pick,smooth,f1,sway,wash,speck
   function crystal(g,x,y,s=1,o={}){const c=group(g,x,y,s),light=o.light??'#f4fbf6',mid=o.mid??'#b9dbe6',dark=o.dark??'#86b6cc';
     for(const [dx,h,w] of [[-21,52,18],[1,92,25],[25,40,17],[12,24,12]]){path(c,`M${dx-w/2} 0V${-h+w*.7}L${dx} ${-h}L${dx+w/2} ${-h+w*.7}V0Z`,mid);path(c,`M${dx} 0V${-h}L${dx+w/2} ${-h+w*.7}V0Z`,dark,{opacity:.75});path(c,`M${dx-w/2} ${-h+w*.7}L${dx} ${-h}L${dx-w*.12} ${-h+w*.9}V-4H${dx-w/2}Z`,light,{opacity:.7});}
     if(o.glow)ellipse(c,0,-40,54,58,o.glow,{opacity:.14});return c;}
-  function boulder(g,x,y,s=1,w=W.stone,moss){const r=group(g,x,y,s);el('path',{d:blob(0,-15,32,19,9,.14),...wa(w)},r);path(r,blob(9,-8,20,9,7,.1),speck(shadeHex(w.hex,.72),3));ellipse(r,-9,-24,13,4,'#fff',{opacity:.2});
-    if(moss)path(r,blob(-6,-27,20,7,8,.2),moss,{opacity:.85});return r;}
+  // A chunky rock: grounded shadow, dark side, pale faceted top, a crack, moss and a tuft at its foot.
+  function boulder(g,x,y,s=1,w=W.stone,moss){const r=group(g,x,y,s),hex=w.hex,flip=rnd()<.5?-1:1,X=v=>f1(v*flip);
+    castShadow(r,3,1,40,6);
+    path(r,`M${X(-34)} 0Q${X(-39)}-18 ${X(-26)}-30Q${X(-12)}-42 ${X(8)}-40Q${X(30)}-37 ${X(36)}-18Q${X(40)}-4 ${X(32)} 1Q0 6 ${X(-34)} 0Z`,shadeHex(hex,.78));
+    el('path',{d:`M${X(-34)}-4Q${X(-37)}-19 ${X(-25)}-30Q${X(-12)}-41 ${X(7)}-39Q${X(24)}-36 ${X(26)}-22Q${X(10)}-13 ${X(-8)}-12Q${X(-24)}-11 ${X(-34)}-4Z`,...wa(w,2,.2)},r);
+    path(r,`M${X(-28)}-24Q${X(-14)}-37 ${X(4)}-36Q${X(-10)}-28 ${X(-28)}-24Z`,'#fff',{opacity:.45});
+    stroke(r,`M${X(4)}-13q${X(5)} 6 ${X(2)} 12`,shadeHex(hex,.6),1.6,{opacity:.6});stroke(r,`M${X(-18)}-11q${X(-2)} 5 ${X(1)} 9`,shadeHex(hex,.6),1.4,{opacity:.45});
+    path(r,blob(14*flip,-7,13,6,7,.12),speck(shadeHex(hex,.62),3));
+    if(moss){path(r,`M${X(-24)}-30Q${X(-10)}-43 ${X(10)}-40Q${X(18)}-36 ${X(14)}-32Q${X(4)}-36 ${X(-4)}-31Q${X(-12)}-34 ${X(-17)}-28Q${X(-22)}-27 ${X(-24)}-30Z`,moss);
+      for(const [dx,c] of [[-30,'#e59aa4'],[34,'#fbf3e4']]){stroke(r,`M${X(dx)} 1q1-7 0-11`,'#4f6f3f',1.8);el('circle',{cx:X(dx),cy:-11,r:3,fill:c},r);}
+      path(r,`M${X(22)} 2q2-10 5-13q0 7 3 13ZM${X(-38)} 2q-1-9 2-12q1 6 4 12Z`,moss);}
+    return r;}
   function boat(g,x,y,s=1,sail='#fbf3e4',hull='#c9806f'){const b=group(g,x,y,s);path(b,'M-24 0Q-20 12 0 12Q20 12 26 0Z',hull);path(b,'M-1-44V0',hull);stroke(b,'M0 0V-46','#7a5c48',2);path(b,'M2-44Q24-22 22-4H2Z',sail);path(b,'M-2-38Q-18-20-16-4H-2Z',sail,{opacity:.85});ellipse(b,0,13,30,2.6,'#fff',{opacity:.5});return b;}
   function cottage(g,x,y,s=1,roof='#c98d7c'){const c=group(g,x,y,s);path(c,'M-22 0V-22H22V0Z','#fbf3e4');path(c,'M-28-20L0-44L28-20Z',roof);path(c,'M12-36V-48H19V-30Z','#e6d3b2');
     el('rect',{x:-5,y:-14,width:10,height:14,rx:5,fill:'#9c7458'},c);el('rect',{x:9,y:-17,width:8,height:8,rx:1.5,fill:'#9ccfd0'},c);el('rect',{x:-17,y:-17,width:8,height:8,rx:1.5,fill:'#9ccfd0'},c);
     for(const [dx,dy,r] of [[16,-58,5],[21,-70,7],[17,-84,9]])el('circle',{cx:dx,cy:dy,r,fill:'#fff',opacity:.5},c);return c;}
   function lighthouse(g,x,y,s=1){const l=group(g,x,y,s);path(l,'M-12 0L-8-62H8L12 0Z','#fbf3e4');for(const yy of [-18,-44])path(l,`M${-11+(-yy)*.062} ${yy}h${22-(-yy)*.124}v-11h${-22+(-yy+11)*.124}Z`,'#d98b93');
     el('rect',{x:-10,y:-66,width:20,height:5,rx:2,fill:'#7a5c48'},l);el('rect',{x:-6,y:-78,width:12,height:12,fill:'#fdf0c0'},l);path(l,'M-9-78L0-90L9-78Z','#d98b93');path(l,'M6-74L60-86V-60Z','#fdf0c0',{opacity:.3});return l;}
-  function log(g,x,y,s=1){const n=group(g,x,y,s);castShadow(n,2,1,48,6,.14);el('path',{d:'M-42-4Q-44-22-30-24H30Q44-22 42-4Q30 2 0 1Q-30 2-42-4Z',...wa(W.trunk,2,.22)},n);ellipse(n,36,-13,9,11,'#d6bd95');ellipse(n,36,-13,5,6.4,'#b99a70',{opacity:.8});
-    for(const d of ['M-30-18q14 4 30 0','M-22-9q20 5 44 1'])stroke(n,d,'#5f4a38',1.6,{opacity:.35});path(n,blob(-16,-24,17,5,8,.2),'#7fa35c',{opacity:.9});for(const [dx,c] of [[-24,'#e59aa4'],[-10,'#fbf3e4']])el('circle',{cx:dx,cy:-27,r:2.6,fill:c},n);return n;}
+  // A fallen log with bark, a cut end with rings, a stub branch, moss and two little mushrooms.
+  function log(g,x,y,s=1){const n=group(g,x,y,s);castShadow(n,0,2,54,7);
+    el('path',{d:'M-46-3Q-50-24-34-27H30Q46-25 46-5Q34 3 0 2Q-32 3-46-3Z',...wa(W.trunk,2,.22)},n);
+    path(n,'M-46-3Q-32 3 0 2Q34 3 46-5Q40-9 0-8Q-34-7-46-3Z',shadeHex(W.trunk.hex,.74));
+    stroke(n,'M-8-26q-4-10-12-13',W.trunk.hex,7);ellipse(n,-20,-39,4,3.4,'#d6bd95');
+    for(const d of ['M-34-20q16 4 34 0','M-28-12q22 5 50 1','M-12-24q10 3 22 1'])stroke(n,d,'#5f4a38',1.6,{opacity:.4});
+    ellipse(n,38,-15,10,12,'#b99a70');ellipse(n,38,-15,8,10,'#e3cba3');ellipse(n,38,-15,4.6,6,'none',{stroke:'#b99a70','stroke-width':1.3});ellipse(n,38,-15,1.6,2,'#b99a70');
+    path(n,blob(-18,-27,19,5.5,8,.2),'#7fa35c');path(n,blob(10,-28,10,3.6,7,.2),'#93b56a');
+    for(const [dx,h,r,c] of [[-36,-9,7,'#d98b93'],[-27,-5,5,'#e0ad4c']]){path(n,`M${dx-2} 2V${h+2}h4V2Z`,'#f8e7cb');path(n,`M${dx-r} ${h+3}Q${dx-r} ${h-r} ${dx} ${h-r}Q${dx+r} ${h-r} ${dx+r} ${h+3}Z`,c);el('circle',{cx:dx-2,cy:h-2,r:1.3,fill:'#fff'},n);}
+    return n;}
   function grassClump(g,x,y,s,colors,flower){const h=group(g,x,y,s),c=sway(h,'-26,-62,26,4');
     for(let i=0;i<9;i++){const a=R(-26,26),hh=R(30,58);path(c,`M${f1(a*.3-2)} 0Q${f1(a*.6)} ${f1(-hh*.6)} ${f1(a)} ${f1(-hh)}Q${f1(a*.5+2)} ${f1(-hh*.5)} ${f1(a*.3+2.4)} 0Z`,pick(colors),{opacity:.92});}
     if(flower)for(const a of [-10,8])el('circle',{cx:a,cy:f1(R(-56,-44)),r:3.6,fill:flower},c);return h;}

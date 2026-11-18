@@ -45,9 +45,10 @@ test('four chapters contain exactly the requested activities, once each',()=>{
  const activities=CHAPTERS.flatMap(chapter=>chapter.activities);
  assert.equal(new Set(activities).size,15);assert.deepEqual(new Set(activities),new Set(MENU_ITEMS.map(item=>item.id)));
 });
-test('the alphabet introduces every letter in order and uses single letters for all choices', () => {
+test('the alphabet covers every letter once before review and uses single-letter choices', () => {
   const session = createAdventure('alphabet');
-  assert.equal(session.questions.slice(0,26).map(({target})=>target.g).join(''),'abcdefghijklmnopqrstuvwxyz');
+  assert.equal(session.questions.slice(0,26).map(({target})=>target.g).sort().join(''),'abcdefghijklmnopqrstuvwxyz');
+  assert.notEqual(session.questions[25].target.g,session.questions[26].target.g);
   for (const {target,choices} of session.questions) {
     assert.equal(new Set(choices.map(choice=>choice.g)).size,3);
     assert.ok(choices.every(choice=>/^[a-z]$/.test(choice.g)));

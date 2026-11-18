@@ -1,4 +1,4 @@
-import {FAUNA,faunaPose} from './fauna-data.js?v=portals-12';
+import {FAUNA,faunaPose} from './fauna-data.js?v=review-16';
 /**
  * Painted, articulated animals. Every part is drawn once into a small tightly-cropped bitmap
  * and then only moved with CSS transforms (no per-frame canvas work).
@@ -379,48 +379,124 @@ export function createFauna(habitat,{el,sprite,box,wash,shadeHex,host,groundY,pa
   }
   const KITS={quad,turtle,crab,seal,owl,hornbill,penguin,wader,flyer,bee,butterfly,sitter,biped};
 
-  function rig(s,index){
+  function rig(s,index,target=host){
     const p=SPEC[s.id]??Q({}),T={coat:tint(s.coat),dark:tint(s.coat,.81),acc:tint(s.accent)};
     const kit=KITS[p.kit](s,p,T),[rx,ry]=kit.shadow;
     const shadow=part(g=>E(g,0,1.5,rx,ry,shadowColor,{opacity:.3}),0,1.5),air=grp(0,0,...kit.nodes);
-    const root=box(host,shadow,air);
+    const root=box(target,shadow,air);
     root.dataset.species=s.id;root.setAttribute('aria-label',s.name);root.style.pointerEvents='none';
-    // Small creatures are drawn a little larger than life so a five-year-old can read their faces.
-    const boost=p.kit==='flyer'||p.kit==='bee'||p.kit==='butterfly'?1.35:rx<30?1.3:rx<50?1.18:1.04;
-    return {root,air,shadow,kit,s,index,boost,base:0,reach:Math.max(rx*2,70)*s.size*boost,small:rx<30,tall:rx>=58};
+    // Sizes differ on purpose: big animals tower, small ones stay small (but readable for a five-year-old).
+    const flyer=p.kit==='flyer'||p.kit==='bee'||p.kit==='butterfly',boost=flyer?1.25:rx<30?1.16:rx<50?1.12:1.22;
+    return {root,air,shadow,kit,s,index,boost,flyer,base:0,reach:Math.max(rx*2,70)*s.size*boost,small:rx<30,tall:rx>=58,wx:0,join:0,greet:0,rest:0};
   }
   const actors=[];let seconds=0,celebration=0,span=0,calm=0;
-  for(let i=0;i<10;i++){
-    const actor=rig(species[i%5],i),previous=actors[i-1];
-    span+=Math.max(210,((previous?.reach??90)+actor.reach)*.5+165);
+  const GROUND=['walk','hop','waddle','scuttle'],modeOf=a=>faunaPose(a.s,0,a.index,true).mode;
+  // Five grown-ups with their own temperaments, then five youngsters: walkers get a little one that
+  // trails behind its parent, the others a smaller sibling living elsewhere.
+  const TEMPER=[[1.1,1],[.94,.8],[1,1.25],[1.06,.9],[.9,1.12]];
+  for(let i=0;i<5;i++){
+    const actor=rig(species[i],i),previous=actors[i-1],[size,pace]=TEMPER[i];
+    actor.size=size;actor.pace=pace;actor.reach*=size;actor.mode=modeOf(actor);
+    span+=Math.max(230,((previous?.reach??90)+actor.reach)*.5+185);
     actor.base=span;actors.push(actor);
   }
-  span+=120;
+  for(let i=0;i<5;i++){
+    const parent=actors[i],actor=rig(species[i],i+5);actor.mode=parent.mode;
+    if(GROUND.includes(parent.mode)){actor.parent=parent;actor.size=parent.tall?.5:.6;actor.pace=parent.pace;actor.base=parent.base;}
+    else{actor.size=.74;actor.pace=1.3-parent.pace*.2;span+=Math.max(200,actor.reach*.6+150);actor.base=span;}
+    actor.reach*=actor.size;actors.push(actor);
+  }
+  span+=140;
   const margin=Math.max(260,...actors.map(a=>a.reach+190));
+  const bump=v=>v<=0||v>=1?0:Math.sin(v*Math.PI);
+  let buddy=null,visitor=null,wasMoving=false,visitT=0;
+  const release=actor=>{if(actor)actor.leaving=true;};
   return {
     species:species.map(s=>s.id),
-    /** `focus` is the world x of an open question: animals slow down and look that way with the child. */
-    update(dt,cam,width,focus=null){
-      const attending=focus!==null&&!reduced;calm+=((attending?1:0)-calm)*Math.min(1,Math.max(0,dt)*3);
-      seconds+=Math.max(0,dt)*(1-.55*calm);celebration=Math.max(0,celebration-dt);
+    /**
+     * `hero` is Paillette ({x,y,scale,moving}): one ground animal trots along with her, a flyer comes
+     * to circle her horn, and the others turn to look and give a little hop as she passes.
+     */
+    update(dt,cam,width,hero=null){
+      dt=Math.max(0,dt);const lively=hero&&!reduced;
+      calm+=((lively&&!hero.moving?.35:0)-calm)*Math.min(1,dt*3);
+      seconds+=dt*(1-.55*calm);celebration=Math.max(0,celebration-dt);visitT+=dt;
+      if(lively){
+        if(hero.moving&&!wasMoving){
+          // Whoever is closest to the path joins the walk; now and then a different friend takes over.
+          const near=actors.filter(a=>GROUND.includes(a.mode)&&!a.tall&&!a.hidden&&Math.abs(a.wx-hero.x)<460&&a!==buddy).sort((a,b)=>Math.abs(a.wx-hero.x)-Math.abs(b.wx-hero.x))[0];
+          if(near&&(!buddy||buddy.hidden||Math.abs(buddy.wx-hero.x)>520||Math.random()<.3)){release(buddy);buddy=near;buddy.leaving=false;}
+        }
+        if(buddy&&Math.abs(buddy.wx-hero.x)>900){buddy.join=0;buddy.leaving=false;buddy=null;}
+        if(!visitor||visitor.hidden||Math.abs(visitor.wx-hero.x)>760||visitT>16){
+          const next=actors.filter(a=>a.flyer&&!a.hidden&&a!==visitor&&Math.abs(a.wx-hero.x)<620)[0];
+          if(visitor&&(visitT>16||visitor.hidden||Math.abs(visitor.wx-hero.x)>760)){release(visitor);visitor=null;}
+          if(next&&visitT>3){visitor=next;visitor.leaving=false;visitT=0;}
+        }
+        wasMoving=hero.moving;
+      }
       for(const actor of actors){
-        const {s,index,root,air,shadow,kit,base}=actor,cycle=Math.ceil((cam-margin-base)/span),home=base+cycle*span;
-        if(home<cam-margin||home>cam+width+margin){if(!actor.hidden){actor.hidden=true;root.style.display='none';}continue;}
+        const {s,index,root,air,shadow,kit,parent}=actor,anchor=parent??actor,cycle=Math.ceil((cam-margin-anchor.base)/span),home=anchor.base+cycle*span;
+        const special=lively&&(actor===buddy||actor===visitor)||actor.join>0;
+        if(!special&&(home<cam-margin||home>cam+width+margin)){if(!actor.hidden){actor.hidden=true;root.style.display='none';}actor.wx=home;continue;}
         if(actor.hidden){actor.hidden=false;root.style.display='';}
-        const p=faunaPose(s,seconds,index,reduced),x=home+p.x;
-        if(attending&&!p.flying&&p.walk<.15&&p.air<.05&&Math.abs(focus-x)<760){p.facing=focus>=x?1:-1;p.head=p.head*.3-5*calm;p.graze*=1-calm;p.ear-=6*calm;}
-        const band=groundY(x)-pathWidth(x)*.72-meadowEdge(x);
-        // Small creatures may come close to the path; big ones stay near the back of the clearing.
-        const lane=actor.tall?.2:actor.small?(index%2?.7:.42):(index%2?.5:.3);
-        const foot=meadowEdge(x)+16+Math.max(0,band-34)*lane,depth=.84+.2*lane;
-        const cheer=celebration>0?Math.sin(Math.min(1,Math.max(0,(1-celebration)-index*.035)/.6)*Math.PI):0;
-        const k=s.size*depth*actor.boost;root.style.transform=`translate3d(${x.toFixed(2)}px,${foot.toFixed(2)}px,0) scale(${(p.facing*k).toFixed(3)},${k.toFixed(3)})`;
-        const lift=p.lift+cheer*(p.flying?10:15);
+        // the little one repeats its parent's loop a moment later, a few steps behind
+        const p=faunaPose(s,seconds*actor.pace-(parent?.9:0),parent?parent.index:index,reduced);
+        let x=home+p.x-(parent?p.facing*parent.reach*.42:0);
+        const lane=anchor.tall?.2:anchor.small?(anchor.index%2?.7:.42):(anchor.index%2?.5:.3);
+        const edge=meadowEdge(x),band=groundY(x)-pathWidth(x)*.72-edge;
+        let foot=edge+16+Math.max(0,band-34)*lane+(parent?7:0),depth=.84+.2*lane,lift=p.lift,cheer=0;
+        if(lively){
+          const dx=hero.x-x,dist=Math.abs(dx);
+          const want=actor===buddy&&!actor.leaving||actor===visitor&&!actor.leaving?1:0;
+          actor.join+=(want-actor.join)*Math.min(1,dt*(want?2.2:1.4));if(!want&&actor.join<.02){actor.join=0;actor.leaving=false;}
+          if(actor.join>0&&actor.flyer){
+            // circle Paillette's horn, dipping close as if to land on it
+            const a=seconds*1.5+index,hx=hero.x+34*hero.scale+Math.cos(a)*52,top=hero.y-196*hero.scale-18-12*Math.sin(a*1.7),k=actor.join*actor.join*(3-2*actor.join);
+            x+=(hx-x)*k;lift+=((foot-top)/(s.size*depth*actor.boost*actor.size)-lift)*k;p.facing=k>.5?(Math.sin(a)<0?1:-1):p.facing;
+          }else if(actor.join>0){
+            // trot beside her along the far edge of the path
+            const k=actor.join*actor.join*(3-2*actor.join),goal=hero.x+112*hero.scale+actor.reach*.3,from=actor.rx??x;
+            const next=from+Math.max(-380*dt,Math.min(380*dt,goal-from)),speed=dt>0?Math.abs(next-from)/dt:0;actor.rx=next;
+            const going=Math.min(1,speed/90),path=groundY(next)-pathWidth(next)*.72-4;
+            x+=(next-x)*k;foot+=(path-foot)*k;depth+=(1.02-depth)*k;
+            if(going>.1){p.facing=next>=from?1:-1;p.graze=0;
+              if(actor.mode==='hop'){const frac=(next/52%1+1)%1;p.air=bump(frac)*going;p.squash=p.air*.1;lift=p.air*17;p.walk=0;}
+              else{p.walk=going;p.phase=next/7.5;p.stride=Math.sin(p.phase)*24*going;lift=Math.abs(Math.sin(p.phase))*1.6;if(actor.mode==='waddle')p.roll=Math.sin(p.phase)*7;if(actor.mode==='scuttle')p.wing=8;}
+            }else if(k>.6){p.walk=0;p.stride=0;p.air=0;p.facing=dx>=0?1:-1;p.head=p.head*.4-6;p.graze=0;}
+          }else{
+            actor.rx=x;
+            // look at her when she is close, and hop hello as she walks by
+            if(!p.flying&&p.walk<.15&&p.air<.05&&dist<520){p.facing=dx>=0?1:-1;p.head=p.head*.3-5;p.graze*=.3;p.ear-=5;}
+            actor.rest=Math.max(0,actor.rest-dt);
+            if(hero.moving&&dist<230&&actor.rest<=0&&!p.flying){actor.greet=1;actor.rest=7;}
+          }
+          if(actor.greet>0){actor.greet=Math.max(0,actor.greet-dt/.55);cheer=Math.sin((1-actor.greet)*Math.PI);}
+        }
+        actor.wx=x;
+        const party=celebration>0?Math.sin(Math.min(1,Math.max(0,(1-celebration)-index*.035)/.6)*Math.PI):0;cheer=Math.max(cheer,party);
+        const k=s.size*depth*actor.boost*actor.size;root.style.transform=`translate3d(${x.toFixed(2)}px,${foot.toFixed(2)}px,0) scale(${(p.facing*k).toFixed(3)},${k.toFixed(3)})`;
+        lift+=cheer*(p.flying?10:15);
         air.style.transform=`translate(0,${(-lift).toFixed(2)}px) rotate(${p.roll.toFixed(2)}deg) scale(${(1-p.squash*.6).toFixed(3)},${(1+p.squash).toFixed(3)})`;
-        shadow.style.opacity=Math.max(.25,1-lift/110).toFixed(2);
+        shadow.style.opacity=Math.max(.2,1-lift/110).toFixed(2);
         kit.pose(p,cheer);
         root.dataset.animatedTime=seconds.toFixed(2);
       }
+    },
+    /** Still portraits for the crossroads view: each sits, breathes, looks about and cheers. */
+    guests(target,count=2){
+      return actors.slice(0,5).filter(a=>!a.tall).slice(0,count).map(src=>{
+        const a=rig(src.s,src.index,target);a.root.style.display='none';
+        return {tall:a.tall,small:a.small,hide(){a.root.style.display='none';},remove(){a.root.remove();},
+          place(x,y,scale,facing,t,cheer=0){
+            a.root.style.display='';const p=faunaPose(a.s,t,a.index,reduced);
+            p.walk=0;p.stride=0;p.air=0;p.graze=0;p.squash=p.flying?p.squash:Math.sin(t*1.6)*.02;if(!p.flying){p.roll=0;p.head=p.head*.6-5;}
+            const k=scale*a.boost,lift=(p.flying?Math.min(46,p.lift):0)+cheer*16;
+            a.root.style.transform=`translate3d(${x.toFixed(1)}px,${y.toFixed(1)}px,0) scale(${(facing*k).toFixed(3)},${k.toFixed(3)})`;
+            a.air.style.transform=`translate(0,${(-lift).toFixed(2)}px) rotate(${p.roll.toFixed(2)}deg) scale(${(1-p.squash*.6).toFixed(3)},${(1+p.squash).toFixed(3)})`;
+            a.kit.pose(p,cheer);
+          }};
+      });
     },
     cheer(){if(!reduced)celebration=1;},
     destroy(){for(const a of actors)a.root.remove();}

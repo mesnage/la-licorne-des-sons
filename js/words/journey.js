@@ -2,7 +2,7 @@
    One shared stage avoids duplicate SVG gradient IDs and rendering two large worlds. */
 import { BIOMES, stepForProgress } from '../data/path.js';
 import { camTo, skyTo, placeUni, anim, mood, zone } from '../scene.js';
-import { sfx } from '../audio.js';
+import { sfx } from '../audio.js?v=review-16';
 
 export function createWordJourney(gems, questions){
   const stage = document.getElementById('scene');

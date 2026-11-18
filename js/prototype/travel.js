@@ -1,4 +1,4 @@
-import { pathPoint, WORLD_WIDTH } from './model.js';
+import { pathPoint, WORLD_WIDTH } from './model.js?v=review-16';
 
 // A fixed bridge spans two crystal stops. It stays in the world; it never follows the unicorn.
 export const RAINBOW = { start:.25, end:.45, rise:210, band:10, bands:7 };

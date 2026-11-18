@@ -85,3 +85,13 @@
 @keyframes gem-halo{from{transform:scale(.8);opacity:.18}to{transform:scale(1.15);opacity:.42}}
 @keyframes gem-glint{0%,55%,100%{transform:scale(0) rotate(0)}70%{transform:scale(1.2) rotate(45deg)}85%{transform:scale(.4) rotate(90deg)}}
 .paused .gem-bob,.paused .gem-halo,.paused .gem-glint{animation-play-state:paused}
+
+/* Crossroads question view, layered over the walking scene. */
+#fork{position:absolute;left:0;top:0;width:100%;height:100%;opacity:0;visibility:hidden;transform:scale(1.07);transform-origin:50% 68%;pointer-events:none;
+  transition:opacity .34s ease,transform .5s cubic-bezier(.2,.8,.3,1),visibility 0s .34s}
+#fork.on{opacity:1;visibility:visible;transform:none;transition:opacity .34s ease,transform .5s cubic-bezier(.2,.8,.3,1)}
+#fork svg{display:block}
+
+.fork-life{position:absolute;left:0;top:0;width:0;height:0}
+.fork-life canvas{position:absolute}
+#fork.instant{transition:none}

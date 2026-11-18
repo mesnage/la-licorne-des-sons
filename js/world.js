@@ -1,6 +1,6 @@
 /* La Licorne des Sons — le décor (7 mondes) dessiné en SVG */
 import { W, H, STOPS } from './data/path.js';
-import { $, gemSVG } from './utils.js';
+import { $, gemSVG } from './utils.js?v=review-16';
 
 const sy = y => H - y;
 const f1 = n => Math.round(n*10)/10;

@@ -1,5 +1,6 @@
+import { createClipCache } from './audio-cache.js?v=review-16';
 /* La Licorne des Sons — le son : voix enregistrées + petits effets */
-import { $, wait } from './utils.js';
+import { $, wait } from './utils.js?v=review-16';
 
 /* audio/manifest.json associe chaque clé de phrase (ex. "L:m", "w:moto") à son fichier MP3. */
 let manifest = {};
@@ -21,20 +22,17 @@ function unlock(){
 }
 ['pointerdown','touchend','click','keydown'].forEach(ev => document.addEventListener(ev, unlock, {passive:true, capture:true}));
 
-const bufs = {};
+const clips = createClipCache();
 function loadClip(key){
-  if(bufs[key]) return bufs[key];
   const a = audio();
   if(!a || !manifest[key]) return Promise.resolve(null);
-  bufs[key] = fetch('audio/' + manifest[key])
+  return clips.get(key,()=>fetch('audio/' + manifest[key])
     .then(r => r.ok ? r.arrayBuffer() : Promise.reject(r.status))
     .then(buf => new Promise(res => {
       const p = a.decodeAudioData(buf, b => res(b), () => res(null));
       if(p && p.catch) p.catch(() => res(null));
     }))
-    .then(clip => { if(!clip) delete bufs[key]; return clip; })
-    .catch(() => { delete bufs[key]; return null; });
-  return bufs[key];
+    .catch(() => null));
 }
 let tok = 0, src = null;
 function hush(){
@@ -87,9 +85,9 @@ const sfx = {
   fanfare(){ [523,659,784,1047,784,1047].forEach((f,i)=>tone(f,i*.14,i===5?.7:.2,'square',.06)); },
 };
 
-async function registerClips(clips){
+async function registerClips(newClips){
   await ready;
-  Object.assign(manifest, clips);
+  for(const [key,file] of Object.entries(newClips)){if(manifest[key]!==file)clips.invalidate(key);manifest[key]=file;}
 }
 
 export { ready, registerClips, preload, audio, unlock, loadClip, hush, say, sfx };

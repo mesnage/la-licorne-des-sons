@@ -1,9 +1,9 @@
 import { curriculumLocation, reviewMode } from '../learning/curriculum-mode.js';
 import { revisionFor, revisionUrl } from './curriculum-revision.js?v=ateliers-sons-2';
-import { exerciseVersion, simpleExercise } from '../data/curriculum-simple.js?v=storybook-2';
+import { exerciseVersion, simpleExercise } from '../data/curriculum-simple.js?v=review-16';
 import { createCurriculum } from '../learning/curriculum.js?v=storybook-2';
 import { chapterMapUrl, chapterPlayUrl } from '../learning/chapter-one.js';
-import { pilotProgressKey, pilotQuestionCount, readPilotProgress, restoreProgrammeState } from '../learning/pilot-session.js?v=storybook-2';
+import { pilotProgressKey, pilotQuestionCount, readPilotProgress, restoreProgrammeState } from '../learning/pilot-session.js?v=review-16';
 
 const testMode = reviewMode(curriculumLocation());
 const content = document.getElementById('curriculumContent');

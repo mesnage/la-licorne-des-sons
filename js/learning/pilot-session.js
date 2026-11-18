@@ -1,4 +1,4 @@
-import { pronunciationRevision, simpleProgrammeVersion } from '../data/curriculum-simple.js?v=storybook-2';
+import { pronunciationRevision, simpleProgrammeVersion } from '../data/curriculum-simple.js?v=review-16';
 import { oralBlocks, oralWords, pilotUnitId } from '../data/curriculum-pilot.js';
 
 export const pilotProgressKey = 'licorne.curriculum.pilot.v1';
@@ -48,7 +48,7 @@ export function createPilotQuestions(unit, manifest, seed) {
 }
 
 export function newPilotState(seed) {
-  return { seed, cursor: 0, answers: [], wrong: 0, marks: 0 };
+  return { seed, questionVersion: 1, cursor: 0, answers: [], wrong: 0, marks: 0 };
 }
 
 export function restorePilotState(value, length) {
@@ -62,7 +62,7 @@ export function restorePilotState(value, length) {
   const order = value.order ?? [];
   if (!Array.isArray(order) || order.length > 30 || new Set(order).size !== order.length ||
       order.some(index => !Number.isInteger(index) || index < 0 || index >= 30)) return null;
-  return { seed: value.seed, cursor, answers: [...answers], wrong, marks, order: [...order] };
+  return { seed: value.seed, questionVersion: value.questionVersion===1?1:0, cursor, answers: [...answers], wrong, marks, order: [...order] };
 }
 
 export function unitProgressKey(id, testMode = false, block) {

@@ -1,0 +1,8 @@
+{
+  "mainTracks": 1275,
+  "curriculumTracks": 708,
+  "verifiedShortRobinTracks": 31,
+  "failures": [],
+  "legacyShortClips": [],
+  "note": "Robin filenames alone are not proof of voice identity. Curriculum checks use speaker/provider metadata and file hashes; human pronunciation review is separate."
+}

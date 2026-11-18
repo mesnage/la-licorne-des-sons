@@ -1,18 +1,18 @@
-import { PAINTED_WORLDS } from '../meadow/themes.js?v=portals-12';
-import { fitChoiceGroup } from '../meadow/choice-fit.js?v=portals-12';
+import { PAINTED_WORLDS } from '../meadow/themes.js?v=review-16';
+import { fitChoiceGroup } from '../meadow/choice-fit.js?v=review-16';
 fitChoiceGroup(document.getElementById('pilotControls'));
 import { curriculumLocation, reviewMode } from '../learning/curriculum-mode.js';
 import { revisionFor, revisionUrl } from './curriculum-revision.js?v=ateliers-sons-2';
-import * as playback from '../audio.js?v=curriculum-chapter-1';
+import * as playback from '../audio.js?v=review-16';
 import { chapterMapUrl, chapterPlayUrl } from '../learning/chapter-one.js';
-import { createSimpleQuestions } from '../learning/curriculum-simple.js?v=storybook-2';
-import { exerciseVersion } from '../data/curriculum-simple.js?v=storybook-2';
-import { WORLDS, worldPanorama } from './model.js?v=faune-desert-1';
+import { createSimpleQuestions } from '../learning/curriculum-simple.js?v=review-16';
+import { exerciseVersion } from '../data/curriculum-simple.js?v=review-16';
+import { WORLDS, worldPanorama } from './model.js?v=review-16';
 import { illustration } from '../illustrations.js';
 import { createCurriculum } from '../learning/curriculum.js?v=storybook-2';
 import {
   createPilotSession, newPilotState, readPilotProgress, restoreProgrammeState, unitProgressKey
-} from '../learning/pilot-session.js?v=storybook-2';
+} from '../learning/pilot-session.js?v=review-16';
 import { pictureLabel, pictureSVG } from './curriculum-pictures.js?v=storybook-2';
 import { pilotUnitId } from '../data/curriculum-pilot.js';
 
@@ -119,7 +119,7 @@ async function openPilot() {
   const readyAnswers = [];
 
   function restart(state) {
-    const questions = createSimpleQuestions(chapter, unit, manifest, state.seed);
+    const questions = createSimpleQuestions(chapter, unit, manifest, state.seed, state.questionVersion??0);
     session = createPilotSession(block ? questions.filter(q => q.blockIndex + 1 === block.position) : questions, state);
     lastQuestion = null;
   }
@@ -588,7 +588,7 @@ async function openPilot() {
   });
 
   try {
-    const { createWorld } = await import('../meadow/world.js?v=portals-12');
+    const { createWorld } = await import('../meadow/world.js?v=review-16');
     world = createWorld(get('pilotWorld'), {
       onReady() {
         worldReady = true;get('pilotWorldLabel').hidden=false;
