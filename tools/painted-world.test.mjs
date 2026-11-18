@@ -3,14 +3,14 @@ import {URL} from 'node:url';
 import assert from 'node:assert/strict';
 import {createWorld} from '../js/meadow/world.js';
 
-function harness(){
+function harness(deferred=false){
   const scenes=[];
   const make=()=>{
     const listeners={};
-    const node={style:{},setAttribute(){},addEventListener(type,fn){listeners[type]=fn;},remove(){parent.children=parent.children.filter(c=>c!==node);}};
-    let total=0,count=0,paused=false,dead=false;
-    const scene={reset(n,c){total=n;count=c;},setRoadChoices(){},setPaused(v){paused=v;},cancel(){},destroy(){dead=true;},moveTo(c){count=c;return Promise.resolve(true);},state(){return {total,crystals:count,paused,dead};}};
-    node.contentWindow={meadowScene:scene};node.load=()=>listeners.load();scenes.push(scene);return node;
+    const node={style:{},classList:{add(){}},setAttribute(){},addEventListener(type,fn){listeners[type]=fn;},remove(){parent.children=parent.children.filter(c=>c!==node);}};
+    let total=0,count=0,paused=false,dead=false,pending;
+    const scene={reset(n,c){total=n;count=c;},setRoadChoices(){},setPaused(v){paused=v;},cancel(){pending?.(false);pending=null;},destroy(){dead=true;},moveTo(c){if(deferred)return new Promise(resolve=>{pending=ok=>{if(ok)count=c;resolve(ok);};});count=c;return Promise.resolve(true);},arrive(){pending?.(true);pending=null;},state(){return {total,crystals:count,paused,dead};}};
+    node.contentWindow={meadowScene:scene};node.load=()=>listeners.load();node.fail=()=>listeners.error();scenes.push(scene);return node;
   };
   const parent={id:'testWorld',children:[],append(node){this.children.push(node);},replaceChildren(){this.children=[];}};
   globalThis.document={createElement:make,body:{dataset:{},classList:{remove(){},add(){}}}};
@@ -60,4 +60,44 @@ test('all ten saved world IDs load and retain progress, including return trips',
     assert.equal(await world.moveTo(5,{returning:true}),true);assert.equal(world.state().crystals,5);
   }
   world.destroy();
+});
+
+test('world changes during travel apply at the next stop without losing completion',async()=>{
+  const {parent,scenes}=harness(true);const world=createWorld(parent);parent.children[0].load();world.reset(30,0,4);
+  const movement=world.moveTo(5);world.setPaused(true);world.setTheme(2);world.setTheme(4);
+  assert.equal(parent.children.length,1);assert.equal(world.state().pendingTheme,4);
+  world.setPaused(false);scenes[0].arrive();await Promise.resolve();parent.children.at(-1).load();
+  assert.equal(await movement,true);assert.equal(world.state().crystals,5);assert.equal(world.state().theme,4);assert.equal(world.state().pendingTheme,null);
+  world.destroy();
+});
+test('cancelled travel also clears a queued world change',async()=>{
+  const {parent,scenes}=harness(true);const world=createWorld(parent);parent.children[0].load();
+  const movement=world.moveTo(1);world.setTheme(3);world.cancel();scenes[0].arrive();
+  assert.equal(await movement,false);assert.equal(world.state().pendingTheme,null);assert.equal(parent.children.length,1);world.destroy();
+});
+test('a failed world load restores the previous playable scene and allows retry',async()=>{
+  const {parent}=harness();const world=createWorld(parent);parent.children[0].load();world.reset(30,0,6);
+  world.setTheme(2);parent.children.at(-1).fail();
+  assert.equal(world.state().theme,0);assert.equal(world.state().crystals,6);assert.equal(world.state().paused,false);assert.equal(parent.children.length,1);
+  world.setTheme(2);parent.children.at(-1).load();assert.equal(world.state().theme,2);assert.equal(await world.moveTo(7),true);world.destroy();
+});
+
+test('portals advance every ten crystals, wrap worlds and preserve progress',async()=>{
+  const {parent}=harness();const world=createWorld(parent);parent.children[0].load();world.reset(30,9,9);parent.children.at(-1).load();
+  const first=world.moveTo(10);await Promise.resolve();await Promise.resolve();parent.children.at(-1).load();
+  assert.equal(await first,true);assert.equal(world.state().theme,0);assert.equal(world.state().crystals,10);
+  const second=world.moveTo(20);await Promise.resolve();await Promise.resolve();parent.children.at(-1).load();
+  assert.equal(await second,true);assert.equal(world.state().theme,1);assert.equal(world.state().crystals,20);
+  assert.equal(await world.moveTo(30),true);assert.equal(world.state().theme,1);
+  world.destroy();
+});
+test('returning to ten and replaying that stop do not trigger another portal',async()=>{
+  const {parent}=harness();const world=createWorld(parent);parent.children[0].load();world.reset(30,0,14);
+  assert.equal(await world.moveTo(10,{returning:true}),true);assert.equal(world.state().theme,0);
+  assert.equal(await world.moveTo(10),true);assert.equal(world.state().theme,0);world.destroy();
+});
+test('a manually queued world takes precedence at a portal boundary',async()=>{
+  const {parent,scenes}=harness(true);const world=createWorld(parent);parent.children[0].load();world.reset(30,0,9);
+  const movement=world.moveTo(10);world.setTheme(4);scenes[0].arrive();await Promise.resolve();parent.children.at(-1).load();
+  assert.equal(await movement,true);assert.equal(world.state().theme,4);assert.equal(world.state().crystals,10);world.destroy();
 });

@@ -266,3 +266,34 @@ body.curriculum.painted-game::before{background:radial-gradient(90% 26% at 50% 1
 .painted-game .adventure-answer span,.painted-game .adventure-answer small{white-space:nowrap!important;flex-shrink:0}
 .painted-game .adventure-answer small{font-size:.72em!important}
 @media(max-width:600px){.painted-game .adventure-choices.words:not(.sentence-choices){grid-template-columns:1fr}}
+
+.pilot-world-choice{display:flex;align-items:center;gap:6px;font-size:13px;color:#43553b;min-width:0}
+.pilot-world-choice[hidden]{display:none}
+.pilot-world-choice select{font:inherit;color:inherit;background:#fff8e9;border:1px solid #d5c7a6;border-radius:18px;padding:10px;min-height:44px;max-width:min(260px,45vw)}
+.painted-game .curriculum-header{flex-wrap:wrap;gap:8px}
+.painted-game .adventure-pause .adventure-text-button{display:block;margin:10px auto;min-height:44px}
+
+.painted-game #pilotUnitName{font-size:clamp(18px,2.6vw,26px);line-height:1.2}
+.painted-game .pilot-world-choice{background:#fff8e9ed;border-radius:22px;padding-left:10px}
+@media(max-width:600px){
+ .painted-game #pilotUnitName{font-size:18px}
+ .painted-game .pilot-answer-pair:has(.pilot-long-answer){grid-template-columns:1fr}
+}
+@media(max-height:550px) and (orientation:landscape){
+ .painted-game #pilotUnitName{font-size:18px;margin:4px 0;max-width:38%;padding:6px 10px}
+ .painted-game #pilotProgress{font-size:11px;margin:6px 0;padding:6px 8px;max-width:32%}
+ .painted-game #pilotProgress progress{height:4px;margin:3px 0}
+}
+@media(max-height:550px) and (orientation:landscape){
+ .painted-game .pilot-crystal-groups{gap:4px}
+ .painted-game .pilot-crystal-group{min-width:0;gap:3px;padding:4px 2px}
+ .painted-game .pilot-crystal-group span{width:7px;flex-shrink:1}
+}
+
+.painted-game [data-road-stone][data-road-surface="wood"]::after,
+.painted-game [data-road-stone][data-road-surface="arch"]::after,
+.painted-game [data-road-stone][data-road-surface="steps"]::after{mask:none;-webkit-mask:none;background:radial-gradient(ellipse,#4c453930,transparent 70%);height:15px;border-radius:50%;bottom:-13px}
+
+.painted-scene.portal-arrival{animation:portal-arrival .55s ease-out both}
+@keyframes portal-arrival{from{opacity:0}to{opacity:1}}
+@media(prefers-reduced-motion:reduce){.painted-scene.portal-arrival{animation:none}}

@@ -21,15 +21,27 @@ function refresh(){
     el.textContent = state.persistent ? 'Enregistré sur cet appareil, dans ce navigateur.' : 'La sauvegarde est bloquée : les cadeaux seront perdus en quittant cette page.';
   });
 }
-function openRewards(){ refresh(); $('#rewardsDialog').showModal(); }
+function openRewards(){ refresh(); const dialog=$('#rewardsDialog');if(!dialog.open)dialog.showModal();dialog.scrollTop=0; }
 export function earnReward(){ rewards.earn(); refresh(); }
 export function showReward(){ openRewards(); }
 export function initRewards(){
   const wheel = $('#rewardWheel');
+  const dialog=$('#rewardsDialog');
+  const play=document.createElement('div');play.className='reward-play';
+  const actions=document.createElement('div');actions.className='reward-actions';
+  const stage=wheel.closest('.wheel-stage');stage.before(play);play.append(stage,actions);
+  actions.append($('#spinReward'),$('#rewardResult'));
+  let landscape=window.innerWidth>window.innerHeight,resizeFrame;
+  window.addEventListener('resize',()=>{
+    const next=window.innerWidth>window.innerHeight;
+    if(next===landscape)return;landscape=next;
+    window.cancelAnimationFrame(resizeFrame);
+    resizeFrame=window.requestAnimationFrame(()=>{if(dialog.open)dialog.scrollTop=0;});
+  });
   const slice = 360 / SEGMENTS.length;
   wheel.innerHTML = SEGMENTS.map((p,i) => `<span data-prize="${PRIZES[p].id}" style="--angle:${(i+.5)*slice}deg" aria-hidden="true">${art(PRIZES[p])}</span>`).join('');
   wheel.style.background='conic-gradient('+SEGMENTS.map((prize,index)=>`${PRIZES[prize].color} ${index*slice}deg ${(index+1)*slice}deg`).join(',')+')';
-  document.querySelectorAll('#rewardPending, #winReward, #wordReward').forEach(button => button.addEventListener('click', openRewards));
+  document.querySelectorAll('#rewardPending, #winReward, #wordReward, #pauseReward').forEach(button => button.addEventListener('click', openRewards));
   document.querySelectorAll('[data-close-dialog]').forEach(button => button.addEventListener('click', () => {
     if(!turning) button.closest('dialog').close();
   }));

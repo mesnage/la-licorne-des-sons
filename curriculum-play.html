@@ -6,15 +6,16 @@
 <meta name="theme-color" content="#f6e6d9">
 <title>J’écoute les syllabes · La Licorne des Sons</title>
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
-<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/style.css?v=portals-12">
 <link rel="stylesheet" href="css/storybook.css">
 <link rel="stylesheet" href="css/curriculum.css?v=roue-dinos-1">
 <link rel="stylesheet" href="css/curriculum-play.css?v=roue-dinos-1">
-<link rel="stylesheet" href="css/meadow-game.css?v=choices-9">
+<link rel="stylesheet" href="css/meadow-game.css?v=portals-12">
 </head>
 <body class="curriculum painted-game">
 <header class="curriculum-header">
   <a class="curriculum-link" href="curriculum.html#C1" data-chapter-return>← La carte des unités</a>
+  <label id="pilotWorldLabel" class="pilot-world-choice" hidden>Monde <select id="pilotWorldChoice" aria-label="Choisir le monde de cette aventure"></select></label>
   <button id="pilotPause" class="pilot-button" type="button" hidden>Pause</button>
 </header>
 <main class="curriculum-main pilot-main">
@@ -46,6 +47,6 @@
   <form method="dialog"><button class="pilot-button pilot-primary" autofocus>Reprendre</button></form>
   <a id="pilotPauseReturn" class="curriculum-link" href="curriculum.html#C1-U01">Retour à mon étape</a>
 </dialog>
-<script type="module" src="js/prototype/curriculum-play.js?v=choices-9"></script>
+<script type="module" src="js/prototype/curriculum-play.js?v=portals-12"></script>
 </body>
 </html>

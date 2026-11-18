@@ -1,6 +1,6 @@
 import {test} from 'node:test';
 import assert from 'node:assert/strict';
-import {createJourney} from '../js/meadow/journey.js';
+import {createJourney,travelEase} from '../js/meadow/journey.js';
 
 test('10 and 20 question sessions reach exactly the castle and clamp bad counts',async()=>{
   for(const total of [10,20]){const j=createJourney({start:100,end:4100});j.reset(total);const finished=j.moveTo(total);j.update(2);assert.equal(await finished,true);assert.equal(j.state().x,4100);assert.equal(j.state().count,total);j.reset(total,999);assert.equal(j.state().count,total);j.reset(total,-1);assert.equal(j.state().count,0);}
@@ -28,5 +28,33 @@ test('every activity gets the same full walking distance, including the 30-quest
     j.update(2);assert.equal(await p,true);assert.equal(j.state().x,960);
     j.reset(total,total-1);const finish=j.moveTo(total);j.update(3);
     assert.equal(await finish,true);assert.equal(j.state().x,320+total*640);
+  }
+});
+
+ test('travel accelerates gently, cruises steadily and stops symmetrically',()=>{
+  assert.equal(travelEase(0),0);assert.equal(travelEase(1),1);
+  let last=0;for(let i=0;i<=100;i++){const t=i/100,v=travelEase(t);assert.ok(v>=last);assert.ok(Math.abs(v+travelEase(1-t)-1)<1e-10);last=v;}
+  assert.ok(travelEase(.01)<.001);
+  assert.ok(Math.abs((travelEase(.5)-travelEase(.4))-(travelEase(.7)-travelEase(.6)))<1e-10);
+});
+
+// Geometry is shared by scenery, feet and answer stones in every habitat.
+const {createRoute}=await import('../js/meadow/route.js');
+test('crossings join the trail continuously in every world',()=>{
+  for(const habitat of ['meadow','forest','jungle','beach','ice','clouds','moon','prehistoric','desert','fairy']){
+    const ground=x=>540+Math.sin(x/300)*30,route=createRoute(habitat,ground);
+    for(const c of route.crossings){
+      for(const x of [c.center-c.half,c.center+c.half]){
+        assert.ok(Math.abs(route.y(x)-ground(x))<1e-8);
+        assert.ok(Math.abs(route.y(x+.001)-route.y(x-.001))<.001);
+        assert.ok(Math.abs(route.tilt(x))<.1);
+      }
+      assert.ok(route.y(c.center)<ground(c.center));
+    }
+    assert.equal(route.at(320+2.5*640),null);
+    const steps=route.crossings.find(c=>c.kind==='steps');
+    for(let i=0;i<=4;i++)assert.ok(route.hop(steps.center-steps.half+i*steps.half/2)<1e-8);
+    const midair=steps.center-steps.half+steps.half/4;
+    assert.ok(route.hop(midair)>0);assert.equal(route.hop(midair,true),0);
   }
 });
