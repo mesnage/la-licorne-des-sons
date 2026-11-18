@@ -1,4 +1,5 @@
-import { fitChoiceGroup } from '../meadow/choice-fit.js?v=choices-9';
+import { PAINTED_WORLDS } from '../meadow/themes.js?v=portals-12';
+import { fitChoiceGroup } from '../meadow/choice-fit.js?v=portals-12';
 fitChoiceGroup(document.getElementById('pilotControls'));
 import { curriculumLocation, reviewMode } from '../learning/curriculum-mode.js';
 import { revisionFor, revisionUrl } from './curriculum-revision.js?v=ateliers-sons-2';
@@ -104,7 +105,14 @@ async function openPilot() {
   try { lastSaved = storage.getItem(key); } catch { storage = null; }
 
   let session, world, lastQuestion, conflict = false;
-  let worldReady = false;
+  let worldReady = false,selectedWorld=Math.max(0,worldIndex);
+  const worldChoice=get('pilotWorldChoice');
+  for(const theme of PAINTED_WORLDS){const option=document.createElement('option');option.value=theme.id;option.textContent=theme.name;worldChoice.append(option);}
+  worldChoice.value=String(selectedWorld);
+  worldChoice.addEventListener('change',()=>{
+    if(conflict||!worldReady)return;
+    selectedWorld=Number(worldChoice.value);world.setTheme(selectedWorld);
+  });
   let heard = new Set();
   let audioToken = 0;
   let advanceTimer;
@@ -144,7 +152,7 @@ async function openPilot() {
     loadStatus.textContent = 'Cette partie a avancé dans un autre onglet. Recharge la page pour la reprendre.';
     get('pilotPanel').hidden = true;
     get('pilotProgress').hidden = true;
-    pauseButton.hidden = true;
+    pauseButton.hidden = true;get('pilotWorldLabel').hidden=true;
   }
 
   function stopAudio() {
@@ -506,7 +514,7 @@ async function openPilot() {
         restart(newPilotState(Math.floor(Math.random() * 1000000)));
         save();
         if (conflict) return;
-        world?.reset(total, worldIndex);
+        world?.reset(total, selectedWorld);
         render(true);
       }, 'pilot-secondary'));
     } else if (session.solved) {
@@ -580,16 +588,16 @@ async function openPilot() {
   });
 
   try {
-    const { createWorld } = await import('../meadow/world.js?v=choices-9');
+    const { createWorld } = await import('../meadow/world.js?v=portals-12');
     world = createWorld(get('pilotWorld'), {
       onReady() {
-        worldReady = true;
-        world.reset(total, worldIndex, session.snapshot().answers.length);
+        worldReady = true;get('pilotWorldLabel').hidden=false;
+        world.reset(total, selectedWorld, session.snapshot().answers.length);
         world.quiet(true);
         placeRoadChoices();
         world.setPaused(document.hidden || pauseDialog.open || conflict);
       },
-      onBiome() {},
+      onBiome(biome) {get('pilotWorld').classList.remove('pilot-world-static');if(worldReady)worldChoice.value=String(biome.id);},
       onError() { get('pilotWorld').classList.add('pilot-world-static'); }
     });
   } catch {

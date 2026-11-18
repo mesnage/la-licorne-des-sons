@@ -1,3 +1,9 @@
+/** Gentle acceleration, steady middle pace, gentle stop (continuous velocity). */
+export function travelEase(t){
+  t=Math.max(0,Math.min(1,t));const ramp=.18,v=1/(1-ramp);
+  const start=u=>v*(u/2-ramp*Math.sin(Math.PI*u/ramp)/(2*Math.PI));
+  return t<ramp?start(t):t>1-ramp?1-start(1-t):v*(t-ramp/2);
+}
 /** Scene-clock journey shared by workshops and reading units; no wall-clock timers. */
 export function createJourney({start=320,end=4420,step=0,reduced=false}={}){
   let total=20,count=0,x=start,paused=false,move=null;
@@ -12,7 +18,7 @@ export function createJourney({start=320,end=4420,step=0,reduced=false}={}){
     },
     update(dt){
       if(paused||!move)return false;
-      const m=move;m.elapsed+=Math.max(0,dt);const t=Math.min(1,m.elapsed/m.duration),e=t*t*(3-2*t);
+      const m=move;m.elapsed+=Math.max(0,dt);const t=Math.min(1,m.elapsed/m.duration),e=travelEase(t);
       x=m.from+(m.to-m.from)*e;
       if(t===1){count=m.count;move=null;m.resolve(true);return true;}
       return false;

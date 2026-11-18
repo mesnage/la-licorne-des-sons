@@ -8,7 +8,7 @@ import { unlock, hush, say, sfx, preload } from './audio.js';
 import { uniEl, camTo, skyTo, placeUni, anim, mood, bubble, zone, burst, gag } from './scene.js';
 import { makeTargets, distractors } from './questions.js?v=cactus-alphabet-1';
 import { getStars, addStar, recordRound } from './storage.js';
-import { earnReward, showReward } from './rewards.js?v=roue-dinos-1';
+import { earnReward, showReward } from './rewards.js?v=portals-12';
 
 let gems = [];
 let pool = [], targets = [], step = 0, cur = null, busy = true, level = 'voyelles', round = 0;

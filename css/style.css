@@ -290,3 +290,32 @@ body{background:radial-gradient(ellipse at 16% 8%,#fff7e3aa,transparent 48%),lin
 .reward-wheel .illustration{width:100%;height:auto}
 .reward-dialog .fart-cloud .illustration{width:90px;height:90px}
 #rewardPending .illustration{display:inline-block;width:23px;height:23px;vertical-align:middle;margin-right:6px}
+
+/* Reward layout survives orientation changes without hiding the wheel or spin control. */
+.reward-dialog{width:min(480px,calc(100vw - 24px));max-height:calc(100dvh - 24px);overscroll-behavior:contain;scrollbar-width:thin;overflow-anchor:none}
+.reward-dialog .dialog-close{position:sticky;top:0;z-index:5;display:block;margin:-24px -8px -16px auto}
+.reward-play{display:grid;justify-items:center;gap:8px}
+.reward-play .wheel-stage{--wheel-size:min(260px,calc(100vw - 80px),max(150px,calc(100dvh - 360px)));width:var(--wheel-size);height:var(--wheel-size);aspect-ratio:auto;flex-shrink:0;margin:20px auto 12px}
+.reward-actions{width:100%;min-width:0}
+.reward-actions .reward-result:empty{min-height:0;margin:0}
+.reward-dialog .reward-actions .big-btn{white-space:normal}
+@media(orientation:landscape) and (max-height:550px){
+ .reward-dialog{width:min(760px,calc(100vw - 24px));padding:22px 18px 16px}
+ .reward-dialog .dialog-close{margin:-12px -6px -26px auto}
+ .reward-dialog .reward-eyebrow{display:none}
+ .reward-dialog h2{font-size:23px;margin:0 46px 4px}
+ .reward-dialog h2+p{font-size:13px;margin:4px 0}
+ .reward-play{grid-template-columns:minmax(0,1fr) minmax(0,1fr);align-items:center;gap:16px}
+ .reward-play .wheel-stage{--wheel-size:min(220px,calc(100dvh - 130px));margin:20px auto 8px}
+ .reward-actions .reward-result{font-size:20px;margin:8px 0}
+ .reward-dialog .wheel-odds{margin:4px 0;font-size:11px}
+ .reward-dialog h3{margin:14px 0 8px}
+}
+@media(orientation:portrait) and (max-height:650px){
+ .reward-dialog{padding:24px 14px 16px}
+ .reward-dialog .dialog-close{margin:-12px -4px 0 auto}
+ .reward-dialog .reward-eyebrow{display:none}
+ .reward-dialog h2{font-size:24px;margin:4px 36px 8px}
+ .reward-dialog h2+p{font-size:13px;margin:6px 0}
+ .reward-dialog .reward-actions .big-btn{font-size:16px;padding:10px 14px}
+}
