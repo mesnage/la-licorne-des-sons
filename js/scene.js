@@ -1,7 +1,7 @@
 /* La Licorne des Sons — caméra, ciel, Paillette et ses gags */
-import { $ } from './utils.js';
+import { $ } from './utils.js?v=review-16';
 import { W, STOPS } from './data/path.js';
-import { sfx, say } from './audio.js';
+import { sfx, say } from './audio.js?v=review-16';
 import { U } from './voice-keys.js';
 
 let gameUni = null;

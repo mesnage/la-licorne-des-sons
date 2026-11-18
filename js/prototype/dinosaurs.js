@@ -1,4 +1,4 @@
-import { pathPoint } from './model.js';
+import { pathPoint } from './model.js?v=review-16';
 import { animalPatrol } from './animal-motion.js';
 
 export const DINOSAURS = [

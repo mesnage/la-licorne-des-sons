@@ -1,4 +1,4 @@
-import { plain } from '../utils.js';
+import { plain } from '../utils.js?v=review-16';
 
 const phonemes = {
   A: 'a', E0: 'schwa', I: 'i', U: 'u', EE: 'e', EH: 'e-open',

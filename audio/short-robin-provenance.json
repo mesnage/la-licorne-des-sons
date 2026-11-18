@@ -1,0 +1,923 @@
+{
+  "generated_at": "2026-11-18T13:06:42.750007+00:00",
+  "voice_id": "ZLsOpArVEayz7qulwa9E",
+  "speaker": "Robin",
+  "clips": {
+    "LN:b": {
+      "file": "court-robin-05c93ae837fd6e62af1a.mp3",
+      "previous_file": "nom-lettre-b-91b342.mp3",
+      "speaker": "robin",
+      "voice_id": "ZLsOpArVEayz7qulwa9E",
+      "provider": "elevenlabs",
+      "model": "eleven_v4",
+      "language": "fr",
+      "text": "bé",
+      "ipa": "be",
+      "sha256": "05c93ae837fd6e62af1a4a6cb6149682c439309e6bbef19504768f2b270b4b51",
+      "review": "pending_human_listening",
+      "legacy_source_comparison": {
+        "source": "lettre-b-0dc127470d87.mp3",
+        "correlation": 0.997789,
+        "source_sha256": "0dc127470d875765795ad600baf2295215df7edbd226a368692c2b970a9363a2"
+      },
+      "method": "verified excerpt of existing Robin source",
+      "source_comparison": {
+        "source": "lettre-b-0dc127470d87.mp3",
+        "correlation": 0.997789,
+        "source_sha256": "0dc127470d875765795ad600baf2295215df7edbd226a368692c2b970a9363a2"
+      },
+      "asr": {
+        "engine": "local Whisper small (French)",
+        "transcript": "B",
+        "note": "Isolated letters and phonemes can be mis-transcribed; human listening remains pending."
+      },
+      "durationSeconds": 0.778625
+    },
+    "LN:c": {
+      "file": "court-robin-b522055ca68266ae98ea.mp3",
+      "previous_file": "nom-lettre-c-df7c1b.mp3",
+      "speaker": "robin",
+      "voice_id": "ZLsOpArVEayz7qulwa9E",
+      "provider": "elevenlabs",
+      "model": "eleven_v4",
+      "language": "fr",
+      "text": "cé",
+      "ipa": "se",
+      "sha256": "b522055ca68266ae98ea46060eb86e2213227f603513910b710e39e9a73e53c5",
+      "review": "pending_human_listening",
+      "legacy_source_comparison": {
+        "source": "lettre-c-020ac903ec07.mp3",
+        "correlation": 0.997252,
+        "source_sha256": "020ac903ec072b2504d686450b70f84da215394a64e09d4dcb60f8dc93f08521"
+      },
+      "method": "verified excerpt of existing Robin source",
+      "source_comparison": {
+        "source": "lettre-c-020ac903ec07.mp3",
+        "correlation": 0.997252,
+        "source_sha256": "020ac903ec072b2504d686450b70f84da215394a64e09d4dcb60f8dc93f08521"
+      },
+      "asr": {
+        "engine": "local Whisper small (French)",
+        "transcript": "Si",
+        "note": "Isolated letters and phonemes can be mis-transcribed; human listening remains pending."
+      },
+      "durationSeconds": 0.761125
+    },
+    "LN:d": {
+      "file": "court-robin-a2fc3a9562b09d5e4ee6.mp3",
+      "previous_file": "nom-lettre-d-32180f.mp3",
+      "speaker": "robin",
+      "voice_id": "ZLsOpArVEayz7qulwa9E",
+      "provider": "elevenlabs",
+      "model": "eleven_v4",
+      "language": "fr",
+      "text": "dé",
+      "ipa": "de",
+      "sha256": "a2fc3a9562b09d5e4ee6d33a34628609bf52b3045cfde1500df57f9a13416936",
+      "review": "pending_human_listening",
+      "legacy_source_comparison": {
+        "source": "lettre-d-74adaf8d936c.mp3",
+        "correlation": 0.99609,
+        "source_sha256": "74adaf8d936cc37b77ef08897aa0546bd56defd94a9f8736a9eb568bdf04f25d"
+      },
+      "method": "verified excerpt of existing Robin source",
+      "source_comparison": {
+        "source": "lettre-d-74adaf8d936c.mp3",
+        "correlation": 0.99609,
+        "source_sha256": "74adaf8d936cc37b77ef08897aa0546bd56defd94a9f8736a9eb568bdf04f25d"
+      },
+      "asr": {
+        "engine": "local Whisper small (French)",
+        "transcript": "D",
+        "note": "Isolated letters and phonemes can be mis-transcribed; human listening remains pending."
+      },
+      "durationSeconds": 0.794938
+    },
+    "LN:f": {
+      "file": "court-robin-bacf2e780284d6e2ad9c.mp3",
+      "previous_file": "nom-lettre-f-16c8ec.mp3",
+      "speaker": "robin",
+      "voice_id": "ZLsOpArVEayz7qulwa9E",
+      "provider": "elevenlabs",
+      "model": "eleven_v4",
+      "language": "fr",
+      "text": "effe",
+      "ipa": "ɛf",
+      "sha256": "bacf2e780284d6e2ad9c0ddecef082572aa63e5eb622ebdc0305a831d56b5b23",
+      "review": "pending_human_listening",
+      "legacy_source_comparison": {
+        "source": "lettre-f-b0a0ddda9927.mp3",
+        "correlation": 0.979617,
+        "source_sha256": "b0a0ddda9927bd11abee18b7ca30e7deb6793ea49e0dadfab8901cf31114ef3a"
+      },
+      "method": "verified excerpt of existing Robin source",
+      "source_comparison": {
+        "source": "lettre-f-b0a0ddda9927.mp3",
+        "correlation": 0.979617,
+        "source_sha256": "b0a0ddda9927bd11abee18b7ca30e7deb6793ea49e0dadfab8901cf31114ef3a"
+      },
+      "asr": {
+        "engine": "local Whisper small (French)",
+        "transcript": "Et ça.",
+        "note": "Isolated letters and phonemes can be mis-transcribed; human listening remains pending."
+      },
+      "durationSeconds": 0.863
+    },
+    "LN:g": {
+      "file": "court-robin-88a2fe4c6b8014fb1914.mp3",
+      "previous_file": "nom-lettre-g-bce478.mp3",
+      "speaker": "robin",
+      "voice_id": "ZLsOpArVEayz7qulwa9E",
+      "provider": "elevenlabs",
+      "model": "eleven_v4",
+      "language": "fr",
+      "text": "gé",
+      "ipa": "ʒe",
+      "sha256": "88a2fe4c6b8014fb19145e535e9a6244f7af888dd3ad0af3195aee8cc0029136",
+      "review": "pending_human_listening",
+      "legacy_source_comparison": {
+        "source": "lettre-g-3b729003d232.mp3",
+        "correlation": 0.979486,
+        "source_sha256": "3b729003d232ad0c9a5cdab9268affe4fe96c6a645271154b55e73a4e409a429"
+      },
+      "method": "verified excerpt of existing Robin source",
+      "source_comparison": {
+        "source": "lettre-g-3b729003d232.mp3",
+        "correlation": 0.979486,
+        "source_sha256": "3b729003d232ad0c9a5cdab9268affe4fe96c6a645271154b55e73a4e409a429"
+      },
+      "asr": {
+        "engine": "local Whisper small (French)",
+        "transcript": "G",
+        "note": "Isolated letters and phonemes can be mis-transcribed; human listening remains pending."
+      },
+      "durationSeconds": 0.85425
+    },
+    "LN:h": {
+      "file": "court-robin-ed2d788f710013e0a3bd.mp3",
+      "previous_file": "nom-lettre-h-fcfadc.mp3",
+      "speaker": "robin",
+      "voice_id": "ZLsOpArVEayz7qulwa9E",
+      "provider": "elevenlabs",
+      "model": "eleven_v4",
+      "language": "fr",
+      "text": "hache",
+      "ipa": "aʃ",
+      "sha256": "ed2d788f710013e0a3bdb0133ccbba6cb42024a1a0111de0ea07e6e4b304cfb1",
+      "review": "pending_human_listening",
+      "legacy_source_comparison": {
+        "source": "lettre-h-f7c1d733df4b.mp3",
+        "correlation": 0.973784,
+        "source_sha256": "f7c1d733df4b970a870d65cb7f5a980082948e5605b2e6fda57c66413d9ae0a9"
+      },
+      "method": "verified excerpt of existing Robin source",
+      "source_comparison": {
+        "source": "lettre-h-f7c1d733df4b.mp3",
+        "correlation": 0.973784,
+        "source_sha256": "f7c1d733df4b970a870d65cb7f5a980082948e5605b2e6fda57c66413d9ae0a9"
+      },
+      "asr": {
+        "engine": "local Whisper small (French)",
+        "transcript": "Assez !",
+        "note": "Isolated letters and phonemes can be mis-transcribed; human listening remains pending."
+      },
+      "durationSeconds": 0.9205
+    },
+    "LN:j": {
+      "file": "court-robin-6dd7bc49f21d8e52be65.mp3",
+      "previous_file": "nom-lettre-j-0c3b37.mp3",
+      "speaker": "robin",
+      "voice_id": "ZLsOpArVEayz7qulwa9E",
+      "provider": "elevenlabs",
+      "model": "eleven_v4",
+      "language": "fr",
+      "text": "ji",
+      "ipa": "ʒi",
+      "sha256": "6dd7bc49f21d8e52be65a9921454971010aefb5ec1f69d792bfd29ca16a6b302",
+      "review": "pending_human_listening",
+      "legacy_source_comparison": {
+        "source": "lettre-j-36da47347ea7.mp3",
+        "correlation": 0.971464,
+        "source_sha256": "36da47347ea7025df4b38ce108a172d08c4fdbe4e4b1a120f88761c689496666"
+      },
+      "method": "verified excerpt of existing Robin source",
+      "source_comparison": {
+        "source": "lettre-j-36da47347ea7.mp3",
+        "correlation": 0.971464,
+        "source_sha256": "36da47347ea7025df4b38ce108a172d08c4fdbe4e4b1a120f88761c689496666"
+      },
+      "asr": {
+        "engine": "local Whisper small (French)",
+        "transcript": "J",
+        "note": "Isolated letters and phonemes can be mis-transcribed; human listening remains pending."
+      },
+      "durationSeconds": 0.856563
+    },
+    "LN:k": {
+      "file": "court-robin-bc5fb08a41f37a8ef905.mp3",
+      "previous_file": "nom-lettre-k-ae2cff.mp3",
+      "speaker": "robin",
+      "voice_id": "ZLsOpArVEayz7qulwa9E",
+      "provider": "elevenlabs",
+      "model": "eleven_v4",
+      "language": "fr",
+      "text": "ka",
+      "ipa": "ka",
+      "sha256": "bc5fb08a41f37a8ef905636b9523fac9b296c9d0b3d2f7809c568dddda9354d3",
+      "review": "pending_human_listening",
+      "legacy_source_comparison": {
+        "source": "lettre-k-5e3abefaf81e.mp3",
+        "correlation": 0.991636,
+        "source_sha256": "5e3abefaf81ebf132718e8d760b09b96329039330ed2d89ed80f03b91ffacb86"
+      },
+      "method": "verified excerpt of existing Robin source",
+      "source_comparison": {
+        "source": "lettre-k-5e3abefaf81e.mp3",
+        "correlation": 0.991636,
+        "source_sha256": "5e3abefaf81ebf132718e8d760b09b96329039330ed2d89ed80f03b91ffacb86"
+      },
+      "asr": {
+        "engine": "local Whisper small (French)",
+        "transcript": "K",
+        "note": "Isolated letters and phonemes can be mis-transcribed; human listening remains pending."
+      },
+      "durationSeconds": 0.650938
+    },
+    "LN:l": {
+      "file": "court-robin-8c43715f02ac9664f172.mp3",
+      "previous_file": "nom-lettre-l-42493a.mp3",
+      "speaker": "robin",
+      "voice_id": "ZLsOpArVEayz7qulwa9E",
+      "provider": "elevenlabs",
+      "model": "eleven_v4",
+      "language": "fr",
+      "text": "elle",
+      "ipa": "ɛl",
+      "sha256": "8c43715f02ac9664f172db623bdc45af039760200bea0710d064310a26eb9ca5",
+      "review": "pending_human_listening",
+      "legacy_source_comparison": {
+        "source": "lettre-l-47a287e91361.mp3",
+        "correlation": 0.992168,
+        "source_sha256": "47a287e91361f3cca145e78dcd89c69731e3dccf11007db9cce56afd54e2d40c"
+      },
+      "method": "verified excerpt of existing Robin source",
+      "source_comparison": {
+        "source": "lettre-l-47a287e91361.mp3",
+        "correlation": 0.992168,
+        "source_sha256": "47a287e91361f3cca145e78dcd89c69731e3dccf11007db9cce56afd54e2d40c"
+      },
+      "asr": {
+        "engine": "local Whisper small (French)",
+        "transcript": "L",
+        "note": "Isolated letters and phonemes can be mis-transcribed; human listening remains pending."
+      },
+      "durationSeconds": 0.771
+    },
+    "LN:m": {
+      "file": "court-robin-8e178058d4eb67b76ec4.mp3",
+      "previous_file": "nom-lettre-m-8b4065.mp3",
+      "speaker": "robin",
+      "voice_id": "ZLsOpArVEayz7qulwa9E",
+      "provider": "elevenlabs",
+      "model": "eleven_v4",
+      "language": "fr",
+      "text": "ème",
+      "ipa": "ɛm",
+      "sha256": "8e178058d4eb67b76ec4b2a0af8b2bd0fd4a5b184fcb887d99f2ce71f8ffdf05",
+      "review": "pending_human_listening",
+      "legacy_source_comparison": {
+        "source": "lettre-m-0bd43b761619.mp3",
+        "correlation": 0.983504,
+        "source_sha256": "0bd43b761619c6eb0f7e5d986926b518f868298e80994419bd0be4d0cfd54b1e"
+      },
+      "method": "verified excerpt of existing Robin source",
+      "source_comparison": {
+        "source": "lettre-m-0bd43b761619.mp3",
+        "correlation": 0.983504,
+        "source_sha256": "0bd43b761619c6eb0f7e5d986926b518f868298e80994419bd0be4d0cfd54b1e"
+      },
+      "asr": {
+        "engine": "local Whisper small (French)",
+        "transcript": "M",
+        "note": "Isolated letters and phonemes can be mis-transcribed; human listening remains pending."
+      },
+      "durationSeconds": 0.840375
+    },
+    "LN:n": {
+      "file": "court-robin-9a6240161d30a47925a3.mp3",
+      "previous_file": "nom-lettre-n-b54723.mp3",
+      "speaker": "robin",
+      "voice_id": "ZLsOpArVEayz7qulwa9E",
+      "provider": "elevenlabs",
+      "model": "eleven_v4",
+      "language": "fr",
+      "text": "ène",
+      "ipa": "ɛn",
+      "sha256": "9a6240161d30a47925a35ac291a78233cd1636ee8d9451405c61e49fbbba58bb",
+      "review": "pending_human_listening",
+      "legacy_source_comparison": {
+        "source": "lettre-n-56a954ce49d2.mp3",
+        "correlation": 0.978658,
+        "source_sha256": "56a954ce49d27fcecb42078dbb4734f3fa3bc8d1fedee4160f0702de23864d0d"
+      },
+      "method": "verified excerpt of existing Robin source",
+      "source_comparison": {
+        "source": "lettre-n-56a954ce49d2.mp3",
+        "correlation": 0.978658,
+        "source_sha256": "56a954ce49d27fcecb42078dbb4734f3fa3bc8d1fedee4160f0702de23864d0d"
+      },
+      "asr": {
+        "engine": "local Whisper small (French)",
+        "transcript": "N",
+        "note": "Isolated letters and phonemes can be mis-transcribed; human listening remains pending."
+      },
+      "durationSeconds": 0.857563
+    },
+    "LN:p": {
+      "file": "court-robin-09a527b633602ece8c36.mp3",
+      "previous_file": "nom-lettre-p-baea80.mp3",
+      "speaker": "robin",
+      "voice_id": "ZLsOpArVEayz7qulwa9E",
+      "provider": "elevenlabs",
+      "model": "eleven_v4",
+      "language": "fr",
+      "text": "pé",
+      "ipa": "pe",
+      "sha256": "09a527b633602ece8c364d790f2f595f46931625a06b6c0da54f5b9f5f211034",
+      "review": "pending_human_listening",
+      "legacy_source_comparison": {
+        "source": "lettre-p-f60df08e968b.mp3",
+        "correlation": 0.995141,
+        "source_sha256": "f60df08e968b4b9f3eecb740b749257e043f55e7e83e8a50789b3f61f2653950"
+      },
+      "method": "verified excerpt of existing Robin source",
+      "source_comparison": {
+        "source": "lettre-p-f60df08e968b.mp3",
+        "correlation": 0.995141,
+        "source_sha256": "f60df08e968b4b9f3eecb740b749257e043f55e7e83e8a50789b3f61f2653950"
+      },
+      "asr": {
+        "engine": "local Whisper small (French)",
+        "transcript": "P",
+        "note": "Isolated letters and phonemes can be mis-transcribed; human listening remains pending."
+      },
+      "durationSeconds": 0.670625
+    },
+    "LN:q": {
+      "file": "court-robin-256c61ac6f3abec49230.mp3",
+      "previous_file": "nom-lettre-q-4e3ee4.mp3",
+      "speaker": "robin",
+      "voice_id": "ZLsOpArVEayz7qulwa9E",
+      "provider": "elevenlabs",
+      "model": "eleven_v4",
+      "language": "fr",
+      "text": "ku",
+      "ipa": "ky",
+      "sha256": "256c61ac6f3abec492303ce97a59b62788ed535b39e93102b38d83867ce89dec",
+      "review": "pending_human_listening",
+      "legacy_source_comparison": {
+        "source": "lettre-q-031dadc8e478.mp3",
+        "correlation": 0.991771,
+        "source_sha256": "031dadc8e478c22be495574e6e994201bd3c8b07bcc13706f6d22666a6f0dee7"
+      },
+      "method": "verified excerpt of existing Robin source",
+      "source_comparison": {
+        "source": "lettre-q-031dadc8e478.mp3",
+        "correlation": 0.991771,
+        "source_sha256": "031dadc8e478c22be495574e6e994201bd3c8b07bcc13706f6d22666a6f0dee7"
+      },
+      "asr": {
+        "engine": "local Whisper small (French)",
+        "transcript": "2",
+        "note": "Isolated letters and phonemes can be mis-transcribed; human listening remains pending."
+      },
+      "durationSeconds": 0.745313
+    },
+    "LN:r": {
+      "file": "court-robin-e159d97812d16785deb7.mp3",
+      "previous_file": "nom-lettre-r-dc62ea.mp3",
+      "speaker": "robin",
+      "voice_id": "ZLsOpArVEayz7qulwa9E",
+      "provider": "elevenlabs",
+      "model": "eleven_v4",
+      "language": "fr",
+      "text": "erre",
+      "ipa": "ɛʁ",
+      "sha256": "e159d97812d16785deb7ab696180639011e7b1ab52d6b4249d07b44b015d733e",
+      "review": "pending_human_listening",
+      "legacy_source_comparison": {
+        "source": "lettre-r-9ac0ae10bc60.mp3",
+        "correlation": 0.98979,
+        "source_sha256": "9ac0ae10bc60e3fa7dede2799d37cd0436129526c98795cff797dfafd11f4986"
+      },
+      "method": "verified excerpt of existing Robin source",
+      "source_comparison": {
+        "source": "lettre-r-9ac0ae10bc60.mp3",
+        "correlation": 0.98979,
+        "source_sha256": "9ac0ae10bc60e3fa7dede2799d37cd0436129526c98795cff797dfafd11f4986"
+      },
+      "asr": {
+        "engine": "local Whisper small (French)",
+        "transcript": "R",
+        "note": "Isolated letters and phonemes can be mis-transcribed; human listening remains pending."
+      },
+      "durationSeconds": 0.857125
+    },
+    "LN:s": {
+      "file": "court-robin-1a2e28a2f809ea6a9a92.mp3",
+      "previous_file": "nom-lettre-s-0e4786.mp3",
+      "speaker": "robin",
+      "voice_id": "ZLsOpArVEayz7qulwa9E",
+      "provider": "elevenlabs",
+      "model": "eleven_v4",
+      "language": "fr",
+      "text": "esse",
+      "ipa": "ɛs",
+      "sha256": "1a2e28a2f809ea6a9a9280537936c778e9c94c110fe771f81754533669341e7a",
+      "review": "pending_human_listening",
+      "legacy_source_comparison": {
+        "source": "lettre-s-86254d1f1dd9.mp3",
+        "correlation": 0.993446,
+        "source_sha256": "86254d1f1dd96154e7f3adbb3c953c939454ed010ee2a1185cfa2e39dcb933c6"
+      },
+      "method": "verified excerpt of existing Robin source",
+      "source_comparison": {
+        "source": "lettre-s-86254d1f1dd9.mp3",
+        "correlation": 0.993446,
+        "source_sha256": "86254d1f1dd96154e7f3adbb3c953c939454ed010ee2a1185cfa2e39dcb933c6"
+      },
+      "asr": {
+        "engine": "local Whisper small (French)",
+        "transcript": "Essa !",
+        "note": "Isolated letters and phonemes can be mis-transcribed; human listening remains pending."
+      },
+      "durationSeconds": 0.857
+    },
+    "LN:t": {
+      "file": "court-robin-401f64c025520215edb2.mp3",
+      "previous_file": "nom-lettre-t-e42f77.mp3",
+      "speaker": "robin",
+      "voice_id": "ZLsOpArVEayz7qulwa9E",
+      "provider": "elevenlabs",
+      "model": "eleven_v4",
+      "language": "fr",
+      "text": "té",
+      "ipa": "te",
+      "sha256": "401f64c025520215edb28383b372f1a651e2041e5e7d3ed0827cc2629f308ea8",
+      "review": "pending_human_listening",
+      "legacy_source_comparison": {
+        "source": "lettre-t-7c0653c697bf.mp3",
+        "correlation": 0.998402,
+        "source_sha256": "7c0653c697bf644763c4368d2ad5759ee82d64b3b58a88d2335109cf3caee517"
+      },
+      "method": "verified excerpt of existing Robin source",
+      "source_comparison": {
+        "source": "lettre-t-7c0653c697bf.mp3",
+        "correlation": 0.998402,
+        "source_sha256": "7c0653c697bf644763c4368d2ad5759ee82d64b3b58a88d2335109cf3caee517"
+      },
+      "asr": {
+        "engine": "local Whisper small (French)",
+        "transcript": "T",
+        "note": "Isolated letters and phonemes can be mis-transcribed; human listening remains pending."
+      },
+      "durationSeconds": 0.60075
+    },
+    "LN:v": {
+      "file": "court-robin-bc43557f7018e86f7484.mp3",
+      "previous_file": "nom-lettre-v-502156.mp3",
+      "speaker": "robin",
+      "voice_id": "ZLsOpArVEayz7qulwa9E",
+      "provider": "elevenlabs",
+      "model": "eleven_v4",
+      "language": "fr",
+      "text": "vé",
+      "ipa": "ve",
+      "sha256": "bc43557f7018e86f7484d43faab3c8e4aa2da5d83b9d73d61756618f0ad6030e",
+      "review": "pending_human_listening",
+      "legacy_source_comparison": {
+        "source": "lettre-v-2328eea482fc.mp3",
+        "correlation": 0.992367,
+        "source_sha256": "2328eea482fc0edea9311c888f4ce1a3b5b19816528468ada5e1e8b7e70bb16c"
+      },
+      "method": "verified excerpt of existing Robin source",
+      "source_comparison": {
+        "source": "lettre-v-2328eea482fc.mp3",
+        "correlation": 0.992367,
+        "source_sha256": "2328eea482fc0edea9311c888f4ce1a3b5b19816528468ada5e1e8b7e70bb16c"
+      },
+      "asr": {
+        "engine": "local Whisper small (French)",
+        "transcript": "V",
+        "note": "Isolated letters and phonemes can be mis-transcribed; human listening remains pending."
+      },
+      "durationSeconds": 0.851125
+    },
+    "LN:w": {
+      "file": "court-robin-daa2bde557b65c8d1a05.mp3",
+      "previous_file": "nom-lettre-w-2230c6.mp3",
+      "speaker": "robin",
+      "voice_id": "ZLsOpArVEayz7qulwa9E",
+      "provider": "elevenlabs",
+      "model": "eleven_v4",
+      "language": "fr",
+      "text": "Double vé, comme le nom de la lettre W.",
+      "ipa": "dubləve",
+      "speechSeconds": 0.628,
+      "sha256": "daa2bde557b65c8d1a0568a2b0d72ef70be64ce2eed4ec2719ddaa32b1422c5d",
+      "review": "pending_human_listening",
+      "legacy_source_comparison": {
+        "source": "lettre-w-b26e571daaa2.mp3",
+        "correlation": 0.160614,
+        "source_sha256": "b26e571daaa2d0ccb78597be3ec1fc9e56d2d61a3b3ab4b95cd27ad69de3733d"
+      },
+      "method": "excerpt from contextual Robin speech",
+      "source_file": "short-robin-sources/12261f06008d0b7049f5.mp3",
+      "source_sha256": "12261f06008d0b7049f5dcdaf1313c53b84e3a06abf26756e7b4364cb7880e88",
+      "crop_seconds": [
+        0,
+        0.655
+      ],
+      "asr": {
+        "engine": "local Whisper small (French)",
+        "transcript": "W",
+        "note": "Isolated letters and phonemes can be mis-transcribed; human listening remains pending."
+      },
+      "source_asr": "W comme le nom de la lettre W.",
+      "durationSeconds": 0.805306
+    },
+    "LN:x": {
+      "file": "court-robin-efee92828f756055727a.mp3",
+      "previous_file": "nom-lettre-x-8e06ca.mp3",
+      "speaker": "robin",
+      "voice_id": "ZLsOpArVEayz7qulwa9E",
+      "provider": "elevenlabs",
+      "model": "eleven_v4",
+      "language": "fr",
+      "text": "ixe",
+      "ipa": "iks",
+      "sha256": "efee92828f756055727ae60bc0662d8ef55150bce8897b8cf5ea9eb13ada6680",
+      "review": "pending_human_listening",
+      "legacy_source_comparison": {
+        "source": "lettre-x-4af900c957ba.mp3",
+        "correlation": 0.994793,
+        "source_sha256": "4af900c957ba2049895cf8abbc6adf34945a5cf6afc51035a2309b25c793bd22"
+      },
+      "method": "verified excerpt of existing Robin source",
+      "source_comparison": {
+        "source": "lettre-x-4af900c957ba.mp3",
+        "correlation": 0.994793,
+        "source_sha256": "4af900c957ba2049895cf8abbc6adf34945a5cf6afc51035a2309b25c793bd22"
+      },
+      "asr": {
+        "engine": "local Whisper small (French)",
+        "transcript": "x",
+        "note": "Isolated letters and phonemes can be mis-transcribed; human listening remains pending."
+      },
+      "durationSeconds": 0.841625
+    },
+    "LN:y": {
+      "file": "court-robin-8fb44d80db4623aa51ab.mp3",
+      "previous_file": "nom-lettre-y-919090.mp3",
+      "speaker": "robin",
+      "voice_id": "ZLsOpArVEayz7qulwa9E",
+      "provider": "elevenlabs",
+      "model": "eleven_v4",
+      "language": "fr",
+      "text": "I grec, comme le nom de la lettre Y.",
+      "ipa": "iɡʁɛk",
+      "speechSeconds": 0.535,
+      "sha256": "8fb44d80db4623aa51abeee9a970629f7e8dcf25a3f2f1552ff082f22cd693c3",
+      "review": "pending_human_listening",
+      "legacy_source_comparison": {
+        "source": "lettre-y-c77212273b1f.mp3",
+        "correlation": 0.349493,
+        "source_sha256": "c77212273b1fa3ac504c932cb11214a616d306309104824e47653d294d527b73"
+      },
+      "method": "excerpt from contextual Robin speech",
+      "source_file": "short-robin-sources/07c89967ead48bb30a6c.mp3",
+      "source_sha256": "07c89967ead48bb30a6cfe9932b8bef63564407d970ddf9d683148d4dbf77778",
+      "crop_seconds": [
+        0,
+        0.5750000000000001
+      ],
+      "asr": {
+        "engine": "local Whisper small (French)",
+        "transcript": "Y Y",
+        "note": "Isolated letters and phonemes can be mis-transcribed; human listening remains pending."
+      },
+      "source_asr": "Y comme le nom de la lettre Y.",
+      "durationSeconds": 0.713878
+    },
+    "LN:z": {
+      "file": "court-robin-16490ef24c3234a0373f.mp3",
+      "previous_file": "nom-lettre-z-74a573.mp3",
+      "speaker": "robin",
+      "voice_id": "ZLsOpArVEayz7qulwa9E",
+      "provider": "elevenlabs",
+      "model": "eleven_v4",
+      "language": "fr",
+      "text": "zède",
+      "ipa": "zɛd",
+      "sha256": "16490ef24c3234a0373f528330f8d0d5ce0741fa6191cf30a2c529e1c4e3cb0d",
+      "review": "pending_human_listening",
+      "legacy_source_comparison": {
+        "source": "lettre-z-37267a058499.mp3",
+        "correlation": 0.994824,
+        "source_sha256": "37267a058499083de44e310e6e3beda29b5a22fc924cb7e2125dea90bd32462a"
+      },
+      "method": "verified excerpt of existing Robin source",
+      "source_comparison": {
+        "source": "lettre-z-37267a058499.mp3",
+        "correlation": 0.994824,
+        "source_sha256": "37267a058499083de44e310e6e3beda29b5a22fc924cb7e2125dea90bd32462a"
+      },
+      "asr": {
+        "engine": "local Whisper small (French)",
+        "transcript": "ZED",
+        "note": "Isolated letters and phonemes can be mis-transcribed; human listening remains pending."
+      },
+      "durationSeconds": 0.946375
+    },
+    "PS:ail": {
+      "file": "court-robin-cbe12e84fdff923f6077.mp3",
+      "previous_file": "son-ail-47f0e8.mp3",
+      "speaker": "robin",
+      "voice_id": "ZLsOpArVEayz7qulwa9E",
+      "provider": "elevenlabs",
+      "model": "eleven_v4",
+      "language": "fr",
+      "text": "Ail, comme une gousse d’ail.",
+      "ipa": "aj",
+      "speechSeconds": 0.382,
+      "sha256": "cbe12e84fdff923f60772f8a904b4da17259ca591e4d765a1b4cd3111380c9d3",
+      "review": "pending_human_listening",
+      "method": "excerpt from contextual Robin speech",
+      "source_file": "short-robin-sources/a38c835f9f9d1118f78b.mp3",
+      "source_sha256": "a38c835f9f9d1118f78bba2f600056fd83944ab5b3931f4fad055c25e2351f21",
+      "crop_seconds": [
+        0,
+        0.41500000000000004
+      ],
+      "asr": {
+        "engine": "local Whisper small (French)",
+        "transcript": "Aïe",
+        "note": "Isolated letters and phonemes can be mis-transcribed; human listening remains pending."
+      },
+      "source_asr": "Aïe, coming with die.",
+      "durationSeconds": 0.536054
+    },
+    "PS:eil": {
+      "file": "court-robin-fa803f979905f0b54a48.mp3",
+      "previous_file": "son-eil-6d9133.mp3",
+      "speaker": "robin",
+      "voice_id": "ZLsOpArVEayz7qulwa9E",
+      "provider": "elevenlabs",
+      "model": "eleven_v4",
+      "language": "fr",
+      "text": "Paye, comme dans la paye.",
+      "ipa": "ɛj",
+      "speechSeconds": 0.207,
+      "sha256": "fa803f979905f0b54a4832679ecb3568475f48b348f7d03dc380f8474b98b566",
+      "review": "pending_human_listening",
+      "method": "excerpt from contextual Robin speech",
+      "source_file": "short-robin-sources/51cb04baa2717d082729.mp3",
+      "source_sha256": "51cb04baa2717d0827295d28ed7c7f3d4a1fb7a8aaeb71f1df146982b8f5e409",
+      "crop_seconds": [
+        0.208,
+        0.41500000000000004
+      ],
+      "asr": {
+        "engine": "local Whisper small (French)",
+        "transcript": "et",
+        "note": "Isolated letters and phonemes can be mis-transcribed; human listening remains pending."
+      },
+      "source_asr": "\"Pay\" comme dans la \"pay\".",
+      "durationSeconds": 0.335102
+    },
+    "PS:euil": {
+      "file": "court-robin-620671193b87695f3fea.mp3",
+      "previous_file": "son-euil-1815cf.mp3",
+      "speaker": "robin",
+      "voice_id": "ZLsOpArVEayz7qulwa9E",
+      "provider": "elevenlabs",
+      "model": "eleven_v4",
+      "language": "fr",
+      "text": "Œil, comme un œil qui regarde.",
+      "ipa": "œj",
+      "speechSeconds": 0.372,
+      "sha256": "620671193b87695f3fea47f5a47956634964339aca0feeb969de5548d0c0689b",
+      "review": "pending_human_listening",
+      "method": "excerpt from contextual Robin speech",
+      "source_file": "short-robin-sources/e1198aac6c2679215af1.mp3",
+      "source_sha256": "e1198aac6c2679215af1f00a5f7d2fba9247ea99928c43be1c5e46175f6720fb",
+      "crop_seconds": [
+        0,
+        0.41500000000000004
+      ],
+      "asr": {
+        "engine": "local Whisper small (French)",
+        "transcript": "Aïe",
+        "note": "Isolated letters and phonemes can be mis-transcribed; human listening remains pending."
+      },
+      "source_asr": "œil comme un œil qui regarde.",
+      "durationSeconds": 0.526122
+    },
+    "PS:ien": {
+      "file": "court-robin-4dc2c313319a11116787.mp3",
+      "previous_file": "son-ien-1c9656.mp3",
+      "speaker": "robin",
+      "voice_id": "ZLsOpArVEayz7qulwa9E",
+      "provider": "elevenlabs",
+      "model": "eleven_v4",
+      "language": "fr",
+      "text": "Bien, comme dans bien joué.",
+      "ipa": "jɛ̃",
+      "speechSeconds": 0.143,
+      "sha256": "4dc2c313319a111167877e07471708e8592354792e3b1de3fe176fdf486a520f",
+      "review": "pending_human_listening",
+      "method": "excerpt from contextual Robin speech",
+      "source_file": "short-robin-sources/2b722cf56dc72b31accc.mp3",
+      "source_sha256": "2b722cf56dc72b31accc9d070382af6063c77b90e99d709e30423e607923d692",
+      "crop_seconds": [
+        0.195,
+        0.335
+      ],
+      "asr": {
+        "engine": "local Whisper small (French)",
+        "transcript": "*",
+        "note": "Isolated letters and phonemes can be mis-transcribed; human listening remains pending."
+      },
+      "source_asr": "de lien comme dans \"Bien joué\".",
+      "durationSeconds": 0.282857
+    },
+    "PS:oi": {
+      "file": "court-robin-aa1ef59cfb5747a14709.mp3",
+      "previous_file": "son-oi-26efd7.mp3",
+      "speaker": "robin",
+      "voice_id": "ZLsOpArVEayz7qulwa9E",
+      "provider": "elevenlabs",
+      "model": "eleven_v4",
+      "language": "fr",
+      "text": "Oie, comme l’oiseau de la ferme.",
+      "ipa": "wa",
+      "speechSeconds": 0.301,
+      "sha256": "aa1ef59cfb5747a1470908a30da236ea989015ed25f26e794bd867de81d9646e",
+      "review": "pending_human_listening",
+      "method": "excerpt from contextual Robin speech",
+      "source_file": "short-robin-sources/89d548a7a58bb249cd3a.mp3",
+      "source_sha256": "89d548a7a58bb249cd3ad820038f1f399ef4f58be2f7162d48bac8e468f1e3d5",
+      "crop_seconds": [
+        0,
+        0.335
+      ],
+      "asr": {
+        "engine": "local Whisper small (French)",
+        "transcript": "WAH",
+        "note": "Isolated letters and phonemes can be mis-transcribed; human listening remains pending."
+      },
+      "source_asr": "Ouah, comme l'oiseau de la ferme",
+      "durationSeconds": 0.457075
+    },
+    "PS:oin": {
+      "file": "court-robin-25169ad84c4121b414d1.mp3",
+      "previous_file": "son-oin-6f7492.mp3",
+      "speaker": "robin",
+      "voice_id": "ZLsOpArVEayz7qulwa9E",
+      "provider": "elevenlabs",
+      "model": "eleven_v4",
+      "language": "fr",
+      "text": "Loin, comme dans très loin.",
+      "ipa": "wɛ̃",
+      "speechSeconds": 0.276,
+      "sha256": "25169ad84c4121b414d162e6670f22391a53788754270ddf7926528a064490f1",
+      "review": "pending_human_listening",
+      "method": "excerpt from contextual Robin speech",
+      "source_file": "short-robin-sources/59ac10a3de4d12abc571.mp3",
+      "source_sha256": "59ac10a3de4d12abc5716bef9d45d82fe932a315bdb4b13e59e2c69565fc0ea4",
+      "crop_seconds": [
+        0.155,
+        0.41500000000000004
+      ],
+      "asr": {
+        "engine": "local Whisper small (French)",
+        "transcript": "Bonne",
+        "note": "Isolated letters and phonemes can be mis-transcribed; human listening remains pending."
+      },
+      "source_asr": "loin comme dans très loin.",
+      "durationSeconds": 0.387347
+    },
+    "PS:ouil": {
+      "file": "court-robin-b18848561483488754be.mp3",
+      "previous_file": "son-ouil-1f3e76.mp3",
+      "speaker": "robin",
+      "voice_id": "ZLsOpArVEayz7qulwa9E",
+      "provider": "elevenlabs",
+      "model": "eleven_v4",
+      "language": "fr",
+      "text": "Rouille, comme la rouille sur le métal.",
+      "ipa": "uj",
+      "speechSeconds": 0.342,
+      "sha256": "b18848561483488754be33b377ec7c6dee4d32e7be0e67b680cf07294c17e0a7",
+      "review": "pending_human_listening",
+      "method": "excerpt from contextual Robin speech",
+      "source_file": "short-robin-sources/4a111609e10c8edcafe2.mp3",
+      "source_sha256": "4a111609e10c8edcafe24c50fb66e2d7169321754045b2c5c6d5ca80757ab23f",
+      "crop_seconds": [
+        0.155,
+        0.495
+      ],
+      "asr": {
+        "engine": "local Whisper small (French)",
+        "transcript": "Oua",
+        "note": "Isolated letters and phonemes can be mis-transcribed; human listening remains pending."
+      },
+      "source_asr": "rouille comme la rouille sur le métal.",
+      "durationSeconds": 0.491837
+    },
+    "PS:tion": {
+      "file": "court-robin-d2f7be8ee4ab73bb47aa.mp3",
+      "previous_file": "son-tion-50c1b8.mp3",
+      "speaker": "robin",
+      "voice_id": "ZLsOpArVEayz7qulwa9E",
+      "provider": "elevenlabs",
+      "model": "eleven_v4",
+      "language": "fr",
+      "text": "Attention, comme dans fais attention.",
+      "ipa": "sjɔ̃",
+      "speechSeconds": 0.159,
+      "sha256": "d2f7be8ee4ab73bb47aa16157a7f33ae5a3fc7f5e7971679a0fd5e4975afd90c",
+      "review": "pending_human_listening",
+      "method": "excerpt from contextual Robin speech",
+      "source_file": "short-robin-sources/8c362654b03363ace13b.mp3",
+      "source_sha256": "8c362654b03363ace13b3410e04d707ca046577cbf621b02e04c3cf6fb729a1e",
+      "crop_seconds": [
+        0.431,
+        0.5750000000000001
+      ],
+      "asr": {
+        "engine": "local Whisper small (French)",
+        "transcript": "Donc",
+        "note": "Isolated letters and phonemes can be mis-transcribed; human listening remains pending."
+      },
+      "source_asr": "Attention comme dans \"fait attention\".",
+      "durationSeconds": 0.282857
+    },
+    "PS:ui": {
+      "file": "court-robin-5231e060993594c90c26.mp3",
+      "previous_file": "son-ui-8cebea.mp3",
+      "speaker": "robin",
+      "voice_id": "ZLsOpArVEayz7qulwa9E",
+      "provider": "elevenlabs",
+      "model": "eleven_v4",
+      "language": "fr",
+      "text": "Huis, comme dans à huis clos.",
+      "ipa": "ɥi",
+      "speechSeconds": 0.384,
+      "sha256": "5231e060993594c90c2664bdcee099d04fbfc935ce041e77ced4d2cc2d27dfa6",
+      "review": "pending_human_listening",
+      "method": "excerpt from contextual Robin speech",
+      "source_file": "short-robin-sources/d73da1ac257ff149a856.mp3",
+      "source_sha256": "d73da1ac257ff149a85691bef38941950ecea9c71f98df44f7c5cf1d2127944c",
+      "crop_seconds": [
+        0,
+        0.41500000000000004
+      ],
+      "asr": {
+        "engine": "local Whisper small (French)",
+        "transcript": "8",
+        "note": "Isolated letters and phonemes can be mis-transcribed; human listening remains pending."
+      },
+      "source_asr": "8 comme dans 8 kW.",
+      "durationSeconds": 0.538186
+    },
+    "PS:x": {
+      "file": "court-robin-feff10332ba1ef263be7.mp3",
+      "previous_file": "son-x-42d49b.mp3",
+      "speaker": "robin",
+      "voice_id": "ZLsOpArVEayz7qulwa9E",
+      "provider": "elevenlabs",
+      "model": "eleven_v4",
+      "language": "fr",
+      "text": "Axe, comme un axe de rotation.",
+      "ipa": "ks",
+      "speechSeconds": 0.254,
+      "sha256": "feff10332ba1ef263be79744d784cfd530c188c58c971f3f67d59edddbd05d9b",
+      "review": "pending_human_listening",
+      "method": "excerpt from contextual Robin speech",
+      "source_file": "short-robin-sources/8fb052dc8bea0415c9e4.mp3",
+      "source_sha256": "8fb052dc8bea0415c9e493689441bb2ecf97a28bbc7b07e3c64b18743f082e02",
+      "crop_seconds": [
+        0.155,
+        0.41500000000000004
+      ],
+      "asr": {
+        "engine": "local Whisper small (French)",
+        "transcript": "x",
+        "note": "Isolated letters and phonemes can be mis-transcribed; human listening remains pending."
+      },
+      "source_asr": "Axe comme un axe de rotation.",
+      "durationSeconds": 0.387347
+    }
+  }
+}

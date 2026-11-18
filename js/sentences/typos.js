@@ -1,5 +1,5 @@
 import { TYPO_SENTENCES } from '../data/typos.js';
-import { shuffle, chooseTarget } from '../words/model.js';
+import { shuffle, chooseTarget } from '../words/model.js?v=review-16';
 
 export function typoQuestion(item, wrongIndex){
   if(!Number.isInteger(wrongIndex)||wrongIndex<0||wrongIndex>2)throw new Error('A typo must be in one of three word positions');

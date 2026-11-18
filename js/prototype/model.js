@@ -2,10 +2,10 @@ import { SYLLABLE_ACTIVITIES, syllableActivity, syllableItems } from '../data/sy
 import { LEVELS, NASAL_VOWELS } from '../data/sounds.js?v=cactus-alphabet-1';
 import { WORDS, WORD_LEVELS } from '../data/words.js';
 import { distractors, pickWord } from '../questions.js?v=cactus-alphabet-1';
-import { shuffle } from '../utils.js';
-import { QuestionSession, WordSession } from '../words/model.js';
+import { shuffle } from '../utils.js?v=review-16';
+import { QuestionSession, WordSession } from '../words/model.js?v=review-16';
 import { SENTENCE_ACTIVITIES, sentenceActivity } from '../data/sentences.js';
-import { sentenceQuestions } from '../sentences/model.js';
+import { sentenceQuestions } from '../sentences/model.js?v=review-16';
 import { TYPO_ACTIVITY } from '../data/typos.js';
 import { typoQuestions } from '../sentences/typos.js';
 import { letterName } from '../learning/sound-prompts.js?v=cedille-1';
@@ -147,8 +147,9 @@ export function createAdventure(mode, level = 1, stats = {}, history = {}){
   const wordsSeen={...history};
   if(mode === 'sons') return new AdventureSession(nasalQuestions(wordsSeen));
   if(mode === 'alphabet'){
-    const review=shuffle(ALPHABET.slice(0,-1)).slice(0,4);
-    const questions=[...ALPHABET,...review].map(target=>({
+    const letters=shuffle(ALPHABET);
+    const review=shuffle(ALPHABET.filter(letter=>letter!==letters.at(-1))).slice(0,4);
+    const questions=[...letters,...review].map(target=>({
       target,
       choices:shuffle([target,...shuffle(ALPHABET.filter(letter=>letter!==target)).slice(0,2)])
     }));

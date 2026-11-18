@@ -1,9 +1,10 @@
+import { shuffle } from './random.js?v=review-16';
 /* La Licorne des Sons — outils */
 import { GEMCOLS } from './data/path.js';
 
 const $ = s => document.querySelector(s);
 const wait = ms => new Promise(r => setTimeout(r, ms));
-const shuffle = a => { a=[...a]; for(let i=a.length-1;i>0;i--){const j=Math.random()*(i+1)|0;[a[i],a[j]]=[a[j],a[i]];} return a; };
+
 const pick = a => a[Math.random()*a.length|0];
 const plain = w => w.replace(/[\[\]]/g,'');
 const wordHTML = w => w.replace(/\[(.+?)\]/,'<mark>$1</mark>');

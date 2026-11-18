@@ -1,7 +1,7 @@
 import { createEncounter, poseEncounter } from './encounters.js';
 import { drawHabitatTouch } from './habitat-touch.js';
 import Phaser from '../../vendor/phaser/phaser.esm.min.js';
-import { WORLD_WIDTH, WORLD_HEIGHT, pathPoint, WORLDS, worldPanorama, gagFor } from './model.js?v=faune-desert-1';
+import { WORLD_WIDTH, WORLD_HEIGHT, pathPoint, WORLDS, worldPanorama, gagFor } from './model.js?v=review-16';
 import { uri, crystal, cloud, checkpointFlag, magicHat } from './art.js';
 import { landmark } from './scenery.js';
 import { coastalBreeze, coastalGrasses, windAt, sunPatch, driftingLeaf, glowMote, birdParts, createFlyingBird, poseCoastalBird } from './atmosphere.js';

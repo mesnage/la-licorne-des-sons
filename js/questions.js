@@ -1,6 +1,6 @@
 /* La Licorne des Sons — choix des questions et des fausses réponses */
 import { ALL } from './data/sounds.js';
-import { shuffle, plain } from './utils.js';
+import { shuffle, plain } from './utils.js?v=review-16';
 import { seen, markSeen, occurrences } from './storage.js';
 
 function pickWord(snd, history){

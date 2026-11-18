@@ -11,14 +11,15 @@ export function fitChoiceGroup(root){
   function collect(){
     resize.disconnect();resize.observe(root);
     buttons=[...root.querySelectorAll('.adventure-answer,.pilot-answer-pair > .pilot-button,.pilot-answer-card > .pilot-button,.pilot-word-tiles > .pilot-button')];
+    root.classList.toggle('short-word-choices',root.classList.contains('words')&&!root.classList.contains('sentence-choices')&&buttons.length>0&&buttons.length<=4&&buttons.every(b=>b.textContent.trim().length<=8));
     buttons.forEach(b=>resize.observe(b));schedule();
   }
   function fit(){
     frame=0;
     const visible=buttons.filter(b=>b.getBoundingClientRect().width>0);
     if(!visible.length||visible.every(b=>b.disabled))return;
-    const road=visible.every(b=>b.hasAttribute('data-road-stone'));
-    const max=road?48:root.querySelector('.sentence-choices,.pilot-word-tiles')||root.classList.contains('sentence-choices')?24:32;
+    const road=visible.every(b=>b.hasAttribute('data-road-door'));
+    const max=road?46:root.querySelector('.sentence-choices,.pilot-word-tiles')||root.classList.contains('sentence-choices')?24:32;
     const metrics=visible.map(b=>{
       const style=window.getComputedStyle(b),rect=b.getBoundingClientRect();
       const parts=[...b.childNodes].filter(n=>n.nodeType===3||['SPAN','SMALL'].includes(n.nodeName));
@@ -27,7 +28,7 @@ export function fitChoiceGroup(root){
         ctx.font=`${style.fontWeight} ${100*ratio}px ${style.fontFamily}`;
         units+=ctx.measureText(text).width/100;count++;
       }
-      return {units,width:Math.max(1,rect.width-parseFloat(style.paddingLeft)-parseFloat(style.paddingRight)-parseFloat(style.borderLeftWidth)-parseFloat(style.borderRightWidth)-Math.max(0,count-1)*(parseFloat(style.columnGap)||0)-6)};
+      return {units,width:Math.max(1,(b.offsetWidth||rect.width)-parseFloat(style.paddingLeft)-parseFloat(style.paddingRight)-parseFloat(style.borderLeftWidth)-parseFloat(style.borderRightWidth)-Math.max(0,count-1)*(parseFloat(style.columnGap)||0)-6)};
     });
     const size=sharedChoiceSize(metrics,max)+'px';
     visible.forEach(b=>{if(b.style.getPropertyValue('--choice-font')!==size)b.style.setProperty('--choice-font',size);});

@@ -1,14 +1,15 @@
-import {createRoute,paintCrossings} from './route.js?v=portals-12';
+import {createRoute,paintCrossings} from './route.js?v=review-16';
 /* Meadow graphics trial adapted from the supplied Paillette style frame. */
 /* global matchMedia, innerWidth, innerHeight, performance, Path2D, URLSearchParams */
-import { ready, say, hush, unlock } from '../audio.js';
-import { createFauna } from './fauna.js?v=portals-12';
-import { HABITATS, paintHabitat } from './habitats.js?v=portals-12';
-import { PAINTED_WORLDS } from './themes.js?v=portals-12';
-import { JUNGLE_PALETTE, paintJungle } from './jungle.js?v=portals-12';
-import { FOREST_PALETTE, paintForest } from './forest.js?v=portals-12';
-import { createJourney } from './journey.js?v=portals-12';
-import { createScenery } from './scenery.js?v=portals-12';
+import { ready, say, hush, unlock } from '../audio.js?v=review-16';
+import { createFauna } from './fauna.js?v=review-16';
+import { HABITATS, paintHabitat } from './habitats.js?v=review-16';
+import { PAINTED_WORLDS } from './themes.js?v=review-16';
+import { JUNGLE_PALETTE, paintJungle } from './jungle.js?v=review-16';
+import { FOREST_PALETTE, paintForest } from './forest.js?v=review-16';
+import { createJourney } from './journey.js?v=review-16';
+import { createScenery } from './scenery.js?v=review-16';
+import { createCrossroads } from './crossroads.js?v=review-16';
 
 (() => {
 const NS='http://www.w3.org/2000/svg', svg=document.getElementById('svg');
@@ -22,7 +23,7 @@ const perf=new URLSearchParams(location.search).has('perf');
 const habitat=theme.habitat,forest=habitat==='forest',jungle=habitat==='jungle',custom=HABITATS[habitat];
 document.body.dataset.habitat=habitat;
 const sceneRaise=readingLayout?275:300;
-let roadChoices=0,layoutListener=null;
+let layoutListener=null;
 const demo=!embedded&&location.hash==='#demo';
 if(embedded)document.body.classList.add('scene-only');
 let started=false, paused=true;
@@ -93,7 +94,7 @@ let heroScale=1, stoneScale=1, stageLift=0, layerList=null;
 function fitRelief(){
   const extra=Math.max(0,VH-750);
   const liftK=Math.max(0,1-extra/500);
-  for(const {node,depth,lift=0} of reliefLayers)node.style.top=(-extra*depth-lift*liftK-(embedded&&depth===.12?(roadChoices?0:sceneRaise)*Math.max(0,Math.min(1,(.95-innerWidth/innerHeight)/.35)):0)).toFixed(1)+'px';
+  for(const {node,depth,lift=0} of reliefLayers)node.style.top=(-extra*depth-lift*liftK-(embedded&&depth===.12?sceneRaise*Math.max(0,Math.min(1,(.95-innerWidth/innerHeight)/.35)):0)).toFixed(1)+'px';
 }
 const $=id=>document.getElementById(id),wA=$('worldA'),wB=$('worldB'),scratch=$('scratch');
 const sun=document.createElement('div');sun.style.cssText='width:500px;height:500px;top:-20px;border-radius:50%;background:radial-gradient(closest-side,rgba(255,251,232,.95),rgba(253,240,192,.6) 30%,rgba(253,240,192,0))';wA.append(sun);if(habitat==='moon')sun.style.display='none';
@@ -104,12 +105,12 @@ function fit(){const a=innerWidth/innerHeight;VW=Math.max(640,Math.min(1500,750*
   if(topDiv)topDiv.style.top=(750-VH).toFixed(1)+'px';
   fitRelief();
   const portrait=Math.max(0,Math.min(1,(.95-a)/.35));
-  stageLift=Math.max(0,VH-750)*.12+(embedded?(roadChoices?0:sceneRaise)*portrait:0);
+  stageLift=Math.max(0,VH-750)*.12+(embedded?sceneRaise*portrait:0);
   heroScale=1+portrait*.24;stoneScale=1+portrait*.10;
   for(const stone of answerStones)stone.g.setAttribute('transform',`translate(${stone.x} ${stone.y}) scale(${stoneScale})`);
   if(layerList)for(const L of layerList)if(L.tiles&&L.tiles.size&&needBottom(L)>(L.bottom??0)+1)dropTiles(L);
   $('skyg').style.background=custom?`linear-gradient(${custom.sky[0]} 0%,${custom.sky[1]} ${(h*.6).toFixed(1)}%,${custom.sky[2]} ${(h*.97).toFixed(1)}%)`:jungle?`linear-gradient(#73b4a6 0%,#b5d8b7 ${(h*.6).toFixed(1)}%,#eee1b5 ${(h*.97).toFixed(1)}%)`:forest?`linear-gradient(#496e61 0%,#9cb399 ${(h*.6).toFixed(1)}%,#e5d7a6 ${(h*.97).toFixed(1)}%)`:`linear-gradient(#8fcbc9 0%,#c9e6dc ${(h*.6).toFixed(1)}%,#f6ecd0 ${(h*.97).toFixed(1)}%)`;}
-window.addEventListener('resize',fit);fit();
+let onFit=null;window.addEventListener('resize',()=>{fit();onFit?.();});fit();
 $('skyp').style.backgroundImage=`url(${PAT[W.paper.fill.slice(5,-1)].toDataURL()})`;
 
 /* ---------- scenery: drawn once as vectors, then baked into bitmaps the GPU can slide ---------- */
@@ -177,9 +178,15 @@ function fern(g,x,y,s,w){const f=el('g',{transform:`translate(${f1(x)} ${f1(y)})
 function sprig(g,x,y,s,w){const f=el('g',{transform:`translate(${f1(x)} ${f1(y)}) scale(${f1(s*10)/10})`},g),c=sway(f,'-32,-100,38,4');
   el('path',{d:'M0 0Q-10-40 6-84',stroke:w.edge,'stroke-width':3,fill:'none','stroke-linecap':'round'},c);
   for(let i=0;i<6;i++){const t=(i+1)/6.5,xx=-10*Math.sin(t*Math.PI)+6*t*t,yy=-84*t,sd=i%2?1:-1;el('path',{d:blob(xx+sd*11,yy-3,9.5,8,8,.12),...wa(w,2,.25)},c);}}
-function rock(g,x,y,s){const r=el('g',{transform:`translate(${f1(x)} ${f1(y)}) scale(${f1(s*10)/10})`},g);
-  el('path',{d:blob(0,-14,30,18,9,.14),...wa(W.stone)},r);el('path',{d:blob(8,-8,19,9,7,.1),fill:speck(shadeHex(W.stone.hex,.74),3)},r);
-  for(let i=0;i<4;i++)el('circle',{cx:f1(R(-18,18)),cy:f1(R(-24,-8)),r:f1(R(2,4.5)),fill:'#d9a441',opacity:.6},r);}
+function rock(g,x,y,s){const r=el('g',{transform:`translate(${f1(x)} ${f1(y)}) scale(${f1(s*10)/10})`},g),k=shadeHex(W.stone.hex,.76);
+  // two stones leaning together: dark sides, pale tops, a highlight, lichen dots and grass at the foot
+  el('path',{d:'M-30 0Q-34-17-22-27Q-8-36 8-31Q22-25 22-8Q22 0 16 2Q-8 5-30 0Z',fill:k},r);
+  el('path',{d:'M-30-3Q-33-17-21-26Q-8-34 7-30Q16-26 14-17Q0-10-14-9Q-24-8-30-3Z',...wa(W.stone,2,.2)},r);
+  el('path',{d:'M10 2Q8-10 17-16Q27-20 33-11Q37-3 32 2Q20 5 10 2Z',fill:k},r);
+  el('path',{d:'M11-2Q10-10 17-15Q26-18 31-11Q24-6 11-2Z',...wa(W.stone,2,.2)},r);
+  el('path',{d:'M-24-20Q-12-31 2-29Q-10-23-24-20Z',fill:'#fff',opacity:.5},r);
+  for(let i=0;i<4;i++)el('circle',{cx:f1(R(-20,6)),cy:f1(R(-22,-10)),r:f1(R(1.6,3.4)),fill:'#d9a441',opacity:.6},r);
+  el('path',{d:'M-36 2q1-9 4-12q1 7 4 12ZM24 3q2-8 5-10q0 6 3 10ZM-4 4q1-7 3-9q1 5 3 9Z',fill:W.meadowD.hex},r);}
 function mushroom(g,x,y,s){const m=el('g',{transform:`translate(${f1(x)} ${f1(y)}) scale(${f1(s*10)/10})`},g);
   for(const [dx,h,r] of [[0,-20,13],[15,-11,8]]){el('path',{d:`M${dx-3} 0Q${dx-4} ${h*.6} ${dx-2} ${h}h5Q${dx+5} ${h*.6} ${dx+4} 0Z`,fill:W.cream.fill},m);
     el('path',{d:`M${dx-r} ${h}Q${dx-r} ${h-r*1.1} ${dx+.5} ${h-r*1.15}Q${dx+r+1} ${h-r*1.1} ${dx+r+1} ${h}Z`,...wa(pick([W.roof,W.ochre]),2,.3)},m);
@@ -393,6 +400,7 @@ scenery.ground(Lground,habitat,{width:GW,edge:meadowEdge,groundY,pathWidth,scatt
 const crossingFront=layer(1,wB,GW,180,1300,{depth:.12,route:true});
 paintCrossings(route,{el,ground:Lground,front:crossingFront,groundY,habitat});
 const dusk=$('dusk');
+const fork=embedded?createCrossroads({view:$('view'),W,wa,habitat,sky:()=>$('skyg').style.background,shade:scenery.shade,reduced,R:(a,b)=>a+Math.random()*(b-a),speck,shadeHex}):null;
 // Slanting light through the canopy for the two woodland worlds (a static overlay, no blend modes).
 if(forest||jungle||habitat==='prehistoric'){const rays=document.createElement('div');rays.id='rays';rays.style.cssText='position:absolute;inset:-10% -20%;width:auto;height:auto;pointer-events:none;opacity:'+(forest?.3:.2)+';background:repeating-linear-gradient(112deg,rgba(255,246,200,0) 0 70px,rgba(255,246,200,.55) 110px 150px,rgba(255,246,200,0) 200px 330px);-webkit-mask-image:linear-gradient(to bottom,#000 0,transparent 78%);mask-image:linear-gradient(to bottom,#000 0,transparent 78%)';$('view').insertBefore(rays,dusk);}
 /* ---------- baking ---------- */
@@ -502,8 +510,10 @@ function sprite(build,ox=0,oy=0){const g=el('g',{},scratch);build(g);let b=null;
   for(const n of g.children)paint(ctx,n,null);g.remove();c.style.transformOrigin=`${f1(ox-x0)}px ${f1(oy-y0)}px`;return c;}
 const box=(host,...parts)=>{const d=document.createElement('div');d.className='A';d.append(...parts);host.append(d);return d;};
 const fauna=createFauna(habitat,{el,sprite,box,wash,shadeHex,shadow:scenery.shade,host:rabS.div,groundY,pathWidth,meadowEdge,reduced});
-const animals=dt=>fauna.update(dt,cam,VW,embedded?(roadChoices?uni.x+185+(roadChoices-1)*70:null):state==='ask'&&cur<STOPS?stops[cur].x+325:null);
+const heroInfo={x:0,y:0,scale:1,moving:false};
+const animals=dt=>{heroInfo.x=uni.x;heroInfo.y=surfaceY(uni.x)+6;heroInfo.scale=heroScale*travelScale(uni.x);heroInfo.moving=uni.v>25;fauna.update(dt,cam,VW,heroInfo);};
 const cheerAnimals=()=>fauna.cheer();
+if(fork)fork.setGuests(fauna.guests(fork.life));
 scratch.remove();fit();
 
 // A few far-off birds cross the sky; each is one tiny bitmap moved and flapped with transforms.
@@ -612,7 +622,7 @@ function frame(now){if(destroyed)return;const elapsed=(now-last)/1000,dt=Math.mi
   if(!embedded&&(state==='walk'||state==='arrive')&&uni.v===0&&Math.abs(goal-uni.x)<1)openQuestion();
   if(state==='finale'&&uni.v===0&&finaleT<0){finaleT=0;endEl.classList.add('on');chime();uni.hop=0;later(()=>pal.hop=0,200);}
   // camera
-  const focus=embedded?uni.x+(roadChoices?(heroScale>1.1?190:225):170):state==='finale'?uni.x+170:(state==='cheer'||state==='ask')&&cur<STOPS?stops[cur].x+225:uni.x+225;
+  const focus=embedded?uni.x+170:state==='finale'?uni.x+170:(state==='cheer'||state==='ask')&&cur<STOPS?stops[cur].x+225:uni.x+225;
   const tc=Math.max(0,focus-VW/2);cam=Math.abs(tc-cam)<.08?tc:cam+(tc-cam)*(1-Math.exp(-dt*4));
   syncTiles(document.body.dataset.moving==='true'||state==='walk'||state==='finale'?0:1);
   for(const L of layers)if(L.div&&L.f){const x=(-cam*L.f).toFixed(2);if(x!==L.lastX){L.lastX=x;L.div.style.transform=`translate3d(${x}px,0,0)`;}}
@@ -651,6 +661,7 @@ function frame(now){if(destroyed)return;const elapsed=(now-last)/1000,dt=Math.mi
   for(const m of motes){m.x+=dt*12*m.s;m.p+=dt*m.s;if(m.x>VW+20)m.x=-20;m.n.setAttribute('cx',m.x.toFixed(1));m.n.setAttribute('cy',(m.y+Math.sin(m.p)*18).toFixed(1));m.n.setAttribute('opacity',(.25+.35*Math.sin(m.p*1.7)**2).toFixed(2));}
   if(finaleT>=0){finaleT+=dt;window.__glow.setAttribute('r',(22+Math.sin(finaleT*2.4)*6+Math.min(40,finaleT*30)).toFixed(1));window.__glow.setAttribute('opacity',.7);
     if(!reduced&&Math.random()<dt*9)burst(castleX+210+R(-150,150),groundY(castleX+210)-R(120,340),1,['#e0ad4c','#fbf3e4','#e59aa4']);}
+  fork?.update(dt);
   layoutListener?.();
   if(perf&&T>2){metrics.frames++;if(elapsed>.025)metrics.slowFrames++;const work=performance.now()-workStart;metrics.workMs+=work;metrics.maxWorkMs=Math.max(metrics.maxWorkMs,work);if(metrics.frames%60===0)document.body.dataset.performance=JSON.stringify(metrics);}
   requestAnimationFrame(frame);}
@@ -670,19 +681,23 @@ if(new URLSearchParams(location.search).has('debug'))window.__meadow={
 };
 uni.x=X0-260;pal.x=X0-400;cam=0;
 if(embedded){
+  onFit=()=>fork.resize();
   const cancel=()=>{prepareVersion++;pinnedRange=null;journey.cancel();document.body.dataset.moving='false';uni.v=0;backwards=false;scheduled.length=0;};
   started=true;paused=false;state='external';$('start').hidden=true;uni.x=X0;pal.x=X0-128;
   window.meadowScene={
     setLayoutListener(fn){layoutListener=fn;},
-    setRoadChoices(count){if(roadChoices===count)return;roadChoices=count;fit();if(count)void preparePath(journey.positionAt(Math.min(journeyTotal,journeyCount+1)));},
-    roadLayout(){return Array.from({length:roadChoices},(_,i)=>{const tall=heroScale>1.1,x=uni.x+(tall?168:185)+i*(tall?124:140);return {x:(x-cam)*K,y:(surfaceY(x)-24-stageLift+VH-750)*K,width:124*stoneScale*K,height:116*stoneScale*K,surface:route.at(x)?.kind??'trail'};});},
+    // Questions open the crossroads view; the walking view keeps its own framing throughout.
+    setRoadChoices(count,instant=false){if(count){fork.show(count,instant);void preparePath(journey.positionAt(Math.min(journeyTotal,journeyCount+1)));}else fork.hide();},
+    roadLayout(){return fork.layout();},
+    setForkInsets(value){fork.setInsets(value);},
+    chooseDoor(index,ok){fork.choose(index,ok);},
     reset(total,count=0){cancel();journey.reset(total,count);journeyTotal=journey.state().total;journeyCount=journey.state().count;uni.x=journey.state().x;castleX=journey.positionAt(journeyTotal);castleCanvas.style.transform=`translate(${castleX-CASTLE}px,${groundY(castleX+210)-groundY(CASTLE+210)}px)`;castleLight.setAttribute('transform',`translate(${castleX+210} ${groundY(castleX+210)-36})`);pal.x=uni.x-146;cam=Math.max(0,uni.x+170-VW/2);finaleT=count===total?0:-1;uni.hop=pal.hop=-1;uni.tilt=0;markJourney();syncTiles(99);for(const L of layers)if(L.div&&L.f){const x=(-cam*L.f).toFixed(2);if(x!==L.lastX){L.lastX=x;L.div.style.transform=`translate3d(${x}px,0,0)`;}}dusk.style.opacity=(journeyCount/journeyTotal*.16).toFixed(3);},
     async moveTo(count,options={}){cancel();const version=prepareVersion;finaleT=-1;await preparePath(journey.positionAt(count),true);if(destroyed||version!==prepareVersion)return false;const arrived=await journey.moveTo(count,options);if(version===prepareVersion)pinnedRange=null;return arrived;},
     cancel,
     setPaused(value){setPaused(value);},
     react(emotion){if(emotion==='proud'){uni.hop=reduced?-1:0;pal.hop=reduced?-1:0;cheerAnimals();}else uni.tilt=1;},
-    state(){return {ready:true,progress:journeyCount/journeyTotal,crystals:journeyCount,moving:journey.state().moving,paused,habitat,theme:theme.id,worldIndex:Math.floor(Math.min(journeyCount,journeyTotal-1)/10),worldCrystals:journeyCount%10,position:{x:uni.x,y:groundY(uni.x)},birdSeconds:T,animalKinds:fauna.species,renderer:'painted-canvas',camera:{scrollX:cam},canvasCount:document.querySelectorAll('canvas').length};},
-    destroy(){cancel();destroyed=true;layoutListener=null;for(const job of bakeQueue)job.resolve(false);bakeQueue=[];pendingBakes.clear();fauna.destroy();hush();}
+    state(){return {ready:true,progress:journeyCount/journeyTotal,crystals:journeyCount,moving:journey.state().moving,paused,habitat,theme:theme.id,worldIndex:Math.floor(Math.min(journeyCount,journeyTotal-1)/10),worldCrystals:journeyCount%10,position:{x:uni.x,y:groundY(uni.x)},birdSeconds:T,animalKinds:fauna.species,renderer:'painted-canvas',fork:fork.state(),camera:{scrollX:cam},canvasCount:document.querySelectorAll('canvas').length};},
+    destroy(){cancel();destroyed=true;layoutListener=null;fork.destroy();for(const job of bakeQueue)job.resolve(false);bakeQueue=[];pendingBakes.clear();fauna.destroy();hush();}
   };
 }
 

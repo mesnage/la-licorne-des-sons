@@ -1,10 +1,11 @@
+import { seededRandom, shuffle } from '../random.js?v=review-16';
 import { sentenceOrderPool } from '../data/curriculum-sentences.js';
 import { actionPool, rereading } from '../data/curriculum-next.js';
 import { sounds } from '../data/curriculum-chapter-one.js';
 import { oralWords } from '../data/curriculum-pilot.js';
 import { answerCards, answerAudioKey, questionAudioKey } from '../data/curriculum-answer-cards.js';
 import { languagePairs, scenes, transferScenes } from '../data/curriculum-comprehension.js';
-import { simpleExercise, simpleInstructionKey } from '../data/curriculum-simple.js?v=storybook-2';
+import { simpleExercise, simpleInstructionKey } from '../data/curriculum-simple.js?v=review-16';
 import { createSourceQuestions } from './curriculum-questions.js';
 
 const syllableBlocks = [
@@ -210,7 +211,7 @@ function sentenceTiles(order, seed) {
   return tiles;
 }
 
-export function createSimpleQuestions(chapter, unit, manifest, seed) {
+export function createSimpleQuestions(chapter, unit, manifest, seed, ordering=1) {
   const { type, instruction } = simpleExercise(unit);
   const instructionAudio = simpleInstructionKey(instruction);
   const pool = distinct(getPool(chapter, unit, seed));
@@ -219,21 +220,28 @@ export function createSimpleQuestions(chapter, unit, manifest, seed) {
     const counts = type === 'oral_count';
     const start = counts ? blockIndex * 5
       : (seed % pool.length + blockIndex * (pool.length === 5 ? 1 : 5)) % pool.length;
-    return Array.from({ length: block.questionCount }, (_, position) => {
-      const item = pool[(start + position) % pool.length];
+    const reviewBlock=chapter.id==='C6'?blockIndex%2:blockIndex;
+    const random=seededRandom((seed>>>0)^Math.imul(reviewBlock+1,2654435761));
+    const slots=Array.from({length:block.questionCount},(_,i)=>i);
+    const positions=ordering?shuffle(slots,random):slots;
+    return positions.map((sourcePosition, position) => {
+      const item = pool[(start + sourcePosition) % pool.length];
       // On the second pass, the same instruction appears with its pictures exchanged.
       const pass = item.pictures ? Math.floor(blockIndex / 2) : 0;
       const reverse = (seed + blockIndex + position + pass) % 2 !== 0;
       const options = item.pictures ?? item.labels ?? item.choices;
-      const answerIndex = options.length ? options.length === 3
-        ? (item.answer + blockIndex + position) % 3 : reverse ? 1 : 0 : item.answer;
-      const ordered = [...options];
-      if (options.length) {
-        ordered.splice(item.answer, 1);
-        ordered.splice(answerIndex, 0, options[item.answer]);
+      const indices=options.map((_,i)=>i);
+      if(ordering){
+        const mixed=shuffle(indices,random);indices.splice(0,indices.length,...mixed);
+        if(chapter.id==='C6'&&pass%2)indices.reverse();
+      }else if(options.length){
+        const slot=options.length===3?(item.answer+blockIndex+position)%3:reverse?1:0;
+        indices.splice(item.answer,1);indices.splice(slot,0,item.answer);
       }
+      const ordered=indices.map(i=>options[i]);
+      const answerIndex=options.length?indices.indexOf(item.answer):item.answer;
       const answer = counts || item.order ? item.answer : answerIndex;
-      const rivalCount = counts ? (answer === 1 ? 2 : answer === 4 ? 3 : reverse ? answer - 1 : answer + 1) : null;
+      const rivalCount = counts ? (blockIndex===0 ? (answer===1?2:1) : answer === 1 ? 2 : answer === 4 ? 3 : reverse ? answer - 1 : answer + 1) : null;
       const question = {
         ...item, id: block.id + '-Q' + (position + 1), blockIndex, position, type, instruction, instructionAudio, answer,
         ...(item.pictures ? { pictures: ordered } : item.labels ? { labels: ordered } : { choices: ordered }),
