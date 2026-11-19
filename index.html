@@ -4,10 +4,15 @@
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#f6e6d9"><title>L’aventure de Paillette · La Licorne des Sons</title>
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="assets/icons/apple-touch-icon.png">
+<meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Paillette"><meta name="apple-mobile-web-app-status-bar-style" content="default">
+<script src="js/pwa.js" defer></script>
 <link rel="stylesheet" href="css/style.css?v=review-16"><link rel="stylesheet" href="css/prototype.css?v=ateliers-sons-2">
 <link rel="stylesheet" href="css/storybook.css?v=accueil-1">
 <link rel="stylesheet" href="css/sentences.css?v=accueil-1">
-<link rel="stylesheet" href="css/chapters.css?v=ateliers-sons-2">
+<link rel="stylesheet" href="css/chapters.css?v=pwa-20">
 <link rel="stylesheet" href="css/meadow-game.css?v=perf-19">
 </head>
 <body class="prototype painted-game" data-screen="menu">
@@ -39,7 +44,8 @@
    <div id="adventureModules" class="adventure-modules"></div>
   </div>
   <div class="adventure-menu-footer"><button id="rewardPending" class="adventure-text-button">Mes cadeaux du jour</button></div>
-  <details class="adventure-help"><summary>Aide aux parents</summary><p>Le parcours avance étape par étape. Les ateliers sont en accès libre. La progression et les cadeaux restent sur cet appareil.</p></details>
+  <details class="adventure-help"><summary>Aide aux parents</summary><p>Le parcours avance étape par étape. Les ateliers sont en accès libre. La progression et les cadeaux restent sur cet appareil.</p>
+   <div id="installApp" class="install-app" hidden><button id="installButton" class="install-button" type="button">Installer le jeu sur cet appareil</button><p id="installSteps" role="status" aria-live="polite" hidden></p></div></details>
   <a id="legacyFallback" href="classic.html" hidden>Ouvrir les activités de secours →</a>
   <p id="engineStatus" class="adventure-status" role="status">Paillette prépare son voyage…</p>
  </section>
