@@ -427,13 +427,13 @@ const BK=Math.max(.8,Math.min(1.5,(window.devicePixelRatio||1)*Math.max(innerHei
 /* Tile virtualisation: a long journey is far wider than the screen, so only the tiles near the camera
  * exist as bitmaps. Each plane is also cropped to the part that can show above the nearer planes. */
 const TILE=650;
-let bakeQueue=[],bakeHandle=null,prepareVersion=0,pinnedRange=null;
+let bakeQueue=[],bakeHandle=null,prepareVersion=0,pinnedRange=null,scenerySuspended=false;
 const pendingBakes=new Map();
 function pumpBakes(){
   bakeHandle=null;
   const job=bakeQueue.shift();if(!job)return;
   pendingBakes.delete(job.key);
-  if(destroyed){job.resolve(false);}else{bakeTile(job.L,job.i);job.resolve(true);}
+  if(destroyed||scenerySuspended){job.resolve(false);}else{job.paint();job.resolve(true);}
   if(bakeQueue.length)scheduleBake();
 }
 function scheduleBake(){if(bakeHandle!==null)return;
@@ -443,7 +443,7 @@ function queueTile(L,i){
   const key=layers.indexOf(L)+':'+i;
   if(L.tiles.has(i))return Promise.resolve(true);
   if(pendingBakes.has(key))return pendingBakes.get(key);
-  const promise=new Promise(resolve=>bakeQueue.push({key,L,i,resolve}));pendingBakes.set(key,promise);scheduleBake();return promise;
+  const promise=new Promise(resolve=>bakeQueue.push({key,paint:()=>bakeTile(L,i),resolve}));pendingBakes.set(key,promise);scheduleBake();return promise;
 }
 function bakeTile(L,i){if(L.tiles.has(i))return;
   const x=i*TILE,w=Math.min(TILE+2,L.x1-x),bottom=needBottom(L);L.bottom=bottom;
@@ -459,20 +459,42 @@ function needBottom(L){const extra=Math.max(0,VH-750),k=Math.max(0,1-extra/500),
   if(L.g===Lground||L.route)return Math.min(L.y1,764+extra*.12+(embedded?sceneRaise*portrait:0));
   if(L.depth)return Math.min(L.y1,338+extra*(L.depth-.12)+(L.lift||0)*k);
   return L.y1;}
-function dropTiles(L){for(const c of L.tiles.values())c?.remove();L.tiles.clear();}
+function releaseCanvas(c){if(!c)return;c.width=0;c.height=0;c.remove();}
+function dropTiles(L){for(const c of L.tiles.values())releaseCanvas(c);L.tiles.clear();}
+function queueSprite(L,s){
+  if(s.n)return Promise.resolve(true);
+  const key='plant:'+layers.indexOf(L)+':'+L.sprites.indexOf(s);
+  if(pendingBakes.has(key))return pendingBakes.get(key);
+  const promise=new Promise(resolve=>bakeQueue.push({key,paint:()=>{if(!s.n){s.n=s.paint();s.hidden=null;L.div.append(s.n);}},resolve}));
+  pendingBakes.set(key,promise);scheduleBake();return promise;
+}
+function syncSprites(L,camera,immediate,jobs){
+  if(!L.sprites)return;const sx=camera*L.f;
+  const lo=(pinnedRange?.[0]??camera)*L.f-800,hi=(pinnedRange?.[1]??camera)*L.f+VW+800;
+  for(const s of L.sprites){
+    if(s.x+s.w>=sx-200&&s.x<=sx+VW+400&&!s.n)jobs.push(queueSprite(L,s));
+    if(!immediate||!s.n)continue;
+    if(s.x+s.w<lo||s.x>hi){releaseCanvas(s.n);s.n=null;continue;}
+    const hidden=s.x+s.w<sx-160||s.x>sx+VW+160;
+    if(hidden!==s.hidden){s.hidden=hidden;s.n.style.visibility=hidden?'hidden':'';s.n.style.animationPlayState=hidden?'paused':'';}
+  }
+}
+function releaseScenery(){
+  scenerySuspended=true;
+  for(const job of bakeQueue)job.resolve(false);bakeQueue=[];pendingBakes.clear();
+  for(const L of layers){if(L.tiles)dropTiles(L);for(const s of L.sprites??[]){releaseCanvas(s.n);s.n=null;}}
+}
 function syncTiles(prefetch,camera=cam,immediate=true){
-  let spare=prefetch;const jobs=[];
-  for(const L of layers){if(!L.tiles)continue;
+  let spare=prefetch;const jobs=[];if(scenerySuspended)return jobs;
+  for(const L of layers){syncSprites(L,camera,immediate,jobs);if(!L.tiles)continue;
     const sx=camera*L.f,pad=400*Math.max(1,L.f)+100,count=Math.ceil(L.x1/TILE),lo=Math.floor(sx/TILE),hi=Math.floor((sx+VW)/TILE);
     const first=Math.max(0,Math.floor((sx-pad)/TILE)),last=Math.min(count-1,Math.floor((sx+VW+pad)/TILE));
     for(let i=first;i<=last;i++){if(L.tiles.has(i))continue;const visible=i>=lo&&i<=hi;
       if(!visible){if(spare<=0)continue;spare--;}
       if(visible&&immediate)bakeTile(L,i);else jobs.push(queueTile(L,i));
     }
-    if(immediate){const keepFirst=pinnedRange?Math.min(first-3,Math.floor((pinnedRange[0]*L.f-pad)/TILE)):first-3,keepLast=pinnedRange?Math.max(last+3,Math.ceil((pinnedRange[1]*L.f+VW+pad)/TILE)):last+3;for(const [i,c] of L.tiles)if(i<keepFirst||i>keepLast){c?.remove();L.tiles.delete(i);}}
-    // Stop offscreen foliage animations and avoid keeping distant compositor layers active.
-    if(immediate&&L.sprites&&Math.abs((L.lastCull??-1e6)-sx)>80){L.lastCull=sx;
-      for(const s of L.sprites){const hidden=s.x+s.w<sx-160||s.x>sx+VW+160;if(hidden!==s.hidden){s.hidden=hidden;s.n.style.visibility=hidden?'hidden':'';s.n.style.animationPlayState=hidden?'paused':'';}}}
+    if(immediate){const keepFirst=pinnedRange?Math.min(first-1,Math.floor((pinnedRange[0]*L.f-pad)/TILE)):first-1,keepLast=pinnedRange?Math.max(last+1,Math.ceil((pinnedRange[1]*L.f+VW+pad)/TILE)):last+1;for(const [i,c] of L.tiles)if(i<keepFirst||i>keepLast){releaseCanvas(c);L.tiles.delete(i);}}
+
   }
   return jobs;
 }
@@ -480,18 +502,24 @@ function canvasFor(x,y,w,h,res){const c=document.createElement('canvas');c.width
   c.style.cssText=`left:${f1(x)}px;top:${f1(y)}px;width:${f1(w)}px;height:${f1(h)}px`;const ctx=c.getContext('2d');ctx.__p={};ctx.setTransform(res,0,0,res,-x*res,-y*res);return [c,ctx];}
 function tile(host,root,x,y,w,h,cull,res=BK){const start=performance.now();const [c,ctx]=canvasFor(x,y,w,h,res);const entries=tileIndex.get(root);if(entries){for(const e of entries)if(!cull||e.hi>=cull[0]&&e.lo<=cull[1])paint(ctx,e.n,null);}else for(const n of root.children)paint(ctx,n,cull);host.append(c);if(perf){metrics.tiles++;metrics.paintMs+=performance.now()-start;if(document.body.dataset.moving==='true')metrics.travelTiles++;}return c;}
 // plants that move in the wind become their own small images, animated by the compositor
-function windify(L){const out=[];for(const c of [...L.g.querySelectorAll('.sway,.still')]){const b=(c.dataset.b||'').split(',').map(Number),tr=c.parentNode.getAttribute('transform')||'',
-    m=/translate\(([-\d.]+)[ ,]+([-\d.]+)\)\s*scale\(([-\d.]+)\)/.exec(tr);if(!m||b.length<4)continue;
+function windify(L){const out=[];for(const c of [...L.g.querySelectorAll('.sway,.still')]){
+  const b=(c.dataset.b||'').split(',').map(Number),tr=c.parentNode.getAttribute('transform')||'';
+  const m=/translate\(([-\d.]+)[ ,]+([-\d.]+)\)\s*scale\(([-\d.]+)\)/.exec(tr);if(!m||b.length<4)continue;
   const x=+m[1],y=+m[2],sc=+m[3],h=(b[3]-b[1])*sc;if(h<50&&!L.noTiles)continue;
-  const X0=x+b[0]*sc-3,Y0=y+b[1]*sc-3,[cv,ctx]=canvasFor(X0,Y0,(b[2]-b[0])*sc+6,h+6,BK);applyT(ctx,tr);for(const n of c.children)paint(ctx,n,null);
-  if(c.classList.contains('sway')){cv.className='wind'+(c.classList.contains('top')?' top':'')+pick(['',' s2',' s3']);cv.style.animationDelay=(-R(0,7)).toFixed(2)+'s';cv.style.transformOrigin=`${f1(x-X0)}px ${f1(y-Y0)}px`;}
-  if(c.classList.contains('waterfall'))cv.className='waterfall';
-  out.push(cv);c.remove();}return out;}
+  const X0=x+b[0]*sc-3,Y0=y+b[1]*sc-3,w=(b[2]-b[0])*sc+6;
+  const cls=c.classList.contains('waterfall')?'waterfall':c.classList.contains('sway')?'wind'+(c.classList.contains('top')?' top':'')+pick(['',' s2',' s3']):'';
+  const delay=(-R(0,7)).toFixed(2)+'s';c.remove();
+  out.push({x:X0,y:Y0,w,n:null,hidden:null,paint(){
+    const [cv,ctx]=canvasFor(X0,Y0,w,h+6,BK);applyT(ctx,tr);for(const n of c.children)paint(ctx,n,null);
+    cv.className=cls;cv.style.animationDelay=delay;cv.style.transformOrigin=`${f1(x-X0)}px ${f1(y-Y0)}px`;return cv;
+  }});
+}return out;}
+
 for(const L of layers){
   if(L.mist){const m=document.createElement('div'),[top,h,o]=L.mist;if(!o)continue;m.style.cssText=`top:${top}px;height:${h}px;width:2600px;opacity:${o};background:linear-gradient(rgba(251,243,223,0),rgba(251,243,223,.55) 55%,rgba(251,243,223,0))`;const wrap=document.createElement('div');wrap.append(m);wA.append(wrap);reliefLayers.push({node:wrap,depth:L.depth,lift:L.lift});continue;}
   L.div=document.createElement('div');L.div.className='L';L.host.append(L.div);if(L.depth)reliefLayers.push({node:L.div,depth:L.depth,lift:L.lift||0});if(L.slot)continue;if(L.top)topDiv=L.div;
   const sprites=L.wind?windify(L):[];
-  L.sprites=sprites.map(n=>({n,x:parseFloat(n.style.left),w:parseFloat(n.style.width),hidden:false}));
+  L.sprites=sprites;
   tileIndex.set(L.g,[...L.g.children].map(n=>{
     try{const b=n.getBBox(),m=n.getCTM();const xs=[[b.x,b.y],[b.x+b.width,b.y],[b.x,b.y+b.height],[b.x+b.width,b.y+b.height]].map(([x,y])=>m.a*x+m.c*y+m.e);
       return {n,lo:Math.min(...xs)-16,hi:Math.max(...xs)+16};}catch{return {n,lo:-Infinity,hi:Infinity};}
@@ -499,7 +527,7 @@ for(const L of layers){
   // Scenery tiles are painted on demand around the camera (see syncTiles) instead of all at once.
   if(!L.noTiles){L.tiles=new Map();L.tileBox=document.createElement('div');L.tileBox.className='T';L.div.append(L.tileBox);}
   if(L.g===Lground)castleCanvas=tile(L.div,castleS,CASTLE-60,groundY(CASTLE+210)-36-340,540,410,null);
-  L.div.append(...sprites);}
+}
 for(const c of clouds){const wrap=el('g',{},scratch);wrap.append(c.g);c.n=tile(cloudS.div,wrap,-110*c.sc,-52*c.sc,280*c.sc,100*c.sc,null);c.n.style.left=c.n.style.top='0';c.n.style.willChange='transform';}
 
 /* ---------- animals: a few small images each, moved only with transforms ---------- */
@@ -604,6 +632,7 @@ let fN=0,fT=0;
 
 function frame(now){if(destroyed)return;const elapsed=(now-last)/1000,dt=Math.min(.05,elapsed);last=now;const workStart=performance.now();
   if(paused){requestAnimationFrame(frame);return;}
+  if(fork?.visible&&!journey.state().moving){fork.update(dt);layoutListener?.();requestAnimationFrame(frame);return;}
   for(const job of [...scheduled]){job.left-=dt;if(job.left<=0){scheduled.splice(scheduled.indexOf(job),1);job.fn();}}
   T+=reduced?0:dt;
   for(const [i,f] of fireflies.entries()){const x=((i+.5)/fireflies.length*VW+Math.sin(T*.35+f.phase)*30),y=750-VH+VH*(.25+(i%5)*.12)+Math.cos(T*.6+f.phase)*16;f.g.setAttribute('transform',`translate(${x} ${y})`);f.g.setAttribute('opacity',String(.4+.5*(.5+.5*Math.sin(T*1.2+f.phase))));}
@@ -666,6 +695,7 @@ function frame(now){if(destroyed)return;const elapsed=(now-last)/1000,dt=Math.mi
   if(perf&&T>2){metrics.frames++;if(elapsed>.025)metrics.slowFrames++;const work=performance.now()-workStart;metrics.workMs+=work;metrics.maxWorkMs=Math.max(metrics.maxWorkMs,work);if(metrics.frames%60===0)document.body.dataset.performance=JSON.stringify(metrics);}
   requestAnimationFrame(frame);}
 function setPaused(value){
+  if(!value&&scenerySuspended){scenerySuspended=false;syncTiles(99);}
   paused=value;journey.setPaused(value);document.body.dataset.paused=String(value);document.body.classList.toggle('paused',paused);
   $('pause').textContent=paused?'Reprendre':'Pause';$('pause').setAttribute('aria-pressed',String(paused));
   if(paused)hush();else ask();if(wind)wind.gain.value=soundOn&&!paused?.05:0;
@@ -687,17 +717,18 @@ if(embedded){
   window.meadowScene={
     setLayoutListener(fn){layoutListener=fn;},
     // Questions open the crossroads view; the walking view keeps its own framing throughout.
-    setRoadChoices(count,instant=false){if(count){fork.show(count,instant);void preparePath(journey.positionAt(Math.min(journeyTotal,journeyCount+1)));}else fork.hide();},
+    setRoadChoices(count,instant=false){document.body.classList.toggle('question-view',count>0);if(count){fork.show(count,instant);void preparePath(journey.positionAt(Math.min(journeyTotal,journeyCount+1)));}else fork.hide();},
     roadLayout(){return fork.layout();},
     setForkInsets(value){fork.setInsets(value);},
     chooseDoor(index,ok){fork.choose(index,ok);},
     reset(total,count=0){cancel();journey.reset(total,count);journeyTotal=journey.state().total;journeyCount=journey.state().count;uni.x=journey.state().x;castleX=journey.positionAt(journeyTotal);castleCanvas.style.transform=`translate(${castleX-CASTLE}px,${groundY(castleX+210)-groundY(CASTLE+210)}px)`;castleLight.setAttribute('transform',`translate(${castleX+210} ${groundY(castleX+210)-36})`);pal.x=uni.x-146;cam=Math.max(0,uni.x+170-VW/2);finaleT=count===total?0:-1;uni.hop=pal.hop=-1;uni.tilt=0;markJourney();syncTiles(99);for(const L of layers)if(L.div&&L.f){const x=(-cam*L.f).toFixed(2);if(x!==L.lastX){L.lastX=x;L.div.style.transform=`translate3d(${x}px,0,0)`;}}dusk.style.opacity=(journeyCount/journeyTotal*.16).toFixed(3);},
     async moveTo(count,options={}){cancel();const version=prepareVersion;finaleT=-1;await preparePath(journey.positionAt(count),true);if(destroyed||version!==prepareVersion)return false;const arrived=await journey.moveTo(count,options);if(version===prepareVersion)pinnedRange=null;return arrived;},
     cancel,
+    releaseScenery,
     setPaused(value){setPaused(value);},
     react(emotion){if(emotion==='proud'){uni.hop=reduced?-1:0;pal.hop=reduced?-1:0;cheerAnimals();}else uni.tilt=1;},
     state(){return {ready:true,progress:journeyCount/journeyTotal,crystals:journeyCount,moving:journey.state().moving,paused,habitat,theme:theme.id,worldIndex:Math.floor(Math.min(journeyCount,journeyTotal-1)/10),worldCrystals:journeyCount%10,position:{x:uni.x,y:groundY(uni.x)},birdSeconds:T,animalKinds:fauna.species,renderer:'painted-canvas',fork:fork.state(),camera:{scrollX:cam},canvasCount:document.querySelectorAll('canvas').length};},
-    destroy(){cancel();destroyed=true;layoutListener=null;fork.destroy();for(const job of bakeQueue)job.resolve(false);bakeQueue=[];pendingBakes.clear();fauna.destroy();hush();}
+    destroy(){cancel();releaseScenery();for(const c of document.querySelectorAll('canvas'))releaseCanvas(c);destroyed=true;layoutListener=null;fork.destroy();for(const job of bakeQueue)job.resolve(false);bakeQueue=[];pendingBakes.clear();fauna.destroy();hush();}
   };
 }
 

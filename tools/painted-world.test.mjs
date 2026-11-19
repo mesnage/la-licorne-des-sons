@@ -8,8 +8,8 @@ function harness(deferred=false){
   const make=()=>{
     const listeners={};
     const node={style:{},classList:{add(){}},setAttribute(){},addEventListener(type,fn){listeners[type]=fn;},remove(){parent.children=parent.children.filter(c=>c!==node);}};
-    let total=0,count=0,paused=false,dead=false,pending;
-    const scene={reset(n,c){total=n;count=c;},setRoadChoices(){},setPaused(v){paused=v;},cancel(){pending?.(false);pending=null;},destroy(){dead=true;},moveTo(c){if(deferred)return new Promise(resolve=>{pending=ok=>{if(ok)count=c;resolve(ok);};});count=c;return Promise.resolve(true);},arrive(){pending?.(true);pending=null;},state(){return {total,crystals:count,paused,dead};}};
+    let total=0,count=0,paused=false,dead=false,released=false,pending;
+    const scene={reset(n,c){total=n;count=c;},setRoadChoices(){},releaseScenery(){released=true;},setPaused(v){paused=v;if(!v)released=false;},cancel(){pending?.(false);pending=null;},destroy(){dead=true;},moveTo(c){if(deferred)return new Promise(resolve=>{pending=ok=>{if(ok)count=c;resolve(ok);};});count=c;return Promise.resolve(true);},arrive(){pending?.(true);pending=null;},state(){return {total,crystals:count,paused,dead,released};}};
     node.contentWindow={meadowScene:scene};node.load=()=>listeners.load();node.fail=()=>listeners.error();scenes.push(scene);return node;
   };
   const parent={id:'testWorld',children:[],append(node){this.children.push(node);},replaceChildren(){this.children=[];}};
@@ -101,3 +101,9 @@ test('a manually queued world takes precedence at a portal boundary',async()=>{
   const movement=world.moveTo(10);world.setTheme(4);scenes[0].arrive();await Promise.resolve();parent.children.at(-1).load();
   assert.equal(await movement,true);assert.equal(world.state().theme,4);assert.equal(world.state().crystals,10);world.destroy();
 });
+
+ test('switches release old scenery before allocating a new world and recover on failure',()=>{
+ const {parent,scenes}=harness();const world=createWorld(parent);parent.children[0].load();
+ world.setTheme(2);assert.equal(scenes[0].state().released,true);assert.equal(scenes[0].state().dead,false);
+ parent.children.at(-1).fail();assert.equal(scenes[0].state().released,false);assert.equal(scenes[0].state().paused,false);world.destroy();
+ });
