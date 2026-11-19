@@ -176,3 +176,9 @@ body.prototype[data-screen="menu"] { overflow:visible; }
   text-decoration:underline;
   text-underline-offset:.13em;
 }
+
+/* Installation sur l'écran d'accueil, dans l'aide aux parents. */
+.install-app { margin:8px auto 0; text-align:center; }
+.install-button { min-height:44px; padding:8px 18px; border:2px solid #c9b6e6; border-radius:999px; background:#fffaf4; color:#5a3d86; font:inherit; font-weight:700; cursor:pointer; }
+.install-button:focus-visible { outline:3px solid #7a54b8; outline-offset:2px; }
+.install-app p { max-width:34ch; margin:8px auto 0; text-align:left; }

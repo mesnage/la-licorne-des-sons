@@ -17,7 +17,7 @@ class GameHandler(SimpleHTTPRequestHandler):
         target = (ROOT / path).resolve()
         parts = Path(path).parts
         if (not target.is_relative_to(ROOT) or any(p.startswith('.') for p in parts)
-                or not (parts[0] in PUBLIC or len(parts) == 1 and target.suffix in {'.html', '.svg', '.ico'})
+                or not (parts[0] in PUBLIC or len(parts) == 1 and (target.suffix in {'.html', '.svg', '.ico', '.webmanifest'} or path == 'sw.js'))
                 or not target.is_file()):
             self.send_error(404)
             return None

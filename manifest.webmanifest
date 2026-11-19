@@ -1,0 +1,19 @@
+{
+  "name": "La Licorne des Sons",
+  "short_name": "Paillette",
+  "description": "Jeu de lecture en français : reconnaître les lettres, les sons, les mots et les phrases avec Paillette la licorne.",
+  "lang": "fr",
+  "dir": "ltr",
+  "id": "./",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f6e6d9",
+  "theme_color": "#f6e6d9",
+  "categories": ["education", "kids"],
+  "icons": [
+    { "src": "assets/icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "assets/icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "assets/icons/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}

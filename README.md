@@ -480,3 +480,18 @@ Le [catalogue d’écoute](ecoute.html) permet de rechercher et écouter les 919
 Dans le parcours d’aventure, les mots, les consignes et les réponses à écouter utilisent la voix Robin sur ElevenLabs. Les pistes sont locales et recensées dans les registres `audio/curriculum-c1-robin.json` à `audio/curriculum-c7-robin.json`. Le script `tools/voice/build_curriculum_robin.py` présente le lot à produire sans appel réseau par défaut. Utiliser `--chapters C6 C7` pour sélectionner plusieurs chapitres.
 
 `tools/voice/refresh_robin_words.py --cache <dossier>` recense les mots et les phrases des ateliers et du parcours. Ajouter `--generate` pour produire les pistes avec la ponctuation du ton naturel, puis actualiser les fichiers que le jeu charge.
+
+## Installer le jeu comme une application
+
+Le jeu peut s’installer sur l’écran d’accueil d’une tablette ou d’un téléphone : il s’ouvre alors en plein écran, avec l’icône de Paillette, et fonctionne sans connexion.
+
+Dans le menu principal, « Aide aux parents » contient le bouton **Installer le jeu sur cet appareil**. Sur Android et sur ordinateur (Chrome, Edge), il ouvre la fenêtre d’installation du navigateur. Sur iPad et iPhone, Apple ne laisse pas un site s’installer lui-même : le bouton affiche les deux gestes à faire.
+
+- **iPad / iPhone** : ouvrir le site dans Safari, toucher Partager, puis « Sur l’écran d’accueil ».
+- **Android / ordinateur (Chrome)** : menu du navigateur, « Installer l’application ».
+
+Les pages, les décors et toutes les voix sont téléchargés dès la première ouverture (environ 100 Mo). Garder la page ouverte et connectée jusqu’au message « Jeu prêt hors connexion, avec toutes les voix ». Le téléchargement interrompu peut être relancé. Les mises à jour demandent une connexion.
+
+Sur iPad et iPhone, l’application installée garde sa propre progression, séparée de celle de Safari.
+
+Après avoir ajouté ou retiré un fichier du jeu, lancer `npm run pwa` pour actualiser la liste hors ligne (`js/pwa-files.js`) ; `npm test` signale un oubli. `python3 tools/test-pwa-browser.py` vérifie l’installation, le démarrage hors ligne et la mise à jour.

@@ -11,5 +11,6 @@ export default [
       }
     },
     rules: { 'no-undef': 'error', 'no-unused-vars': ['warn', { args: 'none', caughtErrors: 'none' }], 'no-redeclare': 'error', 'no-const-assign': 'error' }
-  }
+  },
+  { files: ['js/pwa-files.js'], languageOptions: { sourceType: 'script', globals: { self: 'readonly' } } }
 ];
