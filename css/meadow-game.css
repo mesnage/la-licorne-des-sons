@@ -278,3 +278,6 @@ body.curriculum.painted-game::before{background:radial-gradient(90% 26% at 50% 1
 @media(max-width:600px){
  .painted-game .adventure-choices.words.short-word-choices:not(.sentence-choices){grid-template-columns:repeat(2,minmax(0,1fr))}
 }
+
+/* Performance pass 19: a blurred backdrop over the animated scene is re-blurred every frame on iOS. */
+.painted-game .world-name,.painted-game .adventure-question,.painted-game .adventure-hud{-webkit-backdrop-filter:none!important;backdrop-filter:none!important}
