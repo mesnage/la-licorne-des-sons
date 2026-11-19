@@ -99,3 +99,6 @@
 /* Only the active question scene animates; walking layers resume on departure. */
 .question-view #worldA,.question-view #worldB,.question-view #svg > :not(defs){visibility:hidden}
 .question-view .wind,.question-view .waterfall{animation-play-state:paused!important}
+
+/* Performance pass 19: full-screen blend layers cost fill-rate every frame for very little picture. */
+#grain,#vig,#skyp,#dusk{display:none!important}

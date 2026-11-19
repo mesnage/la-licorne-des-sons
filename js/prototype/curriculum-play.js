@@ -588,7 +588,7 @@ async function openPilot() {
   });
 
   try {
-    const { createWorld } = await import('../meadow/world.js?v=stability-18');
+    const { createWorld } = await import('../meadow/world.js?v=perf-19');
     world = createWorld(get('pilotWorld'), {
       onReady() {
         worldReady = true;get('pilotWorldLabel').hidden=false;

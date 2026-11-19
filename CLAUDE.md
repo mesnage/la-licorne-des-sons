@@ -191,3 +191,11 @@ cards on a phone and back. A newly loaded world adopts the open question without
 `roadChoices` framing were removed. Run `node --test tools/door-signs.test.mjs` and
 `python3 tools/test-crossroads-browser.py --browser-path <chrome>` (rotations in every world, world change while
 walking and right after answering, pause, mistake, words on tablet/phone).
+
+## Performance pass 19
+
+Anything drawn live in the scene SVG (Paillette, duckling, crossroads question view) must use flat colour (`WL`,
+`liveSpeck` in preview.js): textured pattern fills repainted every frame were the main cause of lag on phones, and no
+SVG `<pattern>` elements are created any more. Only framing trees, hanging branches and waterfalls sway (`windify`);
+other plants are baked into tiles. Do not bring back full-screen overlays (grain, vignette, rays, dusk), motes, or
+`backdrop-filter` over the scene. Audit record and numbers: docs/performance-19.md.

@@ -1,10 +1,10 @@
-import { createSessionRecovery } from './session-recovery.js?v=stability-18';
+import { createSessionRecovery } from './session-recovery.js?v=perf-19';
 import { fitChoiceGroup } from '../meadow/choice-fit.js?v=review-16';
 fitChoiceGroup(document.getElementById('adventureChoices'));
 import { PAINTED_WORLDS } from '../meadow/themes.js?v=review-16';
 import { syllableActivity } from '../data/syllable-workshops.js';
 import { returnFromRevision } from './curriculum-revision.js?v=ateliers-sons-2';
-import { createWorld } from '../meadow/world.js?v=stability-18';
+import { createWorld } from '../meadow/world.js?v=perf-19';
 import { WORLDS, MODULES, MENU_ITEMS, CHAPTERS, createAdventure, createJourneyMemory, journeyState } from './model.js?v=review-16';
 import { illustration } from '../illustrations.js?v=cactus-alphabet-1';
 import { createMastery, skillStatus } from '../learning/mastery.js';

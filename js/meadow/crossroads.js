@@ -14,7 +14,7 @@ export function createCrossroads({view,W,wa,habitat,sky,shade='#2f4636',reduced=
   const root=document.createElement('div');root.id='fork';root.setAttribute('aria-hidden','true');
   const svg=el('svg',{xmlns:NS,width:'100%',height:'100%'});root.append(svg);view.append(root);
   const life=document.createElement('div');life.className='fork-life';root.append(life);let guests=[],guest=null,shows=0;
-  let count=0,visible=false,doors=[],hero=null,duck=null,bubble=null,sparks=[],motes=[],insets={top:0,hud:0,bottom:0,low:0};
+  let count=0,visible=false,doors=[],hero=null,duck=null,bubble=null,sparks=[],insets={top:0,hud:0,bottom:0,low:0};
   let clock=0,chosen=null,geom=null,shown=0;
   const P=(g,d,w,o={})=>el('path',{d,...(typeof w==='string'?{fill:w}:wa(w,2,.22)),...o},g);
   const S=(g,d,color,width,o={})=>el('path',{d,fill:'none',stroke:color,'stroke-width':width,'stroke-linecap':'round','stroke-linejoin':'round',...o},g);
@@ -196,7 +196,7 @@ export function createCrossroads({view,W,wa,habitat,sky,shade='#2f4636',reduced=
   }
   function build(keep=false){
     const was=keep&&hero?{clock,shown,look:hero.look,chosen}:null;
-    svg.replaceChildren();doors=[];sparks=[];motes=[];hero=duck=bubble=null;chosen=null;
+    svg.replaceChildren();doors=[];sparks=[];hero=duck=bubble=null;chosen=null;
     if(!count)return;
     const m=geom=measure(),{w,h,tall,n,dw,dh,xs,base,hx,hy,hs}=m,k0=dw/118;
     svg.setAttribute('viewBox',`0 0 ${w} ${h}`);root.style.background=sky();
@@ -273,7 +273,6 @@ export function createCrossroads({view,W,wa,habitat,sky,shade='#2f4636',reduced=
     E(bubble,34,-46,30,27,'#fffaf0',{stroke:'#d9c9b0','stroke-width':2});
     const q=el('text',{x:34,y:-34,'text-anchor':'middle','font-size':38,'font-weight':800,fill:'#b9506b','font-family':'ui-rounded,"SF Pro Rounded",Nunito,system-ui,sans-serif'},bubble);q.textContent='?';
     const fx=el('g',{},svg);
-    if(!reduced)for(let i=0;i<10;i++)motes.push({n:E(fx,0,0,R(1.6,3.2),R(1.6,3.2),'#fff6d8'),x:R(0,w),y:R(m.hud,m.bottom),p:R(0,6),s:R(.3,.9)});
     if(guest){guest.gx=tall?Math.max(44,hx-hs*150):hx+hs*124;guest.gy=tall?hy-hs*84:hy-hs*34;guest.gs=hs*(guest.small?1.3:1);}
     root.sparks=fx;clock=was?.clock??0;shown=was?.shown??0;if(was){hero.look=was.look;chosen=was.chosen&&doors[was.chosen.i]?was.chosen:null;}pose(0);
   }
@@ -324,7 +323,6 @@ export function createCrossroads({view,W,wa,habitat,sky,shade='#2f4636',reduced=
     if(guest)guest.place(guest.gx,guest.gy,guest.gs,guest.gx<x?1:-1,T,chosen?.ok&&!reduced?Math.sin(clamp(chosen.t/.6)*Math.PI):0);
     for(let i=sparks.length-1;i>=0;i--){const p=sparks[i];p.t+=dt;p.vy+=240*dt;p.x+=p.vx*dt;p.y+=p.vy*dt;const k=1-p.t/p.life;
       if(k<=0){p.n.remove();sparks.splice(i,1);continue;}p.n.setAttribute('cx',r1(p.x));p.n.setAttribute('cy',r1(p.y));p.n.setAttribute('opacity',k.toFixed(2));}
-    for(const o of motes){o.x+=dt*10*o.s;o.p+=dt*o.s;if(o.x>m.w+10)o.x=-10;o.n.setAttribute('cx',r1(o.x));o.n.setAttribute('cy',r1(o.y+Math.sin(o.p)*14));o.n.setAttribute('opacity',(.3+.4*Math.sin(o.p*1.7)**2).toFixed(2));}
   }
   return {
     get visible(){return visible;},life,

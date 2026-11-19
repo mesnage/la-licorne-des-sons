@@ -22,6 +22,7 @@ export function createScenery({el,wa,W,blob,R,rnd,pick,smooth,f1,sway,wash,speck
   const path=(g,d,fill,extra={})=>el('path',{d,fill,...extra},g);
   const stroke=(g,d,color,width,extra={})=>el('path',{d,fill:'none',stroke:color,'stroke-width':width,'stroke-linecap':'round','stroke-linejoin':'round',...extra},g);
   const ellipse=(g,x,y,rx,ry,fill,extra={})=>el('ellipse',{cx:f1(x),cy:f1(y),rx:f1(rx),ry:f1(ry),fill,...extra},g);
+  const dot=(x,y,r)=>`M${f1(x-r)} ${f1(y)}a${f1(r)} ${f1(r)} 0 1 0 ${f1(2*r)} 0a${f1(r)} ${f1(r)} 0 1 0 ${f1(-2*r)} 0Z`;
   const band=(layer,x1,topFn,botFn,fill,opacity,step=60)=>{const a=[],b=[];for(let x=-200;x<=x1;x+=step){a.push([x,topFn(x)]);b.unshift([x,botFn(x)]);}
     path(layer,smooth(a,false)+smooth(b,false).replace(/^M/,'L')+'Z',fill,{opacity});};
 
@@ -58,10 +59,11 @@ export function createScenery({el,wa,W,blob,R,rnd,pick,smooth,f1,sway,wash,speck
         let v='';for(let dx=0;dx<320;dx+=R(7,13)){const xx=x+dx,up=rnd()<.5,y=up?groundY(xx)-pathWidth(xx)*.72+R(-1,5):groundY(xx)+pathWidth(xx)+R(-4,3),k=(up?.7:1.05)*R(.8,1.3),lean=R(-3,3);
           v+=`M${f1(dx-2*k)} ${f1(y+2)}Q${f1(dx+lean*k)} ${f1(y-8*k)} ${f1(dx+lean*1.6*k)} ${f1(y-11*k)}Q${f1(dx+1*k)} ${f1(y-5*k)} ${f1(dx+2.4*k)} ${f1(y+2)}Z`;}
         path(g,v,cfg.tufts[0],{opacity:.8});}
+      let stems='';const petals={},hearts={};
       if(cfg.blooms)for(let n=0;n<Math.round(dens*1.4+rnd()*.8);n++){const cx=R(20,300),cy=R(edge(x+cx)+34,bottom-20),[petal,heart]=pick(cfg.blooms),spread=R(34,84),k0=depthOf(x+cx,cy);
         for(let i=0;i<R(9,22);i++){const a=R(0,6.283),q=Math.sqrt(rnd()),dx=cx+Math.cos(a)*spread*q,y=cy+Math.sin(a)*spread*q*.34;if(onPath(x+dx,y,6)||y<edge(x+dx)+8)continue;const r=R(1.9,3.5)*k0;
-          stroke(g,`M${f1(dx)} ${f1(y+r*2.4)}v${f1(-r*2)}`,cfg.tufts?.[0]??'#5c7a48',Math.max(.8,r*.34),{opacity:.75});
-          el('circle',{cx:f1(dx),cy:f1(y),r:f1(r),fill:petal,opacity:.95},g);el('circle',{cx:f1(dx),cy:f1(y),r:f1(r*.4),fill:heart},g);}}
+          stems+=`M${f1(dx)} ${f1(y+r*2.4)}v${f1(-r*2)}`;(petals[petal]??=[]).push(dot(dx,y,r));(hearts[heart]??=[]).push(dot(dx,y,r*.4));}}
+      if(stems){stroke(g,stems,cfg.tufts?.[0]??'#5c7a48',1.1,{opacity:.75});for(const c in petals)path(g,petals[c].join(''),c,{opacity:.95});for(const c in hearts)path(g,hearts[c].join(''),c);}
       if(cfg.litter)for(let i=0;i<16;i++){const dx=R(0,320),y=R(edge(x+dx)+14,bottom),k=depthOf(x+dx,y);ellipse(g,dx,y,R(2.6,5)*k,R(1.2,2.2)*k,pick(cfg.litter),{opacity:onPath(x+dx,y,0)?.5:.75,transform:`rotate(${f1(R(-40,40))} ${f1(dx)} ${f1(y)})`});}
       if(cfg.pebbles)for(let i=0;i<16*dens+6;i++){const dx=R(0,320),y=R(edge(x+dx)+16,bottom),k=depthOf(x+dx,y);ellipse(g,dx,y,R(1.8,5.2)*k,R(1.2,2.8)*k,pick(cfg.pebbles),{opacity:onPath(x+dx,y,0)?.55:.85});}
       else for(let dx=0;dx<320;dx+=R(22,60)){const xx=x+dx,up=rnd()<.5,y=up?groundY(xx)-pathWidth(xx)*.72+R(2,9):groundY(xx)+pathWidth(xx)-R(2,10);ellipse(g,dx,y,R(2,5),R(1.4,2.6),pick(['#cdb98f','#f4ead2','#b9a98a']),{opacity:.75});}

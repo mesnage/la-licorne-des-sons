@@ -43,7 +43,7 @@ export function createWorld(parent,{onReady=()=>{},onBiome=()=>{},onError=()=>{}
       candidate.addEventListener('error',fail,{once:true});
     });
     loading=promise;
-    candidate.src=new window.URL('../../meadow-preview.html?scene&v=stability-18&habitat='+next.habitat+(parent.id==='pilotWorld'?'&reading':'')+(parent.ownerDocument?.location?.search.includes('perf')?'&perf':''),import.meta.url).href;
+    candidate.src=new window.URL('../../meadow-preview.html?scene&v=perf-19&habitat='+next.habitat+(parent.id==='pilotWorld'?'&reading':'')+(parent.ownerDocument?.location?.search.includes('perf')?'&perf':''),import.meta.url).href;
     parent.append(candidate);
     return promise;
   }
