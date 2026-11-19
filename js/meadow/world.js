@@ -15,7 +15,7 @@ export function createWorld(parent,{onReady=()=>{},onBiome=()=>{},onError=()=>{}
     if(frame&&frame!==sceneFrame)frame.remove();
     const oldBiome=sceneBiome;biome=next;
     const oldFrame=sceneFrame,oldScene=scene;
-    oldScene?.setPaused(true);
+    oldScene?.setPaused(true);oldScene?.releaseScenery?.();
     const candidate=document.createElement('iframe');
     candidate.className='painted-scene';candidate.title=next.name;
     candidate.tabIndex=-1;candidate.setAttribute('aria-hidden','true');
@@ -43,7 +43,7 @@ export function createWorld(parent,{onReady=()=>{},onBiome=()=>{},onError=()=>{}
       candidate.addEventListener('error',fail,{once:true});
     });
     loading=promise;
-    candidate.src=new window.URL('../../meadow-preview.html?scene&v=review-16&habitat='+next.habitat+(parent.id==='pilotWorld'?'&reading':'')+(parent.ownerDocument?.location?.search.includes('perf')?'&perf':''),import.meta.url).href;
+    candidate.src=new window.URL('../../meadow-preview.html?scene&v=stability-18&habitat='+next.habitat+(parent.id==='pilotWorld'?'&reading':'')+(parent.ownerDocument?.location?.search.includes('perf')?'&perf':''),import.meta.url).href;
     parent.append(candidate);
     return promise;
   }

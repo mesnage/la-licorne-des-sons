@@ -7,7 +7,7 @@
   "scripts": {
     "dev": "python3 tools/serve.py",
     "check": "node tools/check.mjs && node tools/audit-voice.mjs",
-    "test": "node tools/rewards.test.mjs && node tools/words.test.mjs && node tools/sentences.test.mjs && node tools/typos.test.mjs && node tools/sounds.test.mjs && node tools/phonemes.test.mjs && node tools/prototype.test.mjs && node tools/learning.test.mjs && node tools/wildlife.test.mjs && node tools/curriculum.test.mjs && node tools/pilot-session.test.mjs && node tools/chapter-one.test.mjs && node tools/curriculum-complete.test.mjs && node tools/curriculum-simple.test.mjs && node --test tools/meadow-journey.test.mjs tools/painted-world.test.mjs tools/painted-fauna.test.mjs tools/choice-fit.test.mjs tools/door-signs.test.mjs tools/audio-cache.test.mjs tools/randomisation.test.mjs",
+    "test": "node tools/rewards.test.mjs && node tools/words.test.mjs && node tools/sentences.test.mjs && node tools/typos.test.mjs && node tools/sounds.test.mjs && node tools/phonemes.test.mjs && node tools/prototype.test.mjs && node tools/learning.test.mjs && node tools/wildlife.test.mjs && node tools/curriculum.test.mjs && node tools/pilot-session.test.mjs && node tools/chapter-one.test.mjs && node tools/curriculum-complete.test.mjs && node tools/curriculum-simple.test.mjs && node --test tools/meadow-journey.test.mjs tools/painted-world.test.mjs tools/painted-fauna.test.mjs tools/choice-fit.test.mjs tools/door-signs.test.mjs tools/audio-cache.test.mjs tools/randomisation.test.mjs tools/session-recovery.test.mjs",
     "lint": "npx --yes eslint@9.13.0 js tools",
     "audit:voice": "node tools/audit-voice.mjs --write"
   }

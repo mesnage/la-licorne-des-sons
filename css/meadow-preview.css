@@ -95,3 +95,7 @@
 .fork-life{position:absolute;left:0;top:0;width:0;height:0}
 .fork-life canvas{position:absolute}
 #fork.instant{transition:none}
+
+/* Only the active question scene animates; walking layers resume on departure. */
+.question-view #worldA,.question-view #worldB,.question-view #svg > :not(defs){visibility:hidden}
+.question-view .wind,.question-view .waterfall{animation-play-state:paused!important}
