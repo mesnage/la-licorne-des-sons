@@ -1,4 +1,4 @@
-import { TONES, GREEN, STYLE, CROWN, SPREAD } from './crossroads-theme.js?v=review-16';
+import { TONES, GREEN, STYLE, CROWN, SPREAD } from './crossroads-theme.js?v=monde-21';
 /* The question view: Paillette is seen from behind at a crossroads, wondering which door to take.
  * One door per answer. The host keeps the real answer buttons and lays them over the door signs
  * (see layout()); this module only paints and animates. All motion follows the scene clock, so
@@ -19,7 +19,9 @@ export function createCrossroads({view,W,wa,habitat,sky,shade='#2f4636',reduced=
   const P=(g,d,w,o={})=>el('path',{d,...(typeof w==='string'?{fill:w}:wa(w,2,.22)),...o},g);
   const S=(g,d,color,width,o={})=>el('path',{d,fill:'none',stroke:color,'stroke-width':width,'stroke-linecap':'round','stroke-linejoin':'round',...o},g);
   const E=(g,cx,cy,rx,ry,fill,o={})=>el('ellipse',{cx:r1(cx),cy:r1(cy),rx:r1(rx),ry:r1(ry),fill:typeof fill==='string'?fill:fill.fill,...o},g);
-  const lush=GREEN.includes(habitat);
+  const lush=GREEN.includes(habitat),indoor=habitat==='peluches';
+  const TOY=['#f2a9b8','#f6cf8a','#a9d6c9','#b9b0e6','#f4b99a','#9fc7e8'];
+  const starPath=(x,y,q)=>{let d='';for(let i=0;i<10;i++){const a=i/10*6.283-1.571,rr=i%2?q*.46:q;d+=`${i?'L':'M'}${r1(x+Math.cos(a)*rr)} ${r1(y+Math.sin(a)*rr)}`;}return d+'Z';};
 
   /* ---------- Paillette, seen from behind (feet at 0,0; about 230 tall) ---------- */
   function makeHero(parent){
@@ -209,8 +211,18 @@ export function createCrossroads({view,W,wa,habitat,sky,shade='#2f4636',reduced=
     if(night||dreamy)for(let i=0;i<(night?34:12);i++){const x=R(0,w),y=R(0,roof+dh*.3),q=R(1.2,3);P(far,`M${r1(x)} ${r1(y-q*2)}l${r1(q*.6)} ${r1(q*1.4)} ${r1(q*1.4)} ${r1(q*.6)}-${r1(q*1.4)} ${r1(q*.6)}-${r1(q*.6)} ${r1(q*1.4)}-${r1(q*.6)}-${r1(q*1.4)}-${r1(q*1.4)}-${r1(q*.6)} ${r1(q*1.4)}-${r1(q*.6)}Z`,night?'#fff3c4':'#fffdf0',{opacity:R(.5,1).toFixed(2)});}
     if(night){const px=w*.8,py=Math.max(m.top+34,roof-dh*.5),q=dw*.2;E(far,px,py,q,q,'#f2c9a0');E(far,px-q*.3,py-q*.3,q*.5,q*.34,'#f9dcbd');S(far,`M${r1(px-q*1.7)} ${r1(py+q*.3)}Q${r1(px)} ${r1(py+q*.9)} ${r1(px+q*1.7)} ${r1(py-q*.4)}`,'#d9c2f0',3.4);}
     if(dreamy)for(const [q,c] of [[0,'#f7b9c9'],[1,'#fbe0a0'],[2,'#bfe8d2'],[3,'#bcd0f6']]){const rr=w*.62-q*dw*.07;S(far,`M${r1(w/2-rr)} ${r1(horizon)}A${r1(rr)} ${r1(rr*.95)} 0 0 1 ${r1(w/2+rr)} ${r1(horizon)}`,c,dw*.07,{opacity:.85});}
-    if(!night)for(let i=0;i<4;i++){const x=w*(i+.3)/4+R(-30,30),y=Math.max(18,roof-dh*R(.2,.9)),q=dw/118*R(.5,.85),c=el('g',{transform:`translate(${r1(x)} ${r1(y)}) scale(${q.toFixed(2)})`},far);
+    if(!night&&!indoor)for(let i=0;i<4;i++){const x=w*(i+.3)/4+R(-30,30),y=Math.max(18,roof-dh*R(.2,.9)),q=dw/118*R(.5,.85),c=el('g',{transform:`translate(${r1(x)} ${r1(y)}) scale(${q.toFixed(2)})`},far);
       for(const [cx,cy,r] of [[-30,0,24],[4,-16,32],[44,-8,27],[80,2,20],[24,2,30]])E(c,cx,cy,r,r,W.cloud);P(c,'M-56 6Q-56-8-30-6H84Q104-6 102 8Q80 20 24 20Q-36 20-56 6Z',W.cloud.fill);P(c,'M-52 6Q24 22 100 6Q78 21 24 21Q-32 21-52 6Z',speck(shadeHex(W.cloud.hex,.84),4,.7));}
+    if(indoor){
+      // a bedroom wall: stars and hearts on the wallpaper, bunting, a white rail, then the wooden floor
+      let stars='',dots='';for(let i=0;i<46;i++){const x=R(0,w),y=R(0,horizon-dh*.1);if(i%2)stars+=starPath(x,y,R(4,7)*k0);else dots+=`M${r1(x-3)} ${r1(y)}a3 3 0 1 0 6 0a3 3 0 1 0 -6 0Z`;}
+      P(far,stars,'#fffaf0',{opacity:.8});P(far,dots,'#f2b8bd',{opacity:.6});
+      const by=Math.max(10,roof-dh*.42),sag=dh*.3;S(far,`M-10 ${r1(by)}Q${r1(w/2)} ${r1(by+sag*2)} ${r1(w+10)} ${r1(by)}`,'#d9b9a4',2);
+      for(let i=0;i<13;i++){const t=(i+.5)/13,x=-10+(w+20)*t,y=by+sag*4*t*(1-t),q=dw*.085;P(far,`M${r1(x-q)} ${r1(y)}L${r1(x+q)} ${r1(y)}L${r1(x)} ${r1(y+q*2.1)}Z`,TOY[i%6]);}
+      P(far,`M-20 ${r1(horizon-dh*.06)}H${w+20}V${r1(horizon)}H-20Z`,'#fffaf0',{stroke:'#e3cdbf','stroke-width':1.5});
+      P(far,`M-20 ${r1(horizon)}H${w+20}V${h+20}H-20Z`,W.sea.fill);
+      {let d='';for(let q=1;q<4;q++)d+=`M-20 ${r1(horizon+dh*.06*q)}H${w+20}`;S(far,d,'#c9a67c',1.4,{opacity:.5});}
+    }else{
     // a far ridge high enough to show above the roofs, then tall trees standing between the houses
     hill(roof+dh*.06,dh*.2,.6,W.mountB);
     {let d='';for(let x=-20;x<=w+20;x+=20)d+=`${x<0?'M':'L'}${x} ${r1(roof+dh*.06-dh*.2*Math.sin(x/w*Math.PI*1.3+.6)-dh*.06*Math.sin(x/37+.6)+dh*.09)}`;S(far,d,speck(shadeHex(W.mountB.hex,.86),3),dh*.1,{'stroke-linecap':'butt'});}
@@ -233,6 +245,7 @@ export function createCrossroads({view,W,wa,habitat,sky,shade='#2f4636',reduced=
     }
     hill(horizon+dh*.06,dh*.06,4.1,W.near);
     {let d='';for(let x=-20;x<=w+20;x+=20)d+=`${x<0?'M':'L'}${x} ${r1(horizon+dh*.06-dh*.06*Math.sin(x/w*Math.PI*1.3+4.1)-dh*.018*Math.sin(x/37+4.1)+dh*.05)}`;S(far,d,speck(shadeHex(W.near.hex,.86),2),dh*.07,{'stroke-linecap':'butt'});}
+    }
     // ground and the forking path
     {let d=`M-20 ${h+20}L-20 ${r1(horizon+dh*.2)}`;for(let x=-20;x<=w+20;x+=20)d+=`L${x} ${r1(horizon+dh*.2-6*Math.sin(x/61)-5*Math.sin(x/23+1))}`;P(ground,d+`L${w+20} ${h+20}Z`,W.meadow);}
     const footW=tall?Math.min(w*.6,hs*210):hs*190,fy=h+30,jx=tall?hx:hx+hs*30,jy=hy-hs*(tall?70:40);
@@ -256,13 +269,14 @@ export function createCrossroads({view,W,wa,habitat,sky,shade='#2f4636',reduced=
     const free=(x,y)=>{if(!tall)return y<base+dh*.3&&y>base+6&&xs.every(dx=>Math.abs(x-dx)>dw*.45)&&x>hx+hs*90;if(y>jy-hs*40)return Math.abs(x-jx)>footW*.66+18;const t=clamp((y-base)/(jy-base)),e=ease(t);return xs.every(dx=>Math.abs(x-(dx+(jx-dx)*e))>dw*.4+12);};
     const cols=[W.leafA.hex,W.meadowD.hex,W.leafC.hex];
     for(let i=0;i<130;i++){const x=R(0,w),y=R(horizon+dh*.3,Math.min(h,m.bottom+30));if(!free(x,y))continue;const k=.7+clamp((y-horizon)/(h-horizon))*.9;
+      if(indoor){const c=TOY[i%6];if(i%5===0)P(deco,starPath(x,y,5*k),c,{opacity:.85});else if(i%5===1){E(deco,x,y-6*k,7*k,7*k,c);E(deco,x,y-6*k,7*k,2.6*k,'#fffaf0',{opacity:.8});}else if(i%5===2)P(deco,`M${r1(x-6*k)} ${r1(y)}v${r1(-11*k)}h${r1(12*k)}v${r1(11*k)}Z`,c,{opacity:.9});continue;}
       const q=i%7;if(q<4)tuft(deco,x,y,k,cols[i%3]);else if(q<6&&lush)bloom(deco,x,y,k*.9,['#fbf3e4','#e59aa4','#e0ad4c','#f2c4bd'][i%4]);else pebble(deco,x,y,k*.8);}
     // doors with bushes at their sides, drawn far to near
     const dg=el('g',{},svg),order=xs.map((x,i)=>({x,i,y:base-(tall&&n>2&&i>0&&i<n-1?dh*.05:0)}));
     for(const o of order){const k=dw/118;
       if(style==='stone'){bush(dg,o.x-dw*.6,o.y+3,k*.85);bush(dg,o.x+dw*.62,o.y+5,k*.7);}
       doors[o.i]=makeDoor(dg,o.x,o.y,dw,dh,o.i,k,m.slot/2+3);
-      tuft(dg,o.x-dw*.46,o.y+5,k,cols[0]);tuft(dg,o.x+dw*.44,o.y+6,k,cols[1]);if(lush)bloom(dg,o.x+dw*.55,o.y+7,k,'#fbf3e4');}
+      if(!indoor){tuft(dg,o.x-dw*.46,o.y+5,k,cols[0]);tuft(dg,o.x+dw*.44,o.y+6,k,cols[1]);if(lush)bloom(dg,o.x+dw*.55,o.y+7,k,'#fbf3e4');}}
     // the two friends
     const live=el('g',{},svg);
     duck=makeDuck(live);duck.x=hx+(tall?hs*104:-hs*96);duck.y=hy-hs*4;duck.s=hs*.92;

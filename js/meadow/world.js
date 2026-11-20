@@ -1,4 +1,4 @@
-import { PAINTED_WORLDS, paintedWorld } from './themes.js?v=review-16';
+import { PAINTED_WORLDS, paintedWorld } from './themes.js?v=monde-21';
 import { createDoorSigns } from './door-signs.js?v=review-16';
 /* Adapter shared by every workshop and curriculum exercise.
  * The iframe isolates the scene's SVG IDs/styles; answers/audio/storage stay in the host.
@@ -29,7 +29,12 @@ export function createWorld(parent,{onReady=()=>{},onBiome=()=>{},onError=()=>{}
         oldScene?.setPaused(paused);
         onError('Ce décor ne peut pas se charger. Tu peux réessayer ou continuer ici.');resolve(false);
       };
-      candidate.addEventListener('load',()=>{
+      /* Both listeners close over the previous scene. Drop them as soon as one fires, otherwise every
+       * frame keeps the one before it alive and each world visited stays in memory for the whole session. */
+      const release=()=>{candidate.removeEventListener?.('load',arrived);candidate.removeEventListener?.('error',failed);};
+      const failed=()=>{release();fail();};
+      const arrived=()=>{
+        release();
         if(disposed||version!==loadVersion){candidate.remove();resolve(false);return;}
         const loaded=candidate.contentWindow.meadowScene;
         if(!loaded){fail();return;}
@@ -39,11 +44,12 @@ export function createWorld(parent,{onReady=()=>{},onBiome=()=>{},onError=()=>{}
         loading=null;pendingResolve=null;onBiome({...next,number:next.id+1});
         if(first){first=false;onReady();}
         resolve(true);
-      },{once:true});
-      candidate.addEventListener('error',fail,{once:true});
+      };
+      candidate.addEventListener('load',arrived,{once:true});
+      candidate.addEventListener('error',failed,{once:true});
     });
     loading=promise;
-    candidate.src=new window.URL('../../meadow-preview.html?scene&v=perf-19&habitat='+next.habitat+(parent.id==='pilotWorld'?'&reading':'')+(parent.ownerDocument?.location?.search.includes('perf')?'&perf':''),import.meta.url).href;
+    candidate.src=new window.URL('../../meadow-preview.html?scene&v=monde-21&habitat='+next.habitat+(parent.id==='pilotWorld'?'&reading':'')+(parent.ownerDocument?.location?.search.includes('perf')?'&perf':''),import.meta.url).href;
     parent.append(candidate);
     return promise;
   }

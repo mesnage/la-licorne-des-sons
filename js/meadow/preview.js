@@ -1,15 +1,15 @@
-import {createRoute,paintCrossings} from './route.js?v=review-16';
+import {createRoute,paintCrossings} from './route.js?v=monde-21';
 /* Meadow graphics trial adapted from the supplied Paillette style frame. */
 /* global matchMedia, innerWidth, innerHeight, performance, Path2D, URLSearchParams */
 import { ready, say, hush, unlock } from '../audio.js?v=review-16';
-import { createFauna } from './fauna.js?v=review-16';
-import { HABITATS, paintHabitat } from './habitats.js?v=review-16';
-import { PAINTED_WORLDS } from './themes.js?v=review-16';
+import { createFauna } from './fauna.js?v=monde-21';
+import { HABITATS, paintHabitat } from './habitats.js?v=monde-21';
+import { PAINTED_WORLDS } from './themes.js?v=monde-21';
 import { JUNGLE_PALETTE, paintJungle } from './jungle.js?v=review-16';
 import { FOREST_PALETTE, paintForest } from './forest.js?v=review-16';
 import { createJourney } from './journey.js?v=review-16';
-import { createScenery } from './scenery.js?v=perf-19';
-import { createCrossroads } from './crossroads.js?v=perf-19';
+import { createScenery } from './scenery.js?v=monde-21';
+import { createCrossroads } from './crossroads.js?v=monde-21';
 
 (() => {
 const NS='http://www.w3.org/2000/svg', svg=document.getElementById('svg');
@@ -20,7 +20,7 @@ const readingLayout=new URLSearchParams(location.search).has('reading');
 const theme=PAINTED_WORLDS.find(t=>t.habitat===new URLSearchParams(location.search).get('habitat'))??PAINTED_WORLDS[0];
 const metrics={frames:0,slowFrames:0,workMs:0,maxWorkMs:0,paintMs:0,tiles:0,travelTiles:0};
 const perf=new URLSearchParams(location.search).has('perf');
-const habitat=theme.habitat,forest=habitat==='forest',jungle=habitat==='jungle',custom=HABITATS[habitat];
+const habitat=theme.habitat,forest=habitat==='forest',jungle=habitat==='jungle',custom=HABITATS[habitat],indoor=habitat==='peluches';
 document.body.dataset.habitat=habitat;
 const sceneRaise=readingLayout?275:300;
 let layoutListener=null;
@@ -100,7 +100,7 @@ function fitRelief(){
   for(const {node,depth,lift=0} of reliefLayers)node.style.top=(-extra*depth-lift*liftK-(embedded&&depth===.12?sceneRaise*Math.max(0,Math.min(1,(.95-innerWidth/innerHeight)/.35)):0)).toFixed(1)+'px';
 }
 const $=id=>document.getElementById(id),wA=$('worldA'),wB=$('worldB'),scratch=$('scratch');
-const sun=document.createElement('div');sun.style.cssText='width:500px;height:500px;top:-20px;border-radius:50%;background:radial-gradient(closest-side,rgba(255,251,232,.95),rgba(253,240,192,.6) 30%,rgba(253,240,192,0))';wA.append(sun);if(habitat==='moon')sun.style.display='none';
+const sun=document.createElement('div');sun.style.cssText='width:500px;height:500px;top:-20px;border-radius:50%;background:radial-gradient(closest-side,rgba(255,251,232,.95),rgba(253,240,192,.6) 30%,rgba(253,240,192,0))';wA.append(sun);if(habitat==='moon'||indoor)sun.style.display='none';
 function fit(){const a=innerWidth/innerHeight;VW=Math.max(640,Math.min(1500,750*a));VH=VW/a;if(VH<750){VH=750;VW=750*a;}
   svg.setAttribute('viewBox',`0 ${750-VH} ${VW} ${VH}`);K=innerHeight/VH;
   const t=`translate(0px,${(-(750-VH)*K).toFixed(2)}px) scale(${K.toFixed(5)})`;wA.style.transform=t;wB.style.transform=t;
@@ -122,7 +122,7 @@ const MIDW=embedded?CAMMAX*.3+2200:3100, NEARW=embedded?CAMMAX*.55+2000:4300;
 let castleCanvas,castleLight,castleX=CASTLE;
 layerList=layers;
 const layer=(f,host,x1,y0,y1,o={})=>{const g=el('g',{},scratch);layers.push({g,f,host,x1,y0,y1,...o});return g;};
-const mist=(top,h,o,depth,lift=0)=>layers.push({mist:[top,h,habitat==='moon'?0:o],depth,lift});
+const mist=(top,h,o,depth,lift=0)=>layers.push({mist:[top,h,habitat==='moon'||indoor?0:o],depth,lift});
 // On wide screens the far planes are lifted so layered hills and water show above the clearing.
 const LIFT={mount:60,sea:150,mid:200,near:245};
 const slot=(f,host)=>{const L={slot:true,f,host};layers.push(L);return L;};
@@ -143,7 +143,7 @@ function cloud(g,x,y,s){const c=el('g',{transform:`translate(${x} ${y}) scale(${
   el('path',{d:'M-56 6Q-56-8-30-6H84Q104-6 102 8Q80 20 24 20Q-36 20-56 6Z',fill:W.cloud.fill},c);
   el('path',{d:'M-52 4Q24 22 100 4Q78 21 24 21Q-32 21-52 4Z',fill:speck(custom?.cloudShade??'#d9c9c0',4,.7),opacity:.9},c);
   el('ellipse',{cx:2,cy:-30,rx:20,ry:7,fill:'#fff',opacity:.55},c);return c;}
-const clouds=[];for(let i=0;i<(habitat==='moon'?0:8);i++){const sc=R(.9,1.8);clouds.push({g:cloud(scratch,0,0,sc),sc,x:i*310+R(-60,60),y:i%2?R(0,150):R(-600,-30),v:R(3,8)});}
+const clouds=[];for(let i=0;i<(habitat==='moon'||indoor?0:8);i++){const sc=R(.9,1.8);clouds.push({g:cloud(scratch,0,0,sc),sc,x:i*310+R(-60,60),y:i%2?R(0,150):R(-600,-30),v:R(3,8)});}
 
 function tree(g,x,y,s,kind=0,split){const t=el('g',{transform:`translate(${f1(x)} ${f1(y)}) scale(${f1(s*10)/10})`},g);
   const tk=split?sway(t,'-16,-92,16,6','still'):t;
@@ -204,8 +204,8 @@ const scenery=createScenery({el,wa,W,blob,R,rnd,pick,smooth,f1,sway,wash,speck,d
 const meadowOnly=habitat==='meadow',groveSpots=[];
 
 // sky washes (kept soft: baked at low resolution)
-for(let i=0;i<26;i++)el('path',{d:blob(R(0,2400),i<16?R(-80,400):R(-700,-80),R(180,460),R(26,80),9,.2),fill:'#ffffff',opacity:f1(R(.08,.18))},Lsky);
-if(habitat!=='moon'){el('rect',{x:0,y:120,width:2400,height:330,fill:speck('#fffaf0',1,1.2),opacity:.7},Lsky);el('rect',{x:0,y:250,width:2400,height:200,fill:speck('#fffaf0',2,1.2),opacity:.7},Lsky);}
+for(let i=0;i<(indoor?0:26);i++)el('path',{d:blob(R(0,2400),i<16?R(-80,400):R(-700,-80),R(180,460),R(26,80),9,.2),fill:'#ffffff',opacity:f1(R(.08,.18))},Lsky);
+if(habitat!=='moon'&&!indoor){el('rect',{x:0,y:120,width:2400,height:330,fill:speck('#fffaf0',1,1.2),opacity:.7},Lsky);el('rect',{x:0,y:250,width:2400,height:200,fill:speck('#fffaf0',2,1.2),opacity:.7},Lsky);}
 // mountains across the bay
 const mA=x=>195+72*Math.sin(x*.0031+.6)+26*Math.sin(x*.0083+2)+10*Math.sin(x*.021),mB=x=>280+44*Math.sin(x*.0046+2.2)+16*Math.sin(x*.012+.5);
 el('path',{d:ridge(3200,mA,50,5),...wa(W.mountA,2,.14)},Lmount);
@@ -548,7 +548,7 @@ scratch.remove();fit();
 
 // A few far-off birds cross the sky; each is one tiny bitmap moved and flapped with transforms.
 const flock=[];
-if(!reduced&&!['moon','clouds','desert'].includes(habitat))for(let i=0;i<5;i++){
+if(!reduced&&!['moon','clouds','desert','peluches'].includes(habitat))for(let i=0;i<5;i++){
   const n=sprite(g=>el('path',{d:'M-11 1Q-6-7 0 0Q6-7 11 1Q6-3 0 3Q-6-3-11 1Z',fill:habitat==='ice'?'#6f8fa4':'#5f6f6a',opacity:.75},g),0,0);
   n.style.left=n.style.top='0';birdS.div.append(n);flock.push({n,x:R(0,1700),y:R(40,170)+(i%2?-R(120,420):0),v:R(14,26),p:R(0,6),s:R(.7,1.25)});}
 

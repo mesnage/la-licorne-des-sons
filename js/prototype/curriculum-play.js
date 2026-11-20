@@ -1,4 +1,4 @@
-import { PAINTED_WORLDS } from '../meadow/themes.js?v=review-16';
+import { PAINTED_WORLDS } from '../meadow/themes.js?v=monde-21';
 import { fitChoiceGroup } from '../meadow/choice-fit.js?v=review-16';
 fitChoiceGroup(document.getElementById('pilotControls'));
 import { curriculumLocation, reviewMode } from '../learning/curriculum-mode.js';
@@ -7,8 +7,9 @@ import * as playback from '../audio.js?v=review-16';
 import { chapterMapUrl, chapterPlayUrl } from '../learning/chapter-one.js';
 import { createSimpleQuestions } from '../learning/curriculum-simple.js?v=review-16';
 import { exerciseVersion } from '../data/curriculum-simple.js?v=review-16';
-import { WORLDS, worldPanorama } from './model.js?v=review-16';
+import { WORLDS, worldPanorama } from './model.js?v=accueil-22';
 import { illustration } from '../illustrations.js';
+import { createTracker } from '../learning/tracker.js?v=suivi-1';
 import { createCurriculum } from '../learning/curriculum.js?v=storybook-2';
 import {
   createPilotSession, newPilotState, readPilotProgress, restoreProgrammeState, unitProgressKey
@@ -270,12 +271,21 @@ async function openPilot() {
     actions.append(hint);
   }
 
+  let trackerStorage = null;
+  try { trackerStorage = window.localStorage; } catch (error) { /* suivi en mémoire seulement */ }
+  const parentTracker = createTracker(trackerStorage);
   function answer(value) {
     if (conflict || pauseDialog.open || document.hidden) return;
     const result = session.answer(value);
     if (result === null) return;
     save();
     if (conflict) return;
+    if (!testMode) {
+      // Suivi pour les parents : une ligne par chapitre du parcours guidé.
+      const info = { label: 'Parcours · ' + chapter.title, category: 'path' };
+      parentTracker.record('parcours:' + chapter.id, !!result, info);
+      if (result && session.finished) parentTracker.complete('parcours:' + chapter.id, info);
+    }
     if (!result) {
       world?.react('encouraging');
       const hintAvailable = session.snapshot().wrong >= 2;
@@ -588,7 +598,7 @@ async function openPilot() {
   });
 
   try {
-    const { createWorld } = await import('../meadow/world.js?v=perf-19');
+    const { createWorld } = await import('../meadow/world.js?v=monde-21');
     world = createWorld(get('pilotWorld'), {
       onReady() {
         worldReady = true;get('pilotWorldLabel').hidden=false;

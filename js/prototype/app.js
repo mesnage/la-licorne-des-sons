@@ -1,13 +1,14 @@
 import { createSessionRecovery } from './session-recovery.js?v=perf-19';
 import { fitChoiceGroup } from '../meadow/choice-fit.js?v=review-16';
 fitChoiceGroup(document.getElementById('adventureChoices'));
-import { PAINTED_WORLDS } from '../meadow/themes.js?v=review-16';
+import { PAINTED_WORLDS } from '../meadow/themes.js?v=monde-21';
 import { syllableActivity } from '../data/syllable-workshops.js';
 import { returnFromRevision } from './curriculum-revision.js?v=ateliers-sons-2';
-import { createWorld } from '../meadow/world.js?v=perf-19';
-import { WORLDS, MODULES, MENU_ITEMS, CHAPTERS, createAdventure, createJourneyMemory, journeyState } from './model.js?v=review-16';
-import { illustration } from '../illustrations.js?v=cactus-alphabet-1';
+import { createWorld } from '../meadow/world.js?v=monde-21';
+import { WORLDS, MODULES, MENU_ITEMS, CHAPTERS, createAdventure, createJourneyMemory, journeyState } from './model.js?v=accueil-22';
+import { illustration } from '../illustrations.js?v=accueil-22';
 import { createMastery, skillStatus } from '../learning/mastery.js';
+import { createTracker, menuCatalogue } from '../learning/tracker.js?v=suivi-1';
 import { WORD_LEVELS } from '../data/words.js';
 import { sentenceActivity } from '../data/sentences.js';
 import { TYPO_ACTIVITY } from '../data/typos.js';
@@ -24,6 +25,11 @@ let tabStorage;try{tabStorage=window.sessionStorage;}catch{}
 const recovery=createSessionRecovery(tabStorage);
 let storage;
 try {storage=window.localStorage;}catch(e){}
+/* Suivi pour les parents : totaux par exercice et par jour, gardés sur cet appareil. */
+/* Dans le menu, les pictogrammes pâles prennent la version franche des chapitres. */
+const MENU_ICONS={book:'chapter-words',sound:'chapter-sounds',letters:'chapter-letters',sentence:'chapter-sentences'};
+const tracker=createTracker(storage,{catalogue:menuCatalogue(CHAPTERS,MENU_ITEMS)});
+const trackedId=()=>mode==='words'?'words-'+level:mode;
 const practice=createWordProgress(storage);
 const sentencePractice=createWordProgress(storage,'licorne.sentences.v1');
 const typoPractice=createWordProgress(storage,'licorne.typos.v1');
@@ -186,7 +192,7 @@ function correctTypo(){
   $('adventureFeedback').textContent='Bravo ! On écrit « '+target.words[target.wrongIndex]+' ».';
 }
 function finish(){
-  recovery.clear();
+  recovery.clear();tracker.complete(trackedId());
   stopAudio();world.quiet(false);panels('finish');progress();sfx.fanfare();earnReward();journeyMemory.complete(Math.ceil(session.questions.length/10));
   $('adventureResult').textContent=`Bravo ! Tu as réuni les ${session.questions.length} cristaux et rejoint le château !`;
   $('finishCrystals').innerHTML=Array.from({length:session.questions.length},(_,i)=>gemSVG(i+1)).join('');
@@ -210,6 +216,7 @@ async function answer(id,button){
     $('adventureFeedback').textContent=`${session.selected.length} mot${session.selected.length>1?'s':''} placé${session.selected.length>1?'s':''} sur ${session.current.target.words.length}. Continue !`;
     $('adventureChoices').querySelector('button:not(:disabled)')?.focus({preventScroll:true});return;
   }
+  tracker.record(trackedId(),!!result.correct);
   if(activity&&result.correct)renderAssembly();
   $('worldName').disabled=!ready;
   let newlyRecognized=false;
@@ -289,7 +296,7 @@ function menu(){
 }
 for(const module of MENU_ITEMS){
   const button=document.createElement('button');button.className=`adventure-module tone-${module.color}`;button.dataset.module=module.mode||module.id;button.dataset.activityId=module.id;button.dataset.chapterId=CHAPTERS.find(chapter=>chapter.activities.includes(module.id)).id;if(module.level)button.dataset.wordLevel=module.level;if(module.id===TYPO_ACTIVITY.id)button.dataset.typoMode=module.id;if(sentenceActivity(module.id))button.dataset.sentenceMode=module.id;button.disabled=true;
-  const icon=document.createElement('span');icon.className='module-icon';icon.innerHTML=illustration(module.icon);icon.setAttribute('aria-hidden','true');
+  const icon=document.createElement('span');icon.className='module-icon';icon.innerHTML=illustration(MENU_ICONS[module.icon]??module.icon);icon.setAttribute('aria-hidden','true');
   const sentence=sentenceActivity(module.id);
   const title=document.createElement('strong');title.textContent=sentence?(sentence.hidden?'À l’écoute':'Avec le modèle'):module.title;
   const detail=document.createElement('small');detail.textContent=sentence?sentence.length+' mots':module.detail;
@@ -357,6 +364,12 @@ for(const theme of PAINTED_WORLDS){
   });
   $('worldChoices').appendChild(button);
 }
+/* Espace parents : la vue du suivi n'est chargée que si un parent l'ouvre. */
+$('progressButton').addEventListener('click',async()=>{
+  try {const {openProgress}=await import('../parents/progress.js?v=suivi-1');openProgress(tracker,$('progressDialog'));}
+  catch(e){$('adventureStorage').textContent='Le suivi des progrès n’a pas pu s’ouvrir. Vérifie la connexion puis réessaie.';}
+});
+$('progressClose').addEventListener('click',()=>{$('progressDialog').close();$('progressButton').focus();});
 $('worldName').addEventListener('click',openWorldPicker);
 $('pauseWorld').addEventListener('click',openWorldPicker);
 $('worldDialogClose').addEventListener('click',closeWorldPicker);
@@ -389,5 +402,6 @@ document.addEventListener('visibilitychange',()=>{if(document.hidden){saveCurren
 window.addEventListener('pagehide',event=>{saveCurrent();if(event.persisted){stopAudio();world.setPaused(true);}else{cleanUp();voice.destroy();world.destroy();}});
 window.addEventListener('pageshow',event=>{if(event.persisted){world.setPaused(paused);if(!paused)replay();}});
 if(location.search.includes('debug')) window.__adventure={
+  setTheme:id=>world.setTheme(id),
   state:()=>({ready,paused,mode,level,promptKey:session?.current?.target.audioKey??(session?.current?soundPrompt(session.current.target,mode)[0]:null),index:session?.index,total:session?.questions.length,phase:session?.phase,targetId:session?.current?.target.id,score:session?.score,sentenceWords:sentenceActivity(mode)?session?.current?.target.words:null,typo:mode===TYPO_ACTIVITY.id&&session?.current?{words:session.current.target.words,wrongIndex:session.current.target.wrongIndex}:null,selected:session?.selected?[...session.selected]:null,checkpoint:session?.returnIndex,startWorld,mastery:mastery.snapshot(),world:world.state()})
 };

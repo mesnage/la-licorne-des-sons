@@ -1,6 +1,6 @@
 import { paintedLandscape, canopy } from './scenery.js';
 import { unicornSVG } from '../unicorn.js';
-import { WORLDS } from './model.js?v=review-16';
+import { WORLDS } from './model.js?v=accueil-22';
 const svg = (w,h,content) => `<svg xmlns="http://www.w3.org/2000/svg" width="${w}" height="${h}" viewBox="0 0 ${w} ${h}">${content}</svg>`;
 export const uri = source => 'data:image/svg+xml;base64,'+window.btoa(Array.from(new window.TextEncoder().encode(source),byte=>String.fromCharCode(byte)).join(''));
 export function pailletteFrame(frame, happy = false){

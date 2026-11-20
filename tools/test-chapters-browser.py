@@ -32,7 +32,7 @@ with sync_playwright() as p:
  assert page.locator('[data-chapter]').all_text_contents()==['Les lettres','Les sons','Les mots','Les phrases']
  assert page.locator('#adventureModules button:visible').count()==0
  for width,height in [(320,568),(390,844),(459,724),(844,390),(768,1024),(1280,900)]:
-  page.set_viewport_size({'width':width,'height':height})
+  page.set_viewport_size({'width':width,'height':height});page.wait_for_function('([w,h])=>innerWidth===w&&innerHeight===h&&matchMedia(`(width:${w}px) and (height:${h}px)`).matches',arg=[width,height])
   rects=page.locator('[data-chapter]').evaluate_all('buttons=>buttons.map(button=>{const r=button.getBoundingClientRect(),menu=button.closest("#adventureMenu").getBoundingClientRect();return {x:r.x,y:r.y,width:r.width,height:r.height,fits:r.top>=menu.top&&r.bottom<=Math.min(menu.bottom,innerHeight)&&r.left>=0&&r.right<=innerWidth&&button.scrollWidth<=button.clientWidth};})')
   shot(page,f'chapters-{width}-{height}')
   assert len(rects)==4 and all(rect['fits'] and rect['height']>=44 for rect in rects),(width,height,rects)

@@ -495,3 +495,11 @@ Les pages, les décors et toutes les voix sont téléchargés dès la première 
 Sur iPad et iPhone, l’application installée garde sa propre progression, séparée de celle de Safari.
 
 Après avoir ajouté ou retiré un fichier du jeu, lancer `npm run pwa` pour actualiser la liste hors ligne (`js/pwa-files.js`) ; `npm test` signale un oubli. `python3 tools/test-pwa-browser.py` vérifie l’installation, le démarrage hors ligne et la mise à jour.
+
+## Suivi des progrès (espace parents)
+
+Dans le menu principal, « Aide aux parents » contient le bouton **Suivi des progrès**. Il affiche un score du chemin d’apprentissage (lettres, sons, mots, phrases), les réponses justes et fausses par jour ou par semaine, le détail par exercice, et permet de télécharger le tout en CSV (ouvrable dans Excel ou Numbers). Les chiffres s’ajoutent de jour en jour et restent sur l’appareil, dans le navigateur ou l’application installée ; ils ne sont pas envoyés ailleurs. Effacer les données du site les supprime.
+
+## Le monde des peluches
+
+Onzième monde : une chambre d’enfant avec des oursons en peluche, des jouets et une couverture bleue à traverser sur des coussins. Il apparaît dans le choix des mondes et dans la suite des mondes.

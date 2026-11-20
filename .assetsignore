@@ -14,3 +14,9 @@ README.md
 CLAUDE.md
 .gitignore
 .nojekyll
+.env*
+.DS_Store
+*.tar.gz
+*-recording_*.json
+docs
+.assetsignore

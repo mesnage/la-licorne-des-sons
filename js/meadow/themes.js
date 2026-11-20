@@ -9,6 +9,7 @@ export const PAINTED_WORLDS = [
   {id:6,habitat:'moon',name:'La lune des petits lapins',icon:'moon',sky:'#383d72'},
   {id:7,habitat:'prehistoric',name:'La vallée des dinosaures',icon:'leaf',sky:'#ecd1a4'},
   {id:8,habitat:'desert',name:'Le désert des cactus',icon:'cactus',sky:'#f59b82'},
-  {id:9,habitat:'fairy',name:'Le royaume des licornes',icon:'rainbow',sky:'#ced8f3'}
+  {id:9,habitat:'fairy',name:'Le royaume des licornes',icon:'rainbow',sky:'#ced8f3'},
+  {id:10,habitat:'peluches',name:'Le monde des peluches',icon:'teddy',sky:'#f6dccf'}
 ];
 export const paintedWorld = id => PAINTED_WORLDS.find(world=>world.id===id) ?? PAINTED_WORLDS[0];

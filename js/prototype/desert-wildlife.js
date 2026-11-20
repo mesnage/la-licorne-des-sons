@@ -1,5 +1,5 @@
 import { animalPatrol } from './animal-motion.js';
-import { pathPoint } from './model.js?v=review-16';
+import { pathPoint } from './model.js?v=accueil-22';
 
 const frameCount=8;
 const tau=2*Math.PI;
