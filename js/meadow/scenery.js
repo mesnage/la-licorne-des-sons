@@ -13,6 +13,7 @@ export const GROUND_DETAIL={
   moon:{shade:'#5a54a8',pebbles:['#e6e0fb','#6a63bc','#c6c0f0'],ripples:'#c6c0f0',sparkle:'#8fe0d2',haze:'#c6c0f0',density:.5},
   prehistoric:{shade:'#4b6f3c',tufts:['#4b6f3c','#9db26a','#3c5d3a'],blooms:[['#f1d98c','#c98a4e'],['#e8a37a','#f8dcc0']],haze:'#dfe2ac',density:.9},
   desert:{shade:'#bd8a60',tufts:['#b0935a','#8e9a5a'],pebbles:['#b5835f','#f0d5a8','#c9966e'],ripples:'#f8dfb4',haze:'#fbe6bd',density:.3},
+  peluches:{shade:'#b08f86',pebbles:['#f2a9b8','#f6cf8a','#a9d6c9','#b9b0e6','#fff6e6'],sparkle:'#fff6e0',haze:'#fff3e6',density:.25},
   fairy:{shade:'#6f9a80',tufts:['#6f9a72','#b9d6a0','#5c8a6a'],blooms:[['#f3b6cf','#fff3dc'],['#fff3dc','#f0cf8f'],['#c8b6ec','#f2ecfb'],['#f6dc8f','#fff8dc']],sparkle:'#fff3c4',haze:'#f3e6ee',density:1.15}
 };
 export function createScenery({el,wa,W,blob,R,rnd,pick,smooth,f1,sway,wash,speck,dash,shadeHex,kind='meadow'}){

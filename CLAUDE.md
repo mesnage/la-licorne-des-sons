@@ -89,7 +89,7 @@ Run tools/test-rainbow-browser.py for real climbing, pause/resume, rotation and 
 
 ## Direct activity menu and shared narrator
 
-The main menu contains exactly four chapter tiles in a 2×2 grid: Les lettres, Les sons, Les mots, Les phrases. CHAPTERS in js/prototype/model.js assigns the thirteen MENU_ITEMS once each (2/3/3/5). Selecting a chapter reveals its activities; leaving a game returns to that chapter and Les chapitres returns to the four-tile home. Do not add a progress notebook.
+The main menu contains exactly four chapter tiles in a 2×2 grid: Les lettres, Les sons, Les mots, Les phrases. CHAPTERS in js/prototype/model.js assigns the thirteen MENU_ITEMS once each (2/3/3/5). Selecting a chapter reveals its activities; leaving a game returns to that chapter and Les chapitres returns to the four-tile home. The child's menu has no progress notebook; since 20 Nov the owner wants a parents-only progress view inside « Aide aux parents » (see below).
 Phoneme activities/data/audio and their generators have been removed at the owner's request. Existing local letter
 and word practice stays in the background for revision; gift balances/spins and world history remain intact.
 Both main and classic word activities use `W:` prompts through the shared recorded audio engine. New word prompts
@@ -215,3 +215,50 @@ On iOS the installed app has storage separate from Safari.
 The install button lives inside « Aide aux parents » (`#installApp`, logic in js/pwa.js): it calls the browser's install
 prompt where one exists and otherwise shows the Share → « Sur l’écran d’accueil » steps (iOS cannot install from a
 button). It hides itself once the game runs as an installed app. Keep it out of the child's main menu.
+
+## Memory pass 20 (world changes)
+
+A Safari memory recording (Mac, 19 Nov) showed 0.6 GB at the menu, rising to 1.8 GB with critical memory pressure
+after twelve world changes. Cause: in `js/meadow/world.js` each new scene iframe kept an `error` listener whose closure
+held the previous scene, so every world visited stayed alive as a chain. The load/error listeners now remove
+each other as soon as either fires. Never let a host-side closure outlive the frame swap while holding
+`oldScene`/`oldFrame`. `window.__adventure.setTheme(id)` (debug only) drives tools/test-world-memory-browser.py, which
+fails if live documents grow across eight world changes. Record: docs/memory-20.md.
+
+## Le monde des peluches (world 10)
+
+Eleventh painted world, habitat `peluches`: a child's bedroom. It reuses the outdoor planes: the mountains layer is the
+wallpapered wall (windows, shelves, pictures, a cubby shelf that tall screens show), the valley layer is the wooden
+floor, mid/near carry furniture and big toys, the ground is the carpet with a play-road, the stream is a blue blanket
+crossed on cushions (`TONE.peluches` in route.js). `indoor` in preview.js and crossroads.js turns off sun, clouds,
+mist, birds, grass tufts and hills. Companions are four plush bears and a plush rabbit (`TEDDY` rig in fauna.js).
+All toys are original designs; do not add licensed characters. Props carry stars, hearts and dots, never letters,
+so the scenery cannot be confused with an answer. Adding a world means: themes.js, model.js WORLDS + gag map,
+habitats.js, fauna-data.js/fauna.js, scenery.js GROUND_DETAIL, crossroads-theme.js, route.js tone, the
+illustrations.js icon, prototype/animals.js, `assets/storybook/<habitat>.webp`, and the tests that list habitats.
+Saved world counts now cycle over eleven worlds.
+
+## Parents' progress tracking
+
+`js/learning/tracker.js` (pure, tested by tools/tracker.test.mjs) keeps per-day, per-exercise counts
+`[correct, wrong, gamesCompleted]` under `licorne.suivi.v1`: no names, no typed answers, 800 days kept. app.js records
+every evaluated answer (`tracker.record`, never the partial steps of a sentence) and each finished game; the guided
+path records one line per chapter (`parcours:C1`…), except in review/test mode. Tracking must never block or slow an
+answer and must not touch mastery, rewards or checkpoints. The view (`js/parents/progress.js`, `css/progress.css`) is
+loaded only when a parent taps « Suivi des progrès » in « Aide aux parents »: path score, day/week bar chart with a
+family filter, per-exercise table, CSV download (semicolons + BOM; share sheet in an installed iOS app).
+Score = mean of the four menu families; each exercise = recent success (about the last 60 answers) × practice
+(full from 40 answers). Keep the button inside the parents' help, never in the child's menu.
+Run tools/test-progress-browser.py for counting, persistence across reloads, the picker's eleven worlds and the CSV.
+
+## Menu and welcome screens (accueil-2, 20 Nov)
+
+`css/menu.css` is loaded last by index.html and curriculum.html and owns the look of the home card, chapter views,
+footer buttons, pause/world/level dialogs and the curriculum header. Titles and buttons there use the bundled display
+font `Paillette Display` (Fredoka, OFL, `assets/fonts/`); it is deliberately a separate family name so answer cards
+and question text keep their existing font. Do not apply it to anything the child reads as an answer.
+The menu card is opaque (no scenery showing through tiles). The `.menu-mascot` image shows only where the card is
+centred over the scene's Paillette (width ≤ 650 px and height > 700 px). Chapter tiles stay two rows of two at every
+size and must fit the first viewport at 320×568 and 844×390 (tools/test-menu-browser.py, test-chapters-browser.py).
+Chapter and workshop tiles use the bold `chapter-*` icons from illustrations.js (`MENU_ICONS` in app.js maps the
+pale in-game pictograms for the menu only).

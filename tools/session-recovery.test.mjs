@@ -1,6 +1,6 @@
 import {test} from 'node:test';
 import assert from 'node:assert/strict';
-import {AdventureSession,SentenceAdventureSession} from '../js/prototype/model.js?v=review-16';
+import {AdventureSession,SentenceAdventureSession} from '../js/prototype/model.js?v=accueil-22';
 import {createSessionRecovery} from '../js/prototype/session-recovery.js';
 const questions=Array.from({length:20},(_,i)=>({target:{id:String(i)},choices:[{id:String(i)},{id:'wrong'}]}));
 function setup(){const data=new Map();return createSessionRecovery({getItem:k=>data.get(k),setItem:(k,v)=>data.set(k,v),removeItem:k=>data.delete(k)});}

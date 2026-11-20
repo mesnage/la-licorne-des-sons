@@ -1,5 +1,5 @@
 /** Small per-tab checkpoint; renderer resources are never serialized. */
-import {AdventureSession,SentenceAdventureSession} from './model.js?v=review-16';
+import {AdventureSession,SentenceAdventureSession} from './model.js?v=accueil-22';
 const KEY='licorne.active-adventure.v1';
 export function restoreAdventure(value){
   try{

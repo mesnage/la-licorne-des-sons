@@ -1,5 +1,5 @@
 import { SENTENCES } from '../data/sentences.js';
-import { shuffle, chooseTarget } from '../words/model.js?v=review-16';
+import { shuffle, chooseTarget } from '../words/model.js?v=accueil-22';
 
 export function shuffledTiles(sentence, random = Math.random){
   const tiles=sentence.words.map((text,index)=>({id:sentence.id+':'+index,text}));

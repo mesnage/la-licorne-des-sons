@@ -13,7 +13,9 @@
 <link rel="stylesheet" href="css/storybook.css?v=accueil-1">
 <link rel="stylesheet" href="css/sentences.css?v=accueil-1">
 <link rel="stylesheet" href="css/chapters.css?v=pwa-20">
+<link rel="stylesheet" href="css/progress.css?v=suivi-1">
 <link rel="stylesheet" href="css/meadow-game.css?v=perf-19">
+<link rel="stylesheet" href="css/menu.css?v=accueil-2">
 </head>
 <body class="prototype painted-game" data-screen="menu">
 <div id="adventureWorld" role="img" aria-label="Paillette suit un sentier à travers la prairie et la forêt vers le château"></div>
@@ -24,6 +26,7 @@
 </header>
 <main>
  <section id="adventureMenu" class="adventure-menu" aria-labelledby="menuTitle">
+  <img class="menu-mascot" src="assets/storybook/paillette-et-caneton.svg" width="168" height="121" alt="" aria-hidden="true">
   <div id="chapterHome">
   <h1 id="menuTitle" class="menu-heading">Joue avec Paillette</h1>
   <a class="chapter-tile curriculum-menu-tile tone-gold" href="curriculum.html">
@@ -45,6 +48,7 @@
   </div>
   <div class="adventure-menu-footer"><button id="rewardPending" class="adventure-text-button">Mes cadeaux du jour</button></div>
   <details class="adventure-help"><summary>Aide aux parents</summary><p>Le parcours avance étape par étape. Les ateliers sont en accès libre. La progression et les cadeaux restent sur cet appareil.</p>
+   <div class="install-app"><button id="progressButton" class="install-button" type="button" aria-haspopup="dialog" aria-controls="progressDialog">Suivi des progrès</button></div>
    <div id="installApp" class="install-app" hidden><button id="installButton" class="install-button" type="button">Installer le jeu sur cet appareil</button><p id="installSteps" role="status" aria-live="polite" hidden></p></div></details>
   <a id="legacyFallback" href="classic.html" hidden>Ouvrir les activités de secours →</a>
   <p id="engineStatus" class="adventure-status" role="status">Paillette prépare son voyage…</p>
@@ -87,6 +91,12 @@
  <p id="worldDialogHint">Change de décor. Tu gardes tes cristaux et ta question !</p>
  <div id="worldChoices" class="world-choices" role="group" aria-label="Les mondes de Paillette"></div>
 </dialog>
+<dialog id="progressDialog" class="adventure-level-dialog progress-dialog" aria-labelledby="progressTitle">
+ <button id="progressClose" class="dialog-close" type="button" aria-label="Fermer le suivi des progrès">✕</button>
+ <p class="adventure-eyebrow">Espace parents</p>
+ <h2 id="progressTitle">Suivi des progrès</h2>
+ <div id="progressBody"></div>
+</dialog>
 <dialog id="adventurePause" class="adventure-level-dialog adventure-pause" aria-labelledby="pauseTitle">
  <p class="adventure-eyebrow">ON PREND SON TEMPS</p><h2 id="pauseTitle">Une petite pause ?</h2>
  <p>Paillette t’attend ici. Tu peux reprendre exactement où tu en étais.</p>
@@ -115,5 +125,5 @@
   <ul id="dailyPrizes" class="daily-prizes"></ul>
   <p class="reward-storage-note"></p>
 </dialog>
-<script type="module" src="js/prototype/boot.js?v=perf-19"></script>
+<script type="module" src="js/prototype/boot.js?v=accueil-22"></script>
 </body></html>

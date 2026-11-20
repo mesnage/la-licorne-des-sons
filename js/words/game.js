@@ -1,5 +1,5 @@
 import { WORDS, WORD_LEVELS } from '../data/words.js';
-import { WordSession, SESSION_LENGTH } from './model.js?v=review-16';
+import { WordSession, SESSION_LENGTH } from './model.js?v=accueil-22';
 import { createWordProgress } from './progress.js';
 import { createWordVoice } from './voice.js';
 import { unicornSVG } from '../unicorn.js';

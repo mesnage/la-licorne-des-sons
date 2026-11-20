@@ -41,7 +41,7 @@ test('every activity gets the same full walking distance, including the 30-quest
 // Geometry is shared by scenery, feet and answer stones in every habitat.
 const {createRoute}=await import('../js/meadow/route.js');
 test('crossings join the trail continuously in every world',()=>{
-  for(const habitat of ['meadow','forest','jungle','beach','ice','clouds','moon','prehistoric','desert','fairy']){
+  for(const habitat of ['meadow','forest','jungle','beach','ice','clouds','moon','prehistoric','desert','fairy','peluches']){
     const ground=x=>540+Math.sin(x/300)*30,route=createRoute(habitat,ground);
     for(const c of route.crossings){
       for(const x of [c.center-c.half,c.center+c.half]){

@@ -50,9 +50,9 @@ test('jungle loading restores reading progress and preserves the single scene li
   world.destroy();
 });
 
-test('all ten saved world IDs load and retain progress, including return trips',async()=>{
+test('all eleven saved world IDs load and retain progress, including return trips',async()=>{
   const {parent}=harness();const world=createWorld(parent);parent.children[0].load();
-  const habitats=['meadow','forest','jungle','beach','ice','clouds','moon','prehistoric','desert','fairy'];
+  const habitats=['meadow','forest','jungle','beach','ice','clouds','moon','prehistoric','desert','fairy','peluches'];
   for(const [id,habitat] of habitats.entries()){
     world.reset(30,id,8);if(id>0)parent.children.at(-1).load();
     assert.equal(world.state().theme,id);assert.equal(world.state().habitat,habitat);
@@ -83,7 +83,7 @@ test('a failed world load restores the previous playable scene and allows retry'
 });
 
 test('portals advance every ten crystals, wrap worlds and preserve progress',async()=>{
-  const {parent}=harness();const world=createWorld(parent);parent.children[0].load();world.reset(30,9,9);parent.children.at(-1).load();
+  const {parent}=harness();const world=createWorld(parent);parent.children[0].load();world.reset(30,10,9);parent.children.at(-1).load();
   const first=world.moveTo(10);await Promise.resolve();await Promise.resolve();parent.children.at(-1).load();
   assert.equal(await first,true);assert.equal(world.state().theme,0);assert.equal(world.state().crystals,10);
   const second=world.moveTo(20);await Promise.resolve();await Promise.resolve();parent.children.at(-1).load();

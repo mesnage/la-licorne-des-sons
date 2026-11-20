@@ -1,5 +1,5 @@
 import { createRewards, PRIZES, SEGMENTS } from './reward-store.js?v=roue-dinos-1';
-import { illustration } from './illustrations.js?v=chapters-wheel-1';
+import { illustration } from './illustrations.js?v=accueil-22';
 
 const $ = s => document.querySelector(s);
 // Access to localStorage itself can be blocked by browser privacy settings.

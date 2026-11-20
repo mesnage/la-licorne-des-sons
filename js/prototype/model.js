@@ -3,9 +3,9 @@ import { LEVELS, NASAL_VOWELS } from '../data/sounds.js?v=cactus-alphabet-1';
 import { WORDS, WORD_LEVELS } from '../data/words.js';
 import { distractors, pickWord } from '../questions.js?v=cactus-alphabet-1';
 import { shuffle } from '../utils.js?v=review-16';
-import { QuestionSession, WordSession } from '../words/model.js?v=review-16';
+import { QuestionSession, WordSession } from '../words/model.js?v=accueil-22';
 import { SENTENCE_ACTIVITIES, sentenceActivity } from '../data/sentences.js';
-import { sentenceQuestions } from '../sentences/model.js?v=review-16';
+import { sentenceQuestions } from '../sentences/model.js?v=accueil-22';
 import { TYPO_ACTIVITY } from '../data/typos.js';
 import { typoQuestions } from '../sentences/typos.js';
 import { letterName } from '../learning/sound-prompts.js?v=cedille-1';
@@ -23,10 +23,10 @@ export const MODULES = [
 ];
 export const MENU_ITEMS=[TYPO_ACTIVITY,...SENTENCE_ACTIVITIES,...MODULES,...SYLLABLE_ACTIVITIES,...WORD_LEVELS.map(level=>({id:'words-'+level.id,mode:'words',level:level.id,title:'Trouve le mot ! · '+level.id,detail:level.title,icon:'book',color:['sky','mint','lavender'][level.id-1]}))];
 export const CHAPTERS = [
-  {id:'letters',title:'Les lettres',detail:'Voyelles, consonnes et alphabet',icon:'letters',color:'rose',activities:['voyelles','consonnes','alphabet']},
-  {id:'sounds',title:'Les sons',detail:'Syllabes, lettres muettes et voyelles nasales',icon:'sound',color:'mint',activities:['blend-simple','blend-silent','sons','tout']},
-  {id:'words',title:'Les mots',detail:'Trois niveaux de lecture',icon:'book',color:'sky',activities:['words-1','words-2','words-3']},
-  {id:'sentences',title:'Les phrases',detail:'Construire et trouver la faute',icon:'sentence',color:'lavender',activities:['sentence-copy-3','sentence-copy-5','sentence-listen-3','sentence-listen-5','find-typo']}
+  {id:'letters',title:'Les lettres',detail:'Voyelles, consonnes et alphabet',icon:'chapter-letters',color:'rose',activities:['voyelles','consonnes','alphabet']},
+  {id:'sounds',title:'Les sons',detail:'Syllabes, lettres muettes et voyelles nasales',icon:'chapter-sounds',color:'mint',activities:['blend-simple','blend-silent','sons','tout']},
+  {id:'words',title:'Les mots',detail:'Trois niveaux de lecture',icon:'chapter-words',color:'sky',activities:['words-1','words-2','words-3']},
+  {id:'sentences',title:'Les phrases',detail:'Construire et trouver la faute',icon:'chapter-sentences',color:'lavender',activities:['sentence-copy-3','sentence-copy-5','sentence-listen-3','sentence-listen-5','find-typo']}
 ];
 export const WORLD_WIDTH = 3600, WORLD_HEIGHT = 1400;
 export function pathPoint(progress){
@@ -44,7 +44,8 @@ export const WORLDS = [
   {id:6,habitat:'moon',name:'La lune des petits lapins',icon:'moon',kind:'purple',sky:'#383d72',ground:'#9ba6c2',mountain:'#7978aa',road:'#d9deec'},
   {id:7,habitat:'prehistoric',name:'La vallée des dinosaures',icon:'leaf',sky:'#ecd1a4',ground:'#9b9c66',road:'#e3bd82'},
   {id:8,habitat:'desert',name:'Le désert des cactus',icon:'cactus',sky:'#f59b82',ground:'#e7ae75',road:'#f0c987'},
-  {id:9,habitat:'fairy',name:'Le royaume des licornes',icon:'rainbow',sky:'#ced8f3',ground:'#9dbd93',road:'#f1dfda'}
+  {id:9,habitat:'fairy',name:'Le royaume des licornes',icon:'rainbow',sky:'#ced8f3',ground:'#9dbd93',road:'#f1dfda'},
+  {id:10,habitat:'peluches',name:'Le monde des peluches',icon:'teddy',sky:'#f6dccf',ground:'#f0d3c8',road:'#fff3df'}
 ];
 export function worldPanorama(theme){
   const file=theme.habitat==='meadow'?'prairie-cotiere.jpg':theme.habitat+'.webp';
@@ -61,7 +62,7 @@ export function journeyState(crystals,total,startWorld=0){
   return {worldIndex,worldCrystals,theme:WORLDS[(startWorld+worldIndex)%WORLDS.length],checkpoint:checkpointFor(count),finished};
 }
 export function gagFor(crystal,habitat){
-  if(crystal%10===6&&habitat)return {meadow:'butterfly',forest:'crown',jungle:'crown',beach:'splash',ice:'bubble',clouds:'bubble',moon:'moonhop',prehistoric:'boing',desert:'butterfly',fairy:'bubble'}[habitat]||null;
+  if(crystal%10===6&&habitat)return {meadow:'butterfly',forest:'crown',jungle:'crown',beach:'splash',ice:'bubble',clouds:'bubble',moon:'moonhop',prehistoric:'boing',desert:'butterfly',fairy:'bubble',peluches:'boing'}[habitat]||null;
   return [null,'prout',null,'rainbow',null,null,'boing',null,'hat',null][(crystal-1)%10]||null;
 }
 export class AdventureSession extends QuestionSession {

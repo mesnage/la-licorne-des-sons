@@ -15,6 +15,8 @@ export function createRoute(habitat,groundY,{start=320,gap=640,total=30}={}){
   };
 }
 const TONE={
+  /* Indoors the stream is a blue blanket with white stitches, crossed on cushions. */
+  peluches:{water:'#bcdcf0',deep:'#a6cdea',foam:'#fffdf8',bank:'#fffaf0',reed:null,pad:null},
   meadow:{water:'#72b8b5',deep:'#4f9b9c',foam:'#e3f4ee',bank:'#5c8a4a',reed:'#4f7a3f',pad:'#6fa35c'},
   forest:{water:'#6fb1ab',deep:'#4b8f8d',foam:'#dcefe6',bank:'#4c7446',reed:'#456b3b',pad:'#5f9358'},
   jungle:{water:'#62b3a6',deep:'#3f8f86',foam:'#dff3e6',bank:'#3f7a4c',reed:'#3c7044',pad:'#58a05c'},
@@ -58,7 +60,7 @@ export function paintCrossings(route,{el,ground,front,groundY,habitat}){
       for(let i=0;i<7;i++){const yy=base-110+i*58,cx=(82+Math.cos(i*2.3)*34-82)*k+(yy-base)*.1;line(g,`M${r(cx-9)} ${yy}q9-4 18 0`,T.foam,1.8,{opacity:.55});}
       // pebbles on both banks
       for(const [bx,by,s] of [[-22,-118,1],[176,-96,.8],[-8,112,1.2],[204,128,1],[-30,170,.8]]){const px=(bx-82)*k*.9+(bx<82?-6:6),py=base+by;
-        fill(g,`M${r(px-13*s)} ${py}Q${r(px-14*s)} ${r(py-11*s)} ${r(px-2*s)} ${r(py-13*s)}Q${r(px+13*s)} ${r(py-12*s)} ${r(px+14*s)} ${py}Q${r(px)} ${r(py+5*s)} ${r(px-13*s)} ${py}Z`,icy?'#eaf6f8':'#d9d2c0');
+        fill(g,`M${r(px-13*s)} ${py}Q${r(px-14*s)} ${r(py-11*s)} ${r(px-2*s)} ${r(py-13*s)}Q${r(px+13*s)} ${r(py-12*s)} ${r(px+14*s)} ${py}Q${r(px)} ${r(py+5*s)} ${r(px-13*s)} ${py}Z`,icy?'#eaf6f8':habitat==='peluches'?'#f6cf8a':'#d9d2c0');
         line(g,`M${r(px-7*s)} ${r(py-9*s)}q${r(6*s)} ${r(-3*s)} ${r(12*s)} 0`,'#fff',1.6,{opacity:.6});}
       if(T.pad)for(const [bx,by,s] of [[70,118,1],[100,150,.75],[92,-124,.6]]){const px=(bx-82)*k+(by)*.12,py=base+by;
         fill(g,`M${r(px)} ${py}L${r(px+15*s)} ${r(py-4*s)}A${r(16*s)} ${r(8*s)} 0 1 0 ${r(px+13*s)} ${r(py+5*s)}Z`,T.pad);
@@ -68,7 +70,7 @@ export function paintCrossings(route,{el,ground,front,groundY,habitat}){
         oval(g,px+7,py-38,2.6,7,'#8a6645');}
     }
     if(c.kind==='steps'){
-      const light=icy?'#f4fbfc':habitat==='moon'?'#dad8f2':habitat==='desert'?'#f0dcb6':'#e4dfcc',side=icy?'#b5d6e4':habitat==='moon'?'#8f8bc4':habitat==='desert'?'#c7a574':'#aaa791',rim=icy?'#8fb9cf':habitat==='moon'?'#6f6aa8':habitat==='desert'?'#a8875a':'#8c8a75';
+      const plush=habitat==='peluches',light=plush?'#fbe3ea':icy?'#f4fbfc':habitat==='moon'?'#dad8f2':habitat==='desert'?'#f0dcb6':'#e4dfcc',side=plush?'#ecb9c6':icy?'#b5d6e4':habitat==='moon'?'#8f8bc4':habitat==='desert'?'#c7a574':'#aaa791',rim=plush?'#d99fb0':icy?'#8fb9cf':habitat==='moon'?'#6f6aa8':habitat==='desert'?'#a8875a':'#8c8a75';
       for(let i=0;i<=4;i++){const x=-h+i*h/2,yy=y(x)+10,rr=45+(i%2?4:-2),ry=25;
         // ripples, then a thick stone: dark side, pale flat top, moss or snow, and a highlight
         line(g,`M${r(x-rr-16)} ${r(yy+24)}a${r(rr+16)} 13 0 0 0 ${r(2*rr+32)} 0`,T.foam,2.4,{opacity:.8});

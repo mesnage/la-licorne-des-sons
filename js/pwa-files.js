@@ -1,7 +1,8 @@
 /* Fichier généré par tools/pwa-files.mjs — ne pas modifier à la main. */
 self.LICORNE_PWA = {
- "version": "c847e2d5f2b8",
+ "version": "822e5eb38741",
  "files": [
+  "assets/fonts/fredoka-latin.woff2",
   "assets/icons/apple-touch-icon.png",
   "assets/icons/icon-192.png",
   "assets/icons/icon-512.png",
@@ -33,6 +34,7 @@ self.LICORNE_PWA = {
   "assets/storybook/paillette-et-caneton.svg",
   "assets/storybook/paillette-etoilee.webp",
   "assets/storybook/paillette-peinte.svg",
+  "assets/storybook/peluches.webp",
   "assets/storybook/prairie-cotiere.jpg",
   "assets/storybook/prehistoric.webp",
   "assets/storybook/stegosaurus.webp",
@@ -4552,6 +4554,8 @@ self.LICORNE_PWA = {
   "css/curriculum.css",
   "css/meadow-game.css",
   "css/meadow-preview.css",
+  "css/menu.css",
+  "css/progress.css",
   "css/prototype.css",
   "css/sentences.css",
   "css/storybook.css",
@@ -4591,6 +4595,7 @@ self.LICORNE_PWA = {
   "js/learning/mastery.js",
   "js/learning/pilot-session.js",
   "js/learning/sound-prompts.js",
+  "js/learning/tracker.js",
   "js/main.js",
   "js/meadow/choice-fit.js",
   "js/meadow/crossroads-theme.js",
@@ -4607,6 +4612,7 @@ self.LICORNE_PWA = {
   "js/meadow/scenery.js",
   "js/meadow/themes.js",
   "js/meadow/world.js",
+  "js/parents/progress.js",
   "js/prototype/animal-motion.js",
   "js/prototype/animals.js",
   "js/prototype/app.js",

@@ -28,7 +28,7 @@ with sync_playwright() as p:
  assert page.locator('#adventureModules > [data-typo-mode]').count()==1
  clipped=[]
  for width,height in [(320,568),(390,844),(459,724),(844,390),(768,1024),(1280,900)]:
-  page.set_viewport_size({'width':width,'height':height})
+  page.set_viewport_size({'width':width,'height':height});page.wait_for_function('([w,h])=>innerWidth===w&&innerHeight===h&&matchMedia(`(width:${w}px) and (height:${h}px)`).matches',arg=[width,height])
   shot(page,f'sentence-menu-{width}-{height}')
   if not page.locator('[data-chapter]').evaluate_all('buttons=>buttons.every(button=>{const b=button.getBoundingClientRect(),menu=button.closest("#adventureMenu").getBoundingClientRect();return b.top>=menu.top&&b.bottom<=Math.min(menu.bottom,innerHeight)&&b.left>=0&&b.right<=innerWidth;})'):clipped.append((width,height))
  assert not clipped,clipped
@@ -56,13 +56,15 @@ with sync_playwright() as p:
  print(f'All {word_count} full word prompts fetched and decoded by Chromium',flush=True)
  # The three word cards share the same layout and touch-target rules as the other activities.
  for w,h in [(320,568),(390,844),(844,390),(768,1024),(1280,900)]:
-  page.set_viewport_size({'width':w,'height':h})
+  page.set_viewport_size({'width':w,'height':h});page.wait_for_function('([w,h])=>innerWidth===w&&innerHeight===h&&matchMedia(`(width:${w}px) and (height:${h}px)`).matches',arg=[w,h])
   assert page.evaluate('document.documentElement.scrollWidth<=innerWidth')
   assert page.locator('#adventureModules button:visible').evaluate_all('bs=>bs.every(b=>b.scrollWidth<=b.clientWidth&&b.getBoundingClientRect().height>=44)')
   if w==1280:
    page.locator('#adventureMenu').evaluate('(el)=>el.scrollTop=0');shot(page,'menu-desktop')
   select_activity(page,'[data-word-level="3"]');assert page.locator('#adventureQuestion').is_visible()
-  assert page.locator('.adventure-answer').evaluate_all('bs=>bs.every(b=>b.scrollWidth<=b.clientWidth&&b.getBoundingClientRect().height>=44)')
+  # Door buttons extend their hit area with ::after; scrollWidth includes that area.
+  # Measure the actual label so enlarged touch targets cannot masquerade as clipped text.
+  assert page.locator('.adventure-answer').evaluate_all('''bs=>bs.every(b=>{const box=b.getBoundingClientRect(),range=document.createRange();range.selectNodeContents(b);const text=range.getBoundingClientRect();return text.left>=box.left&&text.right<=box.right&&box.height>=44;})'''), (w,h)
   page.locator('#adventureHome').click();page.locator('#adventureLeave').click()
  page.locator('#rewardPending').click();assert page.locator('#rewardsDialog').is_visible();page.locator('#rewardsClose').click()
  print('Direct menu and word cards fit phone/tablet/desktop portrait and landscape layouts',flush=True)

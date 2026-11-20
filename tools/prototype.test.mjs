@@ -114,7 +114,7 @@ test('world boundaries are every ten crystals and refuges are exactly halfway',(
   assert.equal(journeyState(10,20).worldCrystals,0);assert.equal(journeyState(19,20).worldCrystals,9);
   assert.equal(journeyState(20,20).worldIndex,1);assert.equal(journeyState(20,20).worldCrystals,10);
   assert.equal(journeyState(10,10).finished,true);assert.equal(journeyState(10,10).worldIndex,0);
-  assert.equal(journeyState(10,20,6).theme.id,7);assert.equal(journeyState(10,20,7).theme.id,8);assert.equal(journeyState(10,20,9).theme.id,0);assert.equal(WORLDS.length,10);
+  assert.equal(journeyState(10,20,6).theme.id,7);assert.equal(journeyState(10,20,7).theme.id,8);assert.equal(journeyState(10,20,9).theme.id,10);assert.equal(journeyState(10,20,10).theme.id,0);assert.equal(WORLDS.length,11);
 });
 function advanceTo(session,index){
   while(session.index<index){session.answer(session.current.target.id);session.next();}
@@ -149,9 +149,9 @@ test('gags rotate within each ten-crystal world and path stays within bounds',()
 test('completed worlds persist across modules without storing child information',()=>{
   const data=new Map(),storage={getItem:k=>data.get(k)??null,setItem:(k,v)=>data.set(k,v)};
   const memory=createJourneyMemory(storage);assert.equal(memory.startWorld,0);memory.complete(2);
-  const reloaded=createJourneyMemory(storage);assert.equal(reloaded.startWorld,2);reloaded.complete(8);
+  const reloaded=createJourneyMemory(storage);assert.equal(reloaded.startWorld,2);reloaded.complete(9);
   assert.equal(createJourneyMemory(storage).startWorld,0);
-  assert.deepEqual(JSON.parse(data.get('licorne.adventure.v1')),{worldsCompleted:10});
+  assert.deepEqual(JSON.parse(data.get('licorne.adventure.v1')),{worldsCompleted:11});
   const blocked=createJourneyMemory(undefined);blocked.complete(1);assert.equal(blocked.startWorld,1);assert.equal(blocked.persistent,false);
 });
 test('the original word question session keeps its retry behavior',()=>{
@@ -192,10 +192,10 @@ test('Retina profiles allocate real pixels while bounding the largest backing bu
  const large=renderProfile(1920,1080,2);assert.ok(large.width*large.height<=6010000);assert.ok(large.ratio>1);
  assert.equal(renderProfile(800,600,1).width,800);assert.ok(renderProfile(0,0,0).width>=1);
 });
-test('all ten habitats have scenery and their own extra travel surprise',async()=>{
+test('all eleven habitats have scenery and their own extra travel surprise',async()=>{
  const {HABITAT_ANIMALS,ANIMAL_KINDS,animalSVG}=await import('../js/prototype/animals.js');
- assert.equal(WORLDS.length,10);assert.equal(new Set(WORLDS.map(w=>w.habitat)).size,10);
- for(const kind of ['jungle','beach','clouds','moon','desert','fairy'])assert.ok(WORLDS.some(w=>w.habitat===kind));
+ assert.equal(WORLDS.length,11);assert.equal(new Set(WORLDS.map(w=>w.habitat)).size,11);
+ for(const kind of ['jungle','beach','clouds','moon','desert','fairy','peluches'])assert.ok(WORLDS.some(w=>w.habitat===kind));
  assert.ok(ANIMAL_KINDS.length>=12);
  for(const world of WORLDS){
   assert.ok(gagFor(6,world.habitat));assert.equal(gagFor(4,world.habitat),'rainbow');

@@ -3,7 +3,7 @@ import { RIGGED_ANIMALS, wildlifePortrait } from './wildlife.js';
 export const HABITAT_ANIMALS={
  meadow:['bunny','hedgehog','deer','cow','turtle','fox'],forest:['deer','bunny','hedgehog','fox','owl','turtle'],jungle:['monkey','toucan','tiger'],
  beach:['turtle','crab'],ice:['penguin','seal'],clouds:['cloud-bunny','dove'],moon:['moon-bunny'],
- desert:['fox','turtle'],fairy:['cloud-bunny','dove','deer']
+ desert:['fox','turtle'],fairy:['cloud-bunny','dove','deer'],peluches:['bunny','hedgehog']
 };
 export const ANIMAL_KINDS=[...new Set(Object.values(HABITAT_ANIMALS).flat())];
 const face=(x,y,blink=false)=>`<g fill="#40515b">${blink?`<path d="M${x-21} ${y}q7-8 14 0m14 0q7-8 14 0" fill="none" stroke="#40515b" stroke-width="3" stroke-linecap="round"/>`:`<ellipse cx="${x-14}" cy="${y}" rx="6" ry="8"/><ellipse cx="${x+14}" cy="${y}" rx="6" ry="8"/><g fill="#fff"><circle cx="${x-12}" cy="${y-3}" r="2.2"/><circle cx="${x+16}" cy="${y-3}" r="2.2"/></g>`}<path d="M${x-6} ${y+16}q6 7 12 0" fill="none" stroke="#705564" stroke-width="2.5" stroke-linecap="round"/></g><g fill="#edb4b4" opacity=".7"><ellipse cx="${x-25}" cy="${y+10}" rx="8" ry="4"/><ellipse cx="${x+25}" cy="${y+10}" rx="8" ry="4"/></g>`;

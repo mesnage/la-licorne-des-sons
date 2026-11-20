@@ -1,4 +1,4 @@
-import {FAUNA,faunaPose} from './fauna-data.js?v=review-16';
+import {FAUNA,faunaPose} from './fauna-data.js?v=monde-21';
 /**
  * Painted, articulated animals. Every part is drawn once into a small tightly-cropped bitmap
  * and then only moved with CSS transforms (no per-frame canvas work).
@@ -10,6 +10,8 @@ const RABBIT=Q({L:40,H:31,leg:7,legW:9,head:14,hx:17,hy:-38,snout:[6,5],ear:'lon
 const FOX=Q({L:56,H:27,leg:19,legW:6.5,head:14,hx:35,hy:-46,snout:[10,5.5],ear:'pointy',tail:'bushy',sock:1});
 const HORSE=Q({L:72,H:36,leg:34,legW:8,head:15,hx:48,hy:-88,snout:[10,7],ear:'leaf',tail:'flow',neck:10,hoof:1,x:['mane']});
 const OWL={kit:'owl',perch:'stump'};
+/* Plush toys: short legs, a big round head and small round ears. */
+const TEDDY=Q({L:50,H:38,leg:13,legW:13,head:20,hx:27,hy:-47,snout:[8.5,7],ear:'round',tail:'stub',eye:3.2});
 const SPEC={
   rabbit:RABBIT,'moon-rabbit':{...RABBIT,x:['star']},jackalope:{...RABBIT,x:['antlers']},
   hedgehog:Q({L:44,H:30,leg:5,legW:8,head:11,hx:23,hy:-14,snout:[9,5],ear:'tiny',tail:'none',x:['spines']}),
@@ -24,6 +26,7 @@ const SPEC={
   'asian-elephant':Q({L:128,H:84,leg:40,legW:22,head:33,hx:68,hy:-90,snout:[0,0],ear:'big',tail:'thin',toes:1,eye:3.6,x:['trunk']}),
   'sumatran-tiger':Q({L:82,H:34,leg:20,legW:9,head:17,hx:50,hy:-49,snout:[10,7],ear:'round',tail:'long',x:['stripes']}),
   'malayan-tapir':Q({L:80,H:42,leg:20,legW:10,head:16,hx:50,hy:-42,snout:[13,8],ear:'round',tail:'none',x:['saddle','droop']}),
+  'teddy-honey':TEDDY,'teddy-cocoa':TEDDY,'teddy-rose':TEDDY,'teddy-panda':{...TEDDY,darkLegs:1},'plush-bunny':RABBIT,
   'polar-bear':Q({L:104,H:54,leg:24,legW:17,head:22,hx:62,hy:-60,snout:[14,9],ear:'round',tail:'stub',eye:3.4}),
   'moon-dragon':Q({L:78,H:36,leg:20,legW:10,head:16,hx:52,hy:-64,snout:[11,7],ear:'horn',tail:'dino',neck:9,x:['wings','ridge','star']}),
   'fairy-dragon':Q({L:56,H:28,leg:15,legW:8,head:14,hx:38,hy:-50,snout:[9,6],ear:'horn',tail:'dino',neck:7,x:['wings','ridge']}),
